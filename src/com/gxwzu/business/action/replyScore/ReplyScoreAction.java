@@ -1,0 +1,650 @@
+package com.gxwzu.business.action.replyScore;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.lang.xwork.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.google.gson.Gson;
+import com.gxwzu.business.model.allotGuide.AllotGuide;
+import com.gxwzu.business.model.issueInfo.IssueInfo;
+import com.gxwzu.business.model.paln.PlanProgress;
+import com.gxwzu.business.model.paln.PlanYear;
+import com.gxwzu.business.model.replyScore.ReplyScore;
+import com.gxwzu.business.service.allotGuide.IAllotGuideService;
+import com.gxwzu.business.service.group.IGroupAllotService;
+import com.gxwzu.business.service.group.IGroupStudentService;
+import com.gxwzu.business.service.issueInfo.IIssueInfoSerivce;
+import com.gxwzu.business.service.plan.IPlanProgressSerivce;
+import com.gxwzu.business.service.plan.IPlanYearSerivce;
+import com.gxwzu.business.service.replyScore.IReplyScoreSerivce;
+import com.gxwzu.business.service.review.IReviewSerivce;
+import com.gxwzu.core.context.SystemContext;
+import com.gxwzu.core.model.ResponeJson;
+import com.gxwzu.core.pagination.Result;
+import com.gxwzu.core.util.PageUtil;
+import com.gxwzu.core.util.WordUtils;
+import com.gxwzu.core.web.action.BaseAction;
+import com.gxwzu.sysVO.ListGroupAllot;
+import com.gxwzu.sysVO.ListGroupStudent;
+import com.gxwzu.sysVO.ListReplyScore;
+import com.gxwzu.sysVO.ListReview;
+import com.gxwzu.sysVO.ListStudent;
+import com.gxwzu.sysVO.ListTeacher;
+import com.gxwzu.system.model.sysTeacher.SysTeacher;
+import com.gxwzu.system.service.sysStudent.ISysStudentService;
+import com.gxwzu.system.service.sysTeacher.ISysTeacherService;
+import com.opensymphony.xwork2.ModelDriven;
+
+/**
+ * 答辩成绩及评语
+ * 
+ * @author 何志明
+ * @date 2017.7.21
+ */
+public class ReplyScoreAction extends BaseAction implements
+		ModelDriven<ReplyScore> {
+
+	private static final long serialVersionUID = -3343014949806289390L;
+	protected final Log logger = LogFactory.getLog(getClass());
+
+	/*********************** 实例化ModelDriven ******************************/
+	private ReplyScore model = new ReplyScore();
+
+	@Override
+	public ReplyScore getModel() {
+		return model;
+	}
+
+	public void setModel(ReplyScore model) {
+		this.model = model;
+	}
+
+	/*********************** Service接口注入 ***************************/
+	@Autowired
+	private IReplyScoreSerivce replyScoreSerivce; // 答辩成绩及评语接口
+
+	@Autowired
+	private ISysTeacherService sysTeacherService; // 老师接口
+	@Autowired
+	private ISysStudentService sysStudentService; // 学生接口
+	@Autowired
+	private IAllotGuideService allotGuideService; // 指导分配接口
+	@Autowired
+	private IIssueInfoSerivce issueInfoSerivce; // 课题接口
+	@Autowired
+	private IGroupAllotService groupAllotService; // 分组接口
+	@Autowired
+	private IGroupStudentService groupStudentService; // 分组学生接口
+	@Autowired
+	private IReviewSerivce reviewSerivce; // 评阅审查接口
+	@Autowired
+	private IPlanYearSerivce planYearSerivce; // 年度计划接口
+	@Autowired
+	private IPlanProgressSerivce planProgressSerivce; // 进度计划接口
+	/*********************** 实体 ***************************/
+	private PlanYear planYear; // 年度计划实体
+	private SysTeacher teacher = new SysTeacher(); // 老师实体
+	private ListStudent student = new ListStudent(); // 学生实体
+	private IssueInfo issueInfo = new IssueInfo(); // 课题列表实体
+	private ListGroupAllot groupAllot = new ListGroupAllot(); // 分组名单
+	private ListReplyScore replyScore = new ListReplyScore();
+	private PlanProgress planProgress = new PlanProgress();//进度计划实体
+	private ListTeacher lTeacher = new ListTeacher(); // 老师实体
+	/******************** 集合变量声明 *********************/
+	private Result<ListReplyScore> pageResult; // 评阅审查分页
+	private List<ListReplyScore> replyScoreList = new ArrayList<ListReplyScore>(); // 论文信息列表（用于查询全部）
+	
+	/************************** 基础变量声明 **************/
+	private Integer thisId;
+	private String mark;
+	private Integer thisYear;
+	private String thisReplyType; // 类型：答辩类型： 00答辩小组 01系答辩委员会
+	private Integer thisStuId; // 学生Id
+	private String thisScore; // 答辩成绩
+	private String ReplyScoreType;
+	private String thisReplyLink;
+	
+	Float guideScore;
+	Float readScore ;
+	Float checkScore ;
+	
+	
+	private String templetePath;
+	private String fileName;
+	private String filePath;
+	private String flag;
+	/************************** 方法类 **************************************************************************************/
+	@Override
+	public String execute() throws Exception {
+		return SUCCESS;
+	}
+
+	/**
+	 * 个人分页查询评阅审查信息
+	 * 
+	 * @return
+	 */
+	public String list() {
+		try {
+			/* 登录名称 :查询学院 */
+			String loginName = (String) getSession().getAttribute(
+					SystemContext.LOGINNAME);
+			/* 用户类型：1-学生 2-老师 */
+			String userType = (String) getSession().getAttribute(
+					SystemContext.USERTYPE);
+
+			pageResult = replyScoreSerivce.find(model, getPage(), getRow());
+			for (int i = 0; i < pageResult.getData().size(); i++) {
+				System.out.println(pageResult.getData().get(i).getReplyScoreFinish()+","+pageResult.getData().get(i).getReplyLink()+"***");
+			}
+			System.out.println(model.getReplyScoreFinish());
+			footer = PageUtil.pageFooter(pageResult, getRequest());
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return SUCCESS;
+	}
+
+	/**
+	 * 学生查询课题信息
+	 * 
+	 * @return
+	 */
+	public String info() {
+		String loginName = (String) getSession().getAttribute(
+				SystemContext.LOGINNAME);
+		String type = (String) getSession()
+				.getAttribute(SystemContext.USERTYPE);
+		if (type.equals("1")) {
+			ListStudent s = sysStudentService.findByStuNo(loginName);
+			model.setStuId(s.getStuId());
+		}
+		/************************** 查询学生信息 *********************************************/
+		return list();
+	}
+
+	/**
+	 * 添加信息到数据库
+	 * 
+	 * @return
+	 */
+	public String add() {
+		String loginName = (String) getSession().getAttribute(
+				SystemContext.LOGINNAME);
+		String type = (String) getSession()
+				.getAttribute(SystemContext.USERTYPE);
+		ResponeJson rJson = new ResponeJson();
+		System.out.println(thisReplyType+","+thisStuId+","+thisYear+","+thisScore);
+		/************************** 查询教研室信息 *********************************************/
+				    try {
+						logger.info(thisStuId+""+thisYear+""+thisReplyType);
+						ListReplyScore replyScoreList = replyScoreSerivce.findByStudentIdAndYear(thisStuId, thisYear);
+						System.out.println(replyScoreList+"==============");
+						if (thisStuId != null && thisYear != null && thisReplyType != null) {
+							model.setYear(thisYear);
+							// 添加信息
+							model.setStuId(thisStuId);
+							model.setYear(thisYear);
+							model.setReplyType(thisReplyType);
+							model.setReplyLink(thisReplyLink);
+							// 90分×25%=22.8
+							model.setReplyScore(Float.parseFloat(thisScore));
+							Float replyScore =  (float) (Float.parseFloat(thisScore)*0.25);
+							// 评阅审查表类型：00 指导老师评阅 01评阅人评阅 02指导老师审查
+							// 指导老师评阅评分 90分×45%=40.5
+							ListReview reviewGuide = reviewSerivce
+									.findByStuIdAndReviewTypeAndYear(thisStuId, "00", thisYear);
+							if (reviewGuide != null) {
+								guideScore = (float) (reviewGuide.getTotalScore() * 0.45);
+							}
+							// 指导评阅审查评分 93分×10%= 9.3
+							ListReview reviewCheck = reviewSerivce
+						            .findByStuIdAndReviewTypeAndYear(thisStuId, "02",thisYear);
+							if (reviewCheck != null) {
+								checkScore = (float) (reviewGuide.getTotalScore() * 0.1);
+							}
+							// 评阅老师评阅评分 88分×20%= 17.6
+							ListReview reviewRead = reviewSerivce
+									.findByStuIdAndReviewTypeAndYear(thisStuId, "01",thisYear);
+							if (reviewRead != null) {
+								readScore = (float) (reviewGuide.getTotalScore() * 0.2);
+							}
+							//优”（90分以上）；“良”（80～89）；“中”（70～79）；“及格”（60～69）；“不及格”（60以下）
+							System.out.println(readScore+","+checkScore+","+guideScore+","+replyScore);
+							int replyScoreFinish = (int) (readScore+checkScore+guideScore+replyScore);
+							model.setReplyScoreFinish(replyScoreFinish);
+							System.out.println("最终成绩："+replyScoreFinish);
+						    if(replyScoreFinish<60)
+							    model.setGrade("不及格"); 
+						    else if(replyScoreFinish<60)
+							    model.setGrade("不及格"); 
+						    else if(replyScoreFinish>=60&&replyScoreFinish<69)
+							    model.setGrade("及格"); 
+						    else if(replyScoreFinish>=70&&replyScoreFinish<79)
+							    model.setGrade("中"); 
+						    else if(replyScoreFinish>=80&&replyScoreFinish<90)
+							    model.setGrade("良"); 
+						    else if(replyScoreFinish>=90)
+							    model.setGrade("优"); 
+						    System.out.println(model.getGrade());
+						    if(replyScoreList != null){
+						    	System.out.println("更新");
+						    	 replyScoreSerivce.updateByStuId(thisStuId,replyScoreFinish,model.getGrade(),Float.parseFloat(thisScore));
+						    	 
+							}else{
+								System.out.println("保存");
+								 model = replyScoreSerivce.save(model);
+							}						    
+						    rJson.setObj(model);
+						    rJson.setSuccess(true);
+						} else {
+							rJson.setObj(model);
+							rJson.setSuccess(false);
+						}
+						PrintWriter out = getResponse().getWriter();
+						out.print(new Gson().toJson(rJson));
+						out.flush();
+						out.close();
+					} catch (Exception e) {
+						e.printStackTrace();
+						mark = "0";
+					}
+				    return SUCCESS;
+	}
+	/**
+	 * 
+	 * 打开添加评阅审查页面
+	 * 
+	 * @return 学生信息 + 指导老师信息+ 课题
+	 */
+	public String openAdd() {
+		
+		try {
+			if (thisStuId != null && thisYear != null && thisReplyType != null) {
+				// 查询学生信息
+				student = sysStudentService.findViewModelById(thisStuId);
+				// 查询课题信息
+				issueInfo = issueInfoSerivce.findByStuIdAndYear(thisStuId,
+						thisYear);
+				// 查询指导老师信息
+				AllotGuide aGuide = allotGuideService.findByStuIdAndYear(
+						thisStuId, thisYear);
+				teacher = sysTeacherService.findById(aGuide.getTeacherId());
+				// 查询分组老师信息
+				ListGroupStudent groupStudent = groupStudentService
+						.findByStuIdAndYear(thisStuId, thisYear);
+				if (groupStudent != null)
+					groupAllot = groupAllotService
+							.findViewModelById(groupStudent.getGroupAllotId());
+			}
+
+			// 评阅审查表类型：00 指导老师评阅 01评阅人评阅 02指导老师审查
+			// 指导老师评阅评分 90分×45%=40.5
+			ListReview reviewGuide = reviewSerivce
+					.findByStuIdAndReviewTypeAndYear(thisStuId, "00",
+							thisYear);
+			if (reviewGuide != null) {
+				 guideScore = (float) (reviewGuide.getTotalScore() * 0.45);
+				replyScore.setGuideScore(guideScore);
+			}
+			// 指导评阅审查评分 93分×10%= 9.3
+			ListReview reviewCheck = reviewSerivce
+					.findByStuIdAndReviewTypeAndYear(thisStuId, "02",
+							thisYear);
+			if (reviewCheck != null) {
+				 checkScore = (float) (reviewGuide.getTotalScore() * 0.1);
+				replyScore.setCheckScore(checkScore);
+			}
+			// 评阅老师评阅评分 88分×20%= 17.6
+			ListReview reviewRead = reviewSerivce
+					.findByStuIdAndReviewTypeAndYear(thisStuId, "01",
+							thisYear);
+			if (reviewRead != null) {
+				 readScore = (float) (reviewGuide.getTotalScore() * 0.2);
+				replyScore.setReadScore(readScore);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return SUCCESS;
+	}
+
+	/**
+	 * 打开修改评阅审查页面
+	 * 
+	 * @return 学生信息 + 指导老师信息+ 课题
+	 */
+	public String openEdit() {
+		try {
+			if (thisStuId != null && thisYear != null && thisId != null
+					&& thisReplyType != null) {
+				// 查询评阅信息
+				replyScore = replyScoreSerivce.findViewModelById(thisId);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return openAdd();
+	}
+
+	/**
+	 * 修改评阅审查信息
+	 * 
+	 * @return
+	 * @throws IOException
+	 */
+	public String edit() {
+		try {
+			if (thisId != null) {
+				ReplyScore rScore = replyScoreSerivce.findById(thisId);
+
+				if (StringUtils.isNotEmpty(model.getReplyLink())) {
+					rScore.setReplyLink(model.getReplyLink());
+				}
+				rScore.setReplyLink(model.getReplyLink());
+				replyScoreSerivce.update(rScore); // 更改信息
+				replyScore = replyScoreSerivce.findViewModelById(thisId);
+
+				mark = "1";
+			} else {
+				mark = "0";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			mark = "0";
+		}
+		return openEdit();
+	}
+
+	
+	/**
+	 * 导出评阅审查
+	 * 
+	 * @return
+	 */
+	public String outReplyScore() {
+		try {
+			if (thisId != null) {
+				ListReplyScore model = replyScoreSerivce
+						.findViewModelById(thisId);
+				ListStudent student = sysStudentService.findViewModelById(model
+						.getStuId());
+				// 查询指导老师信息
+				AllotGuide aGuide = allotGuideService.findByStuIdAndYear(
+						model.getStuId(), model.getYear());
+				teacher = sysTeacherService.findById(aGuide.getTeacherId());
+
+				// ##################根据Word模板导出单个Word文档###################################################
+				Map<String, String> map = new HashMap<String, String>();
+
+				map.put("dT", student.getDeptName());
+				map.put("mR", student.getMajorName());
+				map.put("tN", teacher.getTeacherName());
+				map.put("sN", student.getStuName());
+
+				WordUtils.exportWord(map, getTempletePath(), getFilePath());
+				StringBuffer sBuffer = new StringBuffer(student.getClassName());
+				sBuffer.append("-").append(student.getStuId()).append("-")
+						.append(student.getStuName()).append("-")
+						.append("梧州学院本科生毕业论文答辩成绩及评语表.doc");
+				fileName = sBuffer.toString();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "out";
+	}
+
+	/**
+	 * 删除信息
+	 * 
+	 * @return
+	 */
+	public void del() {
+		logger.info("删除信息");
+		boolean isdel = false;
+		try {
+			PrintWriter out = getResponse().getWriter();
+			if (thisId != null) {
+				replyScoreSerivce.del(thisId);
+				isdel = true;
+			}
+			out.print(isdel);
+			out.flush();
+			out.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	/**
+	 * 毕业设计成绩列表
+	 * 
+	 * @return
+	 */
+	public void loadReplyScoreList() {
+		logger.info(" 毕业设计成绩列表 ");
+		try {
+			PrintWriter out = getResponse().getWriter();
+			
+			String loginName = (String) getSession().getAttribute(SystemContext.LOGINNAME);
+			String type = (String) getSession().getAttribute(SystemContext.USERTYPE);
+			if (type.equals("1")) {
+				student = sysStudentService.findByStuNo(loginName);
+			}
+			//查询安排计划年度
+			planYear = planYearSerivce.findPlanYear();
+			
+			// 毕业设计成绩列表
+		    replyScore = replyScoreSerivce.findByStudentIdAndYear(student.getStuId() ,planYear.getYear());
+		    //type是判断学生老师的字段
+		    replyScore.setReplyType(type);
+			out.print(new Gson().toJson(replyScore));
+			out.flush();
+			out.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	/********************************************** getter and setter方法 ************************************************************************/
+
+	public PlanYear getPlanYear() {
+		return planYear;
+	}
+
+	public void setPlanYear(PlanYear planYear) {
+		this.planYear = planYear;
+	}
+
+	public Result<ListReplyScore> getPageResult() {
+		return pageResult;
+	}
+
+	public void setPageResult(Result<ListReplyScore> pageResult) {
+		this.pageResult = pageResult;
+	}
+
+	public Integer getThisId() {
+		return thisId;
+	}
+
+	public void setThisId(Integer thisId) {
+		this.thisId = thisId;
+	}
+
+	public String getMark() {
+		return mark;
+	}
+
+	public void setMark(String mark) {
+		this.mark = mark;
+	}
+
+	public SysTeacher getTeacher() {
+		return teacher;
+	}
+
+	public void setTeacher(SysTeacher teacher) {
+		this.teacher = teacher;
+	}
+
+	public Integer getThisYear() {
+		return thisYear;
+	}
+
+	public void setThisYear(Integer thisYear) {
+		this.thisYear = thisYear;
+	}
+
+	public String getThisReplyType() {
+		return thisReplyType;
+	}
+
+	public void setThisReplyType(String thisReplyType) {
+		this.thisReplyType = thisReplyType;
+	}
+
+	public Integer getThisStuId() {
+		return thisStuId;
+	}
+
+	public void setThisStuId(Integer thisStuId) {
+		this.thisStuId = thisStuId;
+	}
+
+	public String getTempletePath() {
+		return templetePath;
+	}
+
+	public void setTempletePath(String templetePath) {
+		this.templetePath = templetePath;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
+	public String getFilePath() {
+		return filePath;
+	}
+
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
+	}
+
+	public ListStudent getStudent() {
+		return student;
+	}
+
+	public void setStudent(ListStudent student) {
+		this.student = student;
+	}
+
+	public IssueInfo getIssueInfo() {
+		return issueInfo;
+	}
+
+	public void setIssueInfo(IssueInfo issueInfo) {
+		this.issueInfo = issueInfo;
+	}
+
+	public ListGroupAllot getGroupAllot() {
+		return groupAllot;
+	}
+
+	public void setGroupAllot(ListGroupAllot groupAllot) {
+		this.groupAllot = groupAllot;
+	}
+
+	public ListReplyScore getReplyScore() {
+		return replyScore;
+	}
+
+	public void setReplyScore(ListReplyScore replyScore) {
+		this.replyScore = replyScore;
+	}
+
+	public Float getGuideScore() {
+		return guideScore;
+	}
+
+	public void setGuideScore(Float guideScore) {
+		this.guideScore = guideScore;
+	}
+
+	public Float getReadScore() {
+		return readScore;
+	}
+
+	public void setReadScore(Float readScore) {
+		this.readScore = readScore;
+	}
+
+	public Float getCheckScore() {
+		return checkScore;
+	}
+
+	public void setCheckScore(Float checkScore) {
+		this.checkScore = checkScore;
+	}
+
+	public String getThisScore() {
+		return thisScore;
+	}
+
+	public void setThisScore(String thisScore) {
+		this.thisScore = thisScore;
+	}
+
+	public List<ListReplyScore> getReplyScoreList() {
+		return replyScoreList;
+	}
+
+	public void setReplyScoreList(List<ListReplyScore> replyScoreList) {
+		this.replyScoreList = replyScoreList;
+	}
+
+	public String getReplyScoreType() {
+		return ReplyScoreType;
+	}
+
+	public void setReplyScoreType(String replyScoreType) {
+		ReplyScoreType = replyScoreType;
+	}
+
+	public String getFlag() {
+		return flag;
+	}
+
+	public void setFlag(String flag) {
+		this.flag = flag;
+	}
+
+	public String getThisReplyLink() {
+		return thisReplyLink;
+	}
+
+	public void setThisReplyLink(String thisReplyLink) {
+		this.thisReplyLink = thisReplyLink;
+	}
+
+	
+}

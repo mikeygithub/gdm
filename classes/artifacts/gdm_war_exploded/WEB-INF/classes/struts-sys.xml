@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+ 
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<!-- 定义系统设置模块 -->
+	<package name="system" extends="base" namespace="/sys">
+
+		<!-- 登陆 -->
+		<action name="login_*" class="com.gxwzu.system.action.login.LoginAction"
+			method="{1}">
+			<result name="success">/WEB-INF/page/system/login/main.jsp</result>
+			<result name="view">/WEB-INF/page/system/login/${view}.jsp</result>
+			<result name="toIndex">/default.html</result>
+			<result name="logout">/login.jsp</result>
+			<result name="error">/error/errorTimeOut.jsp</result>
+		</action>
+
+		<!-- 学院信息 -->
+		<action name="department_*"
+			class="com.gxwzu.system.action.sysDepartment.SysDepartmentAction"
+			method="{1}">
+			<result name="success">${view}</result>
+		</action>
+
+		<!-- 专业信息 -->
+		<action name="major_*" class="com.gxwzu.system.action.sysMajor.SysMajorAction"
+			method="{1}">
+			<result name="success">${view}</result>
+		</action>
+
+
+		<!-- 权限管理 -->
+		<action name="sysRole_*" class="com.gxwzu.system.action.sysRole.SysRoleAction"
+			method="{1}">
+			<result name="success">/WEB-INF/page/system/sysRole/sysRole_${view}.jsp
+			</result>
+		</action>
+
+		<!-- 用户管理 -->
+		<action name="userHelp_*" class="com.gxwzu.system.action.userHelp.UserHelpAction"
+			method="{1}">
+			<result name="success">/WEB-INF/page/system/userHelp/userHelp_${view}.jsp
+			</result>
+		</action>
+
+
+		<!-- 教室管理 -->
+		<action name="classroom_*"
+			class="com.gxwzu.system.action.sysClassroom.SysClassroomAction"
+			method="{1}">
+			<result name="success">/WEB-INF/page/system/sysClassroom/sysClassroom_${view}.jsp
+			</result>
+		</action>
+
+		<!-- 科研室管理 -->
+		<action name="staffroom_*"
+			class="com.gxwzu.system.action.sysStaffroom.SysStaffroomAction"
+			method="{1}">
+			<result name="success">/WEB-INF/page/system/sysStaffroom/sysStaffroom_${view}.jsp
+			</result>
+		</action>
+
+		<!-- 班级管理 -->
+		<action name="classes_*" class="com.gxwzu.system.action.sysClass.SysClassAction"
+			method="{1}">
+			<result name="success">/WEB-INF/page/system/sysClass/sysClass_${view}.jsp
+			</result>
+		</action>
+
+		<!-- 学生管理 -->
+		<action name="student_*"
+			class="com.gxwzu.system.action.sysStudent.SysStudentAction" method="{1}">
+			<result name="success">/WEB-INF/page/system/sysStudent/sysStudent_${view}.jsp
+			</result>
+		</action>
+
+		<!-- 教师管理 -->
+		<action name="teacher_*"
+			class="com.gxwzu.system.action.sysTeacher.SysTeacherAction" method="{1}">
+			<result name="success">/WEB-INF/page/system/sysTeacher/sysTeacher_${view}.jsp
+			</result>
+		</action>
+
+		<!-- 职称管理 -->
+		<action name="technical_*"
+			class="com.gxwzu.system.action.sysTechnical.SysTechnicalAction"
+			method="{1}">
+			<result name="success">/WEB-INF/page/system/sysTechnical/sysTechnical_${view}.jsp
+			</result>
+		</action>
+		
+		<!-- 职务管理 -->
+		<action name="duties_*"
+			class="com.gxwzu.system.action.sysDuties.sysDutiesAction"
+			method="{1}">
+			<result name="success">/WEB-INF/page/system/sysDuties/sysDuties_${view}.jsp
+			</result>
+		</action>
+		
+		<!-- 大类管理 -->
+		<action name="category_*"
+			class="com.gxwzu.system.action.sysCategory.SysCategoryAction"
+			method="{1}">
+			<result name="success">/WEB-INF/page/system/sysCategory/sysCategory_${view}.jsp
+			</result>
+		</action>
+		
+		<!-- 研究方向管理 -->
+		<action name="directions_*"
+			class="com.gxwzu.system.action.sysDirections.SysDirectionsAction"
+			method="{1}">
+			<result name="success">/WEB-INF/page/system/sysDirections/sysDirections_${view}.jsp
+			</result>
+		</action>
+		
+			<!-- 职称管理 -->
+		<action name="duties_*"
+			class="com.gxwzu.system.action.sysDuties.SysDutiesAction"
+			method="{1}">
+			<result name="success">/WEB-INF/page/system/sysDuties/sysDuties_${view}.jsp
+			</result>
+		</action>
+			<!-- 课题类型管理 -->
+		<action name="issueType_*"
+			class="com.gxwzu.system.action.sysIssueType.SysIssueTypeAction"
+			method="{1}">
+			<result name="success">/WEB-INF/page/system/sysIssueType/sysIssueType_${view}.jsp
+			</result>
+		</action>
+       
+         <!-- 文件类型管理 -->
+		<action name="fileType_*"
+			class="com.gxwzu.system.action.sysFileType.SysFileTypeAction"
+			method="{1}">
+			<result name="success">/WEB-INF/page/system/sysFileType/sysFileType_${view}.jsp
+			</result>
+		</action>
+		
+        <!-- 公告管理 -->
+		<action name="notice_*"
+			class="com.gxwzu.system.action.sysNotice.SysNoticeAction" method="{1}">
+			<result name="success">/WEB-INF/page/system/sysNotice/sysNotice_${view}.jsp</result>
+		</action>
+
+
+		<!-- 文件下载 -->
+		<action name="download" class="com.gxwzu.system.action.login.DownloadAction">
+			<result name="success" type="stream">
+				<param name="contentType">application/vnd.openxmlformats-officedocument.spreadsheetml.sheet</param>
+				<param name="inputName">isStream</param>
+				<param name="contentDisposition">attachment;filename="${fileName}"</param>
+				<param name="contentLength">${fileLength}</param>
+				<param name="bufferSize">4096</param>
+			</result>
+		</action>
+	</package>
+
+	<!-- JSON定义配置 -->
+	<package name="sysJson" extends="json-default" namespace="/sysJson">
+		<!-- JSON定义 -->
+
+
+	</package>
+
+</struts>    

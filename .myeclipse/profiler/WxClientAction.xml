@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<entry key="app_preset_prof_preset_name">WxClientAction Launch Configuration</entry>
+<entry key="app_preset_prof_preset_filter_s"/>
+<entry key="app_preset_prof_preset_filter_p">com.gxwzu.App.action.appCar.*,
+com.gxwzu.App.action.appRepair.*,
+com.gxwzu.App.action.appUser.*,
+com.gxwzu.App.action.appWater.*,
+com.gxwzu.App.appVO.*,
+com.gxwzu.App.code.*,
+com.gxwzu.business.action.Statistical.*,
+com.gxwzu.business.action.approval.*,
+com.gxwzu.business.action.car.*,
+com.gxwzu.business.action.department.*,
+com.gxwzu.business.action.preCar.*,
+com.gxwzu.business.action.repair.*,
+com.gxwzu.business.action.water.*,
+com.gxwzu.business.dao.applyCar.*,
+com.gxwzu.business.dao.approval.*,
+com.gxwzu.business.dao.department.*,
+com.gxwzu.business.dao.preCar.*,
+com.gxwzu.business.dao.repair.*,
+com.gxwzu.business.dao.water.*,
+com.gxwzu.business.model.applyCar.*,
+com.gxwzu.business.model.approval.*,
+com.gxwzu.business.model.department.*,
+com.gxwzu.business.model.depwater.*,
+com.gxwzu.business.model.repair.*,
+com.gxwzu.business.model.water.*,
+com.gxwzu.business.service.applyCar.*,
+com.gxwzu.business.service.approval.*,
+com.gxwzu.business.service.department.*,
+com.gxwzu.business.service.preCar.*,
+com.gxwzu.business.service.repair.*,
+com.gxwzu.business.service.water.*,
+com.gxwzu.core.base.*,
+com.gxwzu.core.context.*,
+com.gxwzu.core.dao.*,
+com.gxwzu.core.engine.*,
+com.gxwzu.core.exception.*,
+com.gxwzu.core.extendInterface.*,
+com.gxwzu.core.message.*,
+com.gxwzu.core.model.*,
+com.gxwzu.core.pagination.*,
+com.gxwzu.core.security.*,
+com.gxwzu.core.service.*,
+com.gxwzu.core.util.*,
+com.gxwzu.core.web.action.*,
+com.gxwzu.core.web.interceptor.*,
+com.gxwzu.core.web.message.*,
+com.gxwzu.sysVO.*,
+com.gxwzu.system.action.car.*,
+com.gxwzu.system.action.dormitory.*,
+com.gxwzu.system.action.driver.*,
+com.gxwzu.system.action.login.*,
+com.gxwzu.system.action.stuClass.*,
+com.gxwzu.system.action.sysRole.*,
+com.gxwzu.system.action.userHelp.*,
+com.gxwzu.system.action.userLogistics.*,
+com.gxwzu.system.dao.car.*,
+com.gxwzu.system.dao.dormitory.*,
+com.gxwzu.system.dao.driver.*,
+com.gxwzu.system.dao.floor.*,
+com.gxwzu.system.dao.login.*,
+com.gxwzu.system.dao.permission.*,
+com.gxwzu.system.dao.stuClass.*,
+com.gxwzu.system.dao.sysGroup.*,
+com.gxwzu.system.dao.sysRole.*,
+com.gxwzu.system.dao.userHelp.*,
+com.gxwzu.system.model.car.*,
+com.gxwzu.system.model.dormitory.*,
+com.gxwzu.system.model.driver.*,
+com.gxwzu.system.model.floor.*,
+com.gxwzu.system.model.stuClass.*,
+com.gxwzu.system.model.sysGroup.*,
+com.gxwzu.system.model.sysPermission.*,
+com.gxwzu.system.model.sysRole.*,
+com.gxwzu.system.model.user.*,
+com.gxwzu.system.service.car.*,
+com.gxwzu.system.service.dormitory.*,
+com.gxwzu.system.service.driver.*,
+com.gxwzu.system.service.floor.*,
+com.gxwzu.system.service.login.*,
+com.gxwzu.system.service.security.*,
+com.gxwzu.system.service.stuClass.*,
+com.gxwzu.system.service.sysGroup.*,
+com.gxwzu.system.service.sysPermission.*,
+com.gxwzu.system.service.sysRole.*,
+com.gxwzu.system.service.userHelp.*,
+com.gxwzu.util.*,
+com.gxwzu.wx.action.*,
+com.gxwzu.wx.code.context.*,
+com.gxwzu.wx.model.message.request.*,
+com.gxwzu.wx.model.message.response.*,
+com.gxwzu.wx.service.*,
+com.gxwzu.wx.util.*</entry>
+<entry key="app_preset_prof_preset_alloc_p">10</entry>
+<entry key="app_preset_"/>
+<entry key="app_preset_prof_preset_samplingRefreshRate_s">1000</entry>
+<entry key="app_preset_prof_preset_stacks_p">false</entry>
+<entry key="app_preset_prof_preset_roots_p">com.gxwzu.App.action.appCar.**
+com.gxwzu.App.action.appRepair.**
+com.gxwzu.App.action.appUser.**
+com.gxwzu.App.action.appWater.**
+com.gxwzu.App.appVO.**
+com.gxwzu.App.code.**
+com.gxwzu.business.action.Statistical.**
+com.gxwzu.business.action.approval.**
+com.gxwzu.business.action.car.**
+com.gxwzu.business.action.department.**
+com.gxwzu.business.action.preCar.**
+com.gxwzu.business.action.repair.**
+com.gxwzu.business.action.water.**
+com.gxwzu.business.dao.applyCar.**
+com.gxwzu.business.dao.approval.**
+com.gxwzu.business.dao.department.**
+com.gxwzu.business.dao.preCar.**
+com.gxwzu.business.dao.repair.**
+com.gxwzu.business.dao.water.**
+com.gxwzu.business.model.applyCar.**
+com.gxwzu.business.model.approval.**
+com.gxwzu.business.model.department.**
+com.gxwzu.business.model.depwater.**
+com.gxwzu.business.model.repair.**
+com.gxwzu.business.model.water.**
+com.gxwzu.business.service.applyCar.**
+com.gxwzu.business.service.approval.**
+com.gxwzu.business.service.department.**
+com.gxwzu.business.service.preCar.**
+com.gxwzu.business.service.repair.**
+com.gxwzu.business.service.water.**
+com.gxwzu.core.base.**
+com.gxwzu.core.context.**
+com.gxwzu.core.dao.**
+com.gxwzu.core.engine.**
+com.gxwzu.core.exception.**
+com.gxwzu.core.extendInterface.**
+com.gxwzu.core.message.**
+com.gxwzu.core.model.**
+com.gxwzu.core.pagination.**
+com.gxwzu.core.security.**
+com.gxwzu.core.service.**
+com.gxwzu.core.util.**
+com.gxwzu.core.web.action.**
+com.gxwzu.core.web.interceptor.**
+com.gxwzu.core.web.message.**
+com.gxwzu.sysVO.**
+com.gxwzu.system.action.car.**
+com.gxwzu.system.action.dormitory.**
+com.gxwzu.system.action.driver.**
+com.gxwzu.system.action.login.**
+com.gxwzu.system.action.stuClass.**
+com.gxwzu.system.action.sysRole.**
+com.gxwzu.system.action.userHelp.**
+com.gxwzu.system.action.userLogistics.**
+com.gxwzu.system.dao.car.**
+com.gxwzu.system.dao.dormitory.**
+com.gxwzu.system.dao.driver.**
+com.gxwzu.system.dao.floor.**
+com.gxwzu.system.dao.login.**
+com.gxwzu.system.dao.permission.**
+com.gxwzu.system.dao.stuClass.**
+com.gxwzu.system.dao.sysGroup.**
+com.gxwzu.system.dao.sysRole.**
+com.gxwzu.system.dao.userHelp.**
+com.gxwzu.system.model.car.**
+com.gxwzu.system.model.dormitory.**
+com.gxwzu.system.model.driver.**
+com.gxwzu.system.model.floor.**
+com.gxwzu.system.model.stuClass.**
+com.gxwzu.system.model.sysGroup.**
+com.gxwzu.system.model.sysPermission.**
+com.gxwzu.system.model.sysRole.**
+com.gxwzu.system.model.user.**
+com.gxwzu.system.service.car.**
+com.gxwzu.system.service.dormitory.**
+com.gxwzu.system.service.driver.**
+com.gxwzu.system.service.floor.**
+com.gxwzu.system.service.login.**
+com.gxwzu.system.service.security.**
+com.gxwzu.system.service.stuClass.**
+com.gxwzu.system.service.sysGroup.**
+com.gxwzu.system.service.sysPermission.**
+com.gxwzu.system.service.sysRole.**
+com.gxwzu.system.service.userHelp.**
+com.gxwzu.util.**
+com.gxwzu.wx.action.**
+com.gxwzu.wx.code.context.**
+com.gxwzu.wx.model.message.request.**
+com.gxwzu.wx.model.message.response.**
+com.gxwzu.wx.service.**
+com.gxwzu.wx.util.**
+</entry>
+<entry key="profiler.settings.instrument.empty.methods">false</entry>
+<entry key="myeclipse.profiling.mode">0</entry>
+<entry key="profiler.settings.istrument.getter.setter.methods">false</entry>
+<entry key="app_preset_prof_preset_samplingRate_s">100</entry>
+<entry key="app_preset_prof_preset_filterMode_s">true</entry>
+<entry key="app_preset_prof_preset_selector"/>
+<entry key="app_preset_prof_preset_refreshRate_s">1000</entry>
+<entry key="app_preset_prof_preset_runnables_p">true</entry>
+<entry key="app_preset_prof_preset_filterMode_p">false</entry>
+<entry key="app_preset_prof_preset_memoryMode_p">true</entry>
+</properties>
