@@ -9,8 +9,7 @@ public class DateUtil {
 	    public Date getToday() {  
 	        return today;  
 	    }  
-	  
-	    
+
 	    public void setToday(Date today) {  
 	        this.today = today;  
 	    }  

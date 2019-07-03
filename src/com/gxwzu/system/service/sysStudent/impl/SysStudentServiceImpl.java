@@ -3,6 +3,9 @@ package com.gxwzu.system.service.sysStudent.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.gxwzu.system.model.userRole.UserRoleEntity;
+import com.gxwzu.system.service.sysRole.ISysRoleService;
+import com.gxwzu.system.service.userRole.UserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,13 +30,14 @@ public class SysStudentServiceImpl extends BaseServiceImpl<SysStudent> implement
 
 	@Autowired
 	private ISysStudentDao sysStudentDao;
-	
 	@Autowired
 	private IUserHelpService userHelpService;
-	
 	@Autowired
 	private IAllotGuideService allotGuideService;              //指导老师分配接口
-	
+
+	@Autowired
+	private UserRoleService userRoleService;//对应角色
+
 	public BaseDao<SysStudent> getDao() {
 		return this.sysStudentDao;
 	}
@@ -89,6 +93,13 @@ public class SysStudentServiceImpl extends BaseServiceImpl<SysStudent> implement
 		u.setUserType("1");  //用户类型 1-学生 2-老师
 		u =  userHelpService.add(u);
 		model.setUserId(u.getId());
+
+		UserRoleEntity userRoleEntity = new UserRoleEntity();
+		userRoleEntity.setRoleId(24);//TODO:暂时写死
+		userRoleEntity.setUserHelpId(u.getId());
+
+		userRoleService.save(userRoleEntity);
+
 		return sysStudentDao.save(model);
 	}
 

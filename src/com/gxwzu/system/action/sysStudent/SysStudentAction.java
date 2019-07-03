@@ -54,10 +54,10 @@ import com.opensymphony.xwork2.ModelDriven;
  * @author 黎艺侠
  * @date 2017.7.8
  */
-public class SysStudentAction extends BaseAction implements
-		ModelDriven<SysStudent> {
+public class SysStudentAction extends BaseAction implements ModelDriven<SysStudent> {
 
 	private static final long serialVersionUID = -3343014949806289390L;
+
 	protected final Log logger = LogFactory.getLog(getClass());
 
 	/*********************** 实例化ModelDriven ******************************/

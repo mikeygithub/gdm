@@ -397,10 +397,11 @@ td {
 											class="warn">*</i>
 										</td>
 									</tr>
+								<%--待修复英文日期传递异常--%>
 									<tr>
 										<td class="rightText">入学时间：</td>
 										<td style="font-size: 16px;padding: 4px;color: #3EAFE0;">
-											<input name="model.stuEntrance" id="stuEntrance"
+											<input name="stuEntrance" id="stuEntrance"
 											class="dfinput" value="${student.stuEntrance }" type="text"
 											onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd',isShowWeek:true})" />
 										<i
