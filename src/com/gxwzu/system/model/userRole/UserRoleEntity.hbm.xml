@@ -3,15 +3,16 @@
     "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
     "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-
-    <class name="com.gxwzu.system.model.userRole.UserRoleEntity" table="user_role" schema="gdm">
-        <composite-id mapped="true" class="com.gxwzu.system.model.userRole.UserRoleEntityPK">
-            <key-property name="roleId">
-                <column name="roleId" sql-type="int(11)"/>
-            </key-property>
-            <key-property name="userHelpId">
-                <column name="userHelpId" sql-type="int(11)"/>
-            </key-property>
-        </composite-id>
+    <class name="com.gxwzu.system.model.userRole.UserRoleEntity" table="user_role">
+        <id name="id" type="java.lang.Integer">
+            <column name="id" />
+            <generator class="native" />
+        </id>
+        <property name="roleId" type="java.lang.Integer">
+            <column name="roleId" />
+        </property>
+        <property name="userHelpId" type="java.lang.Integer">
+            <column name="userHelpId"/>
+        </property>
     </class>
 </hibernate-mapping>

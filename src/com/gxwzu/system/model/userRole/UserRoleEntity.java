@@ -1,6 +1,7 @@
 package com.gxwzu.system.model.userRole;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * @Program: Ped_Moni_Gen
@@ -9,15 +10,19 @@ import javax.persistence.*;
  * @Create: 2019-07-03 23:07
  * @Describe：
  **/
-@Entity
-@Table(name = "user_role", schema = "gdm", catalog = "")
-@IdClass(UserRoleEntityPK.class)
-public class UserRoleEntity {
+public class UserRoleEntity implements Serializable {
+    private int id;
     private int roleId;
     private int userHelpId;
 
-    @Id
-    @Column(name = "roleId", nullable = false)
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public int getRoleId() {
         return roleId;
     }
@@ -26,8 +31,6 @@ public class UserRoleEntity {
         this.roleId = roleId;
     }
 
-    @Id
-    @Column(name = "userHelpId", nullable = false)
     public int getUserHelpId() {
         return userHelpId;
     }
