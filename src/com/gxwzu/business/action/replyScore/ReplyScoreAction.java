@@ -451,7 +451,8 @@ public class ReplyScoreAction extends BaseAction implements
 			// 毕业设计成绩列表
 		    replyScore = replyScoreSerivce.findByStudentIdAndYear(student.getStuId() ,planYear.getYear());
 		    //type是判断学生老师的字段
-		    replyScore.setReplyType(type);
+		    replyScore.setReplyType(type);//TODO:NullPoint bug
+
 			out.print(new Gson().toJson(replyScore));
 			out.flush();
 			out.close();

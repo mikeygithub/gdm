@@ -161,4 +161,29 @@ public class MaterialInfo {
 		this.paperId = paperId;
 	}
 
+	@Override
+	public String toString() {
+		return "MaterialInfo{" +
+				"deptNumber='" + deptNumber + '\'' +
+				", majorId=" + majorId +
+				", classId=" + classId +
+				", stuId=" + stuId +
+				", stuNo='" + stuNo + '\'' +
+				", teacherId=" + teacherId +
+				", year=" + year +
+				", student=" + student +
+				", categoryId=" + categoryId +
+				", issueInfo=" + issueInfo +
+				", taskId=" + taskId +
+				", reportId=" + reportId +
+				", progressId=" + progressId +
+				", defenseId=" + defenseId +
+				", reviewGuideId=" + reviewGuideId +
+				", reviewCheckId=" + reviewCheckId +
+				", reviewReadId=" + reviewReadId +
+				", paperId=" + paperId +
+				", groupReply=" + groupReply +
+				", deptReply=" + deptReply +
+				'}';
+	}
 }

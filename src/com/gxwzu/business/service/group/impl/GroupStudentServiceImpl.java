@@ -107,12 +107,21 @@ public class GroupStudentServiceImpl extends BaseServiceImpl<GroupStudent> imple
 	public void del(Integer thisId) {
 		groupStudentDao.remove(GroupStudent.class, thisId);
 	}
-	
+
+	/**
+	 * 通过学生id , 年度查询
+	 * @param stuId
+	 * @param thisYear
+	 * @return
+	 */
 	@Override
 	public ListGroupStudent findByStuIdAndYear(Integer stuId, Integer thisYear) {
 		ListGroupStudent model = new ListGroupStudent();
 		model.setStuId(stuId);
 		model.setYear(thisYear);
+
+		log.info("Model : "+model.toString());
+
 		List<ListGroupStudent> list= findByExample(model);
 		if(list==null||list.size()<=0)
 			return null;

@@ -382,10 +382,10 @@ public class MaterialInfoAction extends BaseAction implements
 	 */
 	public String info() {
 		try {
-			String loginName = (String) getSession().getAttribute(
-					SystemContext.LOGINNAME);
-			String type = (String) getSession().getAttribute(
-					SystemContext.USERTYPE);
+			String loginName = (String) getSession().getAttribute(SystemContext.LOGINNAME);
+			String type = (String) getSession().getAttribute(SystemContext.USERTYPE);
+
+			logger.info("当前用户："+loginName+"||用户类型："+type);
 
 			// 设置年度
 			if (thisYear != null) {
@@ -413,11 +413,10 @@ public class MaterialInfoAction extends BaseAction implements
 
 				/************************** 查询分组信息 *********************************************/
 				if (model.getStuId() != null && model.getYear() != null) {
-					ListGroupStudent gStudent = groupStudentService
-							.findByStuIdAndYear(model.getStuId(),
-									model.getYear());
-					groupAllot = groupAllotService.findViewModelById(gStudent
-							.getGroupAllotId());
+					ListGroupStudent gStudent = groupStudentService.findByStuIdAndYear(model.getStuId(), model.getYear());
+					if (gStudent!=null){
+						groupAllot = groupAllotService.findViewModelById(gStudent.getGroupAllotId());
+					}
 				}
 
 				pageResult = materialInfoSerivce.find(model, getPage(),
@@ -435,6 +434,7 @@ public class MaterialInfoAction extends BaseAction implements
 				}
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return SUCCESS;
 	}

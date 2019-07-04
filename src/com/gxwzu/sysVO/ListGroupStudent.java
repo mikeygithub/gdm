@@ -144,5 +144,20 @@ public class ListGroupStudent extends ListStudent {
 		this.replyScoreFinish = replyScoreFinish;
 	}
 
-
+	@Override
+	public String toString() {
+		return "ListGroupStudent{" +
+				"teacherId=" + teacherId +
+				", teacherName='" + teacherName + '\'' +
+				", id=" + id +
+				", groupAllotId=" + groupAllotId +
+				", groupName='" + groupName + '\'' +
+				", year=" + year +
+				", issueName='" + issueName + '\'' +
+				", issueType='" + issueType + '\'' +
+				", groupType='" + groupType + '\'' +
+				", defenseTeacherId=" + defenseTeacherId +
+				", replyScoreFinish=" + replyScoreFinish +
+				'}';
+	}
 }
