@@ -105,5 +105,17 @@ public class Result<T> implements Serializable {
 	public void setPageUrl(String pageUrl) {
 		this.pageUrl = pageUrl;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "Result{" +
+				"offset=" + offset +
+				", size=" + size +
+				", total=" + total +
+				", page=" + page +
+				", pageUrl='" + pageUrl + '\'' +
+				", totalPage=" + totalPage +
+				", data=" + data +
+				'}';
+	}
 }

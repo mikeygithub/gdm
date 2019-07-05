@@ -120,6 +120,14 @@
                <param name="namespace">/sys</param>
 			     <param name="encode">true</param>
 			</result>
+			<result name="download" type="stream">
+				<param name="inputName">inputStream</param>
+				<param name="contentType">application/octet-stream</param>
+				<param name="contentDisposition">attachment;filename="${fileName}"</param>
+				<!--缓冲区大小设置 -->
+				<param name="bufferSize">1024</param>
+				<param name="contentCharSet">utf-8</param>
+			</result>
 		</action>	
 		
 		

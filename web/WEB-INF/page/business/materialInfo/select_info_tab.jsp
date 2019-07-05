@@ -14,7 +14,7 @@
 					             答辩分组信息</a>
 				       </li> 
 				       <li>
-				        <a <s:if test="tabFlag==03"> class="selected" </s:if> href="<%=path%>/biz/defenseRecord_openEdit.action?view=detail&thisYear=${thisYear }&tabFlag=03" >  
+				        <a <s:if test="tabFlag==03"> class="selected" </s:if> href="<%=path%>/biz/defenseRecord_list.action?view=list&thisYear=${thisYear }&tabFlag=03&flag=11" >
 				         答辩记录信息
 				      </a>
 				       </li>

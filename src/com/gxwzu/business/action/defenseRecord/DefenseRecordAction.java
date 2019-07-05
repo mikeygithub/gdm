@@ -138,49 +138,47 @@ public class DefenseRecordAction extends BaseAction implements ModelDriven<Defen
 	 * @return
 	 */
 	public String list() {
-		System.out.println("执行list方法");
-		String loginName = (String) getSession().getAttribute(
-				SystemContext.LOGINNAME);
-		String type = (String) getSession()
-				.getAttribute(SystemContext.USERTYPE);
-		/************************** 查询教研室信息 *********************************************/
-		
-		//查询 当前学生所属专业教研室  进度计划
-		if(flag!=null&&"11".equals(flag)){
-				/*if ("1".equals(type)) {
-					student = sysStudentService.findByStuNo(loginName);		
-			        planProgress=planProgressSerivce.findByStudMajoId(student.getMajorId(),flag);  
-				}*/
-				//查询 当前老师所属专业教研室 中的进度计划
-				if ("2".equals(type)) {
-					 lTeacher = sysTeacherService.findByTeacherNo(loginName);
-					 planProgress=planProgressSerivce.findByTeacStaffroomId(lTeacher.getStaffroomId(),flag); 
-				}
-				Timestamp d = new Timestamp(System.currentTimeMillis()); 
-				if(d.after(planProgress.getStartTime())){
-		try {
-			/* 登录名称 :查询学院 */
-			/*String loginName = (String) getSession().getAttribute(
-					SystemContext.LOGINNAME);*/
-			/* 用户类型：1-学生 2-老师 */
-			/*String userType = (String) getSession().getAttribute(
-					SystemContext.USERTYPE);*/
-			if (thisStuId != null && thisYear != null) {
-				model.setStuId(thisStuId);
-				model.setYear(thisYear);
-				pageResult = defenseRecordService.find(model, getPage(), getRow());
-				footer = PageUtil.pageFooter(pageResult, getRequest());
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 
-		return SUCCESS;
-				}else{
-					return "view";
+		String loginName = (String) getSession().getAttribute(SystemContext.LOGINNAME);
+		String type = (String) getSession().getAttribute(SystemContext.USERTYPE);
+
+		logger.info("用户信息 ： "+loginName+"||"+type);
+
+		/************************** 查询教研室信息 *********************************************/
+		logger.info("flag info ==============="+flag);
+		//查询 当前学生所属专业教研室  进度计划
+		if (flag != null && "11".equals(flag)) {
+			if ("1".equals(type)) {
+				student = sysStudentService.findByStuNo(loginName);
+				planProgress=planProgressSerivce.findByStudMajoId(student.getMajorId(),flag);
+				thisStuId = student.getStuId();
+				thisYear = planProgress.getYear();
 				}
-		}else{
-			return null;
+			//查询 当前老师所属专业教研室 中的进度计划
+			if ("2".equals(type)) {
+				lTeacher = sysTeacherService.findByTeacherNo(loginName);
+				planProgress = planProgressSerivce.findByTeacStaffroomId(lTeacher.getStaffroomId(), flag);
+			}
+			Timestamp d = new Timestamp(System.currentTimeMillis());
+//			if (d.after(planProgress.getStartTime())) {
+				try {
+					if (thisStuId != null && thisYear != null) {
+					model.setStuId(thisStuId);
+					model.setYear(thisYear);
+
+						pageResult = defenseRecordService.find(model, getPage(), getRow());
+						footer = PageUtil.pageFooter(pageResult, getRequest());
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+				return SUCCESS;
+//			} else {
+//				return "view";
+//			}
+		} else {
+			return SUCCESS;
 		}
 	}
 	/**
@@ -218,17 +216,18 @@ public class DefenseRecordAction extends BaseAction implements ModelDriven<Defen
 	 * @return
 	 */
 	public String openAdd() {
-		String loginName = (String) getSession().getAttribute(
-				SystemContext.LOGINNAME);
-		String type = (String) getSession()
-				.getAttribute(SystemContext.USERTYPE);
+
+		String loginName = (String) getSession().getAttribute(SystemContext.LOGINNAME);
+		String type = (String) getSession().getAttribute(SystemContext.USERTYPE);
+
 		/************************** 查询教研室信息 *********************************************/
 		
 		//查询 当前学生所属专业教研室  进度计划
 		if(flag!=null&&"11".equals(flag)){
 				if ("1".equals(type)) {
 					student = sysStudentService.findByStuNo(loginName);		
-			        planProgress=planProgressSerivce.findByStudMajoId(student.getMajorId(),flag);  
+			        planProgress=planProgressSerivce.findByStudMajoId(student.getMajorId(),flag);
+			        thisStuId = student.getStuId();
 				}
 				//查询 当前老师所属专业教研室 中的进度计划
 				if ("2".equals(type)) {
@@ -237,8 +236,11 @@ public class DefenseRecordAction extends BaseAction implements ModelDriven<Defen
 				}
 				Timestamp d = new Timestamp(System.currentTimeMillis()); 
 				if(d.after(planProgress.getStartTime())){
+					logger.info("当前时间大于年度时间");
 					try {
-						if (thisStuId!= null&&thisYear!=null) {
+						if (thisStuId!= null
+//								&&thisYear!=null
+						) {
 							// 查询学生信息
 							student = sysStudentService.findViewModelById(thisStuId);
 							//查询课题信息
@@ -268,13 +270,17 @@ public class DefenseRecordAction extends BaseAction implements ModelDriven<Defen
 	public String add() {
 		try {
 			planYear = planYearSerivce.findPlanYear();
-			if (thisStuId != null && thisYear != null) {
+//			if (thisStuId != null && thisYear != null) {
+				if (thisStuId != null) {
 				model.setYear(thisYear);
+				//查询课题信息
+				issueInfo = issueInfoSerivce.findByStuIdAndYear(thisStuId, thisYear);
 				// 查询指导老师信息
 				AllotGuide aGuide = allotGuideService.findByStuIdAndYear(thisStuId, thisYear);
 				//添加信息
 				model.setTeacherId(aGuide.getTeacherId());
 				model.setStuId(thisStuId);
+
 				model.setYear(thisYear);
 				model = defenseRecordService.add(model);
 				mark = "1";

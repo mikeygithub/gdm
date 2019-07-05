@@ -50,14 +50,17 @@
 	});
 	 
 	 $(function(){
-		 alert("&&&&&&&&&&&&&&&");
-		 
+
 	     var flag="${mark}";
-	     alert(flag);
+
 	     if(flag!='' && flag!=undefined){
+
 	    	 if(flag=="1"){
+
 	        layer.msg('保存成功',{icon:1});
+
 	        setTimeout(function(){
+
 	        },1000);
 	     }else if(flag=="0"){
 	     layer.msg('保存失败',{icon:2});
@@ -108,7 +111,7 @@ td {padding: 4px;font-size: 14px;font-size: 14px;border: 1px  solid #C1DAD7;}
 				<font> <img src="<%=path%>/images/i01.png" width="20px" />一键导出</font></a></li>
 			</ul>
 		</div>
-		<form action="<%=path%>/biz/defenseRecord_add.action?view=detail&flag=11"
+		<form action="<%=path%>/biz/defenseRecord_add.action?view=list&flag=11"
 			method="post" name="form1" id="form1"  >
 			<input name="thisStuId" type="hidden" value="${thisStuId }">
 			<input type="hidden" name="thisYear" value="${thisYear }">
@@ -141,9 +144,7 @@ td {padding: 4px;font-size: 14px;font-size: 14px;border: 1px  solid #C1DAD7;}
 						</tr> 
 						<tr class="title" >
 							<td  class="rightText">题目：</td>
-							<td colspan="10">
-							${issueInfo.issueName }
-        		  		   </td>
+							<td  colspan="10">${issueInfo.issueName }</td>
         		  			</tr>
 						<tr >
 						<tr class="title">

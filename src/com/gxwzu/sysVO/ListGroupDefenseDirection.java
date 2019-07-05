@@ -36,7 +36,6 @@ public class ListGroupDefenseDirection implements java.io.Serializable {
 	// Property accessors
 
 	public ListGroupDefenseDirection() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public Integer getId() {

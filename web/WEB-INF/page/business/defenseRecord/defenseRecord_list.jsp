@@ -74,12 +74,15 @@
 						 <a href="javascript:void(0)"
 						    	target="rightFrame" onclick="del(this,'${defenseId}' );">  
 							      <font color="red"> <i class="layui-icon">&#xe618;</i>删除</font></a>
-					   <a 
-							      href="<%=path%>/biz/defenseRecord_openEdit.action?view=edit&thisId=${defenseId }">
+
+							<a href="<%=path%>/biz/defenseRecord_openEdit.action?view=edit&thisId=${defenseId }">
+
 							      <font color="blue"> <i class="layui-icon">&#xe642;</i>修改</font></a>
-								 <a
-								href="<%=path%>/biz/defenseRecord_outDefenseRecord.action?thisId=${defenseId }">
+
+							<a href="<%=path%>/biz/defenseRecord_outDefenseRecord.action?thisId=${defenseId }">
+
 									<font> <img src="<%=path%>/images/i01.png" width="20px" />导出
+
 								</font></a>
 								</td>
 					</tr>

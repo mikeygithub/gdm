@@ -451,8 +451,13 @@ public class ReplyScoreAction extends BaseAction implements
 			// 毕业设计成绩列表
 		    replyScore = replyScoreSerivce.findByStudentIdAndYear(student.getStuId() ,planYear.getYear());
 		    //type是判断学生老师的字段
-		    replyScore.setReplyType(type);//TODO:NullPoint bug
 
+			if (replyScore != null) {
+				//TODO:NullPoint bug
+				replyScore.setReplyType(type);
+			} else {
+				logger.info("毕业设计成绩列表为空");
+			}
 			out.print(new Gson().toJson(replyScore));
 			out.flush();
 			out.close();

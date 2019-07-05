@@ -385,10 +385,16 @@ public class PaperAction extends BaseAction implements ModelDriven<StudentPaper>
  */
 	
 	  public String downFile( ) throws FileNotFoundException{
-			model = studentPaperService.findById(thisId);
-		   fileName=model.getPaperName();
-	        inputStream=new FileInputStream(ServletActionContext.getServletContext().getRealPath(model.getPath()));
-		    return "download";   
+
+	  		model = studentPaperService.findById(thisId);
+
+	  		fileName=model.getPaperName();
+
+		  	inputStream=new FileInputStream(ServletActionContext.getServletContext().getRealPath(model.getPath()));
+
+		  	logger.info("下载文件："+inputStream);
+
+	  		return "download";
 	   }
 	/**
 	 * 下载单个文件
@@ -406,8 +412,8 @@ public class PaperAction extends BaseAction implements ModelDriven<StudentPaper>
    		InputStream inputStream = null;
    		try {
    		    //取得绝对路径
-   			String path = ServletActionContext.getServletContext()
-					.getRealPath(savePath); // 文件的绝对路径
+			// 文件的绝对路径
+   			String path = ServletActionContext.getServletContext().getRealPath(savePath);
    	        //下载的文件名
 	   	    byte[] bytes = name.getBytes();
 	   	    
@@ -431,7 +437,7 @@ public class PaperAction extends BaseAction implements ModelDriven<StudentPaper>
 				
 			}
 		} catch (Exception e) {
-			
+			e.printStackTrace();
 		}finally{
 				//关闭流、释放资源
 			if(null != ouputStream){
