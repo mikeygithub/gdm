@@ -429,55 +429,51 @@ public class DefenseRecordAction extends BaseAction implements ModelDriven<Defen
 	}
 	/**
 	 * 导出答辩记录
-	 * 
+	 * //TODO:待修复文件导出
 	 * @return
 	 */
 	public String outDefenseRecord() {
 		try {
-			SysTechnical sysTechnical=new SysTechnical();
+			SysTechnical sysTechnical = new SysTechnical();
+			//查询数据
 			if (thisId != null) {
 				model = defenseRecordService.findById(thisId);
 				sysStudent.setStuId(model.getStuId());
-				//issueInfo = issueInfoSerivce.findByStuIdAndYear(model.getStuId(), Calendar.getInstance().get(Calendar.YEAR));
 				student = sysStudentService.findByExample(sysStudent).get(0);
-				
 				// 查询指导老师信息
-				ListAllotGuide aGuide = allotGuideService.findByStuId(student
-						.getStuId());
+				ListAllotGuide aGuide = allotGuideService.findByStuId(student.getStuId());
 				teacher = sysTeacherService.findById(aGuide.getTeacherId());
-				
-				sysTechnical=sysTechnicalService.findById(teacher.getTechnicalId());
+				sysTechnical = sysTechnicalService.findById(teacher.getTechnicalId());
 			}
 
 			// ##################根据Word模板导出单个Word文档###################################################
 			Map<String, String> map = new HashMap<String, String>();
+			//查询课题
+			if (model.getStuId() != null) {
+				issueInfo = issueInfoSerivce.findByStuIdAndYear(model.getStuId(), thisYear);
+			}
 
-//			if(model.getIssueId()!=null){
-//				issueInfo = issueInfoSerivce.findById(model.getIssueId());
-//				map.put("issueName",issueInfo.getIssueName());
-//			}else{
-//				map.put("issueName","");
-//			}
-			
 			map.put("dN", student.getDeptName());
 			map.put("mN", student.getMajorName());
 			map.put("cN", student.getClassName());
 			map.put("sNo", student.getStuNo());
 			map.put("sNa", student.getStuName());
 			map.put("dC", model.getDefenseContent());
-			
+
 			map.put("iN", issueInfo.getIssueName());
 			map.put("tN", teacher.getTeacherName());
 			map.put("lN", sysTechnical.getTechnicalName());
-			
-			
+
+
 			WordUtils.exportWord(map, getTempletePath(), getFilePath());
 
 			StringBuffer sBuffer = new StringBuffer(student.getClassName());
+
 			sBuffer.append("-").append(student.getStuNo()).append("-")
 					.append(student.getStuName()).append("-")
 					.append("答辩记录.doc");
 			fileName = sBuffer.toString();
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

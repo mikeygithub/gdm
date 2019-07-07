@@ -144,12 +144,10 @@ public class OpenReportAction extends BaseAction implements ModelDriven<OpenRepo
 	 */
 	public String list() {
 		try {
-			/* 登录名称 :查询学院 */
-			String loginName = (String) getSession().getAttribute(
-					SystemContext.LOGINNAME);
-			/* 用户类型：1-学生 2-老师 */
-			String userType = (String) getSession().getAttribute(
-					SystemContext.USERTYPE);
+			//登录名称 :查询学院
+			String loginName = (String) getSession().getAttribute(SystemContext.LOGINNAME);
+			//用户类型：1-学生 2-老师
+			String userType = (String) getSession().getAttribute(SystemContext.USERTYPE);
 
 			pageResult = openReportSerivce.find(model, getPage(), getRow());
 			footer = PageUtil.pageFooter(pageResult, getRequest());
@@ -157,7 +155,6 @@ public class OpenReportAction extends BaseAction implements ModelDriven<OpenRepo
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 		return SUCCESS;
 	}
 
@@ -193,10 +190,9 @@ public class OpenReportAction extends BaseAction implements ModelDriven<OpenRepo
 	 * @return
 	 */
 	public String openAdd() {
-		String loginName = (String) getSession().getAttribute(
-				SystemContext.LOGINNAME);
-		String type = (String) getSession()
-				.getAttribute(SystemContext.USERTYPE);
+		logger.info("打开添加开题报告页面");
+		String loginName = (String) getSession().getAttribute(SystemContext.LOGINNAME);
+		String type = (String) getSession().getAttribute(SystemContext.USERTYPE);
 		/************************** 查询教研室信息 *********************************************/
 		//查询 当前学生所属专业教研室  进度计划
 		if(flag!=null&&"04".equals(flag)){
@@ -220,7 +216,6 @@ public class OpenReportAction extends BaseAction implements ModelDriven<OpenRepo
 							// 查询指导老师信息
 							AllotGuide aGuide = allotGuideService.findByStuIdAndYear(thisStuId, thisYear);
 							teacher = sysTeacherService.findById(aGuide.getTeacherId());
-				
 							materialInfo = materialInfoSerivce.findByStuIdAndYear(thisStuId,thisYear);
 						}
 					} catch (Exception e) {
@@ -231,7 +226,7 @@ public class OpenReportAction extends BaseAction implements ModelDriven<OpenRepo
 				    return "view";
 				}
 	    }else{
-	    	return null;
+	    	return SUCCESS;
 	    }
 	}
 	
@@ -241,6 +236,9 @@ public class OpenReportAction extends BaseAction implements ModelDriven<OpenRepo
 	 * @return
 	 */
 	public String add() {
+
+		logger.info("添加开题报告："+model);
+
 		try {
 			if (thisStuId != null && thisYear != null) {
 				// 查询指导老师信息
@@ -267,11 +265,9 @@ public class OpenReportAction extends BaseAction implements ModelDriven<OpenRepo
 	 * @return
 	 */
 	public String openEdit() {
-		System.out.println(model.getReplyLink());
-		String loginName = (String) getSession().getAttribute(
-				SystemContext.LOGINNAME);
-		String type = (String) getSession()
-				.getAttribute(SystemContext.USERTYPE);
+		logger.info("getReplyLink : "+model.getReplyLink());
+		String loginName = (String) getSession().getAttribute(SystemContext.LOGINNAME);
+		String type = (String) getSession().getAttribute(SystemContext.USERTYPE);
 		/************************** 查询教研室信息 *********************************************/
 		//查询 当前学生所属专业教研室  进度计划
 		if(flag!=null&&"04".equals(flag)){
@@ -285,7 +281,7 @@ public class OpenReportAction extends BaseAction implements ModelDriven<OpenRepo
 					 planProgress=planProgressSerivce.findByTeacStaffroomId(lTeacher.getStaffroomId(),flag); 
 				}
 				Timestamp d = new Timestamp(System.currentTimeMillis()); 
-				System.out.println(thisStuId+","+thisYear+","+thisId);
+				logger.info("学生ID："+thisStuId+"\t年度："+thisYear+"\t开题报告ID："+thisId);
 				if(d.after(planProgress.getStartTime())){
 					try {
 						if (thisStuId!= null&&thisYear!=null) {
@@ -338,8 +334,12 @@ public class OpenReportAction extends BaseAction implements ModelDriven<OpenRepo
 	 * @throws IOException
 	 */
 	public String edit() {
+
+		logger.info("修改开题报告："+model);
+
 		try {
 			if (thisId != null) {
+
 				OpenReport openReport = openReportSerivce.findById(thisId);
 
 				if (StringUtils.isNotEmpty(model.getReportContent())) {
@@ -357,8 +357,13 @@ public class OpenReportAction extends BaseAction implements ModelDriven<OpenRepo
 				if(model.getReplyLink()!=null){
 					openReport.setReplyLink(model.getReplyLink());
 				}
+
+				logger.info("开题报告信息："+model);
+
 				openReportSerivce.update(openReport);
+
 				mark = "1";
+
 			} else {
 				mark = "0";
 			}

@@ -112,4 +112,19 @@ public class OpenReport implements java.io.Serializable {
 	public void setReplyLink(String replyLink) {
 		this.replyLink = replyLink;
 	}
+
+	@Override
+	public String toString() {
+		return "OpenReport{" +
+				"reportId=" + reportId +
+				", background='" + background + '\'' +
+				", reportContent='" + reportContent + '\'' +
+				", reportMethod='" + reportMethod + '\'' +
+				", reportDocument='" + reportDocument + '\'' +
+				", stuId=" + stuId +
+				", teacherId=" + teacherId +
+				", year=" + year +
+				", replyLink='" + replyLink + '\'' +
+				'}';
+	}
 }

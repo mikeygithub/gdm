@@ -90,7 +90,7 @@ td {padding: 4px;font-size: 14px;font-size: 14px;border: 1px  solid #C1DAD7;}
 				<font> <img src="<%=path%>/images/i01.png" width="20px" />一键导出</font></a></li>
 			</ul>
 		</div>
-		<form action="<%=path%>/biz/defenseRecord_edit.action?view=list &tabFlag=03&flag=11"
+		<form action="<%=path%>/biz/defenseRecord_edit.action?view=list&tabFlag=03&flag=11"
 			method="post" name="form1" id="form1"  >
 			<input name="thisStuId" type="hidden" value="${thisStuId }">
 			<input type="hidden" name="thisYear" value="${thisYear }">

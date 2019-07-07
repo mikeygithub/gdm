@@ -61,7 +61,6 @@
 	});
 	 
    function getData(){
-	   $("#replyLink").val(getReplyLink());
 	   $("#background").val(getBackground());
 	   $("#reportContent").val(getReportContent());
 	   $("#reportMethod").val(getReportMethod());
@@ -123,8 +122,7 @@ td {padding: 4px;font-size: 14px;font-size: 14px;border: 1px  solid #C1DAD7;}
 				<font> <img src="<%=path%>/images/i01.png" width="20px" />一键导出</font></a></li>
 			</ul>
 		</div>
-		<form action="<%=path%>/biz/openReport_edit.action?view=detail"
-			method="post" name="form1" id="form1"  >
+		<form action="<%=path%>/biz/openReport_edit.action?view=detail" method="post" name="form1" id="form1"  >
 			<input name="thisStuId" type="hidden"  value="${thisStuId }">
 			<input type="hidden"  name="thisId" value="${thisId }">
 			<input type="hidden" name="thisYear" value="${thisYear }" >	
@@ -163,10 +161,8 @@ td {padding: 4px;font-size: 14px;font-size: 14px;border: 1px  solid #C1DAD7;}
 						<tr class="title" >					
 						       <td class="rightText">是否进入答辩环节：</td>
 						       <td align=colspan="10" id="replyLink">
-						      <input type="radio" name="model.replyLink" value="01"
-						       alt="是" checked="checked"<s:if test="model.replyLink==01">checked="checked"</s:if>>是&nbsp;
-						        <input type="radio" 
-						       name="model.replyLink" value="00" alt="否" <s:if test="model.replyLink==00">checked="checked"</s:if>>否&nbsp;
+						        <input type="radio" name="model.replyLink" value="01" alt="是" checked="checked"<s:if test="model.replyLink==01">checked="checked"</s:if>>是&nbsp;
+						        <input type="radio" name="model.replyLink" value="00" alt="否" <s:if test="model.replyLink==00">checked="checked"</s:if>>否&nbsp;
 						       </td>
 						</tr>
 						<tr >
@@ -238,8 +234,7 @@ td {padding: 4px;font-size: 14px;font-size: 14px;border: 1px  solid #C1DAD7;}
 					</table>
 				<li>
 					<div style="text-align: center;">
-								<input name="" id="submit" type="submit" class="scbtn"
-									value="提交" onClick="getData();" />
+						<input name="" id="submit" type="submit" class="scbtn" value="提交" onClick="getData();" />
 					</div>
 				</li>
 			</ul>

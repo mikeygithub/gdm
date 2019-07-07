@@ -184,10 +184,8 @@ public class TaskBookAction extends BaseAction implements ModelDriven<TaskBook> 
 	 * @return
 	 */
 	public String openAdd() {
-		String loginName = (String) getSession().getAttribute(
-				SystemContext.LOGINNAME);
-		String type = (String) getSession()
-				.getAttribute(SystemContext.USERTYPE);
+		String loginName = (String) getSession().getAttribute(SystemContext.LOGINNAME);
+		String type = (String) getSession().getAttribute(SystemContext.USERTYPE);
 		/************************** 查询教研室信息 *********************************************/
 		//查询 当前学生所属专业教研室  进度计划
 		if(flag!=null&&"03".equals(flag)){
@@ -207,13 +205,10 @@ public class TaskBookAction extends BaseAction implements ModelDriven<TaskBook> 
 						// 查询学生信息
 						student = sysStudentService.findViewModelById(thisStuId);
 						// 查询课题信息
-						issueInfo = issueInfoSerivce.findByStuIdAndYear(thisStuId,
-						thisYear);
+						issueInfo = issueInfoSerivce.findByStuIdAndYear(thisStuId, thisYear);
 						// 查询指导老师信息
-						AllotGuide aGuide = allotGuideService.findByStuIdAndYear(
-						thisStuId, thisYear);
+						AllotGuide aGuide = allotGuideService.findByStuIdAndYear(thisStuId, thisYear);
 						teacher = sysTeacherService.findById(aGuide.getTeacherId());
-				
 						materialInfo = materialInfoSerivce.findByStuIdAndYear(thisStuId,thisYear);
 						}
 					} catch (Exception e) {
@@ -260,10 +255,8 @@ public class TaskBookAction extends BaseAction implements ModelDriven<TaskBook> 
 	 * @return
 	 */
 	public String openEdit() {
-		String loginName = (String) getSession().getAttribute(
-				SystemContext.LOGINNAME);
-		String type = (String) getSession()
-				.getAttribute(SystemContext.USERTYPE);
+		String loginName = (String) getSession().getAttribute(SystemContext.LOGINNAME);
+		String type = (String) getSession().getAttribute(SystemContext.USERTYPE);
 		/************************** 查询教研室信息 *********************************************/
 		//查询 当前学生所属专业教研室  进度计划
 		if(flag!=null&&"03".equals(flag)){
@@ -288,17 +281,16 @@ public class TaskBookAction extends BaseAction implements ModelDriven<TaskBook> 
 								view =  "add";
 							}
 						}
+						thisId = model.getTaskId();
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 		        return openAdd();
 			}else{
-				System.out.println("view:"+view);
 			    return "view";
 			}
 	    }else{
-	        System.out.println("SUCCESS");
 	    	return SUCCESS;
 	    }
 	}
@@ -331,7 +323,7 @@ public class TaskBookAction extends BaseAction implements ModelDriven<TaskBook> 
 	 */
 	public String edit() {
 		try {
-System.out.println("执行修改方法");
+		System.out.println("执行修改方法");
 			if (thisId != null) {
 				TaskBook taskBook = taskBookSerivce.findById(thisId);
 
