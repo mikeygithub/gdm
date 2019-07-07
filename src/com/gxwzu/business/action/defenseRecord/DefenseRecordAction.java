@@ -3,6 +3,7 @@ package com.gxwzu.business.action.defenseRecord;
 import java.io.IOException;
 
 import java.io.PrintWriter;
+import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -11,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.gxwzu.sysVO.*;
 import org.apache.commons.lang.xwork.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -33,10 +35,6 @@ import com.gxwzu.core.pagination.Result;
 import com.gxwzu.core.util.PageUtil;
 import com.gxwzu.core.util.WordUtils;
 import com.gxwzu.core.web.action.BaseAction;
-import com.gxwzu.sysVO.ListAllotGuide;
-import com.gxwzu.sysVO.ListStudent;
-import com.gxwzu.sysVO.ListTeacher;
-import com.gxwzu.sysVO.MaterialInfo;
 import com.gxwzu.system.model.sysClass.SysClass;
 import com.gxwzu.system.model.sysDepartment.SysDepartment;
 import com.gxwzu.system.model.sysMajor.SysMajor;
@@ -100,6 +98,7 @@ public class DefenseRecordAction extends BaseAction implements ModelDriven<Defen
 	private IPlanProgressSerivce planProgressSerivce; // 进度计划接口
 	/*********************** 实体 ***************************/
 	private PlanYear planYear; // 年度计划实体
+	AllotGuide aGuide = new AllotGuide();//指导老师
 	private SysTeacher teacher = new SysTeacher(); // 老师实体
 	private ListStudent student = new ListStudent(); // 学生实体
 	private SysStudent sysStudent = new SysStudent(); // 学生实体
@@ -111,7 +110,7 @@ public class DefenseRecordAction extends BaseAction implements ModelDriven<Defen
 	private PlanProgress planProgress = new PlanProgress();//进度计划实体
 	private ListTeacher lTeacher = new ListTeacher(); // 老师实体
 	/******************** 集合变量声明 *********************/
-	private Result<DefenseRecord> pageResult; // 答辩记录分页
+	private Result<DefenseRecordVO> pageResult; // 答辩记录分页
 	private List<SysDepartment> sysDepartmentList = new ArrayList<SysDepartment>(); // 院系信息列表（用于查询全部）
 	private List<SysMajor> sysMajorList = new ArrayList<SysMajor>();; // 专业信息列表（用于查询全部）
 	private List<SysClass> sysClassList = new ArrayList<SysClass>(); // 班级信息列表（用于查询全部）
@@ -142,10 +141,8 @@ public class DefenseRecordAction extends BaseAction implements ModelDriven<Defen
 		String loginName = (String) getSession().getAttribute(SystemContext.LOGINNAME);
 		String type = (String) getSession().getAttribute(SystemContext.USERTYPE);
 
-		logger.info("用户信息 ： "+loginName+"||"+type);
-
 		/************************** 查询教研室信息 *********************************************/
-		logger.info("flag info ==============="+flag);
+
 		//查询 当前学生所属专业教研室  进度计划
 		if (flag != null && "11".equals(flag)) {
 			if ("1".equals(type)) {
@@ -154,29 +151,33 @@ public class DefenseRecordAction extends BaseAction implements ModelDriven<Defen
 				thisStuId = student.getStuId();
 				thisYear = planProgress.getYear();
 				}
+
 			//查询 当前老师所属专业教研室 中的进度计划
 			if ("2".equals(type)) {
 				lTeacher = sysTeacherService.findByTeacherNo(loginName);
 				planProgress = planProgressSerivce.findByTeacStaffroomId(lTeacher.getStaffroomId(), flag);
 			}
+
 			Timestamp d = new Timestamp(System.currentTimeMillis());
-//			if (d.after(planProgress.getStartTime())) {
+			if (d.after(planProgress.getStartTime())) {
 				try {
 					if (thisStuId != null && thisYear != null) {
+
 					model.setStuId(thisStuId);
-					model.setYear(thisYear);
+
+//					model.setYear(thisYear);
 
 						pageResult = defenseRecordService.find(model, getPage(), getRow());
+
 						footer = PageUtil.pageFooter(pageResult, getRequest());
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
-				}
-
+ 				}
 				return SUCCESS;
-//			} else {
-//				return "view";
-//			}
+			} else {
+				return "view";
+			}
 		} else {
 			return SUCCESS;
 		}
@@ -299,10 +300,10 @@ public class DefenseRecordAction extends BaseAction implements ModelDriven<Defen
 	 * @return
 	 */
 	public String openEdit() {
-		String loginName = (String) getSession().getAttribute(
-				SystemContext.LOGINNAME);
-		String type = (String) getSession()
-				.getAttribute(SystemContext.USERTYPE);
+
+		String loginName = (String) getSession().getAttribute(SystemContext.LOGINNAME);
+		String type = (String) getSession().getAttribute(SystemContext.USERTYPE);
+
 		/************************** 查询教研室信息 *********************************************/
 		
 		//查询 当前学生所属专业教研室  进度计划
@@ -319,9 +320,15 @@ public class DefenseRecordAction extends BaseAction implements ModelDriven<Defen
 				Timestamp d = new Timestamp(System.currentTimeMillis()); 
 				if(d.after(planProgress.getStartTime())){
 					try {
-						if (thisStuId != null && thisYear != null) {
+						if (thisId != null && thisYear != null) {
 							if (thisId != null) {
+
 								model = defenseRecordService.findById(thisId);
+								//查询课题信息
+								issueInfo = issueInfoSerivce.findByStuIdAndYear(model.getStuId(), thisYear);
+								// 查询指导老师信息
+								aGuide = allotGuideService.findByStuIdAndYear(model.getStuId(), thisYear);
+
 							}else{
 								model = defenseRecordService.findByStuIdAndYear(thisStuId, thisYear);
 								if(model==null){
@@ -398,6 +405,9 @@ public class DefenseRecordAction extends BaseAction implements ModelDriven<Defen
 	 * @throws IOException
 	 */
 	public String edit() {
+
+		logger.info("修改答辩记录："+model);
+
 		try {
 			if (thisId != null) {
 				DefenseRecord defenseRecord = defenseRecordService.findById(thisId);
@@ -406,6 +416,7 @@ public class DefenseRecordAction extends BaseAction implements ModelDriven<Defen
 					defenseRecord.setDefenseContent(model.getDefenseContent());
 				}
 				model = defenseRecordService.addOrEdit(defenseRecord);
+				thisYear = model.getYear();
 				mark = "1";
 			} else {
 				mark = "0";
@@ -509,12 +520,15 @@ public class DefenseRecordAction extends BaseAction implements ModelDriven<Defen
 	public void setMark(String mark) {
 		this.mark = mark;
 	}
-	public Result<DefenseRecord> getPageResult() {
+
+	public Result<DefenseRecordVO> getPageResult() {
 		return pageResult;
 	}
-	public void setPageResult(Result<DefenseRecord> pageResult) {
+
+	public void setPageResult(Result<DefenseRecordVO> pageResult) {
 		this.pageResult = pageResult;
 	}
+
 	public PlanYear getPlanYear() {
 		return planYear;
 	}

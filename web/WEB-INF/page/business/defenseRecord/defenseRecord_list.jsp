@@ -5,16 +5,16 @@
 <head>
 <title>答辩记录</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link href="<%=path%>/css/style.css" rel="stylesheet" type="text/css" />
-<link href="<%=path%>/css/newStyle.css" rel="stylesheet" type="text/css" />
-<link rel="stylesheet" href="<%=path%>/third/layui/css/layui.css" type="text/css" />
+	<link href="<%=path%>/css/style.css" rel="stylesheet" type="text/css" />
+	<link href="<%=path%>/css/newStyle.css" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" href="<%=path%>/third/layui/css/layui.css" type="text/css" />
 
-<script type="text/javascript" src="<%=path%>/third/jquery-1.8.3.min.js"></script>
-<script type="text/javascript" src="<%=path%>/third/layer/layer.js"></script>
-<script type="text/javascript" src="<%=path%>/third/layer/extend/layer.ext.js"></script>
-<script type="text/javascript" src="<%=path%>/js/core/dialog/dialog.js"></script>
-<script type="text/javascript" src="<%=path%>/js/core/dialog/enable.js"></script>
-
+	<script type="text/javascript" src="<%=path%>/third/jquery-1.8.3.min.js"></script>
+	<script type="text/javascript" src="<%=path%>/third/layer/layer.js"></script>
+	<script type="text/javascript" src="<%=path%>/third/layui/layui.js"></script>
+	<script type="text/javascript" src="<%=path%>/third/layer/extend/layer.ext.js"></script>
+	<script type="text/javascript" src="<%=path%>/js/core/dialog/dialog.js"></script>
+	<script type="text/javascript" src="<%=path%>/js/core/dialog/enable.js"></script>
 
 <script type="text/javascript">
  //搜索
@@ -22,9 +22,6 @@
     	$("#form1").submit();
     }
 </script>
-
-<style >
-</style>
 </head>
 <body>
 		<div class="place">
@@ -34,6 +31,7 @@
 		<li>答辩记录信息</li>
 		</ul>
 		</div>
+
 		<div class="rightinfo">
 			<div class="formtitle">
 				<span>答辩记录列表</span>
@@ -62,7 +60,8 @@
          <tbody>
 				<s:iterator id="p" value="pageResult.data" status="pp">
 					<tr id="tr_${defenseId }">
-						<td align="center"><s:property value="#pp.count" /></td>
+						<td align="center">
+							<s:property value="#pp.count" /></td>
 						 <td align="center">
 				        			${issueName}
 		               </td>
@@ -71,27 +70,23 @@
 				        	</td>
 						<td align="center" >${year}</td>
 						<td align="center" width="20%">
-						 <a href="javascript:void(0)"
-						    	target="rightFrame" onclick="del(this,'${defenseId}' );">  
-							      <font color="red"> <i class="layui-icon">&#xe618;</i>删除</font></a>
-
-							<a href="<%=path%>/biz/defenseRecord_openEdit.action?view=edit&thisId=${defenseId }">
-
-							      <font color="blue"> <i class="layui-icon">&#xe642;</i>修改</font></a>
-
-							<a href="<%=path%>/biz/defenseRecord_outDefenseRecord.action?thisId=${defenseId }">
-
-									<font> <img src="<%=path%>/images/i01.png" width="20px" />导出
-
-								</font></a>
-								</td>
+						 <a href="javascript:void(0)" target="rightFrame" onclick="del(this,'${defenseId}' );">
+							      <font color="red"> <i class="layui-icon">&#xe618;</i>删除</font>
+						 </a>
+						 <a href="<%=path%>/biz/defenseRecord_openEdit.action?view=edit&flag=11&thisId=${defenseId }&thisYear=${year}">
+							      <font color="blue"> <i class="layui-icon">&#xe642;</i>修改</font>
+						 </a>
+						 <a href="<%=path%>/biz/defenseRecord_outDefenseRecord.action?thisId=${defenseId }">
+									<font> <img src="<%=path%>/images/i01.png" width="20px" />导出</font>
+						 </a>
+						</td>
 					</tr>
 				</s:iterator>
 	     </tbody>
       </table>
-<%@ include file="/WEB-INF/common/pagination.jsp"%>
-</div>
-
+			<div class="layui-form-item"></div>
+			<%@ include file="/WEB-INF/common/pagination.jsp"%>
+		</div>
 <script type="text/javascript">
 //删除
 function del(name,id){

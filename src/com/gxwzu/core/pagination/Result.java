@@ -2,6 +2,7 @@ package com.gxwzu.core.pagination;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 /**
  * 
@@ -17,6 +18,8 @@ public class Result<T> implements Serializable {
     private int page;
     private String pageUrl;
     private int totalPage;
+
+    private HashMap<String,Object> dataMap = new HashMap<>();
 
     private List<T> data=new ArrayList<T>();
     
@@ -106,6 +109,14 @@ public class Result<T> implements Serializable {
 		this.pageUrl = pageUrl;
 	}
 
+	public HashMap<String, Object> getDataMap() {
+		return dataMap;
+	}
+
+	public void setDataMap(HashMap<String, Object> dataMap) {
+		this.dataMap = dataMap;
+	}
+
 	@Override
 	public String toString() {
 		return "Result{" +
@@ -115,6 +126,7 @@ public class Result<T> implements Serializable {
 				", page=" + page +
 				", pageUrl='" + pageUrl + '\'' +
 				", totalPage=" + totalPage +
+				", dataMap=" + dataMap +
 				", data=" + data +
 				'}';
 	}

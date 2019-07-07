@@ -1,7 +1,10 @@
 package com.gxwzu.business.service.defenseRecord.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.gxwzu.core.util.ObjectUtil;
+import com.gxwzu.sysVO.DefenseRecordVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,8 +28,28 @@ public class DefenseRecordServiceImpl extends BaseServiceImpl<DefenseRecord>impl
 	}
 
 	@Override
-	public Result<DefenseRecord> find(DefenseRecord model, int page, int size) {
-		return defenseRecordDao.find(model,page,size);
+	public Result find(DefenseRecord model, int page, int size) {
+
+		Result objectResult = defenseRecordDao.find(model, page, size);
+
+		List<DefenseRecordVO> defenseRecordVOS = new ArrayList<DefenseRecordVO>();
+
+		for (Object object : objectResult.getData()) {
+			Object[] obj = (Object[])object;
+			DefenseRecordVO defenseRecordVO = new DefenseRecordVO();
+			defenseRecordVO.setDefenseId(ObjectUtil.getInteger(obj[0]));
+			defenseRecordVO.setDefenseContent(ObjectUtil.getString(obj[1]));
+			defenseRecordVO.setStuId(ObjectUtil.getInteger(obj[2]));
+			defenseRecordVO.setTeacherId(ObjectUtil.getInteger(obj[3]));
+			defenseRecordVO.setYear(ObjectUtil.getInteger(obj[4]));
+			defenseRecordVO.setTeacherName(ObjectUtil.getString(obj[5]));
+			defenseRecordVO.setIssueName(ObjectUtil.getString(obj[6]));
+			defenseRecordVOS.add(defenseRecordVO);
+		}
+
+		objectResult.setData(defenseRecordVOS);
+
+		return objectResult;
 	}
 
 	@Override

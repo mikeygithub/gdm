@@ -6,10 +6,11 @@ import com.gxwzu.business.model.defenseRecord.DefenseRecord;
 import com.gxwzu.business.model.taskBook.TaskBook;
 import com.gxwzu.core.pagination.Result;
 import com.gxwzu.core.service.BaseService;
+import com.gxwzu.sysVO.DefenseRecordVO;
 
 public interface IDefenseRecordService extends BaseService<DefenseRecord>{
 
-	public	Result<DefenseRecord> find(DefenseRecord model, int page, int size);
+	public	Result<DefenseRecordVO> find(DefenseRecord model, int page, int size);
 
 	public DefenseRecord addOrEdit(DefenseRecord model);
  

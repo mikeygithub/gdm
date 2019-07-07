@@ -301,9 +301,9 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
 		}
 	}
 
-	@SuppressWarnings("rawtypes")
-	public Result findBySQL(final String sql, final Object[] values,
-			final int start, final int limit) {
+
+	@Override
+	public Result findBySQL(final String sql, final Object[] values, final int start, final int limit) {
 
 	
 		HibernateTemplate ht = getHibernateTemplate();
@@ -316,9 +316,11 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
 		}
 
 		List data = ht.executeFind(new HibernateCallback<List>() {
-			public List doInHibernate(Session session)
-					throws HibernateException {
+			@Override
+			public List doInHibernate(Session session) throws HibernateException {
+
 				SQLQuery query = session.createSQLQuery(sql);
+
 				if (values != null) {
 					for (int i = 0; i < values.length; i++) {
 						query.setParameter(i, values[i]);
