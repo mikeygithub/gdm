@@ -231,7 +231,10 @@ $(function(){
 											</tr>
 								<tr>
 									<th>学历：</th>
-									<td class="textContent" colspan="3">${student.stuArrangement }</td>
+									<td class="textContent" colspan="3">
+											<s:if test="student.stuArrangement == 0 ">本科</s:if>
+											<s:if test="student.stuArrangement == 1 ">高职</s:if>
+									</td>
 								</tr>
 								</s:if>
 								<s:if test="teacher.teacherId!=null">

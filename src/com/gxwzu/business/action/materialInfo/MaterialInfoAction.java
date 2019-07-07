@@ -410,7 +410,6 @@ public class MaterialInfoAction extends BaseAction implements
 					teacherDirectionsList = teacherDirectionsService
 							.findByTeacherId(teacher.getTeacherId());
 				}
-
 				/************************** 查询分组信息 *********************************************/
 				if (model.getStuId() != null && model.getYear() != null) {
 					ListGroupStudent gStudent = groupStudentService.findByStuIdAndYear(model.getStuId(), model.getYear());
@@ -418,19 +417,15 @@ public class MaterialInfoAction extends BaseAction implements
 						groupAllot = groupAllotService.findViewModelById(gStudent.getGroupAllotId());
 					}
 				}
-
-				pageResult = materialInfoSerivce.find(model, getPage(),
-						getRow());
+				pageResult = materialInfoSerivce.find(model, getPage(), getRow());
 				footer = PageUtil.pageFooter(pageResult, getRequest());
 				//课题类型
 				issueTypeList = sysIssueTypeService.findAll(SysIssueType.class);
-				
 				allotGuideList = allotGuideService.findByLoginName(allotGuide);
-				
 				//加载文件类型个数
 				fileTypeList = sysFileTypeService.findAll(SysFileType.class);
 				if(fileTypeList!=null){
-				 fileTypeSize=fileTypeList.size();	
+				 fileTypeSize=fileTypeList.size();
 				}
 			}
 		} catch (Exception e) {

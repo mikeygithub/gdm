@@ -37,7 +37,8 @@
 				<span>答辩记录列表</span>
 			</div>
         <form id="form1" name="form1"  action="<%=path%>/biz/defenseRecord_list.action?view=list&page=${pageResult.page}" method="post">
-        	<div class="place">
+			<%--<%@ include file="/WEB-INF/page/business/materialInfo/select_info_tab.jsp"%>--%>
+			<div class="place">
 		<ul class="placeul">
 					<li class="click">
 	        		<a href="<%=path%>/biz/defenseRecord_openAdd.action?view=add&flag=11" >
