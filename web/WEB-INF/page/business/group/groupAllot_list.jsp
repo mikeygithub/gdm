@@ -100,11 +100,13 @@ function openSearch(name){
 					<tr>
 						<td align="center"><s:property value="#pp.count" /></td>
 						<td align="center">${groupName }</td>
+						<%--组长--%>
 						<td align="center">
 						<s:iterator id="" value="teacherList">
 						   <s:if test="type==0">${teacherName }</s:if>
 						 </s:iterator>
 						</td>
+
 						<td align="center">
 						<s:iterator id="" value="teacherList">
 						   <s:if test="type==2">${teacherName }</s:if>

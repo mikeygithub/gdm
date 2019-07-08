@@ -139,5 +139,22 @@ public class ListReplyScore implements java.io.Serializable {
 	public void setOpenReport(String openReport) {
 		this.openReport = openReport;
 	}
-                
+
+	@Override
+	public String toString() {
+		return "ListReplyScore{" +
+				"replyId=" + replyId +
+				", replyLink='" + replyLink + '\'' +
+				", replyScore=" + replyScore +
+				", replyScoreFinish=" + replyScoreFinish +
+				", grade='" + grade + '\'' +
+				", stuId=" + stuId +
+				", year=" + year +
+				", replyType='" + replyType + '\'' +
+				", openReport='" + openReport + '\'' +
+				", guideScore=" + guideScore +
+				", checkScore=" + checkScore +
+				", readScore=" + readScore +
+				'}';
+	}
 }

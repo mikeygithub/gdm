@@ -31,7 +31,10 @@ function openGroup(){
 	+'<td align="center" ><input type="checkbox" name="catS" value="${majorId}"> </td>'
 	+'<td align="center">${majorName }</td>'
 	+'</tr></s:iterator>');
+
+
 	trData0.appendTo(tableData);
+	// groupAllot.appendTo(tableData);//组长
 	trData1.appendTo(tableData);
 	trData2.appendTo(tableData);
 

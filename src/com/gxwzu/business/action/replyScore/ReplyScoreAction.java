@@ -134,19 +134,19 @@ public class ReplyScoreAction extends BaseAction implements
 	 * @return
 	 */
 	public String list() {
+
+		logger.info("查询列表："+model);
+
 		try {
 			/* 登录名称 :查询学院 */
-			String loginName = (String) getSession().getAttribute(
-					SystemContext.LOGINNAME);
+			String loginName = (String) getSession().getAttribute(SystemContext.LOGINNAME);
 			/* 用户类型：1-学生 2-老师 */
-			String userType = (String) getSession().getAttribute(
-					SystemContext.USERTYPE);
+			String userType = (String) getSession().getAttribute(SystemContext.USERTYPE);
 
 			pageResult = replyScoreSerivce.find(model, getPage(), getRow());
-			for (int i = 0; i < pageResult.getData().size(); i++) {
-				System.out.println(pageResult.getData().get(i).getReplyScoreFinish()+","+pageResult.getData().get(i).getReplyLink()+"***");
-			}
-			System.out.println(model.getReplyScoreFinish());
+
+			logger.info("pageResult : "+pageResult);
+
 			footer = PageUtil.pageFooter(pageResult, getRequest());
 
 		} catch (Exception e) {

@@ -118,6 +118,34 @@ $(function(){
 	        		<a href="#" class="addGroup" onclick="$('#form1').submit();"><img src="<%=path%>/images/t01.png"  style="width: 16px;"/>添加</a>
 				 </td>
 			</tr>
+			<%--组长--%>
+			<%--<tr>--%>
+				<%--<td>组长</td>--%>
+				<%--<td><ul>--%>
+					<%--<li class="click" style="font-size: 12px;">--%>
+				    <%--<span>组长：<s:iterator id="" value="groupAllot.teacherList">--%>
+						<%--<s:if test="type==0"><font color="blue">${teacherName }</font> </s:if>--%>
+					<%--</s:iterator></span>--%>
+					<%--</li>--%>
+				<%--</ul></td>--%>
+			<%--</tr>--%>
+			<%--答辩日期--%>
+			<%--<tr>--%>
+				<%--<td class="rightText"  >答辩时间：</td>--%>
+				<%--<td style="font-size: 16px;padding: 4px;color: #3EAFE0;">--%>
+					<%--<input name="model.replyTime" id="model.replyTime" class="dfinput" value="${groupAllot.replyTime}"--%>
+						   <%--type="text" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd',isShowWeek:true})" />--%>
+				<%--</td>--%>
+			<%--</tr>--%>
+			<%--教室--%>
+			<%--<tr>--%>
+				<%--<td class="rightText">教室：</td>--%>
+				<%--<td><s:select cssClass="dfinput" list="classRoomList"--%>
+							  <%--listKey="id" value="groupAllot.classRoomId"--%>
+							  <%--id="classRoomId" name="model.classRoomId"--%>
+							  <%--listValue="classroomName" onchange="onSelect(this);"/>--%>
+				<%--</td>--%>
+			<%--</tr>--%>
 			<tr>
 			<td colspan="2">&nbsp;选择答辩方向<font color="red">*</font>  </td>
              </tr>

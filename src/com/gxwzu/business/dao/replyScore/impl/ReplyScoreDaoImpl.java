@@ -36,7 +36,7 @@ public class ReplyScoreDaoImpl extends BaseDaoImpl<ReplyScore>implements IReplyS
 			queryString.append("and model.year=?");
 			params.add(model.getYear());
 		}
-		queryString.append(" ORDER BY model.ReplyId DESC");
+		queryString.append(" ORDER BY model.replyId DESC");
 		
 		return super.find(queryString.toString(), params.toArray(), null, start, limit);
 	}

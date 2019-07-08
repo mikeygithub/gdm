@@ -27,9 +27,10 @@ function openGroup(){
 	  td2.appendTo(trData0);
 	var trData1=$("<tr class=\"odd\"><td colspan=\"2\">&nbsp;选择答辩方向</td></tr>");  
 	var trData2 = $('<s:iterator  value="majorList" ><tr>'
-	+'<td align="center" ><input type="checkbox" name="catS" value="${majorId}"> </td>'
-	+'<td align="center">${majorName }</td>'
-	+'</tr></s:iterator>');
+			+'<td align="center" ><input type="checkbox" name="catS" value="${majorId}"> </td>'
+			+'<td align="center">${majorName }</td>'
+			+'</tr></s:iterator>');
+
 	trData0.appendTo(tableData);
 	trData1.appendTo(tableData);
 	trData2.appendTo(tableData);

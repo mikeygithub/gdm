@@ -101,4 +101,17 @@ public class ReplyScore implements java.io.Serializable {
 		this.replyType = replyType;
 	}
 
+	@Override
+	public String toString() {
+		return "ReplyScore{" +
+				"replyId=" + replyId +
+				", replyLink='" + replyLink + '\'' +
+				", replyScore=" + replyScore +
+				", replyScoreFinish=" + replyScoreFinish +
+				", grade='" + grade + '\'' +
+				", stuId=" + stuId +
+				", year=" + year +
+				", replyType='" + replyType + '\'' +
+				'}';
+	}
 }

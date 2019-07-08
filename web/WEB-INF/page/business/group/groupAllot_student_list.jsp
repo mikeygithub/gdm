@@ -140,7 +140,7 @@ function openGroup(name,thisId,groupName,type){
 					   </li>
 						 </s:iterator>
 				 </ul>
-				 </s:if>
+			</s:if>
 			</div>
 		
 			<div class="place">
@@ -150,8 +150,7 @@ function openGroup(name,thisId,groupName,type){
 	        		cssStyle="width: auto;" onchange="$('#form1').submit();" 
 	        		listKey="groupId" listValue="groupName"  name="model.groupAllotId" id="allGroupId"/></span>
 				</li>
-				
-				<s:if test="model.groupAllotId!=null">
+					<s:if test="model.groupAllotId!=null">
 		<li class="click" style="font-size: 12px;">
 				    <span>组长：<s:iterator id="" value="groupAllot.teacherList">
 						   <s:if test="type==0"><font color="blue">${teacherName }</font> </s:if>

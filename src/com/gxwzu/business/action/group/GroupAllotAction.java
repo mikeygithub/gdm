@@ -127,9 +127,13 @@ public class GroupAllotAction extends BaseAction implements ModelDriven<GroupAll
 			if(model.getYear()==null){
 				model.setYear(planYear.getYear());
 			}
-			
+
 			pageResult = groupAllotService.find(model,getPage(),getRow());
-			
+
+			//查询老师
+
+			//查询教室
+
 			footer = PageUtil.pageFooter(pageResult, getRequest());
 		}catch(Exception e){
 			e.printStackTrace();

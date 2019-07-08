@@ -94,4 +94,16 @@ public class GroupStudent implements java.io.Serializable {
 		this.year = year;
 	}
 
+	@Override
+	public String toString() {
+		return "GroupStudent{" +
+				"id=" + id +
+				", studentNo='" + studentNo + '\'' +
+				", studentId=" + studentId +
+				", groupAllotId=" + groupAllotId +
+				", defenseTeacherId=" + defenseTeacherId +
+				", opTime=" + opTime +
+				", year=" + year +
+				'}';
+	}
 }

@@ -152,8 +152,8 @@ public class GroupStudentAction extends BaseAction implements
 	 * @return
 	 */
 	public String list(){
-		String loginName = (String) getSession().getAttribute(
-				SystemContext.LOGINNAME);
+		logger.info("请求分组列表："+model);
+		String loginName = (String) getSession().getAttribute(SystemContext.LOGINNAME);
 		String userType = (String) getSession().getAttribute(SystemContext.USERTYPE);
 		/************************** 查询教研室信息 *********************************************/
 		//查询 当前学生所属专业教研室  进度计划
@@ -237,7 +237,7 @@ public class GroupStudentAction extends BaseAction implements
 	 * @return
 	 */
 	public void addStudentGroup() {
-		logger.info("到添加方法了");
+		logger.info("添加学生分组");
 		boolean isSave = false;
 		SysStudent student = null;
 		try {
