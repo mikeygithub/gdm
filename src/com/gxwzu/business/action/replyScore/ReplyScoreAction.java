@@ -8,6 +8,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.gxwzu.business.model.group.GroupAllot;
+import com.gxwzu.business.service.group.IGroupTeacherService;
+import com.gxwzu.business.service.materialInfo.IMaterialInfoSerivce;
+import com.gxwzu.sysVO.*;
+import com.gxwzu.system.model.sysIssueType.SysIssueType;
+import com.gxwzu.system.service.sysIssueType.ISysIssueTypeService;
 import org.apache.commons.lang.xwork.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -33,12 +39,6 @@ import com.gxwzu.core.pagination.Result;
 import com.gxwzu.core.util.PageUtil;
 import com.gxwzu.core.util.WordUtils;
 import com.gxwzu.core.web.action.BaseAction;
-import com.gxwzu.sysVO.ListGroupAllot;
-import com.gxwzu.sysVO.ListGroupStudent;
-import com.gxwzu.sysVO.ListReplyScore;
-import com.gxwzu.sysVO.ListReview;
-import com.gxwzu.sysVO.ListStudent;
-import com.gxwzu.sysVO.ListTeacher;
 import com.gxwzu.system.model.sysTeacher.SysTeacher;
 import com.gxwzu.system.service.sysStudent.ISysStudentService;
 import com.gxwzu.system.service.sysTeacher.ISysTeacherService;
@@ -58,6 +58,7 @@ public class ReplyScoreAction extends BaseAction implements
 
 	/*********************** 实例化ModelDriven ******************************/
 	private ReplyScore model = new ReplyScore();
+
 
 	@Override
 	public ReplyScore getModel() {
@@ -90,19 +91,28 @@ public class ReplyScoreAction extends BaseAction implements
 	private IPlanYearSerivce planYearSerivce; // 年度计划接口
 	@Autowired
 	private IPlanProgressSerivce planProgressSerivce; // 进度计划接口
+	@Autowired
+	private ISysIssueTypeService sysIssueTypeService; // 课题类型接口
+	@Autowired
+	private IGroupTeacherService groupTeacherService; // 老师分组接口
+	@Autowired
+	private IMaterialInfoSerivce materialInfoSerivce; // 学生相关材料接口
 	/*********************** 实体 ***************************/
 	private PlanYear planYear; // 年度计划实体
 	private SysTeacher teacher = new SysTeacher(); // 老师实体
+	private ListTeacher teacherVO = new ListTeacher(); // 老师实体
 	private ListStudent student = new ListStudent(); // 学生实体
 	private IssueInfo issueInfo = new IssueInfo(); // 课题列表实体
 	private ListGroupAllot groupAllot = new ListGroupAllot(); // 分组名单
 	private ListReplyScore replyScore = new ListReplyScore();
 	private PlanProgress planProgress = new PlanProgress();//进度计划实体
+	private List<ListPlanProgress> planProgressList = new ArrayList<>();
 	private ListTeacher lTeacher = new ListTeacher(); // 老师实体
 	/******************** 集合变量声明 *********************/
 	private Result<ListReplyScore> pageResult; // 评阅审查分页
+	private Result<MaterialInfo> pageResults; // 评阅审查分页
 	private List<ListReplyScore> replyScoreList = new ArrayList<ListReplyScore>(); // 论文信息列表（用于查询全部）
-	
+	private List<SysIssueType> issueTypeList = new ArrayList<SysIssueType>();
 	/************************** 基础变量声明 **************/
 	private Integer thisId;
 	private String mark;
@@ -135,19 +145,82 @@ public class ReplyScoreAction extends BaseAction implements
 	 */
 	public String list() {
 
-		logger.info("查询列表："+model);
+		logger.info("查询个人分页查询评阅审查信息列表："+model);
 
 		try {
 			/* 登录名称 :查询学院 */
 			String loginName = (String) getSession().getAttribute(SystemContext.LOGINNAME);
 			/* 用户类型：1-学生 2-老师 */
-			String userType = (String) getSession().getAttribute(SystemContext.USERTYPE);
+			String type = (String) getSession().getAttribute(SystemContext.USERTYPE);
 
-			pageResult = replyScoreSerivce.find(model, getPage(), getRow());
+//			pageResult = replyScoreSerivce.find(model, getPage(), getRow());
 
 			logger.info("pageResult : "+pageResult);
 
-			footer = PageUtil.pageFooter(pageResult, getRequest());
+//			footer = PageUtil.pageFooter(pageResult, getRequest());
+
+			/////////////////////////////////////////////////////////////
+			if (flag != null && "12".equals(flag)) {
+				// 查询 当前老师所属专业教研室 中的进度计划
+				if ("2".equals(type)) {
+					teacherVO = sysTeacherService.findByTeacherNo(loginName);
+					planProgress = planProgressSerivce.findByTeacStaffroomId(teacher.getStaffroomId(), flag);
+				}
+				Timestamp d = new Timestamp(System.currentTimeMillis());
+				if (d.after(planProgress.getStartTime())) {
+					logger.info("老师查询所在组已分配评阅的学生信息");
+					try {
+						// 老师查询学生课题信息
+						if (type.equals("2")) {
+							teacherVO = sysTeacherService.findByTeacherNo(loginName);
+
+							// 设置年度
+							if (thisYear != null) {
+								model.setYear(thisYear);
+							} else {
+								planYear = planYearSerivce.findPlanYear();
+								model.setYear(planYear.getYear());
+							}
+							//课题类型
+							issueTypeList = sysIssueTypeService.findAll(SysIssueType.class);
+
+							List<ListGroupTeacher> gTeacherList = groupTeacherService.findByTeacherIdAndYear(teacher.getTeacherId(),
+									thisYear);
+							Integer groupAllotId = 0;
+							if (gTeacherList != null) {
+								for (int i = 0; i < gTeacherList.size(); i++) {
+									Integer gId = gTeacherList.get(i).getGroupAllotId();
+									GroupAllot gAllot = groupAllotService.findById(gId);
+									if (thisReplyType.equals(gAllot.getGroupType())) { // 赛选大组ID
+										groupAllotId = gId;
+										break;
+									}
+								}
+							}
+							//老师查询所在组的学生信息
+							pageResults = materialInfoSerivce.findGroupStudent(groupAllotId,model.getYear(), getPage(), getRow());
+
+
+							footer = PageUtil.pageFooter(pageResults, getRequest());
+							//指导老师查询自己所在教研室进度计划信息
+							if(teacher.getStaffroomId()==null) {
+								teacher.setStaffroomId(-1);
+							}
+							planProgressList = planProgressSerivce.findByMajorAndYear(teacher.getStaffroomId(),model.getYear());
+
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					return SUCCESS;
+
+				} else {
+					return "view";
+				}
+			}else {
+				return SUCCESS;
+			}
+			/////////////////////////////////////////////////////////////
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -225,18 +298,19 @@ public class ReplyScoreAction extends BaseAction implements
 							int replyScoreFinish = (int) (readScore+checkScore+guideScore+replyScore);
 							model.setReplyScoreFinish(replyScoreFinish);
 							System.out.println("最终成绩："+replyScoreFinish);
-						    if(replyScoreFinish<60)
-							    model.setGrade("不及格"); 
-						    else if(replyScoreFinish<60)
-							    model.setGrade("不及格"); 
-						    else if(replyScoreFinish>=60&&replyScoreFinish<69)
-							    model.setGrade("及格"); 
-						    else if(replyScoreFinish>=70&&replyScoreFinish<79)
-							    model.setGrade("中"); 
-						    else if(replyScoreFinish>=80&&replyScoreFinish<90)
-							    model.setGrade("良"); 
-						    else if(replyScoreFinish>=90)
-							    model.setGrade("优"); 
+						    if(replyScoreFinish<60) {
+								model.setGrade("不及格");
+							} else if(replyScoreFinish<60) {
+								model.setGrade("不及格");
+							} else if(replyScoreFinish>=60&&replyScoreFinish<69) {
+								model.setGrade("及格");
+							} else if(replyScoreFinish>=70&&replyScoreFinish<79) {
+								model.setGrade("中");
+							} else if(replyScoreFinish>=80&&replyScoreFinish<90) {
+								model.setGrade("良");
+							} else if(replyScoreFinish>=90) {
+								model.setGrade("优");
+							}
 						    System.out.println(model.getGrade());
 						    if(replyScoreList != null){
 						    	System.out.println("更新");
@@ -275,18 +349,15 @@ public class ReplyScoreAction extends BaseAction implements
 				// 查询学生信息
 				student = sysStudentService.findViewModelById(thisStuId);
 				// 查询课题信息
-				issueInfo = issueInfoSerivce.findByStuIdAndYear(thisStuId,
-						thisYear);
+				issueInfo = issueInfoSerivce.findByStuIdAndYear(thisStuId, thisYear);
 				// 查询指导老师信息
-				AllotGuide aGuide = allotGuideService.findByStuIdAndYear(
-						thisStuId, thisYear);
+				AllotGuide aGuide = allotGuideService.findByStuIdAndYear(thisStuId, thisYear);
 				teacher = sysTeacherService.findById(aGuide.getTeacherId());
 				// 查询分组老师信息
-				ListGroupStudent groupStudent = groupStudentService
-						.findByStuIdAndYear(thisStuId, thisYear);
-				if (groupStudent != null)
-					groupAllot = groupAllotService
-							.findViewModelById(groupStudent.getGroupAllotId());
+				ListGroupStudent groupStudent = groupStudentService.findByStuIdAndYear(thisStuId, thisYear);
+				if (groupStudent != null) {
+					groupAllot = groupAllotService.findViewModelById(groupStudent.getGroupAllotId());
+				}
 			}
 
 			// 评阅审查表类型：00 指导老师评阅 01评阅人评阅 02指导老师审查
@@ -652,5 +723,51 @@ public class ReplyScoreAction extends BaseAction implements
 		this.thisReplyLink = thisReplyLink;
 	}
 
-	
+	public ListTeacher getTeacherVO() {
+		return teacherVO;
+	}
+
+	public void setTeacherVO(ListTeacher teacherVO) {
+		this.teacherVO = teacherVO;
+	}
+
+	public PlanProgress getPlanProgress() {
+		return planProgress;
+	}
+
+	public void setPlanProgress(PlanProgress planProgress) {
+		this.planProgress = planProgress;
+	}
+
+	public List<ListPlanProgress> getPlanProgressList() {
+		return planProgressList;
+	}
+
+	public void setPlanProgressList(List<ListPlanProgress> planProgressList) {
+		this.planProgressList = planProgressList;
+	}
+
+	public ListTeacher getlTeacher() {
+		return lTeacher;
+	}
+
+	public Result<MaterialInfo> getPageResults() {
+		return pageResults;
+	}
+
+	public void setPageResults(Result<MaterialInfo> pageResults) {
+		this.pageResults = pageResults;
+	}
+
+	public void setlTeacher(ListTeacher lTeacher) {
+		this.lTeacher = lTeacher;
+	}
+
+	public List<SysIssueType> getIssueTypeList() {
+		return issueTypeList;
+	}
+
+	public void setIssueTypeList(List<SysIssueType> issueTypeList) {
+		this.issueTypeList = issueTypeList;
+	}
 }

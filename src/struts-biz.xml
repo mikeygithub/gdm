@@ -163,7 +163,7 @@
                <param name="namespace">/sys</param>
 			     <param name="encode">true</param>
 			</result>
-		</action>	
+		</action>
 		
 		<!-- 分组管理 -->
 		<action name="Group*_*"
