@@ -186,7 +186,7 @@ td {
 								  <td align="center"></td>
 								 </tr>
 								 <tr >
-								 <td class="rightText">评语:</td></tr>
+								 <td class="rightText" colspan="4">评语:</td></tr>
 								<tr style="height 100px">
 									<td colspan="10"><textarea rows="" cols=""
 											name="model.replyLink" id="model.replyLink"
