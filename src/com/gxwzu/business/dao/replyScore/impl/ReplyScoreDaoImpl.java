@@ -67,11 +67,12 @@ public class ReplyScoreDaoImpl extends BaseDaoImpl<ReplyScore>implements IReplyS
 
 
 	@Override
-	public void updateByStuId(Integer stuId, int replyScoreFinish, String grade,float replyScore) {
+	public void updateByStuId(Integer stuId,String replyLink, int replyScoreFinish, String grade,float replyScore) {
 		List<Object> params = new ArrayList<Object>();
 		if(stuId != null && !"".equals(stuId)){
-			String updateString = "update ReplyScore set replyScoreFinish = ? , grade = ? , replyScore = ? where  stuId = ?";
+			String updateString = "update ReplyScore set replyScoreFinish = ? , replyLink = ? , grade = ? , replyScore = ? where  stuId = ?";
 			params.add(replyScoreFinish);
+			params.add(replyLink);
 			params.add(grade);
 			params.add(replyScore);
 			params.add(stuId);

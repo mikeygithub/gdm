@@ -198,8 +198,8 @@ public class ReplyScoreServiceImpl extends BaseServiceImpl<ReplyScore> implement
 	}
 
 	@Override
-	public void updateByStuId(Integer stuId, int replyScoreFinish, String grade, float replyScore) {
-	    replyScoreDao.updateByStuId(stuId,replyScoreFinish,grade,  replyScore);
+	public void updateByStuId(Integer stuId,String replyLink, int replyScoreFinish, String grade, float replyScore) {
+	    replyScoreDao.updateByStuId(stuId,replyLink,replyScoreFinish,grade,  replyScore);
 	}
 
 	@Override

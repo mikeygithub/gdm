@@ -24,7 +24,7 @@ public interface IReplyScoreSerivce extends BaseService<ReplyScore> {
 
 	public ListReplyScore findByStudentIdAndYear(Integer stuId, Integer year);
 
-	public void updateByStuId(Integer stuId, int replyScoreFinish, String grade, float replyScore);
+	public void updateByStuId(Integer stuId,String replyLink, int replyScoreFinish, String grade, float replyScore);
 
 	public ReplyScore findExcellentStudntBySudentReplyType(int replyScoreFinish, String replyType);
 

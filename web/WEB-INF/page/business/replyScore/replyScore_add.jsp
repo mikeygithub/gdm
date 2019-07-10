@@ -126,12 +126,13 @@ td {
 		<fieldset class="layui-elem-field">
 				<legend>梧州学院本科生毕业论文答辩成绩及评语表</legend>
 			<div class="layui-field-box">
-				<input type="hidden" name="thisId"value="${listReplyScore.replyId }">
+
 				<form action="<%=path%>/biz/replyScore_add.action?view=detail"
 					method="post" name="form1" id="form1">
 					<input name="thisStuId" type="hidden" value="${thisStuId }">
-						<input type="hidden"   name="thisReplyType" value="${thisReplyType }">
+					<input type="hidden"   name="thisReplyType" value="${thisReplyType }">
 					<input type="hidden" name="thisYear" value="${thisYear }">
+					<input type="hidden" name="replyId"value="${listReplyScore.replyId }">
 					<ul>
 						<li>
 							<table border="10" cellspacing="0" cellpadding="0" width="980px">
@@ -180,14 +181,14 @@ td {
 								  <input class="dfinput" style="width: 50px"
 								   min="0" name="thisScore" 
 								  max="100" id="thisScore"
-									 value="${score }"  type="number">
+									 value="${listReplyScore.replyScore}"  type="number">
 								  </td>
 								 </tr>
 								<tr class="title">
 								  <td class="rightText">等级</td>
 								  <td  align="center">${listReplyScore.grade}</td>
 								  <td  class="rightText">最终成绩：</td>
-									<s:property value="listReplyScore.replyScoreFinish"></s:property>
+									${listReplyScore.replyScoreFinish}
 								  <td align="center"></td>
 								 </tr>
 								 <tr align="center">

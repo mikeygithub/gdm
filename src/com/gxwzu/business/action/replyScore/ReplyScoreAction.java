@@ -254,17 +254,15 @@ public class ReplyScoreAction extends BaseAction implements
      * @return
      */
     public String add() {
-        String loginName = (String) getSession().getAttribute(
-                SystemContext.LOGINNAME);
-        String type = (String) getSession()
-                .getAttribute(SystemContext.USERTYPE);
+        String loginName = (String) getSession().getAttribute(SystemContext.LOGINNAME);
+        String type = (String) getSession().getAttribute(SystemContext.USERTYPE);
         ResponeJson rJson = new ResponeJson();
         System.out.println(thisReplyType + "," + thisStuId + "," + thisYear + "," + thisScore);
         /************************** 查询教研室信息 *********************************************/
         try {
             logger.info(thisStuId + "" + thisYear + "" + thisReplyType);
             ListReplyScore replyScoreList = replyScoreSerivce.findByStudentIdAndYear(thisStuId, thisYear);
-            System.out.println(replyScoreList + "==============");
+
             if (thisStuId != null && thisYear != null && thisReplyType != null) {
                 model.setYear(thisYear);
                 // 添加信息
@@ -316,8 +314,14 @@ public class ReplyScoreAction extends BaseAction implements
                     System.out.println(model.getGrade());
                 }
                 if (replyScoreList != null) {
-                    System.out.println("更新");
-                    replyScoreSerivce.updateByStuId(thisStuId, model.getReplyScoreFinish(), model.getGrade(), Float.parseFloat(thisScore));
+                    logger.info("更新"+model);
+                    if (model.getReplyScoreFinish()==null){
+                        model.setReplyScoreFinish(0);
+                    }
+                    if (model.getGrade()==null){
+                        model.setGrade("请先评分");
+                    }
+                    replyScoreSerivce.updateByStuId(thisStuId,model.getReplyLink(), model.getReplyScoreFinish(), model.getGrade(), Float.parseFloat(thisScore));
 
                 } else {
                     System.out.println("保存");
@@ -329,10 +333,10 @@ public class ReplyScoreAction extends BaseAction implements
                 rJson.setObj(model);
                 rJson.setSuccess(false);
             }
-            PrintWriter out = getResponse().getWriter();
-            out.print(new Gson().toJson(rJson));
-            out.flush();
-            out.close();
+//            PrintWriter out = getResponse().getWriter();
+//            out.print(new Gson().toJson(rJson));
+//            out.flush();
+//            out.close();
         } catch (Exception e) {
             e.printStackTrace();
             mark = "0";
@@ -389,7 +393,7 @@ public class ReplyScoreAction extends BaseAction implements
             // 评阅老师评阅评分 88分×20%= 17.6
             ListReview reviewRead = reviewSerivce.findByStuIdAndReviewTypeAndYear(thisStuId, "01", thisYear);
             if (reviewRead != null) {
-                readScore = (float) (reviewGuide.getTotalScore() * 0.2);
+                readScore = (float) (reviewRead.getTotalScore() * 0.2);
                 replyScore.setReadScore(readScore);
             }
 
