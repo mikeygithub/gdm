@@ -110,7 +110,7 @@ public class ReplyScoreServiceImpl extends BaseServiceImpl<ReplyScore> implement
 				newModel.setStuId(m.getStuId());
 				newModel.setReplyType(m.getReplyType());
 				newModel.setGrade(m.getGrade());
-				newModel.setReplyScoreFinish(m.getReplyScoreFinish());
+				newModel.setReplyScoreFinish(m.getReplyScoreFinish()!=null?m.getReplyScoreFinish():0);
 				newModel.setReplyScore(m.getReplyScore());
 				newModel.setYear(m.getYear());
 				newModel.setReplyLink(m.getReplyLink());

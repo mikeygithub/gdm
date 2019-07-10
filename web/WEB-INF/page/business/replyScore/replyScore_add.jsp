@@ -126,6 +126,7 @@ td {
 		<fieldset class="layui-elem-field">
 				<legend>梧州学院本科生毕业论文答辩成绩及评语表</legend>
 			<div class="layui-field-box">
+				<input type="hidden" name="thisId"value="${listReplyScore.replyId }">
 				<form action="<%=path%>/biz/replyScore_add.action?view=detail"
 					method="post" name="form1" id="form1">
 					<input name="thisStuId" type="hidden" value="${thisStuId }">
@@ -136,7 +137,7 @@ td {
 							<table border="10" cellspacing="0" cellpadding="0" width="980px">
 								<tr class="title">
 									<td class="rightText">题目：</td>
-									<td colspan="10">${issueInfo.issueName }</td>
+									<td colspan="10" align="center" style="text-align: center">${issueInfo.issueName }</td>
 								</tr>
 								<tr class="title">
 									<td class="rightText">学院：</td>
@@ -157,9 +158,12 @@ td {
 								<tr class="title">
 								  <td  class="rightText">答辩小组名单：</td>
 									<td colspan="3">
-									  ${groupAllot.groupLeader.teacherName }
-								   &nbsp;${groupAllot.recordKeeper.teacherName }
-								    &nbsp;${groupAllot.normalTeacher.teacherName }
+									  <%--${groupAllot.groupLeader.teacherName }--%>
+								   <%--&nbsp;${groupAllot.recordKeeper.teacherName }--%>
+								    <%--&nbsp;${groupAllot.normalTeacher.teacherName }--%>
+										<s:iterator value="groupTeachers" id="gt">
+											<s:property value="teacherName"></s:property>
+										</s:iterator>
 									</td>
 								</tr>
 								<tr class="title">
@@ -181,16 +185,17 @@ td {
 								 </tr>
 								<tr class="title">
 								  <td class="rightText">等级</td>
-								  <td  align="center"></td>
+								  <td  align="center">${listReplyScore.grade}</td>
 								  <td  class="rightText">最终成绩：</td>
+									<s:property value="listReplyScore.replyScoreFinish"></s:property>
 								  <td align="center"></td>
 								 </tr>
-								 <tr >
-								 <td class="rightText" colspan="4">评语:</td></tr>
+								 <tr align="center">
+								 <td colspan="4" align="center">评语</td></tr>
 								<tr style="height 100px">
 									<td colspan="10"><textarea rows="" cols=""
 											name="model.replyLink" id="model.replyLink"
-											style="min-height: 100px;width: 100%">${review.reviewContent }</textarea></td>
+											style="min-height: 100px;width: 100%">${listReplyScore.replyLink }</textarea></td>
 								</tr>
 							</table>
 						<li>

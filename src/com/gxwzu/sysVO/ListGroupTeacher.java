@@ -242,4 +242,41 @@ public class ListGroupTeacher extends ListTeacher implements java.io.Serializabl
 		this.teacherMajorList = teacherMajorList;
 	}
 
+	@Override
+	public String toString() {
+		return "ListGroupTeacher{" +
+				"id=" + id +
+				", groupAllotId=" + groupAllotId +
+				", groupName='" + groupName + '\'' +
+				", type='" + type + '\'' +
+				", year=" + year +
+				", groupType='" + groupType + '\'' +
+				", teacherMajorList=" + teacherMajorList +
+				", teacherId=" + teacherId +
+				", teacherNo='" + teacherNo + '\'' +
+				", teacherName='" + teacherName + '\'' +
+				", deptNumber='" + deptNumber + '\'' +
+				", categoryId=" + categoryId +
+				", staffroomId=" + staffroomId +
+				", technicalId=" + technicalId +
+				", dutiesNo='" + dutiesNo + '\'' +
+				", userId=" + userId +
+				", deptName='" + deptName + '\'' +
+				", categoryName='" + categoryName + '\'' +
+				", staffName='" + staffName + '\'' +
+				", technicalName='" + technicalName + '\'' +
+				", dutiesName='" + dutiesName + '\'' +
+				", userName='" + userName + '\'' +
+				", loginName='" + loginName + '\'' +
+				", password='" + password + '\'' +
+				", userType='" + userType + '\'' +
+				", userSex='" + userSex + '\'' +
+				", userAge='" + userAge + '\'' +
+				", userTel='" + userTel + '\'' +
+				", userEmail='" + userEmail + '\'' +
+				", userImg='" + userImg + '\'' +
+				", opTime=" + opTime +
+				", sign='" + sign + '\'' +
+				'}';
+	}
 }

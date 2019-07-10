@@ -95,7 +95,7 @@ public class GroupTeacherDaoImpl extends BaseDaoImpl<GroupTeacher> implements
 		}
 		
 		queryString
-		.append(" ORDER BY category_name is not null and category_name!='' desc,convert(category_name using gbk)  ASC");
+		.append(" ORDER BY category_name is not null and category_name !='' desc,convert(category_name using gbk)  ASC");
 		
 		return (Result<Object>) super.findBySQL(queryString.toString(),
 				params.toArray(), start, limit);

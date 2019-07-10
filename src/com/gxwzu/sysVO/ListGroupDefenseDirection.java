@@ -100,6 +100,16 @@ public class ListGroupDefenseDirection implements java.io.Serializable {
 	}
 
 
-	
-	
+	@Override
+	public String toString() {
+		return "ListGroupDefenseDirection{" +
+				"id=" + id +
+				", groupAllotId=" + groupAllotId +
+				", majorId=" + majorId +
+				", year=" + year +
+				", majorName='" + majorName + '\'' +
+				", staffName='" + staffName + '\'' +
+				", majorNum='" + majorNum + '\'' +
+				'}';
+	}
 }

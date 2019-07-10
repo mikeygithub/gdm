@@ -51,8 +51,7 @@ public interface IGroupStudentService extends BaseService<GroupStudent>{
 	 * @param page 
 	 * @return
 	 */
-	Result<ListGroupStudent> findByGroupAllotIdAndYear(Integer groupAllotId,
-			Integer year, int page, int size);
+	Result<ListGroupStudent> findByGroupAllotIdAndYear(Integer groupAllotId, Integer year, int page, int size);
 	
 	/**
 	 * 查询分组已分配评阅的学生信息 通过组Id 老师Id 可年度
@@ -62,9 +61,7 @@ public interface IGroupStudentService extends BaseService<GroupStudent>{
 	 * @param page 
 	 * @return
 	 */
-	Result<ListGroupStudent> findByGroupAllotIdAndDefenseTeacherIdAndYear(
-			Integer groupAllotId, Integer teacherId, Integer year, int page,
-			int size);
+	Result<ListGroupStudent> findByGroupAllotIdAndDefenseTeacherIdAndYear(Integer groupAllotId, Integer teacherId, Integer year, int page, int size);
 
 	/**
 	 * 自动更新分组分配指导老师

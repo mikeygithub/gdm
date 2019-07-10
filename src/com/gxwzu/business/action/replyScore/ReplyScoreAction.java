@@ -86,6 +86,8 @@ public class ReplyScoreAction extends BaseAction implements
     @Autowired
     private IGroupStudentService groupStudentService; // 分组学生接口
     @Autowired
+    private IGroupTeacherService getGroupTeacherService;//教师分组接口
+    @Autowired
     private IReviewSerivce reviewSerivce; // 评阅审查接口
     @Autowired
     private IPlanYearSerivce planYearSerivce; // 年度计划接口
@@ -108,6 +110,8 @@ public class ReplyScoreAction extends BaseAction implements
     private PlanProgress planProgress = new PlanProgress();//进度计划实体
     private List<ListPlanProgress> planProgressList = new ArrayList<>();
     private ListTeacher lTeacher = new ListTeacher(); // 老师实体
+    private List<ListGroupTeacher> groupTeachers;//
+    private ListReplyScore listReplyScore;//成绩及评阅
     /******************** 集合变量声明 *********************/
     private Result<ListReplyScore> pageResult; // 评阅审查分页
     private Result<MaterialInfo> pageResults; // 评阅审查分页
@@ -267,7 +271,7 @@ public class ReplyScoreAction extends BaseAction implements
                 model.setStuId(thisStuId);
                 model.setYear(thisYear);
                 model.setReplyType(thisReplyType);
-                model.setReplyLink(thisReplyLink);
+//                model.setReplyLink(thisReplyLink);
                 // 90分×25%=22.8
                 model.setReplyScore(Float.parseFloat(thisScore));
                 Float replyScore = (float) (Float.parseFloat(thisScore) * 0.25);
@@ -291,27 +295,29 @@ public class ReplyScoreAction extends BaseAction implements
                     readScore = (float) (reviewGuide.getTotalScore() * 0.2);
                 }
                 //优”（90分以上）；“良”（80～89）；“中”（70～79）；“及格”（60～69）；“不及格”（60以下）
-                System.out.println(readScore + "," + checkScore + "," + guideScore + "," + replyScore);
-                int replyScoreFinish = (int) (readScore + checkScore + guideScore + replyScore);
-                model.setReplyScoreFinish(replyScoreFinish);
-                System.out.println("最终成绩：" + replyScoreFinish);
-                if (replyScoreFinish < 60) {
-                    model.setGrade("不及格");
-                } else if (replyScoreFinish < 60) {
-                    model.setGrade("不及格");
-                } else if (replyScoreFinish >= 60 && replyScoreFinish < 69) {
-                    model.setGrade("及格");
-                } else if (replyScoreFinish >= 70 && replyScoreFinish < 79) {
-                    model.setGrade("中");
-                } else if (replyScoreFinish >= 80 && replyScoreFinish < 90) {
-                    model.setGrade("良");
-                } else if (replyScoreFinish >= 90) {
-                    model.setGrade("优");
+                if (replyScore!=null&&checkScore!=null&&guideScore!=null&&replyScore!=null) {
+                    System.out.println(readScore + "," + checkScore + "," + guideScore + "," + replyScore);
+                    int replyScoreFinish = (int) (readScore + checkScore + guideScore + replyScore);
+                    model.setReplyScoreFinish(replyScoreFinish);
+                    System.out.println("最终成绩：" + replyScoreFinish);
+                    if (replyScoreFinish < 60) {
+                        model.setGrade("不及格");
+                    } else if (replyScoreFinish < 60) {
+                        model.setGrade("不及格");
+                    } else if (replyScoreFinish >= 60 && replyScoreFinish < 69) {
+                        model.setGrade("及格");
+                    } else if (replyScoreFinish >= 70 && replyScoreFinish < 79) {
+                        model.setGrade("中");
+                    } else if (replyScoreFinish >= 80 && replyScoreFinish < 90) {
+                        model.setGrade("良");
+                    } else if (replyScoreFinish >= 90) {
+                        model.setGrade("优");
+                    }
+                    System.out.println(model.getGrade());
                 }
-                System.out.println(model.getGrade());
                 if (replyScoreList != null) {
                     System.out.println("更新");
-                    replyScoreSerivce.updateByStuId(thisStuId, replyScoreFinish, model.getGrade(), Float.parseFloat(thisScore));
+                    replyScoreSerivce.updateByStuId(thisStuId, model.getReplyScoreFinish(), model.getGrade(), Float.parseFloat(thisScore));
 
                 } else {
                     System.out.println("保存");
@@ -331,6 +337,7 @@ public class ReplyScoreAction extends BaseAction implements
             e.printStackTrace();
             mark = "0";
         }
+        mark = "1";
         return SUCCESS;
     }
 
@@ -340,9 +347,11 @@ public class ReplyScoreAction extends BaseAction implements
      * @return 学生信息 + 指导老师信息+ 课题
      */
     public String openAdd() {
-
         try {
             if (thisStuId != null && thisYear != null && thisReplyType != null) {
+
+                 listReplyScore = replyScoreSerivce.findByStuIdAndReplyTypeAndYear(thisStuId, thisReplyType, thisYear);
+
                 // 查询学生信息
                 student = sysStudentService.findViewModelById(thisStuId);
                 // 查询课题信息
@@ -353,31 +362,32 @@ public class ReplyScoreAction extends BaseAction implements
                 // 查询分组老师信息
                 ListGroupStudent groupStudent = groupStudentService.findByStuIdAndYear(thisStuId, thisYear);
                 if (groupStudent != null) {
+                    //查询学生所属答辩组
                     groupAllot = groupAllotService.findViewModelById(groupStudent.getGroupAllotId());
-                }
-            }
+                    //查询答辩小组老师
+                    ListGroupTeacher listGroupTeacher = new ListGroupTeacher();
+                    listGroupTeacher.setGroupAllotId(groupStudent.getGroupAllotId());
+                    groupTeachers = groupTeacherService.findByExample(listGroupTeacher);
 
+                    logger.info("分组老师信息：" + groupTeachers);
+                }
+
+            }
             // 评阅审查表类型：00 指导老师评阅 01评阅人评阅 02指导老师审查
             // 指导老师评阅评分 90分×45%=40.5
-            ListReview reviewGuide = reviewSerivce
-                    .findByStuIdAndReviewTypeAndYear(thisStuId, "00",
-                            thisYear);
+            ListReview reviewGuide = reviewSerivce.findByStuIdAndReviewTypeAndYear(thisStuId, "00", thisYear);
             if (reviewGuide != null) {
                 guideScore = (float) (reviewGuide.getTotalScore() * 0.45);
                 replyScore.setGuideScore(guideScore);
             }
             // 指导评阅审查评分 93分×10%= 9.3
-            ListReview reviewCheck = reviewSerivce
-                    .findByStuIdAndReviewTypeAndYear(thisStuId, "02",
-                            thisYear);
+            ListReview reviewCheck = reviewSerivce.findByStuIdAndReviewTypeAndYear(thisStuId, "02", thisYear);
             if (reviewCheck != null) {
                 checkScore = (float) (reviewGuide.getTotalScore() * 0.1);
                 replyScore.setCheckScore(checkScore);
             }
             // 评阅老师评阅评分 88分×20%= 17.6
-            ListReview reviewRead = reviewSerivce
-                    .findByStuIdAndReviewTypeAndYear(thisStuId, "01",
-                            thisYear);
+            ListReview reviewRead = reviewSerivce.findByStuIdAndReviewTypeAndYear(thisStuId, "01", thisYear);
             if (reviewRead != null) {
                 readScore = (float) (reviewGuide.getTotalScore() * 0.2);
                 replyScore.setReadScore(readScore);
@@ -392,7 +402,7 @@ public class ReplyScoreAction extends BaseAction implements
     /**
      * 打开修改评阅审查页面
      *
-     * @return 学生信息 + 指导老师信息+ 课题
+     * @return 学生信息 + 指导老师信息 + 课题
      */
     public String openEdit() {
         try {
@@ -770,5 +780,21 @@ public class ReplyScoreAction extends BaseAction implements
 
     public void setIssueTypeList(List<SysIssueType> issueTypeList) {
         this.issueTypeList = issueTypeList;
+    }
+
+    public List<ListGroupTeacher> getGroupTeachers() {
+        return groupTeachers;
+    }
+
+    public void setGroupTeachers(List<ListGroupTeacher> groupTeachers) {
+        this.groupTeachers = groupTeachers;
+    }
+
+    public ListReplyScore getListReplyScore() {
+        return listReplyScore;
+    }
+
+    public void setListReplyScore(ListReplyScore listReplyScore) {
+        this.listReplyScore = listReplyScore;
     }
 }

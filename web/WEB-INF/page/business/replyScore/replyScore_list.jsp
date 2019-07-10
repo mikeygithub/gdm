@@ -218,14 +218,14 @@
 
                 <td align="center" width="20%">
                     <a href="javascript:dialog('70%','90%','添加评阅信息','<%=path%>/biz/replyScore_openAdd.action?view=add&thisYear=${model.year}&thisReplyType=00&thisStuId=${student.stuId}','true', '5%', '15%');">
-                        <font color="blue"><img src="<%=path%>/images/t01.png" width="10px"/>&nbsp;添加</font>
+                        <font color="blue"><img src="<%=path%>/images/t01.png" width="10px"/>&nbsp;编辑</font>
                     </a>
-                    <a href="javascript:dialog('70%','90%','查看评阅信息','<%=path%>/biz/replyScore_info.action?view=detail&thisId=${student.stuId }','true', '5%', '15%');">
+                    <a href="javascript:dialog('70%','90%','查看评阅信息','<%=path%>/biz/replyScore_info.action?view=detail&thisYear=${model.year}&thisReplyType=00&thisStuId=${student.stuId }','true', '5%', '15%');">
                         <font color="blue"><img src="<%=path%>/images/eye_visible.png" width="10px"/>&nbsp;查看</font>
                     </a>
-                    <a href="javascript:dialog('70%','90%','修改评阅信息','<%=path%>/biz/replyScore_openEdit.action?view=edit&thisYear=${model.year}&thisStuId=${student.stuId }', 'true','20%');">
-                        <font color="blue"> <i class="layui-icon">&#xe642;</i>修改</font>
-                    </a>&nbsp;&nbsp;&nbsp;
+                    <!--<a href="javascript:dialog('70%','90%','修改评阅信息','<%=path%>/biz/replyScore_openEdit.action?view=edit&thisYear=${model.year}&thisStuId=${student.stuId }', 'true','20%');">-->
+                        <%--<font color="blue"> <i class="layui-icon">&#xe642;</i>修改</font>--%>
+                    <%--</a>&nbsp;&nbsp;&nbsp;--%>
                     <a href="javascript:void(0);" onclick="del(this,${groupId});">
                         <font color="red"> <i class="layui-icon">&#x1006;</i>删除</font></a>&nbsp;&nbsp;&nbsp;
                         <%--  <a href="<%=path%>/biz/taskBook_outTaskBook.action?thisId=${taskId }">

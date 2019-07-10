@@ -204,5 +204,23 @@ public class ListGroupAllot implements java.io.Serializable {
 		this.firstDefense = firstDefense;
 	}
 
-
+	@Override
+	public String toString() {
+		return "ListGroupAllot{" +
+				"groupId=" + groupId +
+				", deptNumber='" + deptNumber + '\'' +
+				", classRoomId=" + classRoomId +
+				", replyTime=" + replyTime +
+				", groupName='" + groupName + '\'' +
+				", groupType='" + groupType + '\'' +
+				", firstDefense='" + firstDefense + '\'' +
+				", year=" + year +
+				", deptName='" + deptName + '\'' +
+				", classroomName='" + classroomName + '\'' +
+				", teacherNum='" + teacherNum + '\'' +
+				", studentNum='" + studentNum + '\'' +
+				", teacherList=" + teacherList +
+				", directionList=" + directionList +
+				'}';
+	}
 }
