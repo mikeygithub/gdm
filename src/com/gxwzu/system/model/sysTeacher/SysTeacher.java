@@ -112,4 +112,18 @@ public class SysTeacher implements java.io.Serializable {
 		this.userId = userId;
 	}
 
+	@Override
+	public String toString() {
+		return "SysTeacher{" +
+				"teacherId=" + teacherId +
+				", teacherNo='" + teacherNo + '\'' +
+				", teacherName='" + teacherName + '\'' +
+				", deptNumber='" + deptNumber + '\'' +
+				", categoryId=" + categoryId +
+				", staffroomId=" + staffroomId +
+				", technicalId=" + technicalId +
+				", dutiesNo='" + dutiesNo + '\'' +
+				", userId=" + userId +
+				'}';
+	}
 }

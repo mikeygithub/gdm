@@ -363,6 +363,11 @@ public class TaskBookAction extends BaseAction implements ModelDriven<TaskBook> 
 				issueInfo = issueInfoSerivce.findByStuIdAndYear(model.getStuId(), model.getYear());
 				AllotGuide aGuide = allotGuideService.findByStuIdAndYear(thisStuId, thisYear);
 				teacher = sysTeacherService.findById(aGuide.getTeacherId());
+
+				logger.info("导出信息："+student.toString());
+				logger.info("导出信息："+model.toString());
+				logger.info("导出信息："+teacher.toString());
+
 				// ##################根据Word模板导出单个Word文档###################################################
 				Map<String, String> map = new HashMap<String, String>();
 
@@ -380,6 +385,8 @@ public class TaskBookAction extends BaseAction implements ModelDriven<TaskBook> 
 				map.put("planJob", model.getTaskPlanJob());
 				map.put("document", model.getTaskDocument());
 				map.put("teacherName",teacher.getTeacherName());
+
+				logger.info(map.toString());
 
 				WordUtils.exportWord(map, getTempletePath(), getFilePath());
 

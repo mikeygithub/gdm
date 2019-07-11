@@ -12,7 +12,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.gxwzu.business.model.group.GroupAllot;
+import com.gxwzu.business.service.group.IGroupAllotService;
+import com.gxwzu.business.service.group.IGroupTeacherService;
 import com.gxwzu.sysVO.*;
+import com.gxwzu.system.model.sysIssueType.SysIssueType;
+import com.gxwzu.system.service.sysIssueType.ISysIssueTypeService;
 import org.apache.commons.lang.xwork.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -64,6 +69,9 @@ public class DefenseRecordAction extends BaseAction implements ModelDriven<Defen
 	protected final Log logger = LogFactory.getLog(getClass());
 	/************************************实例化ModelDriven******************************************************/
 	private DefenseRecord model = new DefenseRecord();
+
+	private ListTeacher teacherVO = new ListTeacher(); // 老师实体
+
 	@Override
 	public DefenseRecord getModel() {
 		return model;
@@ -91,11 +99,17 @@ public class DefenseRecordAction extends BaseAction implements ModelDriven<Defen
 	@Autowired
 	private IIssueInfoSerivce issueInfoSerivce; // 课题接口
 	@Autowired
+	private ISysIssueTypeService sysIssueTypeService; // 课题类型接口
+	@Autowired
 	private ISysTechnicalService sysTechnicalService;
+	@Autowired
+	private IGroupTeacherService groupTeacherService; // 老师分组接口
 	@Autowired
 	private IMaterialInfoSerivce materialInfoSerivce; // 学生相关材料接口
 	@Autowired
 	private IPlanProgressSerivce planProgressSerivce; // 进度计划接口
+	@Autowired
+	private IGroupAllotService groupAllotService; // 分组接口
 	/*********************** 实体 ***************************/
 	private PlanYear planYear; // 年度计划实体
 	AllotGuide aGuide = new AllotGuide();//指导老师
@@ -109,12 +123,16 @@ public class DefenseRecordAction extends BaseAction implements ModelDriven<Defen
 	private MaterialInfo materialInfo = new MaterialInfo();
 	private PlanProgress planProgress = new PlanProgress();//进度计划实体
 	private ListTeacher lTeacher = new ListTeacher(); // 老师实体
+
 	/******************** 集合变量声明 *********************/
 	private Result<DefenseRecordVO> pageResult; // 答辩记录分页
+	private Result<MaterialInfo> pageResults; // 答辩记录分页
 	private List<SysDepartment> sysDepartmentList = new ArrayList<SysDepartment>(); // 院系信息列表（用于查询全部）
 	private List<SysMajor> sysMajorList = new ArrayList<SysMajor>();; // 专业信息列表（用于查询全部）
 	private List<SysClass> sysClassList = new ArrayList<SysClass>(); // 班级信息列表（用于查询全部）
 	private List<ListTeacher> sysTeacherList = new ArrayList<ListTeacher>(); // 老师信息列表（用于查询全部）
+	private List<SysIssueType> issueTypeList = new ArrayList<SysIssueType>();
+	private List<ListPlanProgress> planProgressList = new ArrayList<>();
 	/************************** 基础变量声明 **************/
 	private Integer thisId;
 	private String mark;
@@ -126,6 +144,8 @@ public class DefenseRecordAction extends BaseAction implements ModelDriven<Defen
 	private Integer thisYear;
 	private Integer thisStuId; // 学生Id
 	private String flag;
+
+	private String thisReplyType; // 类型：答辩类型： 00答辩小组 01系答辩委员会
 	/************************** 方法类 **************************************************************************************/
 	@Override
 	public String execute() throws Exception {
@@ -183,6 +203,119 @@ public class DefenseRecordAction extends BaseAction implements ModelDriven<Defen
 		}
 	}
 	/**
+	 * 当前教师所答辩学生过程记录列表
+	 * @return
+	 */
+	public String groupAllStudentList(){
+
+		logger.info("当前教师所答辩学生过程记录列表");
+
+		try {
+			/* 登录名称 :查询学院 */
+			String loginName = (String) getSession().getAttribute(SystemContext.LOGINNAME);
+			/* 用户类型：1-学生 2-老师 */
+			String type = (String) getSession().getAttribute(SystemContext.USERTYPE);
+
+			if (flag != null && "12".equals(flag)) {
+				// 查询 当前老师所属专业教研室 中的进度计划
+				if ("2".equals(type)) {
+					teacherVO = sysTeacherService.findByTeacherNo(loginName);
+					planProgress = planProgressSerivce.findByTeacStaffroomId(teacherVO.getStaffroomId(), flag);
+				}
+				Timestamp d = new Timestamp(System.currentTimeMillis());
+				if (d.after(planProgress.getStartTime())) {
+					logger.info("老师查询所在组已分配评阅的学生信息");
+
+					// 老师查询学生课题信息
+					if (type.equals("2")) {
+						teacherVO = sysTeacherService.findByTeacherNo(loginName);
+
+						// 设置年度
+						if (thisYear != null) {
+							model.setYear(thisYear);
+						} else {
+							planYear = planYearSerivce.findPlanYear();
+							model.setYear(planYear.getYear());
+						}
+						//课题类型
+						issueTypeList = sysIssueTypeService.findAll(SysIssueType.class);
+
+						List<ListGroupTeacher> gTeacherList = groupTeacherService.findByTeacherIdAndYear(teacherVO.getTeacherId(), thisYear);
+
+						Integer groupAllotId = 0;
+						if (gTeacherList != null) {
+							for (int i = 0; i < gTeacherList.size(); i++) {
+								Integer gId = gTeacherList.get(i).getGroupAllotId();
+								GroupAllot gAllot = groupAllotService.findById(gId);
+								if (thisReplyType.equals(gAllot.getGroupType())) { // 赛选大组ID
+									groupAllotId = gId;
+									break;
+								}
+							}
+						}
+						//老师查询所在组的学生信息
+						pageResults = materialInfoSerivce.findGroupStudent(groupAllotId, model.getYear(), getPage(), getRow());
+
+						footer = PageUtil.pageFooter(pageResults, getRequest());
+						//指导老师查询自己所在教研室进度计划信息
+						if (teacher.getStaffroomId() == null) {
+							teacher.setStaffroomId(-1);
+						}
+						planProgressList = planProgressSerivce.findByMajorAndYear(teacher.getStaffroomId(), model.getYear());
+
+					}
+
+					return SUCCESS;
+
+				} else {
+					return "view";
+				}
+			} else {
+				return SUCCESS;
+			}
+			/////////////////////////////////////////////////////////////
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return SUCCESS;
+	}
+	//查询当前学生的所有答辩记录
+	public String findStudentAllDefenseRecordBy(){
+		String loginName = (String) getSession().getAttribute(SystemContext.LOGINNAME);
+		String type = (String) getSession().getAttribute(SystemContext.USERTYPE);
+
+	    logger.info("查询当前学生的所有答辩记录");
+		lTeacher = sysTeacherService.findByTeacherNo(loginName);
+		planProgress = planProgressSerivce.findByTeacStaffroomId(lTeacher.getStaffroomId(), flag);
+			Timestamp d = new Timestamp(System.currentTimeMillis());
+
+			if (d.after(planProgress.getStartTime())) {
+				try {
+					DefenseRecord defenseRecord = new DefenseRecord();
+
+					if (thisStuId != null) {
+						defenseRecord.setStuId(thisStuId);
+					}
+
+					if (thisYear!=null) {
+						defenseRecord.setYear(thisYear);
+					}
+
+						pageResult = defenseRecordService.find(defenseRecord, getPage(), getRow());
+
+						footer = PageUtil.pageFooter(pageResult, getRequest());
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				return SUCCESS;
+			} else {
+				return "view";
+			}
+	}
+	/**
 	 * 学生查询课题信息
 	 * 
 	 * @return
@@ -210,7 +343,6 @@ public class DefenseRecordAction extends BaseAction implements ModelDriven<Defen
 		}
 		return list();
 	}
-
 	/**
 	 * 打开添加答辩记录页面
 	 * 
@@ -262,7 +394,6 @@ public class DefenseRecordAction extends BaseAction implements ModelDriven<Defen
 			return null;
 		}
 	}
-
 	/**
 	 * 添加信息到数据库
 	 * 
@@ -429,7 +560,6 @@ public class DefenseRecordAction extends BaseAction implements ModelDriven<Defen
 	}
 	/**
 	 * 导出答辩记录
-	 * //TODO:待修复文件导出
 	 * @return
 	 */
 	public String outDefenseRecord() {
@@ -479,7 +609,6 @@ public class DefenseRecordAction extends BaseAction implements ModelDriven<Defen
 		}
 		return "out";
 	}
-
 	/**
 	 * 删除答辩记录信息
 	 * 
@@ -623,5 +752,92 @@ public class DefenseRecordAction extends BaseAction implements ModelDriven<Defen
 	public void setFlag(String flag) {
 		this.flag = flag;
 	}
-	
+
+	public ListTeacher getTeacherVO() {
+		return teacherVO;
+	}
+
+	public void setTeacherVO(ListTeacher teacherVO) {
+		this.teacherVO = teacherVO;
+	}
+
+	public AllotGuide getaGuide() {
+		return aGuide;
+	}
+
+	public void setaGuide(AllotGuide aGuide) {
+		this.aGuide = aGuide;
+	}
+
+	public SysClass getSysClass() {
+		return sysClass;
+	}
+
+	public void setSysClass(SysClass sysClass) {
+		this.sysClass = sysClass;
+	}
+
+	public MaterialInfo getMaterialInfo() {
+		return materialInfo;
+	}
+
+	public void setMaterialInfo(MaterialInfo materialInfo) {
+		this.materialInfo = materialInfo;
+	}
+
+	public PlanProgress getPlanProgress() {
+		return planProgress;
+	}
+
+	public void setPlanProgress(PlanProgress planProgress) {
+		this.planProgress = planProgress;
+	}
+
+	public ListTeacher getlTeacher() {
+		return lTeacher;
+	}
+
+	public void setlTeacher(ListTeacher lTeacher) {
+		this.lTeacher = lTeacher;
+	}
+
+	public Result<MaterialInfo> getPageResults() {
+		return pageResults;
+	}
+
+	public void setPageResults(Result<MaterialInfo> pageResults) {
+		this.pageResults = pageResults;
+	}
+
+	public List<SysClass> getSysClassList() {
+		return sysClassList;
+	}
+
+	public void setSysClassList(List<SysClass> sysClassList) {
+		this.sysClassList = sysClassList;
+	}
+
+	public List<SysIssueType> getIssueTypeList() {
+		return issueTypeList;
+	}
+
+	public void setIssueTypeList(List<SysIssueType> issueTypeList) {
+		this.issueTypeList = issueTypeList;
+	}
+
+	public List<ListPlanProgress> getPlanProgressList() {
+		return planProgressList;
+	}
+
+	public void setPlanProgressList(List<ListPlanProgress> planProgressList) {
+		this.planProgressList = planProgressList;
+	}
+
+	public String getThisReplyType() {
+		return thisReplyType;
+	}
+
+	public void setThisReplyType(String thisReplyType) {
+		this.thisReplyType = thisReplyType;
+	}
 }

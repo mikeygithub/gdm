@@ -263,6 +263,7 @@ public class UserHelpAction extends BaseAction {
 		logger.info("修改用户信息" + model.getId());
 		try {
 			if (null != model && model.getId() != null) {
+
 				UserHelp userHelp = userHelpService.findById(model.getId());
 
 				Set<SysRole> set = new HashSet<SysRole>();
@@ -283,7 +284,7 @@ public class UserHelpAction extends BaseAction {
 	 * @return
 	 */
 	public String editUserInfo() {
-		logger.info("修改用户信息");
+		logger.info("修改用户信息"+model.toString());
 		try {
 			if (null != model && model.getId() != null) {
 				UserHelp userHelp = userHelpService.findById(model.getId());
@@ -292,6 +293,13 @@ public class UserHelpAction extends BaseAction {
 				if (newPsd != null && isPsd.equals("1")) {
 					userHelp.setPassword(newPsd);
 				}
+				//性别
+				userHelp.setUserSex(model.getUserSex());
+				//电话
+				userHelp.setUserTel(model.getUserTel());
+				//邮箱
+				userHelp.setUserEmail(model.getUserEmail());
+
 				userHelpService.edit(userHelp);
 				mark = "1";
 			}

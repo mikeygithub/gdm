@@ -91,4 +91,17 @@ public class TaskBook implements java.io.Serializable {
 	public void setYear(Integer year) {
 		this.year = year;
 	}
+
+	@Override
+	public String toString() {
+		return "TaskBook{" +
+				"taskId=" + taskId +
+				", taskContent='" + taskContent + '\'' +
+				", taskPlanJob='" + taskPlanJob + '\'' +
+				", taskDocument='" + taskDocument + '\'' +
+				", stuId=" + stuId +
+				", teacherId=" + teacherId +
+				", year=" + year +
+				'}';
+	}
 }

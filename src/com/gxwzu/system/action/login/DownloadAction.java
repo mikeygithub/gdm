@@ -31,15 +31,19 @@ public class DownloadAction extends BaseAction {
 			
 			if (filePath != null) {
 				
-				if (fileName == null||"".equals(fileName)) fileName = filePath.substring(filePath.lastIndexOf("/"), filePath.length());
+				if (fileName == null||"".equals(fileName)) {
+					fileName = filePath.substring(filePath.lastIndexOf("/"), filePath.length());
+				}
 
-				logger.info("下载文件："+fileName);
+				logger.info("下载文件名："+fileName);
 
 				response = getResponse();
 
 				response.reset();
 				//设置相应类型application/octet-stream
-				response.setContentType("application/octet-stream;charset=ISO8859-1");
+//				response.setContentType("application/octet-stream;charset=ISO8859-1");
+//				response.setCharacterEncoding("utf-8");
+				response.setContentType("application/octet-stream;charset=ISO-8859-1");
 				//设置头信息
 				response.setHeader("Content-Disposition", "attachment;filename=\"" + fileName + "\"");
 
@@ -51,7 +55,9 @@ public class DownloadAction extends BaseAction {
 
 				InputStream iStream =  ServletActionContext.getServletContext().getResourceAsStream(filePath);
 
-				if(iStream!=null)fileLength = iStream.available();
+				if(iStream!=null) {
+					fileLength = iStream.available();
+				}
 			}
 		} catch (Exception e) {
 			fileLength = 0;

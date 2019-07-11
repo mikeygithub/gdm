@@ -81,21 +81,46 @@ public class WordUtils {
 
 		configuration.setDefaultEncoding("utf-8");
 
-		String templateFileName = templatePath.substring(templatePath.lastIndexOf("\\")+1, templatePath.length());
+		String templateFileName;
+		String tempPath;
+		//分隔符号
+		String sepa = java.io.File.separator;
 
-		String tempPath = templatePath.substring(0, templatePath.lastIndexOf("\\")+1);
-		//以下是两种指定ftl文件所在目录路径的方式, 注意这两种方式都是 指定ftl文件所在目录的路径,而不是ftl文件的路径
-		// 指定路径的第一种方式(根据某个类的相对路径指定)
-		// configuration.setClassForTemplateLoading(this.getClass(),"");
-		// 指定路径的第二种方式,我的路径是C:/a.ftl
+		switch (sepa){
+			case "\\":
+				//win平台
+				templateFileName = templatePath.substring(templatePath.lastIndexOf("\\")+1, templatePath.length());
+				tempPath = templatePath.substring(0, templatePath.lastIndexOf("\\")+1);
+				break;
+			case "/":
+				//linux平台
+				templateFileName = templatePath.substring(templatePath.lastIndexOf("/")+1, templatePath.length());
+				tempPath = templatePath.substring(0, templatePath.lastIndexOf("/")+1);
+				break;
+			default: //默认linux平台
+				templateFileName = templatePath.substring(templatePath.lastIndexOf("/")+1, templatePath.length());
+				tempPath = templatePath.substring(0, templatePath.lastIndexOf("/")+1);
+				break;
+		}
 
+		/*
+		 以下是两种指定ftl文件所在目录路径的方式, 注意这两种方式都是 指定ftl文件所在目录的路径,而不是ftl文件的路径
+		 指定路径的第一种方式(根据某个类的相对路径指定)
+		 configuration.setClassForTemplateLoading(this.getClass(),"");
+		 指定路径的第二种方式,我的路径是 C:/a.ftl
+		*/
 		configuration.setDirectoryForTemplateLoading(new File(tempPath));
+//		configuration.setDirectoryForTemplateLoading(new File("/home/mikey/MIKEY/毕设系统/gdm/classes/artifacts/gdm_war_exploded/templete/"));
 		// 输出文档路径及名称
 		File outFile = new File(outPath);
 		// 以utf-8的编码读取ftl文件
 		Template t = configuration.getTemplate(templateFileName, "utf-8");
+//		Template t = configuration.getTemplate("templeteTaskBook.mht", "utf-8");
+
 		Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outFile), "utf-8"), 10240);
+
 		t.process(dataMap, out);
+
 		out.close();
 	}
 
