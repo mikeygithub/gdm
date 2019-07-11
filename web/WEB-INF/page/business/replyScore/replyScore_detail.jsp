@@ -88,12 +88,101 @@ td {
 						</a></li>
 					</ul>
 				</div>
+					<%--<ul>--%>
+						<%--<li>--%>
+							<%--<table border="10" cellspacing="0" cellpadding="0" width="980px">--%>
+								<%--<tr class="title">--%>
+									<%--<td class="rightText">题目：</td>--%>
+									<%--<td colspan="10">${issueInfo.issueName }</td>--%>
+								<%--</tr>--%>
+								<%--<tr class="title">--%>
+									<%--<td class="rightText">学院：</td>--%>
+									<%--<td>${student.deptName }</td>--%>
+									<%--<td class="rightText">专业：</td>--%>
+									<%--<td>${student.majorName }</td>--%>
+								<%--</tr>--%>
+
+								<%--<tr class="title">--%>
+									<%--<td class="rightText">姓名：</td>--%>
+									<%--<td>${student.stuName }</td>--%>
+									<%--<td class="rightText">指导 老师：</td>--%>
+									<%--<td>${teacher.teacherName }</td>--%>
+								<%--</tr>--%>
+								<%--<tr class="title">--%>
+									<%--<td align="center" colspan="2">评分项目</td>--%>
+									<%--<td align="center">分值</td>--%>
+									<%--<td align="center">得分</td>--%>
+								<%--</tr>--%>
+								<%--<tr>--%>
+									<%--<s:iterator id="p" value="listScoreItemGroups">--%>
+										<%--<tr class="title">--%>
+											<%--<td align="center" rowspan="${totalCount }">${groupName }${groupPercent }</td>--%>
+											<%--<s:iterator id="ps" value="scoreItemList" status="sp">--%>
+												<%--<s:if test="#sp.count<=1">--%>
+													<%--<td>${itemName}</td>--%>
+													<%--<td align="center">${itemScore }</td>--%>
+													<%--<td align="center">--%>
+													<%--<s:iterator id="rp" value="review.reviewScoreList" >--%>
+													   <%--<s:if test="scoreItemId==#ps.scoreItemId">--%>
+													   <%--${score }--%>
+													   <%--</s:if>--%>
+													<%--</s:iterator>--%>
+													<%--</td>--%>
+												<%--</s:if>--%>
+											<%--</s:iterator>--%>
+										<%--</tr>--%>
+										<%--<s:iterator id="ps" value="scoreItemList" status="sp">--%>
+											<%--<s:if test="#sp.count>1">--%>
+												<%--<tr class="title">--%>
+													<%--<td>${itemName}</td>--%>
+													<%--<td align="center">${itemScore }</td>--%>
+													<%--<td align="center">--%>
+													<%--<s:iterator id="rp" value="review.reviewScoreList" >--%>
+													   <%--<s:if test="scoreItemId==#ps.scoreItemId">--%>
+													    <%--${score }--%>
+													   <%--</s:if>--%>
+													<%--</s:iterator>--%>
+													<%--</td>--%>
+												<%--</tr>--%>
+											<%--</s:if>--%>
+										<%--</s:iterator>--%>
+
+									<%--</s:iterator>--%>
+									<%----%>
+									<%--<tr class="title">--%>
+									<%--<td align="center" colspan="2">总得分</td>--%>
+									<%--<td align="center"></td>--%>
+									<%--<td align="center">${listReplyScore.replyScoreFinish }</td>--%>
+								<%--</tr>--%>
+								<%--<tr class="title">--%>
+									<%--<td align="left" >指导教师评语:</td>--%>
+									<%--<s:if test="thisReviewType!=02">--%>
+									<%--<td align="center" ></td>--%>
+									<%--<td align="center">是否进入答辩环节</td>--%>
+									<%--<td align="center">--%>
+									 <%--<s:if test="review.replyLink==00">否</s:if>--%>
+									<%--<s:if test="review.replyLink==01"> 是</s:if>--%>
+									<%--</td></s:if>--%>
+								<%--</tr>--%>
+								<%--<tr style="height: 100px" >--%>
+									<%--<td  colspan="10"><textarea rows="" cols=""  --%>
+									<%--name="model.reviewContent"--%>
+									<%--style="min-height: 100px;width: 100%">${listReplyScore.replyLink }</textarea></td>--%>
+								<%--</tr>--%>
+							<%--</table>--%>
+					<%--</ul>--%>
+				<%--////////////////////////////////////////--%>
+				<form action="<%=path%>/biz/replyScore_add.action?view=detail" method="post" name="form1" id="form1">
+					<input name="thisStuId" type="hidden" value="${thisStuId }">
+					<input type="hidden"   name="thisReplyType" value="${thisReplyType }">
+					<input type="hidden" name="thisYear" value="${thisYear }">
+					<input type="hidden" name="replyId"value="${listReplyScore.replyId }">
 					<ul>
 						<li>
 							<table border="10" cellspacing="0" cellpadding="0" width="980px">
 								<tr class="title">
 									<td class="rightText">题目：</td>
-									<td colspan="10">${issueInfo.issueName }</td>
+									<td colspan="10" align="center" style="text-align: center">${issueInfo.issueName }</td>
 								</tr>
 								<tr class="title">
 									<td class="rightText">学院：</td>
@@ -109,68 +198,58 @@ td {
 									<td>${teacher.teacherName }</td>
 								</tr>
 								<tr class="title">
-									<td align="center" colspan="2">评分项目</td>
-									<td align="center">分值</td>
-									<td align="center">得分</td>
-								</tr>
-								<tr>
-									<s:iterator id="p" value="listScoreItemGroups">
-										<tr class="title">
-											<td align="center" rowspan="${totalCount }">${groupName }${groupPercent }</td>
-											<s:iterator id="ps" value="scoreItemList" status="sp">
-												<s:if test="#sp.count<=1">
-													<td>${itemName}</td>
-													<td align="center">${itemScore }</td>
-													<td align="center">
-													<s:iterator id="rp" value="review.reviewScoreList" >
-													   <s:if test="scoreItemId==#ps.scoreItemId">
-													   ${score }
-													   </s:if>
-													</s:iterator>
-													</td>
-												</s:if>
-											</s:iterator>
-										</tr>
-										<s:iterator id="ps" value="scoreItemList" status="sp">
-											<s:if test="#sp.count>1">
-												<tr class="title">
-													<td>${itemName}</td>
-													<td align="center">${itemScore }</td>
-													<td align="center">
-													<s:iterator id="rp" value="review.reviewScoreList" >
-													   <s:if test="scoreItemId==#ps.scoreItemId">
-													    ${score }
-													   </s:if>
-													</s:iterator>
-													</td>
-												</tr>
-											</s:if>
-										</s:iterator>
-
-									</s:iterator>
-									
-									<tr class="title">
-									<td align="center" colspan="2">总得分</td>
-									<td align="center"></td>
-									<td align="center">${review.totalScore }</td>
+									<td align="center" colspan="4">答辩小组对毕业论文的答辩评定成绩及评语</td>
 								</tr>
 								<tr class="title">
-									<td align="left" >指导教师评语:</td>
-									<s:if test="thisReviewType!=02">
-									<td align="center" ></td>
-									<td align="center">是否进入答辩环节</td>
-									<td align="center">
-									 <s:if test="review.replyLink==00">否</s:if>
-									<s:if test="review.replyLink==01"> 是</s:if>
-									</td></s:if>
+									<td  class="rightText">答辩小组名单：</td>
+									<td colspan="3">
+										<%--${groupAllot.groupLeader.teacherName }--%>
+										<%--&nbsp;${groupAllot.recordKeeper.teacherName }--%>
+										<%--&nbsp;${groupAllot.normalTeacher.teacherName }--%>
+										<s:iterator value="groupTeachers" id="gt">
+											<s:property value="teacherName"></s:property>
+										</s:iterator>
+									</td>
 								</tr>
-								<tr style="height: 100px" >
-									<td  colspan="10"><textarea rows="" cols=""  
-									name="model.reviewContent"
-									style="min-height: 100px;width: 100%">${review.reviewContent }</textarea></td>
+								<tr class="title">
+									<td class="rightText">规范审查:</td>
+									<td  align="center">${checkScore }</td>
+									<td class="rightText">指导教师评阅打分:</td>
+									<td align="center" >${guideScore }</td>
+								</tr>
+								<tr class="title">
+									<td class="rightText">评阅人评阅打分:</td>
+									<td  align="center">${readScore }</td>
+									<td class="rightText">答辩成绩:</td>
+									<td  align="center">
+										${listReplyScore.replyScore}
+									</td>
+								</tr>
+								<tr class="title">
+									<td class="rightText">等级</td>
+									<td  align="center">${listReplyScore.grade}</td>
+									<td  class="rightText">最终成绩：</td>
+
+									<td align="center">${listReplyScore.replyScoreFinish}</td>
+								</tr>
+								<tr align="center">
+									<td colspan="4" align="center">评语</td></tr>
+								<tr style="height 100px">
+									<td colspan="10"><textarea rows="" cols=""
+															   readonly="readonly"
+															   name="model.replyLink" id="model.replyLink"
+															   style="min-height: 100px;width: 100%">${listReplyScore.replyLink }</textarea></td>
 								</tr>
 							</table>
+						<%--<li>--%>
+							<%--<div style="text-align: center;">--%>
+								<%--<input name="" id="submit" type="submit" class="scbtn"--%>
+									   <%--value="提交" onClick="getData();" />--%>
+							<%--</div>--%>
+						<%--</li>--%>
 					</ul>
+				</form>
+				<%--///////////////////////////////////////--%>
 				</form>
 			</div>
 		</fieldset>

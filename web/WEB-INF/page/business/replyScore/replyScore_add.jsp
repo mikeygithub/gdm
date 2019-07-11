@@ -188,8 +188,8 @@ td {
 								  <td class="rightText">等级</td>
 								  <td  align="center">${listReplyScore.grade}</td>
 								  <td  class="rightText">最终成绩：</td>
-									${listReplyScore.replyScoreFinish}
-								  <td align="center"></td>
+
+								  <td align="center">${listReplyScore.replyScoreFinish}</td>
 								 </tr>
 								 <tr align="center">
 								 <td colspan="4" align="center">评语</td></tr>

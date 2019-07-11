@@ -88,6 +88,36 @@
                 }
             }
         }
+        function del(year,stuId,type) {
+            layer.confirm('您确定删除评阅信息吗?', {icon: 3, title: '提示'}, function (index) {
+                layer.close(index);
+                var index = layer.load(1);
+                $.ajax({
+                    type: "post",
+                    cache: false,
+                    url: '<%=path%>/biz/replyScore_del.action',
+                    dataType: "json",
+                    data: {
+                        "thisStuId": stuId,
+                        "thisYear": year,
+                        "thisReplyType": '00',
+                    }, success: function (result) {
+                        layer.close(index);
+                        if (result) {
+                            layer.alert('删除成功', {icon: 1}, function () {
+                                location.reload();
+                            });
+                        } else {
+                            layer.msg('删除失败', {icon: 2});
+                        }
+                    },
+                    error: function (result) {
+                        layer.close(index);
+                        layer.msg('删除失败', {icon: 2});
+                    }
+                });
+            });
+        }
     </script>
     <style>
     </style>
@@ -226,7 +256,7 @@
                     <!--<a href="javascript:dialog('70%','90%','修改评阅信息','<%=path%>/biz/replyScore_openEdit.action?view=edit&thisYear=${model.year}&thisStuId=${student.stuId }', 'true','20%');">-->
                         <%--<font color="blue"> <i class="layui-icon">&#xe642;</i>修改</font>--%>
                     <%--</a>&nbsp;&nbsp;&nbsp;--%>
-                    <a href="javascript:void(0);" onclick="del(this,${groupId});">
+                    <a href="javascript:void(0);" onclick="del(${model.year},${student.stuId},'00');">
                         <font color="red"> <i class="layui-icon">&#x1006;</i>删除</font></a>&nbsp;&nbsp;&nbsp;
                         <%--  <a href="<%=path%>/biz/taskBook_outTaskBook.action?thisId=${taskId }">
                                   <font> <img src="<%=path%>/images/i01.png" width="20px" />导出

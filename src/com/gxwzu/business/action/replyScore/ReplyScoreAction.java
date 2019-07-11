@@ -237,15 +237,15 @@ public class ReplyScoreAction extends BaseAction implements
     public String info() {
         String loginName = (String) getSession().getAttribute(SystemContext.LOGINNAME);
         String type = (String) getSession().getAttribute(SystemContext.USERTYPE);
+
         if (type.equals("1")) {
             ListStudent s = sysStudentService.findByStuNo(loginName);
             model.setStuId(s.getStuId());
         }
 
 
-
         /************************** 查询学生信息 *********************************************/
-        return list();
+        return openAdd();
     }
 
     /**
@@ -284,16 +284,16 @@ public class ReplyScoreAction extends BaseAction implements
                 ListReview reviewCheck = reviewSerivce
                         .findByStuIdAndReviewTypeAndYear(thisStuId, "02", thisYear);
                 if (reviewCheck != null) {
-                    checkScore = (float) (reviewGuide.getTotalScore() * 0.1);
+                    checkScore = (float) (reviewCheck.getTotalScore() * 0.1);
                 }
                 // 评阅老师评阅评分 88分×20%= 17.6
                 ListReview reviewRead = reviewSerivce
                         .findByStuIdAndReviewTypeAndYear(thisStuId, "01", thisYear);
                 if (reviewRead != null) {
-                    readScore = (float) (reviewGuide.getTotalScore() * 0.2);
+                    readScore = (float) (reviewRead.getTotalScore() * 0.2);
                 }
                 //优”（90分以上）；“良”（80～89）；“中”（70～79）；“及格”（60～69）；“不及格”（60以下）
-                if (replyScore!=null&&checkScore!=null&&guideScore!=null&&replyScore!=null) {
+                if (replyScore != null && checkScore != null && guideScore != null && replyScore != null) {
                     System.out.println(readScore + "," + checkScore + "," + guideScore + "," + replyScore);
                     int replyScoreFinish = (int) (readScore + checkScore + guideScore + replyScore);
                     model.setReplyScoreFinish(replyScoreFinish);
@@ -314,14 +314,14 @@ public class ReplyScoreAction extends BaseAction implements
                     System.out.println(model.getGrade());
                 }
                 if (replyScoreList != null) {
-                    logger.info("更新"+model);
-                    if (model.getReplyScoreFinish()==null){
+                    logger.info("更新" + model);
+                    if (model.getReplyScoreFinish() == null) {
                         model.setReplyScoreFinish(0);
                     }
-                    if (model.getGrade()==null){
+                    if (model.getGrade() == null) {
                         model.setGrade("请先评分");
                     }
-                    replyScoreSerivce.updateByStuId(thisStuId,model.getReplyLink(), model.getReplyScoreFinish(), model.getGrade(), Float.parseFloat(thisScore));
+                    replyScoreSerivce.updateByStuId(thisStuId, model.getReplyLink(), model.getReplyScoreFinish(), model.getGrade(), Float.parseFloat(thisScore));
 
                 } else {
                     System.out.println("保存");
@@ -333,10 +333,6 @@ public class ReplyScoreAction extends BaseAction implements
                 rJson.setObj(model);
                 rJson.setSuccess(false);
             }
-//            PrintWriter out = getResponse().getWriter();
-//            out.print(new Gson().toJson(rJson));
-//            out.flush();
-//            out.close();
         } catch (Exception e) {
             e.printStackTrace();
             mark = "0";
@@ -354,7 +350,7 @@ public class ReplyScoreAction extends BaseAction implements
         try {
             if (thisStuId != null && thisYear != null && thisReplyType != null) {
 
-                 listReplyScore = replyScoreSerivce.findByStuIdAndReplyTypeAndYear(thisStuId, thisReplyType, thisYear);
+                listReplyScore = replyScoreSerivce.findByStuIdAndReplyTypeAndYear(thisStuId, thisReplyType, thisYear);
 
                 // 查询学生信息
                 student = sysStudentService.findViewModelById(thisStuId);
@@ -412,12 +408,12 @@ public class ReplyScoreAction extends BaseAction implements
         try {
             if (thisStuId != null && thisYear != null) {
                 // 查询评阅信息
-                if (thisReplyType != null&&!"".equals(thisReplyType)){
+                if (thisReplyType != null && !"".equals(thisReplyType)) {
                     model.setReplyType(thisReplyType);
                 }
                 model.setStuId(thisStuId);
                 model.setYear(thisYear);
-                replyScore = replyScoreSerivce.find(model,1,1).getData().get(0);
+                replyScore = replyScoreSerivce.find(model, 1, 1).getData().get(0);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -502,17 +498,30 @@ public class ReplyScoreAction extends BaseAction implements
         logger.info("删除信息");
         boolean isdel = false;
         try {
-            PrintWriter out = getResponse().getWriter();
-            if (thisId != null) {
-                replyScoreSerivce.del(thisId);
+            if (thisStuId != null && thisYear != null && thisReplyType != null) {
+                //查询
+                ListReplyScore byStuIdAndReplyTypeAndYear = replyScoreSerivce.findByStuIdAndReplyTypeAndYear(thisStuId, thisReplyType, thisYear);
+                //删除
+                replyScoreSerivce.del(byStuIdAndReplyTypeAndYear.getReplyId());
+                //删除标识
                 isdel = true;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            PrintWriter out = null;
+            try {
+                out = getResponse().getWriter();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
             out.print(isdel);
             out.flush();
             out.close();
-        } catch (Exception e) {
-            e.printStackTrace();
         }
+
+
     }
 
 
