@@ -3,7 +3,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>成绩录入</title>
+    <title>答辩过程记录</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link href="<%=path%>/css/style.css" rel="stylesheet" type="text/css"/>
     <link href="<%=path%>/css/newStyle.css" rel="stylesheet" type="text/css"/>
@@ -129,7 +129,7 @@
                 <td align="center"> ${model.year} </td>
 
                 <td align="center" width="10%">
-                    <a href="javascript:dialog('70%','90%','查看评阅信息','<%=path%>/biz/defenseRecord_findStudentAllDefenseRecordBy.action?view=list&thisYear=${model.year}&thisStuId=${student.stuId }','true', '5%', '15%');">
+                    <a href="javascript:dialog('70%','90%','查看答辩记录信息','<%=path%>/biz/defenseRecord_findStudentAllDefenseRecordBy.action?view=list&thisYear=${model.year}&thisStuId=${student.stuId }','true', '5%', '15%');">
                         <font color="blue"><img src="<%=path%>/images/eye_visible.png" width="10px"/>&nbsp;查看</font>
                     </a>
                     &nbsp;&nbsp;&nbsp;

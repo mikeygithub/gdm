@@ -39,9 +39,11 @@
         <form id="form1" name="form1"  action="<%=path%>/biz/defenseRecord_list.action?view=list&page=${pageResult.page}" method="post">
 			<%--<%@ include file="/WEB-INF/page/business/materialInfo/select_info_tab.jsp"%>--%>
 			<div class="place">
-		<ul class="placeul">
+				<%--<input name="thisStuId" type="hidden"  value="${thisStuId }">--%>
+				<%--<input type="hidden" name="thisYear" value="${thisYear }" >--%>
+				<ul class="placeul">
 					<li class="click">
-	        		<a href="<%=path%>/biz/defenseRecord_openAdd.action?view=add&flag=11" >
+	        		<a href="<%=path%>/biz/defenseRecord_openAdd.action?view=add&flag=11&thisStuId=${thisStuId }&thisYear=${thisYear }" >
 	        		<img src="<%=path%>/images/t01.png"  style="width: 16px;"/>添加</a>
 				</li>
 				

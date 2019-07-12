@@ -286,7 +286,8 @@ public class DefenseRecordAction extends BaseAction implements ModelDriven<Defen
 		String loginName = (String) getSession().getAttribute(SystemContext.LOGINNAME);
 		String type = (String) getSession().getAttribute(SystemContext.USERTYPE);
 
-	    logger.info("查询当前学生的所有答辩记录");
+	    logger.info("查询当前学生的所有答辩记录|thisStuId："+thisStuId+" thisYear: "+thisYear);
+
 		lTeacher = sysTeacherService.findByTeacherNo(loginName);
 		planProgress = planProgressSerivce.findByTeacStaffroomId(lTeacher.getStaffroomId(), flag);
 			Timestamp d = new Timestamp(System.currentTimeMillis());
