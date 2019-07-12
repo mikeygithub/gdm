@@ -152,8 +152,11 @@ public class ProgressSituAction extends BaseAction implements ModelDriven<Progre
 				thisStuId = sysStudentService.findByStuNo(loginName).getStuId();
 				model.setStuId(thisStuId);
 			}
+			if (thisStuId!=null){
+				model.setStuId(thisStuId);
+			}
 			materialInfo = materialInfoSerivce.findByStuIdAndYear(thisStuId,thisYear);
-			pageResult = progressSituSerivce.find(model, getPage(), getRow());		
+			pageResult = progressSituSerivce.find(model, getPage(), getRow());
 			footer = PageUtil.pageFooter(pageResult, getRequest());
 			return SUCCESS;
 }
@@ -175,7 +178,7 @@ public class ProgressSituAction extends BaseAction implements ModelDriven<Progre
 				model.setTeacherId(aGuide.getTeacherId());
 				model.setStuId(thisStuId);
 				model.setYear(thisYear);
-				model.setProgressTime(new  DateUtils().formatTime(new Date()));
+				model.setProgressTime(DateUtils.formatTime(new Date()));
 				
 			model = progressSituSerivce.add(model);
 			mark = "1";
