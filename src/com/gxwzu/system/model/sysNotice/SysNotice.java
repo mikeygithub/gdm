@@ -125,4 +125,19 @@ public class SysNotice implements java.io.Serializable {
 		this.year = year;
 	}
 
+	@Override
+	public String toString() {
+		return "SysNotice{" +
+				"noticeId=" + noticeId +
+				", noticeName='" + noticeName + '\'' +
+				", noticeContent='" + noticeContent + '\'' +
+				", noticeTime=" + noticeTime +
+				", userId=" + userId +
+				", noticePath='" + noticePath + '\'' +
+				", noticeType=" + noticeType +
+				", majorId=" + majorId +
+				", deptNumber=" + deptNumber +
+				", year=" + year +
+				'}';
+	}
 }

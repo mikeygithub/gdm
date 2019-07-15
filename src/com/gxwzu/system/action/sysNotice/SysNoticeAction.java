@@ -14,6 +14,8 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletResponse;
 
+import com.gxwzu.system.model.sysDepartment.SysDepartment;
+import com.gxwzu.system.service.sysDepartment.ISysDepartmentService;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.xwork.StringUtils;
 import org.apache.commons.logging.Log;
@@ -72,6 +74,7 @@ public class SysNoticeAction extends BaseAction implements ModelDriven<SysNotice
 	private ListTeacher teacher = new ListTeacher(); // 老师实体
 
 	
+	@Override
 	public SysNotice getModel() {
 		return model;
 	}
@@ -83,6 +86,8 @@ public class SysNoticeAction extends BaseAction implements ModelDriven<SysNotice
 	/*********************** Service接口注入 ***************************/
 	@Autowired
 	private ISysNoticeService sysNoticeService;   // 公告service
+	@Autowired
+	private ISysDepartmentService departmentService;
 	@Autowired
 	private ISysTeacherService sysTeacherService;//老师分配接口
 	@Autowired
@@ -100,6 +105,7 @@ public class SysNoticeAction extends BaseAction implements ModelDriven<SysNotice
 	private List<UserHelp> userHelpList = new ArrayList<UserHelp>(); //用户信息列表（用于查询全部）;               
 	private PlanYear planYear = new PlanYear(); // 计年度
 	private UserHelp userHelp = new UserHelp(); // 用户实体
+	private SysDepartment sysDepartment = new SysDepartment();//部门
 	
 	private Integer thisId;
 	private String thisIds; // 批量删除Ids
@@ -145,9 +151,22 @@ public class SysNoticeAction extends BaseAction implements ModelDriven<SysNotice
 	 * @return
 	 */
 	public String openNotice() {
+
 		logger.info("打开公告通知详情页面");
+
 		try {
-			// model = sysNoticeService.findById(model.getNoticeId());
+			 //通知
+			 model = sysNoticeService.findById(model.getNoticeId());
+
+			//查询部门
+			if (model.getDeptNumber()!=null) {
+				sysDepartment = departmentService.findById(model.getDeptNumber());
+			}else if (-2==model.getMajorId()){
+				sysDepartment.setDeptName("管理员");
+			}
+
+			 logger.info("公告："+model);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -368,5 +387,12 @@ public class SysNoticeAction extends BaseAction implements ModelDriven<SysNotice
 	public void setUserHelpList(List<UserHelp> userHelpList) {
 		this.userHelpList = userHelpList;
 	}
-	
+
+	public SysDepartment getSysDepartment() {
+		return sysDepartment;
+	}
+
+	public void setSysDepartment(SysDepartment sysDepartment) {
+		this.sysDepartment = sysDepartment;
+	}
 }

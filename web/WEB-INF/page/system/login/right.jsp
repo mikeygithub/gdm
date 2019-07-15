@@ -40,7 +40,10 @@ function openChat(thisId,type,chatType){
 }
 
 /*打开公告通知页面  */
-<%-- function openNotice(){
+function openNotice(noticeId){
+
+	// console.log("公告ID："+noticeId)
+
 	layer.open({
     	type: 2,
     	area: ['45%', '70%'],
@@ -48,10 +51,10 @@ function openChat(thisId,type,chatType){
     	fix: false, //不固定
 		title:false,
     	maxmin: true,
-    	content: '<%=path%>/sys/notice_openNotice.action?view=detail'
+    	content: '<%=path%>/sys/notice_openNotice.action?view=detail&model.noticeId='+noticeId
 	});
 	
-} --%>
+}
 </script>
 
 <style type="text/css">
@@ -245,7 +248,7 @@ $(function(){
 	
 	 $.each(result,function(index,con){
 	 
-		 var noticelist_li =  $('<li onclick="openNotice()" class="noli"></li>');
+		 var noticelist_li =  $('<li onclick="openNotice('+con.noticeId+')" class="noli"></li>');
 		 var noticelist_span =  $('<img src=\"<%=path%>/images/titleb.png \">');
 		 var noticelist_a =  $('<a id="noa">&nbsp;&nbsp;'+con.noticeName+'</a>');
 		 var noticelist_time =  $('<span id="notime" >'+Todate(con.noticeTime)+'</span>');//date.getFullYear()
@@ -257,6 +260,7 @@ $(function(){
 	 });
 	});
 	}
+
 	
 	/*群聊条数  */
 	function loadGroupChat(){

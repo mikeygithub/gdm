@@ -26,13 +26,15 @@
                         <tbody>
                             <tr>
                                 <td style="font-size: 14pt; font-weight: bold" align="center" valign="bottom" height="80">
-                                                                                                              关于信息与电子工程学院毕业设计的通知
+                                   ${model.noticeName}
+                                                                                                              <%--关于信息与电子工程学院毕业设计的通知--%>
                                     <hr size="1" width="96%">
                                 </td>
                             </tr>
                             <tr>
                                 <td align="center" style="font-size: 9pt" valign="top" height="36">
-                                                                                                             公告来源：学院通知&nbsp;&nbsp;发布日期：2017-09-29
+                                    <%--公告来源：学院通知&nbsp;&nbsp;发布日期：2017-09-29--%>
+                                    公告来源：${sysDepartment.deptName}&nbsp;&nbsp;发布日期：${model.noticeTime}
                                 </td>
                             </tr>
                             <tr>
@@ -41,7 +43,10 @@
                                     <p style="text-align:center;" align="center">&nbsp;</p>
                                     <p style="text-indent:33pt;">
                                         <span style="font-size:18px;font-family:宋体;line-height:2;">
-                                            <span style="font-size:18px;line-height:2;">全校师生员工：全校师生员工：全校师生员工：全校师生员工：全校师生员工：全校师生员工：全校师生员工：全校师生员工：全校师生员工：全校师生员工：全校师生员工：全校师生员工：全校师生员工：全校师生员工：</span>
+                                            <span style="font-size:18px;line-height:2;">
+                                                <%--全校师生员工：全校师生员工：全校师生员工：全校师生员工：全校师生员工：全校师生员工：全校师生员工：全校师生员工：全校师生员工：全校师生员工：全校师生员工：全校师生员工：全校师生员工：全校师生员工：--%>
+                                                ${model.noticeContent}
+                                            </span>
                                         </span>
                                     </p>
                                     
@@ -49,12 +54,16 @@
                                     <p style="text-indent:33pt;"></p>
                                     <p style="text-indent:465pt;">
                                         <span style="font-size:18px;font-family:宋体;line-height:2;">
-                                            <span style="font-size:18px;line-height:2;">学院通知</span>
+                                            <%--<span style="font-size:18px;line-height:2;">学院通知</span>--%>
+                                            <span style="font-size:18px;line-height:2;" >${sysDepartment.deptName}</span>
                                         </span>
                                     </p>
                                     <p style="text-indent:450pt;">
                                         <span style="font-size:26pt;font-family:宋体;">
-                                        <span style="font-size:18px;line-height:2;">2017年9月29日</span>
+                                        <span style="font-size:18px;line-height:2;">
+                                            <%--${model.noticeTime}--%>
+                                        <s:property value="%{getText('{0,date,yyyy-MM-dd}',{model.noticeTime})}"></s:property>
+                                        </span>
                                     </p>
                                 </td>
                             </tr>
