@@ -224,6 +224,7 @@ public class SysNoticeAction extends BaseAction implements ModelDriven<SysNotice
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			mark = "0";
 		}
 		return list();
 	}

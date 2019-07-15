@@ -171,6 +171,7 @@
 //单个删除
 function del(name,id){
 	var re=$(name).parent().parent();
+	// console.log("删除ID="+id)
 	if(confirm("您确定要删除吗?")){
 		var index = layer.load(1);
 		 $.ajax({
