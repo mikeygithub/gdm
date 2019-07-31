@@ -97,27 +97,27 @@ td {padding: 4px;font-size: 14px;}
   <div class="layui-field-box">
 		<form action="<%=path%>/sys/category_edit.action?view=edit"
 			method="post" name="form1" id="form1" style="border:1px  solid #C1DAD7;" >
-				<input type="hidden" name="model.id" value="${model.id}">
+<%--				<input type="hidden" name="model.id" value="${model.id}">--%>
 			<ul>
 				<li>
 					<table  border="10" cellspacing="0" cellpadding="0" width="100%">
 					<tr>
 						<td  class="rightText" >学院名称：</td>
 						<td >
-							<s:select cssClass="inputfrom" list="departmentList" 
+							<s:select cssClass="inputfrom" list="departmentList"
         		               listKey="deptNumber" listValue="deptName" onchange="onSelect(this);"
-        		               name="deptNumber" id="deptNumber" value="model.deptNumber"/>	
+        		               name="deptNumber" id="deptNumber" value="model.deptNumber"/>
         		  		</td>
-					</tr>		
+					</tr>
 					<tr >
 						<td  class="rightText" >大类编号：</td>
 						<td style="font-size: 16px;padding: 4px;color: #3EAFE0;"><input type="text" class="inputfrom"
-								id="model.categoryId" name="model.categoryId" value="${model.categoryId }"> </td>
+								id="model.categoryId" name="model.categoryId" value="${model.categoryId }" readonly="readonly"> </td>
 					</tr>
 					<tr>
 						<td  class="rightText"  >大类名称：</td>
 						<td style="font-size: 16px;padding: 4px;color: #3EAFE0;">
-							<input type="text" class="inputfrom" 
+							<input type="text" class="inputfrom"
 								id="model.categoryName" name="model.categoryName" value="${model.categoryName }"> </td>
 					</tr>
 					</table>
@@ -129,7 +129,7 @@ td {padding: 4px;font-size: 14px;}
 					</div>
 				</li>
 			</ul>
-		
+
 		</form>
   </div>
 </fieldset>

@@ -145,10 +145,9 @@ public class SysTeacherAction extends BaseAction implements
 		logger.info(" 教师显示列表");
 		try {
 
-			String loginName = (String) getSession().getAttribute(
-					SystemContext.LOGINNAME);
-			String userType = (String) getSession().getAttribute(
-					SystemContext.USERTYPE);
+			String loginName = (String) getSession().getAttribute(SystemContext.LOGINNAME);
+			String userType = (String) getSession().getAttribute(SystemContext.USERTYPE);
+
 			//查询 当前老师所属专业教研室
 			if ("2".equals(userType)) {
 				teacher = sysTeacherService.findByTeacherNo(loginName);
@@ -161,11 +160,12 @@ public class SysTeacherAction extends BaseAction implements
 			}
 			/******************** 三级查询 学院-大类-专业教研室 ***********************************/
 			departmentList = sysDepartmentService.findAllSysDepartmentList();
-
+			//部门信息
 			if (departmentList != null && departmentList.size() != 0) {
 				if (model.getDeptNumber() == null) {
 					model.setDeptNumber(departmentList.get(0).getDeptNumber());
 				}
+			//大类信息
 			categoryList = sysCategoryService.findByDeptNumber(model.getDeptNumber());
 
 				if (categoryList != null && categoryList.size() != 0) {
@@ -173,13 +173,13 @@ public class SysTeacherAction extends BaseAction implements
 						model.setCategoryId(categoryList.get(0).getCategoryId());
 					}
 				}
+			//专业信息
 			sysMajorList = sysMajorService.findByCategoryId(model.getCategoryId());
 			}
 			/******************** 三级查询 end ***********************************/
 			
 			pageResult = sysTeacherService.find(model, getPage(), getRow());
-			System.out.println(pageResult.getData().get(0).getStaffName()+"***********");
-			
+			logger.info(pageResult);
 			footer = PageUtil.pageFooter(pageResult, getRequest());
 			
 		} catch (Exception e) {
@@ -313,12 +313,10 @@ public class SysTeacherAction extends BaseAction implements
 		try {
 			if (sysDirections == null)
 				sysDirections = new SysDirections();
-
 			if (teacherDirections != null
 					&& teacherDirections.getTeacherId() != null) {
 				/******************* 通过老师id查询老师研究方向 **********************/
 				teacherDirectionsList = teacherDirectionsService.findByExample(teacherDirections);
-
 				/******************* 查询所有研究方向 **********************/
 				sysDirectionsList = sysDirectionsService
 						.findByExample(sysDirections);
@@ -469,9 +467,11 @@ public class SysTeacherAction extends BaseAction implements
 	 * @throws Exception
 	 */
 	public String addTeacherByExcel() {
-		logger.info("导入教师信息" + model.getTeacherName());
-		mark = "1";
 
+		logger.info("导入教师信息" + model.getTeacherName());
+
+		mark = "1";
+		SysMajor sM = new SysMajor();
 		try {
 			if (excelFile != null) {
 				for (int i = 0; i < excelFile.size(); i++) {
@@ -518,21 +518,22 @@ public class SysTeacherAction extends BaseAction implements
 							}
 							// 教研室
 							if (row.getCell(4) != null) {
-								row.getCell(4).setCellType(
-										Cell.CELL_TYPE_STRING);
-								sysMajor = sysMajorService
-										.findByStaffroomName(row.getCell(4)
-												.getStringCellValue());
-								if (sysMajor != null)
-									model.setStaffroomId(sysMajor.getMajorId());
+								row.getCell(4).setCellType(Cell.CELL_TYPE_STRING);
+
+                                sM.setMajorName(row.getCell(4).getStringCellValue());
+                                List<SysMajor> byExample = sysMajorService.findByExample(sM);
+                                if (byExample!=null&&byExample.size()>0)this.sysMajor=byExample.get(0);
+								if (this.sysMajor != null){
+									model.setStaffroomId(this.sysMajor.getMajorId());//教研室
+									model.setCategoryId(this.sysMajor.getCategoryId());//大类
+								}else {
+									logger.warn("查找教研室失败,查找条件："+row.getCell(4));
+								}
 							}
 							// 教师职称
 							if (row.getCell(5) != null) {
-								row.getCell(3).setCellType(
-										Cell.CELL_TYPE_STRING);
-								sysTechnical = sysTechnicalService
-										.findByName(row.getCell(5)
-												.getStringCellValue());
+								row.getCell(3).setCellType(Cell.CELL_TYPE_STRING);
+								sysTechnical = sysTechnicalService.findByName(row.getCell(5).getStringCellValue());
 								if (sysTechnical != null)
 									model.setTechnicalId(sysTechnical
 											.getTechnicalId());
@@ -547,6 +548,8 @@ public class SysTeacherAction extends BaseAction implements
 								} else if ("女".equals(row.getCell(6)
 										.getStringCellValue())) {
 									userHelp.setUserSex("1");
+								}else {
+									userHelp.setUserSex("0");
 								}
 							}
 							// 年龄

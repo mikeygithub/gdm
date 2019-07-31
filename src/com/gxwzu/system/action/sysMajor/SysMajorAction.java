@@ -81,13 +81,12 @@ public class SysMajorAction extends BaseAction implements ModelDriven<SysMajor> 
 			footer = PageUtil.pageFooter(pageResult, getRequest());
 			// ********************************二级查询// 学院-大类**********************************/
 			departmentList = sysDepartmentService.findAllSysDepartmentList();
-			if (model.getDeptNumber() == null && departmentList != null
-					&& departmentList.size() != 0) {
+			if (model.getDeptNumber() == null && departmentList != null && departmentList.size() != 0) {
 				model.setDeptNumber(departmentList.get(0).getDeptNumber());
 			}
-			
-			categoryList = sysCategoryService.findByDeptNumber(model.getDeptNumber());
+			categoryList = sysCategoryService.findByExample(new SysCategory());//findByDeptNumber(model.getDeptNumber());
 			// ********************************二级查询
+			logger.warn("大类信息："+categoryList);
 			// cend**********************************/
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -115,8 +114,7 @@ public class SysMajorAction extends BaseAction implements ModelDriven<SysMajor> 
 		// ********************************二级查询
 		// 学院-大类**********************************/
 		departmentList = sysDepartmentService.findAllSysDepartmentList();
-		if (model.getDeptNumber() == null && departmentList != null
-				&& departmentList.size() != 0) {
+		if (model.getDeptNumber() == null && departmentList != null && departmentList.size() != 0) {
 			model.setDeptNumber(departmentList.get(0).getDeptNumber());
 		}
 		categoryList = sysCategoryService.findByDeptNumber(model

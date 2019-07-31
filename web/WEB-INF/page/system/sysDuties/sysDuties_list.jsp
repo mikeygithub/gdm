@@ -142,7 +142,8 @@ $(function(){
     	<thead>
     	<tr>
     	<th>序号</th>
-   		<th>职务名称</th>
+			<th>编号</th>
+			<th>职务名称</th>
    		<th>操作</th>
         </tr>
         </thead>
@@ -150,6 +151,7 @@ $(function(){
 				<s:iterator id="p" value="pageResult.data" status="pp">
 					<tr id="tr_${dutiesId}">
 						<td align="center"><s:property value="#pp.count" /></td>
+						<td align="center" >${dutiesNo}</td>
 						<td align="center" >${dutiesName}</td>
 						<td align="center" width="20%">
 							<a href="javascript:void(0)"

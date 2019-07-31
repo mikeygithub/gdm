@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.gxwzu.system.dao.userRole.IUserRoleDao;
+import com.gxwzu.system.model.sysRole.SysRole;
+import com.gxwzu.system.model.userRole.UserRoleEntity;
+import com.gxwzu.system.service.sysRole.ISysRoleService;
 import org.apache.commons.lang.xwork.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,14 +32,16 @@ public class SysTeacherServiceImpl extends BaseServiceImpl<SysTeacher>
 
 	@Autowired
 	private ISysTeacherDao sysTeacherDao;
-
 	@Autowired
 	private IUserHelpService userHelpService;
 	@Autowired
 	private ITeacherMajorService teacherMajorService; // 老师专业接口
 	@Autowired
 	private ITeacherDirectionsService teacherDirectionsService; // 老师研究方向接口
-
+	@Autowired
+	private IUserRoleDao iUserRoleDao;
+	@Autowired
+	private ISysRoleService iSysRoleService;
 	@Override
 	public BaseDao<SysTeacher> getDao() {
 		return this.sysTeacherDao;
@@ -61,7 +67,17 @@ public class SysTeacherServiceImpl extends BaseServiceImpl<SysTeacher>
 		u.setUserType("2"); // 用户类型 1-学生 2-老师
 		u = userHelpService.add(u);
 		model.setUserId(u.getId());
-		return sysTeacherDao.save(model);
+
+        SysTeacher save = sysTeacherDao.save(model);
+        UserRoleEntity userRoleEntity = new UserRoleEntity();
+        //查询教师角色对应的id
+        SysRole sysRole = new SysRole();
+        sysRole.setRoleName("教师");
+        List<SysRole> byExample = iSysRoleService.findByExample(sysRole);
+		userRoleEntity.setRoleId(byExample.size()>0?byExample.get(0).getId():25);//23系统管理员/24学生用户/25教师/26教研室主任/27院系管理员
+		userRoleEntity.setUserHelpId(u.getId());
+		iUserRoleDao.save(userRoleEntity);
+        return save;
 	}
 
 	@Override

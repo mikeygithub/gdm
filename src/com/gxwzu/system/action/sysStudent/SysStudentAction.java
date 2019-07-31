@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -325,15 +326,12 @@ public class SysStudentAction extends BaseAction implements ModelDriven<SysStude
 
 							// 院系
 							if (row.getCell(1) != null) {
-								row.getCell(1).setCellType(
-										Cell.CELL_TYPE_STRING);
-								sysDepartment = sysDepartmentService
-										.findSysDepartmentByDeptName(row
-												.getCell(1)
-												.getStringCellValue());
-								if (sysDepartment != null)
-									sysStudent.setDeptNumber(sysDepartment
-											.getDeptNumber());
+
+								row.getCell(1).setCellType(Cell.CELL_TYPE_STRING);
+								logger.warn("查询二级学院："+row.getCell(1).getStringCellValue());
+								sysDepartment = sysDepartmentService.findSysDepartmentByDeptName(row.getCell(1).getStringCellValue());
+								logger.warn("查询结果:"+sysDepartment);
+								if (sysDepartment != null) sysStudent.setDeptNumber(sysDepartment.getDeptNumber());
 							}
 							// 年级
 							if (row.getCell(2) != null) {
@@ -370,9 +368,9 @@ public class SysStudentAction extends BaseAction implements ModelDriven<SysStude
 								row.getCell(5).setCellType(
 										Cell.CELL_TYPE_STRING);
 								sysStudent.setStuNo(row.getCell(5)
-										.getStringCellValue());
+										.getStringCellValue().trim());
 								userHelp.setPassword(row.getCell(5)
-										.getStringCellValue());
+										.getStringCellValue().trim());
 							}
 							// 姓名
 							if (row.getCell(6) != null) {
@@ -441,18 +439,12 @@ public class SysStudentAction extends BaseAction implements ModelDriven<SysStude
 							try {
 								// 入学时间
 								if (row.getCell(14) != null) {
-									row.getCell(14).setCellType(
-											Cell.CELL_TYPE_STRING);
-									sysStudent
-											.setStuEntrance(Timestamp
-													.valueOf(DateUtils
-															.parseDate(
-																	row.getCell(
-																			14)
-																			.getStringCellValue())
-															.toString()));
+									row.getCell(14).setCellType(Cell.CELL_TYPE_NUMERIC);
+                                    Date dateCellValue = row.getCell(14).getDateCellValue();
+									sysStudent.setStuEntrance(Timestamp.valueOf(DateUtils.formatTime(dateCellValue)));
 								}
 							} catch (Exception e) {
+								e.printStackTrace();
 							}
 
 							List<UserHelp> lHelps = userHelpService

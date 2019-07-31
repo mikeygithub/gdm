@@ -89,7 +89,8 @@ function openAdd(){
     	<thead>
     	<tr>
     	<th>序号</th>
-    	<th>学院名称</th>
+			<th>编号</th>
+			<th>学院名称</th>
    		<th>大类名称</th>
    		<th>操作</th>
         </tr>
@@ -98,6 +99,7 @@ function openAdd(){
 				<s:iterator id="p" value="pageResult.data" status="pp">
 					<tr id="tr_${id}">
 						<td align="center"><s:property value="#pp.count" /></td>
+						<td align="center" >${categoryId}</td>
 						<td align="center">
 				        	<s:iterator value="departmentList" id="sml">
 				        		<s:if test="#p.deptNumber == deptNumber">
@@ -105,14 +107,16 @@ function openAdd(){
 				        		</s:if>
 				        	</s:iterator>
 		                </td>
+
 						<td align="center" >${categoryName}</td>
-						
+
+
 						<td align="center" width="20%">
 							<a href="javascript:void(0)"
 							   target="rightFrame" onclick="del(this,${categoryId});"> 
 							   <font color="red"> <i class="layui-icon">&#xe640;</i>删除</font>
 							</a>
-							<a href="javascript:dialog('50%','84%','修改用户信息','<%=path%>/sys/category_openEdit.action?view=edit&thisId=${id }', 'true','20%');">
+							<a href="javascript:dialog('50%','84%','修改信息','<%=path%>/sys/category_openEdit.action?view=edit&thisId=${categoryId }', 'true','20%');">
 							   <font color="blue"> <i class="layui-icon">&#xe642;</i>修改</font></a>&nbsp;&nbsp;&nbsp;
 						</td>
 					</tr>

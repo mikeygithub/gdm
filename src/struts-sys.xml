@@ -99,10 +99,8 @@
 		
 		<!-- 大类管理 -->
 		<action name="category_*"
-			class="com.gxwzu.system.action.sysCategory.SysCategoryAction"
-			method="{1}">
-			<result name="success">/WEB-INF/page/system/sysCategory/sysCategory_${view}.jsp
-			</result>
+			class="com.gxwzu.system.action.sysCategory.SysCategoryAction" method="{1}">
+			<result name="success">/WEB-INF/page/system/sysCategory/sysCategory_${view}.jsp</result>
 		</action>
 		
 		<!-- 研究方向管理 -->

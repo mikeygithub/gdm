@@ -118,12 +118,15 @@ public class SysCategoryAction extends BaseAction implements ModelDriven<SysCate
 	 */
 	public String openEdit() {
 		try {
-			logger.info("打开大类修改页面");
+			logger.info("打开大类修改页面:"+thisId);
 			model = sysCategoryService.findById(thisId);
 			departmentList=sysDepartmentService.findAllSysDepartmentList();
+			logger.info("Model:"+model);
+			logger.info("Dept:"+departmentList);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		logger.info("view : "+view);
 		return SUCCESS;
 	}
 	/**

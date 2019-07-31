@@ -50,4 +50,12 @@ public class SysCategory implements java.io.Serializable {
 		this.deptNumber = deptNumber;
 	}
 
+	@Override
+	public String toString() {
+		return "SysCategory{" +
+				"categoryId=" + categoryId +
+				", categoryName='" + categoryName + '\'' +
+				", deptNumber='" + deptNumber + '\'' +
+				'}';
+	}
 }

@@ -12,7 +12,6 @@
     <script type="text/javascript" src="<%=path%>/js/jquery.js"></script>
     <script type="text/javascript" src="<%=path%>/third/jquery-1.8.3.min.js"></script>
 
-
     <script type="text/javascript" src="<%=path%>/third/layer/layer.js"></script>
     <script type="text/javascript" src="<%=path%>/third/layui/layui.js"></script>
     <script type="text/javascript" src="<%=path%>/js/jquery.idTabs.min.js"></script>
