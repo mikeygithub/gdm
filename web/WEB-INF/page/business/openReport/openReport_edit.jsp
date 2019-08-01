@@ -104,13 +104,13 @@ td {padding: 4px;font-size: 14px;font-size: 14px;border: 1px  solid #C1DAD7;}
      </form>
 
     <div class="formbody">
-      <div id="usual1" class="usual"> 
+      <div id="usual1" class="usual">
        <%@ include file="/WEB-INF/page/business/materialInfo/select_tab.jsp"%>
    <div id="tab2" class="tabson">
 
 <div class="rightinfo" style="text-align: center;">
 	<fieldset class="layui-elem-field">
-    <legend>修改开题报告</legend>	
+    <legend>修改开题报告</legend>
     <div class="layui-field-box" >
     		<div class="formtitle" >
 			<ul>
@@ -125,17 +125,17 @@ td {padding: 4px;font-size: 14px;font-size: 14px;border: 1px  solid #C1DAD7;}
 		<form action="<%=path%>/biz/openReport_edit.action?view=detail" method="post" name="form1" id="form1"  >
 			<input name="thisStuId" type="hidden"  value="${thisStuId }">
 			<input type="hidden"  name="thisId" value="${thisId }">
-			<input type="hidden" name="thisYear" value="${thisYear }" >	
+			<input type="hidden" name="thisYear" value="${thisYear }" >
 			<ul>
 				<li>
 					<table  border="10" cellspacing="0" cellpadding="0" width="980px" style="width: 65%;margin:auto"
 						>
 						<tr  class="title">
 						<td  class="rightText" >学院：</td>
-							<td >${student.deptName } 
+							<td >${student.deptName }
                	         </td>
                	         <td  class="rightText" >专业：</td>
-							<td > 
+							<td >
                	        		${student.majorName }
                	        	 </td>
 							 <td  class="rightText" >班级：</td>
@@ -144,7 +144,7 @@ td {padding: 4px;font-size: 14px;font-size: 14px;border: 1px  solid #C1DAD7;}
                	        		 </select>
                	        		 </td>
 						</tr>
-						
+
 						<tr class="title">
 							<td  class="rightText">学号：</td>
 							<td >${student.stuNo }</td>
@@ -152,13 +152,13 @@ td {padding: 4px;font-size: 14px;font-size: 14px;border: 1px  solid #C1DAD7;}
 							<td >${student.stuName }</td>
 							<td  class="rightText" >指导 老师：</td>
 							<td >${teacher.teacherName }</td>
-						</tr> 
+						</tr>
 						<tr class="title" >
 							<td  class="rightText">题目：</td>
 							<td colspan="10">
 							${issueInfo.issueName }
         		  			</tr>
-						<tr class="title" >					
+						<tr class="title" >
 						       <td class="rightText">是否进入答辩环节：</td>
 						       <td align=colspan="10" id="replyLink">
 						        <input type="radio" name="model.replyLink" value="01" alt="是" checked="checked"<s:if test="model.replyLink==01">checked="checked"</s:if>>是&nbsp;
@@ -173,7 +173,7 @@ td {padding: 4px;font-size: 14px;font-size: 14px;border: 1px  solid #C1DAD7;}
 						<td colspan="10">
 							<div id="backgroundEditor"></div>
                             <script type="text/javascript">
-                            var background =  UE.getEditor('backgroundEditor'); 
+                            var background =  UE.getEditor('backgroundEditor');
                             background.ready(function() {
                             	background.setContent('${model.background}');
                             });
@@ -182,7 +182,7 @@ td {padding: 4px;font-size: 14px;font-size: 14px;border: 1px  solid #C1DAD7;}
                               <input type="hidden" name="model.background" id="background">
 							</td>
 							</tr>
-				
+
 				     <tr class="title">
 							<td colspan="10"  style="padding-top: 40px;">毕业论文研究内容、拟解决的主要问题：</td>
 						</tr>
@@ -206,7 +206,7 @@ td {padding: 4px;font-size: 14px;font-size: 14px;border: 1px  solid #C1DAD7;}
 						<td colspan="10" >
 							<div id="reportMethodEditor"></div>
                             <script type="text/javascript">
-                             var reportMethod =UE.getEditor('reportMethodEditor'); 
+                             var reportMethod =UE.getEditor('reportMethodEditor');
                              reportMethod.ready(function() {
                             	 reportMethod.setContent('${model.reportMethod}');
                              });
@@ -222,7 +222,7 @@ td {padding: 4px;font-size: 14px;font-size: 14px;border: 1px  solid #C1DAD7;}
 						<td colspan="10" >
 							<div id="reportDocumentEditor"></div>
                             <script type="text/javascript">
-                             var reportDocument =UE.getEditor('reportDocumentEditor'); 
+                             var reportDocument =UE.getEditor('reportDocumentEditor');
                              reportDocument.ready(function() {
                             	 reportDocument.setContent('${model.reportDocument}');
                              });

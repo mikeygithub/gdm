@@ -211,7 +211,7 @@ public class AllotGuideAction extends BaseAction implements
 		   }
 				  return "view";
 		}else{
-	    	      return null;
+	    	      return SUCCESS;
 	    }
 	}
 
@@ -240,8 +240,8 @@ public class AllotGuideAction extends BaseAction implements
 					    planProgress=planProgressSerivce.findByTeacStaffroomId(teacher.getStaffroomId(),flag); 
 					}
 					Timestamp d = new Timestamp(System.currentTimeMillis()); 
-					if(d.after(planProgress.getStartTime())){
-						logger.info(" 查询可分配学生列表");
+					if(planProgress!=null&&d.after(planProgress.getStartTime())){
+						logger.info(" 查询可分配学生列表");//TODO:待修复当前教师所属的教研室未设置进度安排
 						try {
 					/* 专业编号 */
 					List<Integer> majorIds = new ArrayList<Integer>();
@@ -290,10 +290,10 @@ public class AllotGuideAction extends BaseAction implements
 				  }
 				   return SUCCESS;
 			  }else{
-				  return "view";
+				  return SUCCESS;
 			  }
 	  }else{
-	      return null;
+	      return SUCCESS;
 	  }
 	}
 
@@ -350,6 +350,7 @@ public class AllotGuideAction extends BaseAction implements
 							allotGuideService.add(model);
 						} catch (Exception e) {
 							failList.add(stuId);
+							e.printStackTrace();
 						}
 					} else {
 						failList.add(stuId);

@@ -114,4 +114,18 @@ public class PlanProgress implements java.io.Serializable {
 		this.progressStart = progressStart;
 	}
 
+	@Override
+	public String toString() {
+		return "PlanProgress{" +
+				"progressId=" + progressId +
+				", deptNumber='" + deptNumber + '\'' +
+				", categoryId=" + categoryId +
+				", majorId=" + majorId +
+				", startTime=" + startTime +
+				", endTime=" + endTime +
+				", year=" + year +
+				", progressItemNo='" + progressItemNo + '\'' +
+				", progressStart=" + progressStart +
+				'}';
+	}
 }

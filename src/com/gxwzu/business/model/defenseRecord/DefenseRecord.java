@@ -53,5 +53,15 @@ public class DefenseRecord implements java.io.Serializable {
 		public void setDefenseContent(String defenseContent) {
 			this.defenseContent = defenseContent;
 		}
-		
+
+	@Override
+	public String toString() {
+		return "DefenseRecord{" +
+				"defenseId=" + defenseId +
+				", defenseContent='" + defenseContent + '\'' +
+				", stuId=" + stuId +
+				", teacherId=" + teacherId +
+				", year=" + year +
+				'}';
+	}
 }

@@ -126,7 +126,7 @@ td {
 								<tr>
 								    <td class="rightText"  >答辩时间：</td>
 									<td style="font-size: 16px;padding: 4px;color: #3EAFE0;">
-									    <input name="model.replyTime" id="model.replyTime" class="dfinput" value="${groupAllot.replyTime}" 
+									    <input name="tempDateFormat" id="model.replyTime" class="dfinput" value="${groupAllot.replyTime}"
 										type="text" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd',isShowWeek:true})" />
 								    </td>
 								</tr>

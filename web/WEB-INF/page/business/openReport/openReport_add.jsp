@@ -29,22 +29,22 @@ $(function(){
     $("#form1").validate({
         errorClass:"errorInfo", //默认为错误的样式类为：error
         errorElement:"em",
-        focusInvalid: false, //当为false时，验证无效时，没有焦点响应  
-        onkeyup: false,   
+        focusInvalid: false, //当为false时，验证无效时，没有焦点响应
+        onkeyup: false,
         submitHandler: function(form){   //表单提交句柄,为一回调函数，带一个参数：form
         	if(confirm("是否要保存信息？")){
 	              form.submit();   //提交表单
-	              var index = layer.load(2, {time: 10*1000}); //又换了种风格，并且设定最长等待10秒 
+	              var index = layer.load(2, {time: 10*1000}); //又换了种风格，并且设定最长等待10秒
 	        	}
-        },   
+        },
         rules:{},
         messages:{},
         errorPlacement: function(error, element) { //错误信息位置设置方法
 			error.appendTo( element.parent() ); //这里的element是录入数据的对象
 		}
-    });    
+    });
 });
- 
+
  $(function(){
      var flag="${mark}";
      if(flag!='' && flag!=undefined){
@@ -57,7 +57,7 @@ $(function(){
      }
     }
 });
- 
+
    function getData(){
 	   $("#replyLink").val(getReplyLink());
 	   $("#background").val(getBackground());
@@ -65,7 +65,7 @@ $(function(){
 	   $("#reportMethod").val(getReportMethod());
 	   $("#reportDocument").val(getReportDocument());
    }
-   
+
 	 layui.use('form', function(){
 		  var form = layui.form();
 		});
@@ -100,20 +100,20 @@ td {padding: 4px;font-size: 14px;font-size: 14px;border: 1px  solid #C1DAD7;}
 				</li>
 				<li class="click">
 	        		<a href="javascript:void();"  onclick="openSearch(this);"><img src="<%=path%>/images/search.png"  />搜索</a>
-				</li> 
+				</li>
 		</ul>
 		</div>
      </form>
 
     <div class="formbody">
-      <div id="usual1" class="usual"> 
+      <div id="usual1" class="usual">
        <%@ include file="/WEB-INF/page/business/materialInfo/select_tab.jsp"%>
    <div id="tab2" class="tabson">
 
 <div class="rightinfo" style="text-align: center;">
-		
+
 	<fieldset class="layui-elem-field">
-    <legend>添加开题报告</legend>	
+    <legend>添加开题报告</legend>
     <div class="layui-field-box" >
     		<div class="formtitle" >
 			<ul>
@@ -128,17 +128,17 @@ td {padding: 4px;font-size: 14px;font-size: 14px;border: 1px  solid #C1DAD7;}
 		<form action="<%=path%>/biz/openReport_add.action?view=detail"
 			method="post" name="form1" id="form1"  >
 			<input name="thisStuId" type="hidden"  value="${thisStuId }">
-			<input type="hidden" name="thisYear" value="${thisYear }" >	
+			<input type="hidden" name="thisYear" value="${thisYear }" >
 			<ul>
 				<li>
 					<table  border="10" cellspacing="0" cellpadding="0" width="980px" style="width: 65%;margin:auto"
 						>
 						<tr  class="title">
 						<td  class="rightText" >学院：</td>
-							<td >${student.deptName } 
+							<td >${student.deptName }
                	         </td>
                	         <td  class="rightText" >专业：</td>
-							<td > 
+							<td >
                	        		${student.majorName }
                	        	 </td>
 							 <td  class="rightText" >班级：</td>
@@ -147,7 +147,7 @@ td {padding: 4px;font-size: 14px;font-size: 14px;border: 1px  solid #C1DAD7;}
                	        		 </select>
                	        		 </td>
 						</tr>
-						
+
 						<tr class="title">
 							<td  class="rightText">学号：</td>
 							<td >${student.stuNo }</td>
@@ -155,19 +155,19 @@ td {padding: 4px;font-size: 14px;font-size: 14px;border: 1px  solid #C1DAD7;}
 							<td >${student.stuName }</td>
 							<td  class="rightText" >指导 老师：</td>
 							<td >${teacher.teacherName }</td>
-						</tr> 
+						</tr>
 						<tr class="title" >
 							<td  class="rightText">题目：</td>
 							<td colspan="10">
 							${issueInfo.issueName }
         		  		   </td>
         		  			</tr>
-						<tr class="title" >					
+						<tr class="title" >
 						       <td class="rightText">是否进入答辩环节：</td>
 						       <td align=colspan="10" id="replyLink">
 						      <input type="radio" name="model.replyLink" value="01"
 						       alt="是" checked="checked"<s:if test="model.replyLink==01">checked="checked"</s:if>>是&nbsp;
-						        <input type="radio" 
+						        <input type="radio"
 						       name="model.replyLink" value="00" alt="否" <s:if test="model.replyLink==00">checked="checked"</s:if>>否&nbsp;
 						       </td>
 						</tr>
@@ -179,7 +179,7 @@ td {padding: 4px;font-size: 14px;font-size: 14px;border: 1px  solid #C1DAD7;}
 						<td colspan="10">
 							<div id="backgroundEditor"></div>
                             <script type="text/javascript">
-                            var background =  UE.getEditor('backgroundEditor'); 
+                            var background =  UE.getEditor('backgroundEditor');
                             background.ready(function() {
                             	background.setContent('${model.background}');
                             });
@@ -188,7 +188,7 @@ td {padding: 4px;font-size: 14px;font-size: 14px;border: 1px  solid #C1DAD7;}
                               <input type="hidden" name="model.background" id="background">
 							</td>
 							</tr>
-				
+
 				     <tr class="title">
 							<td colspan="10"  style="padding-top: 40px;">毕业论文研究内容、拟解决的主要问题：</td>
 						</tr>
@@ -212,7 +212,7 @@ td {padding: 4px;font-size: 14px;font-size: 14px;border: 1px  solid #C1DAD7;}
 						<td colspan="10" >
 							<div id="reportMethodEditor"></div>
                             <script type="text/javascript">
-                             var reportMethod =UE.getEditor('reportMethodEditor'); 
+                             var reportMethod =UE.getEditor('reportMethodEditor');
                              reportMethod.ready(function() {
                             	 reportMethod.setContent('${model.reportMethod}');
                              });
@@ -228,7 +228,7 @@ td {padding: 4px;font-size: 14px;font-size: 14px;border: 1px  solid #C1DAD7;}
 						<td colspan="10" >
 							<div id="reportDocumentEditor"></div>
                             <script type="text/javascript">
-                             var reportDocument =UE.getEditor('reportDocumentEditor'); 
+                             var reportDocument =UE.getEditor('reportDocumentEditor');
                              reportDocument.ready(function() {
                             	 reportDocument.setContent('${model.reportDocument}');
                              });
@@ -236,9 +236,9 @@ td {padding: 4px;font-size: 14px;font-size: 14px;border: 1px  solid #C1DAD7;}
                               </script>
 							<input type="hidden" name="model.reportDocument" id="reportDocument">
 							</td>
-							
-						
-					
+
+
+
 					</table>
 				<li>
 					<div style="text-align: center;">

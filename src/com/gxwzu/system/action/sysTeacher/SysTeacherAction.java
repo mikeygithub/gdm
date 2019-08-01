@@ -60,8 +60,7 @@ import com.opensymphony.xwork2.ModelDriven;
  * @author 俸捷
  * 
  */
-public class SysTeacherAction extends BaseAction implements
-		ModelDriven<SysTeacher> {
+public class SysTeacherAction extends BaseAction implements ModelDriven<SysTeacher> {
 
 	private static final long serialVersionUID = -3343014949806289390L;
 	protected final Log logger = LogFactory.getLog(getClass());
@@ -142,8 +141,10 @@ public class SysTeacherAction extends BaseAction implements
 	 * @return
 	 */
 	public String list() {
-		logger.info(" 教师显示列表");
-		try {
+
+	    logger.info(" 教师显示列表");
+
+	    try {
 
 			String loginName = (String) getSession().getAttribute(SystemContext.LOGINNAME);
 			String userType = (String) getSession().getAttribute(SystemContext.USERTYPE);

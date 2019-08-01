@@ -190,16 +190,17 @@ $(function(){
 				        </s:else>
 				        </td> 
 						<td align="center">
-				          <s:if test="progressId==null">
+				          <s:if test="defenseId==null">
 				           <a href="javascript:dialog('98%','98%','【<font color=blue >${student.stuName }</font>】 答辩记录信息','
-				           <%=path%>/biz/defenseRecord_openAdd.action?view=add&thisStuId=${student.stuId}&thisYear=${model.year }&tabFlag=04&flag=11', 'true','20%');" target="rightFrame" >  
+				           <%=path%>/biz/defenseRecord_list.action?view=list&thisYear=${thisYear }&tabFlag=0&flag=11
+				           ', 'true','20%');" target="rightFrame" >
 				           <font color="red">未录入</font></a>
 				           </s:if><s:else>
 				           <a href="javascript:dialog('98%','98%','【<font color=blue >${student.stuName }</font>】 答辩记录信息','
 				           <%=path%>/biz/defenseRecord_openEdit.action?view=edit&thisStuId=${student.stuId }&thisId=${defenseId }&thisYear=${model.year }&tabFlag=04&flag=11', 'true','20%');" target="rightFrame" >  
 				           <font color="blue">查看</font></a>
 				           </s:else>
-				        </td> 
+				        </td>
 
 				         <td align="center">
 				          ${model.year}

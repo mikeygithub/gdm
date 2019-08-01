@@ -5,11 +5,14 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.gxwzu.core.util.DateUtils;
+import com.gxwzu.util.DateUtil;
 import org.apache.commons.lang.xwork.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -95,6 +98,8 @@ public class GroupAllotAction extends BaseAction implements ModelDriven<GroupAll
 	private Integer thisId;
 	private String mark;
 	private String categoryIds; //答辩方向Id ,隔开
+
+	private String tempDateFormat;
 	
 	private String  teachType;  //分组老师类型
 	private Integer thisGroupId; //分组Id
@@ -246,10 +251,11 @@ public class GroupAllotAction extends BaseAction implements ModelDriven<GroupAll
 				GroupAllot gAllot =	groupAllotService.findById(thisId);
 				if(model.getClassRoomId()!=null)
 					gAllot.setClassRoomId(model.getClassRoomId());
-				if(model.getReplyTime()!=null)
-					gAllot.setReplyTime(model.getReplyTime());
-				
-			   model=  groupAllotService.edit(gAllot);
+				if(model.getReplyTime()!=null||tempDateFormat!=null) {
+//					gAllot.setReplyTime(model.getReplyTime());
+					gAllot.setReplyTime(new Timestamp(DateUtils.parseDate(tempDateFormat).getTime()));
+				}
+				model=  groupAllotService.edit(gAllot);
 			  
 			   if(categoryList!=null&&categoryList.size()!=0){
 			   groupDefenseDirectionService.delByGroupIdAndYear(thisId,gAllot.getYear());
@@ -410,7 +416,13 @@ public class GroupAllotAction extends BaseAction implements ModelDriven<GroupAll
 		this.planYear = planYear;
 	}
 
+	public String getTempDateFormat() {
+		return tempDateFormat;
+	}
 
+	public void setTempDateFormat(String tempDateFormat) {
+		this.tempDateFormat = tempDateFormat;
+	}
 
 	public List<SysMajor> getMajorList() {
 		return majorList;

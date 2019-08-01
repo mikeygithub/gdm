@@ -415,6 +415,7 @@ public class DefenseRecordAction extends BaseAction implements ModelDriven<Defen
 				model.setStuId(thisStuId);
 
 				model.setYear(thisYear);
+				logger.info("添加答辩记录：Model = "+model);
 				model = defenseRecordService.add(model);
 				mark = "1";
 			} else {
