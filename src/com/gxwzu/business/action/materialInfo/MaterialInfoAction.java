@@ -53,8 +53,7 @@ import com.opensymphony.xwork2.ModelDriven;
  * @author 何志明
  * @date 2017.7.21
  */
-public class MaterialInfoAction extends BaseAction implements
-        ModelDriven<MaterialInfo> {
+public class MaterialInfoAction extends BaseAction implements ModelDriven<MaterialInfo> {
 
     private static final long serialVersionUID = -3343014949806289390L;
     protected final Log logger = LogFactory.getLog(getClass());
@@ -232,7 +231,7 @@ public class MaterialInfoAction extends BaseAction implements
                 planProgress = planProgressSerivce.findByTeacStaffroomId(teacher.getStaffroomId(), flag);
             }
             Timestamp d = new Timestamp(System.currentTimeMillis());
-            if (d.after(planProgress.getStartTime())) {
+            if (planProgress!=null&&planProgress.getStartTime()!=null&&d.after(planProgress.getStartTime())) {
                 logger.info("老师查询所在组已分配评阅的学生信息");
                 try {
                     // 老师查询学生课题信息
@@ -280,7 +279,7 @@ public class MaterialInfoAction extends BaseAction implements
                 return SUCCESS;
 
             } else {
-                return "view";
+                return SUCCESS;
             }
         } else {
             return SUCCESS;
@@ -293,12 +292,12 @@ public class MaterialInfoAction extends BaseAction implements
      * @return
      */
     public String groupDefenseStudentList() {
-        logger.info("老师查询所在组已分配评阅的学生信息");
-        String type = (String) getSession()
-                .getAttribute(SystemContext.USERTYPE);
 
-        String loginName = (String) getSession().getAttribute(
-                SystemContext.LOGINNAME);
+        logger.info("老师查询所在组已分配评阅的学生信息");
+
+        String type = (String) getSession().getAttribute(SystemContext.USERTYPE);
+        String loginName = (String) getSession().getAttribute(SystemContext.LOGINNAME);
+
         /************************** 查询教研室信息 *********************************************/
         if (flag != null && "13".equals(flag)) {
             // 查询 当前老师所属专业教研室 中的进度计划
@@ -307,13 +306,12 @@ public class MaterialInfoAction extends BaseAction implements
                 planProgress = planProgressSerivce.findByTeacStaffroomId(teacher.getStaffroomId(), flag);
             }
             Timestamp d = new Timestamp(System.currentTimeMillis());
-            if (d.after(planProgress.getStartTime())) {
+            if (planProgress!=null&&planProgress.getStartTime()!=null&&d.after(planProgress.getStartTime())) {
                 logger.info("老师查询所在组已分配评阅的学生信息");
                 try {
                     // 老师查询学生课题信息
                     if (type.equals("2")) {
                         teacher = sysTeacherService.findByTeacherNo(loginName);
-
                         // 设置年度
                         if (thisYear != null) {
                             model.setYear(thisYear);
@@ -365,10 +363,11 @@ public class MaterialInfoAction extends BaseAction implements
                 return SUCCESS;
 
             } else {
-                return "view";
+                return SUCCESS;
             }
-        } else {
-            return null;
+        }
+        else {
+            return SUCCESS;
         }
     }
 

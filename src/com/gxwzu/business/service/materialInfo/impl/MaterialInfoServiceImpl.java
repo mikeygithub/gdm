@@ -403,33 +403,25 @@ public class MaterialInfoServiceImpl implements IMaterialInfoSerivce {
 	}
 
 	@Override
-	public Result<MaterialInfo> findGroupStudent(Integer groupAllotId,
-			Integer year, int page, int size) {
+	public Result<MaterialInfo> findGroupStudent(Integer groupAllotId, Integer year, int page, int size) {
 		/************************* 填充结果集 ************************************************/
-		Result<ListGroupStudent> oldResult = groupStudentService
-				.findByGroupAllotIdAndYear(groupAllotId, year, page, size);
+		Result<ListGroupStudent> oldResult = groupStudentService.findByGroupAllotIdAndYear(groupAllotId, year, page, size);
 		Result<MaterialInfo> newResult = new Result<MaterialInfo>();
 		List<MaterialInfo> newList = new ArrayList<MaterialInfo>();
-		if (oldResult != null && oldResult.getData() != null
-				&& oldResult.getData().size() != 0) {
+		if (oldResult != null && oldResult.getData() != null && oldResult.getData().size() != 0) {
 
 			for (ListStudent m : oldResult.getData()) {
 				MaterialInfo newModel = new MaterialInfo();
-				
 				// 课题信息
-				IssueInfo issueInfo = issueInfoSerivce.findByStuIdAndYear(
-						m.getStuId(), year);
+				IssueInfo issueInfo = issueInfoSerivce.findByStuIdAndYear(m.getStuId(), year);
 				if (issueInfo != null) {
 					newModel.setIssueInfo(issueInfo);
 				}
-				
 				// 最终成绩信息
-				ListReplyScore replyScore = replyScoreSerivce.findByStudentIdAndYear(
-						m.getStuId(), year);
+				ListReplyScore replyScore = replyScoreSerivce.findByStudentIdAndYear(m.getStuId(), year);
 				if (replyScore != null) {
 					newModel.setGroupReply(replyScore);
 				}
-
 				// 任务书信息
 				TaskBook taskBook = taskBookSerivce.findByStuIdAndYear(
 						m.getStuId(), year);
@@ -491,26 +483,24 @@ public class MaterialInfoServiceImpl implements IMaterialInfoSerivce {
 	}
 
 	@Override
-	public Result<MaterialInfo> findGroupDefenseStudent(Integer groupAllotId,
-			Integer teacherId, Integer year, int page, int size) {
+	public Result<MaterialInfo> findGroupDefenseStudent(Integer groupAllotId, Integer teacherId, Integer year, int page, int size) {
 		/************************* 填充结果集 ************************************************/
-		Result<ListGroupStudent> oldResult = groupStudentService
-				.findByGroupAllotIdAndDefenseTeacherIdAndYear(groupAllotId, teacherId,year, page, size);
+		Result<ListGroupStudent> oldResult = groupStudentService.findByGroupAllotIdAndDefenseTeacherIdAndYear(groupAllotId, teacherId,year, page, size);
+
 		Result<MaterialInfo> newResult = new Result<MaterialInfo>();
+
 		List<MaterialInfo> newList = new ArrayList<MaterialInfo>();
-		if (oldResult != null && oldResult.getData() != null
-				&& oldResult.getData().size() != 0) {
+
+		if (oldResult != null && oldResult.getData() != null && oldResult.getData().size() != 0) {
 
 			for (ListStudent m : oldResult.getData()) {
 				MaterialInfo newModel = new MaterialInfo();
-				
 				// 课题信息
 				IssueInfo issueInfo = issueInfoSerivce.findByStuIdAndYear(
 						m.getStuId(), year);
 				if (issueInfo != null) {
 					newModel.setIssueInfo(issueInfo);
 				}
-
 				// 任务书信息
 				TaskBook taskBook = taskBookSerivce.findByStuIdAndYear(
 						m.getStuId(), year);
@@ -535,7 +525,6 @@ public class MaterialInfoServiceImpl implements IMaterialInfoSerivce {
 				if (progress != null && progress.size() != 0) {
 					newModel.setProgressId(progress.size());
 				}
-
 				// 指导老师评阅信息 评阅审查表类型：00 指导老师评阅 01评阅人评阅 02指导老师审查
 				ListReview reviewGuide = reviewSerivce
 						.findByStuIdAndReviewTypeAndYear(m.getStuId(), "00",
@@ -557,7 +546,6 @@ public class MaterialInfoServiceImpl implements IMaterialInfoSerivce {
 				if (reviewRead != null) {
 					newModel.setReviewReadId(reviewRead.getReviewId());
 				}
-
 				// 答辩记录
 				DefenseRecord defense = defenseRecordService
 						.findByStuIdAndYear(m.getStuId(), year);

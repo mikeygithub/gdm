@@ -59,11 +59,12 @@ $(function(){
 });
 
    function getData(){
-	   $("#replyLink").val(getReplyLink());
+
 	   $("#background").val(getBackground());
 	   $("#reportContent").val(getReportContent());
 	   $("#reportMethod").val(getReportMethod());
 	   $("#reportDocument").val(getReportDocument());
+	   // $("#replyLink").val(getReplyLink());
    }
 
 	 layui.use('form', function(){

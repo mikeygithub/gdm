@@ -153,64 +153,72 @@ public class AllotGuideAction extends BaseAction implements
 		String userType = (String) getSession().getAttribute(SystemContext.USERTYPE);
 
 		/************************** 查询教研室信息 *********************************************/
+
+
 		//查询 当前学生所属专业教研室  进度计划
 		if(flag!=null && "01".equals(flag)){
-			if ("1".equals(userType)||"3".equals(userType)) {
-					student = sysStudentService.findByStuNo(loginName);		
-			        planProgress=planProgressSerivce.findByStudMajoId(student.getMajorId(),flag); 
-			}
-			//查询 当前老师所属专业教研室 中的进度计划
-			if ("2".equals(userType)||"3".equals(userType)) {
-				teacher = sysTeacherService.findByTeacherNo(loginName);
-		        planProgress=planProgressSerivce.findByTeacStaffroomId(teacher.getStaffroomId(),flag); 
-			}
-			Timestamp d = new Timestamp(System.currentTimeMillis()); 
-			if(d.after(planProgress.getStartTime())){
-				logger.info("查询分配老師列表");
-				try {
-					/* 专业编号 */
-					List<Integer> majorIds = new ArrayList<Integer>();
-					// 查询安排计划中的年度
-					planYear = planYearSerivce.findPlanYear();
-					if (userType.equals("1")) {
-						student = sysStudentService.findByStuNo(loginName);
-						// 默认筛选学生所在专业的专业老师
-						if (majorId == null) {
-							majorIds.add(student.getMajorId());
-						} else {
-							majorIds.add(majorId);
-						}
-						// 查询所带专业
-						sysMajorList.add(sysMajorService.findById(student.getMajorId()));
+			try {
+				if ("1".equals(userType) || "3".equals(userType)) {
+					student = sysStudentService.findByStuNo(loginName);
+					planProgress = planProgressSerivce.findByStudMajoId(student.getMajorId(), flag);
+				}
+				//查询 当前老师所属专业教研室 中的进度计划
+				if ("2".equals(userType) || "3".equals(userType)) {
+					teacher = sysTeacherService.findByTeacherNo(loginName);
+					planProgress = planProgressSerivce.findByTeacStaffroomId(teacher.getStaffroomId(), flag);
+				}
+				Timestamp d = new Timestamp(System.currentTimeMillis());
+				if (planProgress != null && planProgress.getStartTime() != null && d.after(planProgress.getStartTime())) {
+					logger.info("查询分配老師列表");
+					try {
+						/* 专业编号 */
+						List<Integer> majorIds = new ArrayList<Integer>();
+						// 查询安排计划中的年度
+						planYear = planYearSerivce.findPlanYear();
+						if (userType.equals("1")) {
+							student = sysStudentService.findByStuNo(loginName);
+							// 默认筛选学生所在专业的专业老师
+							if (majorId == null) {
+								majorIds.add(student.getMajorId());
+							} else {
+								majorIds.add(majorId);
+							}
+							// 查询所带专业
+							sysMajorList.add(sysMajorService.findById(student.getMajorId()));
 
-		                /*************************** 学生选指导老师查询所带老师 ***************************/
+							/*************************** 学生选指导老师查询所带老师 ***************************/
 
-						if (teacherName != null)
-							guideCount.setTeacherName(teacherName);
-						    guideCount.setDeptNumber(student.getDeptNumber());
-						if (allotGuide.getYear() == null)
-							guideCount.setYear(planYear.getYear());
-						// 分页查询可分配老师信息
-						pageResult = allotGuideService.findTeacherList(guideCount,majorIds, getPage(), getRow());
-						footer = PageUtil.pageFooter(pageResult, getRequest());
-						// 老师所带专业信息
-						teacherMajorList = teacherMajorService.findByMajorId(student.getMajorId());
-						// 查询指导老师信息
-						model = allotGuideService.findByStuIdAndYear(
-						student.getStuId(), allotGuide.getYear());
+							if (teacherName != null)
+								guideCount.setTeacherName(teacherName);
+							guideCount.setDeptNumber(student.getDeptNumber());
+							if (allotGuide.getYear() == null)
+								guideCount.setYear(planYear.getYear());
+							// 分页查询可分配老师信息
+							pageResult = allotGuideService.findTeacherList(guideCount, majorIds, getPage(), getRow());
+							footer = PageUtil.pageFooter(pageResult, getRequest());
+							// 老师所带专业信息
+							teacherMajorList = teacherMajorService.findByMajorId(student.getMajorId());
+							// 查询指导老师信息
+							model = allotGuideService.findByStuIdAndYear(
+									student.getStuId(), allotGuide.getYear());
 							if (model != null)
 								teacher = sysTeacherService.findModelById(model.getTeacherId());
+						}
+						// 页面显示专业下拉框信息
+						sysMajorList = sysMajorService.findAllSysMajorList();
+						sysDirectionList = sysDirectionsService.findAll();
+					} catch (Exception e) {
+						e.printStackTrace();
 					}
-					// 页面显示专业下拉框信息
-					sysMajorList = sysMajorService.findAllSysMajorList();
-					sysDirectionList = sysDirectionsService.findAll();
-				} catch (Exception e) {
-					e.printStackTrace();
+					return SUCCESS;
 				}
-				  return SUCCESS;
-		   }
-				  return "view";
-		}else{
+				return SUCCESS;
+			}catch (Exception e){
+				e.printStackTrace();
+				return SUCCESS;
+			}
+		}
+		else{
 	    	      return SUCCESS;
 	    }
 	}
@@ -222,17 +230,15 @@ public class AllotGuideAction extends BaseAction implements
 	 */
 	public String allotStudentList() {
 		/* 登录名称 :查询学院 */
-		String loginName = (String) getSession().getAttribute(
-				SystemContext.LOGINNAME);
+		String loginName = (String) getSession().getAttribute(SystemContext.LOGINNAME);
 		/* 用户类型：1-学生 2-老师 */
-		String userType = (String) getSession().getAttribute(
-				SystemContext.USERTYPE);
+		String userType = (String) getSession().getAttribute(SystemContext.USERTYPE);
 		/************************** 查询教研室信息 *********************************************/
 		//查询 当前学生所属专业教研室  进度计划
 		if(flag!=null&&"01".equals(flag)){
 					if ("1".equals(userType)) {
 						student = sysStudentService.findByStuNo(loginName);		
-				        planProgress=planProgressSerivce.findByStudMajoId(student.getMajorId(),flag);  
+				        planProgress=planProgressSerivce.findByStudMajoId(student.getMajorId( ),flag);
 					}
 					//查询 当前老师所属专业教研室 中的进度计划
 					if ("2".equals(userType)) {
@@ -240,7 +246,7 @@ public class AllotGuideAction extends BaseAction implements
 					    planProgress=planProgressSerivce.findByTeacStaffroomId(teacher.getStaffroomId(),flag); 
 					}
 					Timestamp d = new Timestamp(System.currentTimeMillis()); 
-					if(planProgress!=null&&d.after(planProgress.getStartTime())){
+					if(planProgress!=null&&planProgress.getStartTime()!=null&&d.after(planProgress.getStartTime())){
 						logger.info(" 查询可分配学生列表");//TODO:待修复当前教师所属的教研室未设置进度安排
 						try {
 					/* 专业编号 */

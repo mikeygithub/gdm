@@ -168,67 +168,63 @@ public class GroupStudentAction extends BaseAction implements
 					 planProgress=planProgressSerivce.findByTeacStaffroomId(lTeacher.getStaffroomId(),flag); 
 				}
 				Timestamp d = new Timestamp(System.currentTimeMillis()); 
-				if(d.after(planProgress.getStartTime())){
+				if(planProgress!=null&&planProgress.getStartTime()!=null&&d.after(planProgress.getStartTime())) {
 					logger.info("给学生分组列表");
-					try{
+					try {
 						//查询安排计划年度
 						planYear = planYearSerivce.findPlanYear();
 						/*登录名称	 :查询学院*/
 						//String loginName = (String) getSession().getAttribute(SystemContext.LOGINNAME);
 						/*用户类型：1-学生 2-老师*/
-						
-				
-		      /************************************三级查询，通学院编号查询大类 下拉选择信息 start******************************************/
-			  sysDepartmentList = sysDepartmentService.findAllSysDepartmentList();
-				 if(userType.equals("2")){
-						teacher =  sysTeacherService.findByTeacherNo(loginName);
-			  
-			     if(StringUtils.isEmpty(listGroupStudent.getDeptNumber())){
-				     listGroupStudent.setDeptNumber(teacher.getDeptNumber());
-			     }
-			  }
-			  sysMajorList = sysMajorService.findByDeptNumber(listGroupStudent.getDeptNumber());
-			  sysClassList =  sysClassService.findByMajorId(listGroupStudent.getMajorId());
-				
-		      /***************************三级查询 通学院编号查询大类 下拉选择信息 end*******************************************/
-		
-				
-				if(listGroupStudent.getYear()==null){
-					listGroupStudent.setYear(planYear.getYear()); //默认安排年度
+
+
+						/************************************三级查询，通学院编号查询大类 下拉选择信息 start******************************************/
+						sysDepartmentList = sysDepartmentService.findAllSysDepartmentList();
+						if (userType.equals("2")) {
+							teacher = sysTeacherService.findByTeacherNo(loginName);
+
+							if (StringUtils.isEmpty(listGroupStudent.getDeptNumber())) {
+								listGroupStudent.setDeptNumber(teacher.getDeptNumber());
+							}
+						}
+						sysMajorList = sysMajorService.findByDeptNumber(listGroupStudent.getDeptNumber());
+						sysClassList = sysClassService.findByMajorId(listGroupStudent.getMajorId());
+
+						/***************************三级查询 通学院编号查询大类 下拉选择信息 end*******************************************/
+
+
+						if (listGroupStudent.getYear() == null) {
+							listGroupStudent.setYear(planYear.getYear()); //默认安排年度
+						}
+						if (listGroupStudent.getGroupType() == null) {
+							listGroupStudent.setGroupType("00"); //默认为答辩组
+						}
+
+						/************************************分组信息******************************************/
+						groupAllotList = groupAllotService.findByGroupTypeAndYear(listGroupStudent.getGroupType(), listGroupStudent.getYear());
+						//分组详细信息
+						if (model.getGroupAllotId() != null) {
+							groupAllot = groupAllotService.findViewModelById(model.getGroupAllotId());
+						}
+						//课题类型
+						issueTypeList = sysIssueTypeService.findAll(SysIssueType.class);
+
+						/************************************可分組學生信息******************************************/
+						pageResult = groupStudentService.find(listGroupStudent, groupAllot, getPage(), getRow());
+
+						//System.out.println(pageResult.getData().get(0).get);
+						footer = PageUtil.pageFooter(pageResult, getRequest());
+						/************************************已分組學生信息******************************************/
+						if (listGroupStudent.getGroupAllotId() != null) {
+							groupStudentList = groupStudentService.findByExample(listGroupStudent);
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					return SUCCESS;
 				}
-				if(listGroupStudent.getGroupType()==null){
-					listGroupStudent.setGroupType("00"); //默认为答辩组
-				}
-			
-			   /************************************分组信息******************************************/
-			   groupAllotList = groupAllotService.findByGroupTypeAndYear(listGroupStudent.getGroupType(),listGroupStudent.getYear());
-				//分组详细信息  
-				if(model.getGroupAllotId()!=null){
-					groupAllot	 = groupAllotService.findViewModelById(model.getGroupAllotId());
-				}
-				//课题类型
-				issueTypeList = sysIssueTypeService.findAll(SysIssueType.class);
-				
-				  /************************************可分組學生信息******************************************/
-				  pageResult = groupStudentService.find(listGroupStudent,groupAllot,getPage(),getRow());
-				  
-				  //System.out.println(pageResult.getData().get(0).get);
-				  footer = PageUtil.pageFooter(pageResult, getRequest());
-				  /************************************已分組學生信息******************************************/
-				  if(listGroupStudent.getGroupAllotId() != null){
-					  groupStudentList = groupStudentService.findByExample(listGroupStudent); 
-			      }
-			
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-		return SUCCESS;
-				}else{
-				    return "view";
-				}
-	    }else{
-	    	return null;
 	    }
+	    	return SUCCESS;
 	}
 
 	/**
@@ -254,11 +250,10 @@ public class GroupStudentAction extends BaseAction implements
 					// 学生信息
 					student = sysStudentService.findById(studentId);
 					// 先通过组id查询分组信息
-					GroupAllot groupAllot = groupAllotService
-							.findById(thisGroupId);
-					
+					GroupAllot groupAllot = groupAllotService.findById(thisGroupId);
+                    List<ListGroupTeacher> gt = groupTeacherService.findByGroupIdAndTypeAndYear(thisGroupId, "0", planProgress.getYear());
 					// 若如果学生分配有指导老师 则查询 指导老师是否在当前分组中
-					if (allotGuide.getTeacherId() != null) {
+					if (allotGuide!=null&&allotGuide.getTeacherId() != null) {
 						ListGroupTeacher groupTeacher = groupTeacherService
 								.findByGroupAllotIdAndTeacherIdAndYear(
 										thisGroupId, allotGuide.getTeacherId(),
@@ -274,6 +269,7 @@ public class GroupStudentAction extends BaseAction implements
 						// 是否保存分组学生信息
 						if (isSave) {
 							GroupStudent groupStudent = new GroupStudent();
+							if (gt.size()>0)groupStudent.setDefenseTeacherId(gt.get(0).getTeacherId());//先自动分配给组长评阅
 							groupStudent.setGroupAllotId(thisGroupId);
 							groupStudent.setStudentId(studentId);
 							groupStudent.setStudentNo(student.getStuNo());

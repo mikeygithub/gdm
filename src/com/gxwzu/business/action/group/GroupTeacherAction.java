@@ -135,8 +135,8 @@ public class GroupTeacherAction extends BaseAction implements
 	 * @return
 	 */
 	public String list() {
-		String loginName = (String) getSession().getAttribute(
-				SystemContext.LOGINNAME);
+
+		String loginName = (String) getSession().getAttribute(SystemContext.LOGINNAME);
 		String userType = (String) getSession().getAttribute(SystemContext.USERTYPE);
 		/************************** 查询教研室信息 *********************************************/
 		//查询 当前学生所属专业教研室  进度计划
@@ -151,7 +151,7 @@ public class GroupTeacherAction extends BaseAction implements
 					 planProgress=planProgressSerivce.findByTeacStaffroomId(lTeacher.getStaffroomId(),flag); 
 				}
 				Timestamp d = new Timestamp(System.currentTimeMillis()); 
-				if(d.after(planProgress.getStartTime())){
+				if(planProgress!=null&&planProgress.getStartTime()!=null&&d.after(planProgress.getStartTime())){
 					logger.info("给教师分组列表");
 					try {
 						//查询安排计划年度
@@ -207,10 +207,10 @@ public class GroupTeacherAction extends BaseAction implements
 					}
 					return SUCCESS;
 				}else{
-				    return "view";
+				    return SUCCESS;
 				}
 	    	}else{
-	    	return null;
+	    	return SUCCESS;
 	    }
 	}
 

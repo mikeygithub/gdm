@@ -97,7 +97,7 @@ function openGroup(){
         	<ul class="placeul">
 		<li class="click" style="font-size: 12px;">
 				    <span>选择组名：<s:select cssClass="dfinput" list="groupAllotList" headerKey="" headerValue="所有组名"
-	        		cssStyle="width: auto;" onchange="$('#form1').submit();"
+	        		cssStyle="width: 150px;" onchange="$('#form1').submit();"
 	        		listKey="groupId" listValue="groupName"  name="model.groupAllotId" id="allGroupId"/></span>
 				</li>
 				<s:if test="model.groupAllotId!=null">

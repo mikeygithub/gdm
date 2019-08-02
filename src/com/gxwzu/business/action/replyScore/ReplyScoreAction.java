@@ -113,8 +113,8 @@ public class ReplyScoreAction extends BaseAction implements
     private List<ListGroupTeacher> groupTeachers;//
     private ListReplyScore listReplyScore;//成绩及评阅
     /******************** 集合变量声明 *********************/
-    private Result<ListReplyScore> pageResult; // 评阅审查分页
-    private Result<MaterialInfo> pageResults; // 评阅审查分页
+    private Result<ListReplyScore> pageResult = new Result<>(); // 评阅审查分页
+    private Result<MaterialInfo> pageResult1 = new Result<>(); // 评阅审查分页
     private List<ListReplyScore> replyScoreList = new ArrayList<ListReplyScore>(); // 论文信息列表（用于查询全部）
     private List<SysIssueType> issueTypeList = new ArrayList<SysIssueType>();
     /************************** 基础变量声明 **************/
@@ -168,15 +168,14 @@ public class ReplyScoreAction extends BaseAction implements
                 if ("2".equals(type)) {
                     teacherVO = sysTeacherService.findByTeacherNo(loginName);
                     planProgress = planProgressSerivce.findByTeacStaffroomId(teacherVO.getStaffroomId(), flag);
+                    logger.info("当前教师年度计划"+planProgress);
                 }
                 Timestamp d = new Timestamp(System.currentTimeMillis());
-                if (d.after(planProgress.getStartTime())) {
+                if (planProgress!=null&&planProgress.getStartTime()!=null&&d.after(planProgress.getStartTime())) {
                     logger.info("老师查询所在组已分配评阅的学生信息");
-
                     // 老师查询学生课题信息
                     if (type.equals("2")) {
                         teacherVO = sysTeacherService.findByTeacherNo(loginName);
-
                         // 设置年度
                         if (thisYear != null) {
                             model.setYear(thisYear);
@@ -201,9 +200,12 @@ public class ReplyScoreAction extends BaseAction implements
                             }
                         }
                         //老师查询所在组的学生信息
-                        pageResults = materialInfoSerivce.findGroupStudent(groupAllotId, model.getYear(), getPage(), getRow());
+                        pageResult1 = materialInfoSerivce.findGroupStudent(groupAllotId, model.getYear(), getPage(), getRow());
 
-                        footer = PageUtil.pageFooter(pageResults, getRequest());
+
+                        logger.info("pageResult1=>"+pageResult1);
+
+                        footer = PageUtil.pageFooter(pageResult1, getRequest());
                         //指导老师查询自己所在教研室进度计划信息
                         if (teacher.getStaffroomId() == null) {
                             teacher.setStaffroomId(-1);
@@ -215,7 +217,7 @@ public class ReplyScoreAction extends BaseAction implements
                     return SUCCESS;
 
                 } else {
-                    return "view";
+                    return SUCCESS;
                 }
             } else {
                 return SUCCESS;
@@ -552,6 +554,7 @@ public class ReplyScoreAction extends BaseAction implements
                 replyScore.setReplyType(type);
             } else {
                 logger.info("毕业设计成绩列表为空");
+                replyScore = new ListReplyScore();
             }
             out.print(new Gson().toJson(replyScore));
             out.flush();
@@ -775,12 +778,12 @@ public class ReplyScoreAction extends BaseAction implements
         return lTeacher;
     }
 
-    public Result<MaterialInfo> getPageResults() {
-        return pageResults;
+    public Result<MaterialInfo> getPageResult1() {
+        return pageResult1;
     }
 
-    public void setPageResults(Result<MaterialInfo> pageResults) {
-        this.pageResults = pageResults;
+    public void setPageResult1(Result<MaterialInfo> pageResult1) {
+        this.pageResult1 = pageResult1;
     }
 
     public void setlTeacher(ListTeacher lTeacher) {

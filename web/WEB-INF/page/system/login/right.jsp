@@ -132,7 +132,8 @@
     function getformatdate(startTime) {
         var formate_datetime;
         if(startTime == undefined) {
-            return formate_datetime;
+            // return formate_datetime;
+            return "";
         }
         var array = startTime.split(" ");
         var date = array[0];
@@ -228,38 +229,38 @@
         function loadScore() {
 
             $.post('<%=path%>/biz/replyScore_loadReplyScoreList.action', function (res) {
+                if (res === null) return;
                 var scoreMenu = getReplyScore();
                 var scorelist = $('#gradscore');
                 var result = eval('(' + res + ')');
-
-                if (result.replyType == "1") {
-                    scorelist.find("li").each(function (index, con) {
-                        var timeline_title_div = $(this).children("div").children("div");
-                        switch (index) {
-                            case 0:
-                                timeline_title_div.html(result.openReport);
-                                break;
-                            case 1:
-                                timeline_title_div.html(result.checkScore);
-                                break;
-                            case 2:
-                                timeline_title_div.html(result.guideScore);
-                                break;
-                            case 3:
-                                timeline_title_div.html(result.readScore);
-                                break;
-                            case 4:
-                                timeline_title_div.html(result.replyScore);
-                                break;
-                            case 5:
-                                timeline_title_div.html(result.replyScoreFinish);
-                                break;
-                            case 6:
-                                timeline_title_div.html(result.grade);
-                                break;
-                        }
-                    });
-                }
+                if (result.replyType == 1) {
+                        scorelist.find("li").each(function (index, con) {
+                            var timeline_title_div = $(this).children("div").children("div");
+                            switch (index) {
+                                case 0:
+                                    timeline_title_div.html(result.openReport);
+                                    break;
+                                case 1:
+                                    timeline_title_div.html(result.checkScore);
+                                    break;
+                                case 2:
+                                    timeline_title_div.html(result.guideScore);
+                                    break;
+                                case 3:
+                                    timeline_title_div.html(result.readScore);
+                                    break;
+                                case 4:
+                                    timeline_title_div.html(result.replyScore);
+                                    break;
+                                case 5:
+                                    timeline_title_div.html(result.replyScoreFinish);
+                                    break;
+                                case 6:
+                                    timeline_title_div.html(result.grade);
+                                    break;
+                            }
+                        });
+                    }
             });
         }
 
@@ -268,9 +269,7 @@
             $.post('<%=path%>/sys/notice_loadNoticeList.action', function (res) {
                 var noticelist = $('#sysNotice');
                 var result = eval('(' + res + ')');
-
                 $.each(result, function (index, con) {
-
                     var noticelist_li = $('<li onclick="openNotice(' + con.noticeId + ')" class="noli"></li>');
                     var noticelist_span = $('<img src=\"<%=path%>/images/titleb.png \">');
                     var noticelist_a = $('<a id="noa">&nbsp;&nbsp;' + con.noticeName + '</a>');
@@ -279,7 +278,6 @@
                     noticelist_a.appendTo(noticelist_li);
                     noticelist_time.appendTo(noticelist_li);
                     noticelist_li.appendTo(noticelist);
-
                 });
             });
         }
@@ -315,12 +313,12 @@
                 if (!result.success) {
                     return;
                 } else {
-                    console.log('result length:' + result.obj.length);
+                    // console.log('result length:' + result.obj.length);
                     var thisId = result.obj[2];
                     var userType = result.obj[3];
                     if (userType == 2) {
                         $.each(result.obj[0], function (index, con) {
-                            console.log(con.student.majorName);
+                            // console.log(con.student.majorName);
                             setChatinfoItem(con.student.stuId, 1, con.student.stuName, con.student.userImg, con.student.majorName, con.classId, con.categoryId, 0);
                         });
                     } else {

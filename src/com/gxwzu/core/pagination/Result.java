@@ -49,7 +49,8 @@ public class Result<T> implements Serializable {
 	}
     
     public int getPage() {
-    	return offset/size + 1;
+    	if (size==0)size=1;
+    	return offset/size + 1;//这什么分页阿 bug 一堆堆 我靠
     }
     
     public void setPage(int page) {

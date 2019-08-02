@@ -3,7 +3,7 @@
 
 <script type="text/javascript" src="<%=path%>/third/laypage-v1.3/laypage/laypage.js"></script>
      <div class="pagin">
-    	<div class="message">共<i class="blue">${pageResult.total }</i>条记录，当前显示第&nbsp;<i class="blue">${pageResult.page}&nbsp;</i>页，总页数：<i class="blue">${pageResult.totalPage }</i> 页</div>
+    	<div class="message">共<i class="blue">${pageResult.total!=null?pageResult.total:0 }</i>条记录，当前显示第&nbsp;<i class="blue">${pageResult.page!=null?pageResult.page:0}&nbsp;</i>页，总页数：<i class="blue">${pageResult.totalPage!=null?pageResult.totalPage:0 }</i> 页</div>
         <ul class="paginList">
         <li ><s:if test="pageResult.totalPage==1">  <!-- 分页  如果总页数为1 则显示自定义分页 -->
 	<div name="laypage1.3" style="text-align:center;" class="laypage_main laypageskin_molv" id="laypage_0"><span class="laypage_curr" style="background-color:#3EAFE0">1</span><span class="laypage_total"><label>到第</label><input type="number" min="1" onkeyup="this.value=this.value.replace(/\D/, '');" class="laypage_skip"><label>页</label><button type="button" class="laypage_btn">确定</button></span></div>
@@ -21,11 +21,11 @@
 	  //分页
 	  laypage({
 		  cont: $('#page3'), //容器。值支持id名、原生dom对象，jquery对象,
-		  pages: ${pageResult.totalPage}, //总页数
+		  pages: ${pageResult.totalPage!=null?pageResult.totalPage:0}, //总页数
 		  skip: true, //是否开启跳页
 		  skin: '#3EAFE0',
 		  groups: 3, //连续显示分页数
-		  curr: ${pageResult.page}, //当前页
+		  curr: ${pageResult.page!=null?pageResult.page:0}, //当前页
 		  jump: function(obj, first){
 			  //得到了当前页，用于向服务端请求对应数据
 			  var curr = obj.curr;

@@ -273,7 +273,7 @@ $(function(){
 								<tr >
 									<th>手机号码：</th>
 									<td class="textContent" colspan="3">
-									<input type="text" class="dfinput" placeholder="请输入课题"
+									<input type="text" class="dfinput" placeholder="请输入手机号码"
 								 value="${model.userTel}"
 								id="model.userTel" name="model.userTel" >
 									</td>
@@ -281,7 +281,7 @@ $(function(){
 								<tr>
 									<th>QQ邮箱：</th>
 									<td class="textContent" colspan="3">
-									<input type="text" class="dfinput" placeholder="请输入课题"
+									<input type="text" class="dfinput" placeholder="请输入QQ邮箱"
 								 value="${model.userEmail}"
 								id="model.userEmail" name="model.userEmail" > 
 									</td>

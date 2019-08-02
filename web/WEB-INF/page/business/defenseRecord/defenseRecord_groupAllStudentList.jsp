@@ -44,7 +44,7 @@
 
 
     <form id="form1" name="form1"
-          action="<%=path%>/biz/replyScore_list.action?view=list&page=${pageResults.page}&thisReplyType=00&flag=12"
+          action="<%=path%>/biz/replyScore_list.action?view=list&page=${pageResult1.page}&thisReplyType=00&flag=12"
           method="post">
         <div class="place">
             <ul class="placeul">
@@ -88,7 +88,7 @@
         </tr>
         </thead>
         <tbody>
-        <s:iterator id="p" value="pageResults.data" status="pp">
+        <s:iterator id="p" value="pageResult1.data" status="pp">
             <tr id="tr_${student.stuId }">
                 <td align="center"><input type="checkbox" name="check_sel"
                                           value="${student.stuId }" title="${student.stuName}"/></td>
@@ -141,7 +141,7 @@
         </s:iterator>
         </tbody>
     </table>
-    <%@ include file="/WEB-INF/common/pagination.jsp" %>
+    <%@ include file="/WEB-INF/common/pagination1.jsp" %>
 </div>
 
 <script type="text/javascript">

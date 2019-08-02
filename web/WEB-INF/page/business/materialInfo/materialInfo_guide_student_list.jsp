@@ -115,9 +115,14 @@
 					       </s:else>
 				        </td> 
 						  <td align="center" >
-					      <s:iterator  id="p" value="issueTypeList" status="sp">
-							<s:if test="issueInfo.issueType!=null&&issueInfo!=null&&issueInfo.issueType.contains(\"&\"+issueTypeId+\"&\")">${issueTypeName }&nbsp;</s:if>
-						 </s:iterator>
+							  <s:if test="issueInfo.issueType==''||issueInfo.issueType==null">
+								  <font color="red">未录入</font>
+							  </s:if>
+							  <s:else>
+								  <s:iterator  id="p" value="issueTypeList" status="sp">
+									  <s:if test="issueInfo.issueType!=null&&issueInfo!=null&&issueInfo.issueType.contains(\"&\"+issueTypeId+\"&\")">${issueTypeName }&nbsp;</s:if>
+								  </s:iterator>
+							  </s:else>
 					    </td>
 				        
 						<td align="center">

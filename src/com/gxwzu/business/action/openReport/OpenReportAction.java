@@ -223,7 +223,7 @@ public class OpenReportAction extends BaseAction implements ModelDriven<OpenRepo
 					}
 					return SUCCESS;
 				}else{
-				    return "view";
+				    return SUCCESS;
 				}
 	    }else{
 	    	return SUCCESS;
@@ -282,8 +282,8 @@ public class OpenReportAction extends BaseAction implements ModelDriven<OpenRepo
 				}
 				Timestamp d = new Timestamp(System.currentTimeMillis()); 
 				logger.info("学生ID："+thisStuId+"\t年度："+thisYear+"\t开题报告ID："+thisId);
-				if(d.after(planProgress.getStartTime())){
-					try {
+					if (planProgress!=null&&planProgress.getStartTime()!=null&&d.after(planProgress.getStartTime())) {
+						try {
 						if (thisStuId!= null&&thisYear!=null) {
 							if ( thisId != null){
 								model = openReportSerivce.findById(thisId);
@@ -299,7 +299,7 @@ public class OpenReportAction extends BaseAction implements ModelDriven<OpenRepo
 					}
 					return openAdd();
 				}else{
-				    return "view";
+				    return SUCCESS;
 				}
 	    }else{
 	    	return SUCCESS;

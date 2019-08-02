@@ -3,7 +3,8 @@
 
 <script type="text/javascript" src="<%=path%>/third/laypage-v1.3/laypage/laypage.js"></script>
      <div class="pagin">
-    	<div class="message">共<i class="blue">${pageResult2.total }</i>条记录，当前显示第&nbsp;<i class="blue">${pageResult2.page}&nbsp;</i>页，总页数：<i class="blue">${pageResult2.totalPage }</i> 页</div>
+         <div class="message">共<i class="blue">${pageResult2.total!=null?pageResult2.total:0 }</i>条记录，当前显示第&nbsp;<i class="blue">${pageResult2.page!=null?pageResult2.page:0}&nbsp;</i>页，总页数：<i class="blue">${pageResult2.totalPage!=null?pageResult2.totalPage:0 }</i> 页</div>
+<%--    	<div class="message">共<i class="blue">${pageResult2.total }</i>条记录，当前显示第&nbsp;<i class="blue">${pageResult2.page}&nbsp;</i>页，总页数：<i class="blue">${pageResult2.totalPage }</i> 页</div>--%>
         <ul class="paginList">
         <li ><s:if test="pageResult2.totalPage==1">  <!-- 分页  如果总页数为1 则显示自定义分页 -->
 	<div name="laypage1.3" style="text-align:center;" class="laypage_main laypageskin_molv" id="laypage_0"><span class="laypage_curr" style="background-color:#3EAFE0">1</span><span class="laypage_total"><label>到第</label><input type="number" min="1" onkeyup="this.value=this.value.replace(/\D/, '');" class="laypage_skip"><label>页</label><button type="button" class="laypage_btn">确定</button></span></div>

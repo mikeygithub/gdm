@@ -147,7 +147,7 @@ function openGroup(name,thisId,groupName,type){
 				<ul class="placeul">
 		        	<li class="click" style="font-size: 12px;">
 				    <span>选择组名：<s:select cssClass="dfinput" list="groupAllotList" headerKey="" headerValue="所有组名"
-	        		cssStyle="width: auto;" onchange="$('#form1').submit();" 
+	        		cssStyle="width: 130px;"
 	        		listKey="groupId" listValue="groupName"  name="model.groupAllotId" id="allGroupId"/></span>
 				</li>
 					<s:if test="model.groupAllotId!=null">
@@ -250,20 +250,42 @@ function openGroup(name,thisId,groupName,type){
 				        <td align="center" > ${majorName} </td>
 					    <td align="center" > ${className} </td>
 					    <td align="center" >
-					      <s:iterator  id="p" value="issueTypeList" status="sp">
-							<s:if test="issueType.contains(\"&\"+issueTypeId+\"&\")">${issueTypeName }&nbsp;</s:if>
-						 </s:iterator>
+							<s:if test="issueType==''||issueType==null">
+								<font color="red">未录入</font>
+							</s:if>
+							<s:else>
+								<s:iterator  id="p" value="issueTypeList" status="sp">
+									<s:if test="issueType.contains(\"&\"+issueTypeId+\"&\")">${issueTypeName }&nbsp;</s:if>
+								</s:iterator>
+							</s:else>
 					    </td>
-					    <td align="center" >${issueName }</td>
-					    <td align="center" >${teacherName }</td>
+						<td align="center" >
+							<s:if test="issueName==null||issueName==''">
+								<font color="red">未录入</font>
+							</s:if>
+							<s:else>
+								${issueName }
+							</s:else>
+						</td>
+					    <td align="center" >
+							<s:if test="teacherId==null&&teacherName==''">
+								<font color="red">未选择</font>
+							</s:if>
+							<s:else>
+								${teacherName }
+							</s:else>
+						</td>
 					    <td align="center" >${planYear.year }</td>
 					    <td align="center" width="20%">
-					       <s:if test="groupAllotId==null" >
+					       <s:if test="teacherId!=null&&groupAllotId==null" >
 							   <a href="javascript:void(0)"
 									   target="rightFrame" onclick="option(this,${stuId},'${stuName}')"> 
 									   <font color="green"> <i class="layui-icon">&#xe618;</i>选择</font>
 							   </a>
 						   </s:if>
+							<s:elseif test="teacherId==null">
+								<font color="red">请先选择指导老师</font>
+							</s:elseif>
 						   <s:else>
 						      <font color="red"> 已选择</font>
 						   </s:else>
@@ -317,7 +339,7 @@ function option(name,stuId,stuName){
 	 if(allGroupId == ""){
 	        layer.alert('请先选择组名',{icon: 3});
 	        return;
-	 }     
+	 }
     	var index = layer.confirm(allGroupName+'<br>您确定选择 以下学生吗?<br><font color=\'blue\'>'+stuName+'</font>',{icon: 3, title:'提示'}, function(index){
     		      layer.close(index);
 		          var index = layer.load(1);
