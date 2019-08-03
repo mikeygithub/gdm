@@ -84,7 +84,7 @@
 <div class="place">
     <span>位置：</span>
     <ul class="placeul">
-        <li><a href="#">首页</a>
+        <li><a href="#" target="_parent">首页</a>
         </li>
         <li><a href="#">工作台</a>
         </li>
@@ -266,7 +266,7 @@
 
         /*公告信息  */
         function loadNotice() {
-            $.post('<%=path%>/sys/notice_loadNoticeList.action', function (res) {
+            $.post('<%=path%>/sys/notice_loadNoticeList.action?newNum=10', function (res) {
                 var noticelist = $('#sysNotice');
                 var result = eval('(' + res + ')');
                 $.each(result, function (index, con) {

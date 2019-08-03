@@ -116,6 +116,7 @@ public class SysNoticeAction extends BaseAction implements ModelDriven<SysNotice
 	private File imagey;//图片上传
 	private String imageyFileName;
 	private String imageyContentType;
+	private Integer newNum;//获取最新的通知条数
 
 	/************************ 方法体 ********************/
 
@@ -274,7 +275,13 @@ public class SysNoticeAction extends BaseAction implements ModelDriven<SysNotice
 				
 			}
 			
-			sysNoticeList = sysNoticeService.findAll(model);
+			if (newNum!=null&&newNum>0){//查询最新的通知
+				logger.info("查询公告条数"+newNum);
+				sysNoticeList = sysNoticeService.findByMostNew(model,newNum);
+			}else {
+				sysNoticeList = sysNoticeService.findAll(model);
+			}
+			logger.info(sysNoticeList.size());
 			out.print(new Gson().toJson(sysNoticeList));
 			out.flush();
 			out.close();
@@ -395,5 +402,13 @@ public class SysNoticeAction extends BaseAction implements ModelDriven<SysNotice
 
 	public void setSysDepartment(SysDepartment sysDepartment) {
 		this.sysDepartment = sysDepartment;
+	}
+
+	public Integer getNewNum() {
+		return newNum;
+	}
+
+	public void setNewNum(Integer newNum) {
+		this.newNum = newNum;
 	}
 }

@@ -55,4 +55,9 @@ public class SysNoticeServiceImpl extends BaseServiceImpl<SysNotice> implements 
 		return SysNoticeDao.findAll(model);
 	}
 
+	@Override
+	public List<SysNotice> findByMostNew(SysNotice model,Integer newNum) {
+		return SysNoticeDao.findByMostNew(model,newNum);
+	}
+
 }

@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.xwork.StringUtils;
+import org.hibernate.Criteria;
+import org.hibernate.classic.Session;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import com.gxwzu.core.dao.impl.BaseDaoImpl;
@@ -112,6 +116,32 @@ public class SysNoticeDaoImpl extends BaseDaoImpl<SysNotice> implements ISysNoti
 		return super.findByExample(queryString, params.toArray());
 	}
 
-	
+	/**
+	 * 查询最新的公告
+	 * @param model
+	 * @param newNum
+	 * @return
+	 */
+	@Override
+	public List<SysNotice> findByMostNew(SysNotice model,Integer newNum) {
+
+        Session session = super.getSessionFactory().openSession();
+		Criteria criteria = session.createCriteria(SysNotice.class);
+
+		List<SysNotice> list = null;
+		if (model!=null&&model.getMajorId()!=null) {
+			list = criteria.add(
+					Restrictions.or(
+							Restrictions.eq("majorId", model.getMajorId()),
+							Restrictions.eq("majorId", -2)))
+					.setFirstResult(1)
+					.setMaxResults(10).addOrder(Order.desc("noticeTime")).list();
+		}else {
+			list = criteria.setFirstResult(1).setMaxResults(10).addOrder(Order.desc("noticeTime")).list();
+		}
+		session.close();
+		return list;
+	}
+
 
 }

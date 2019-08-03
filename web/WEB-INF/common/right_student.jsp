@@ -179,8 +179,8 @@
 	<div id="chatbottom" onclick="loadChatInfo()"
 		style="position: absolute;bottom: 0;width: 150px;right: 0;border: 1px solid #ddd;height: 50px;box-shadow: 1px 1px 50px rgba(0,0,0,.3);">
 		<img
-			src="http://cdn.firstlinkapp.com/upload/2016_6/1465575923433_33812.jpg"
+			src="<%=path%>/images/qq.jpg"
 			style="width: 40px;height: 40px;
            border-radius: 25px;float: left;margin: 6px;"><span
-			style="height: 50px;line-height: 50px;font-size:16px;">最新消息<span class="layui-badge">5+</span></span>
+			style="height: 50px;line-height: 50px;font-size:16px;">最新消息<span class="layui-badge message-count">5+</span></span>
 	</div>

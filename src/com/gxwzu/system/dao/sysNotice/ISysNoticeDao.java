@@ -17,5 +17,6 @@ public interface ISysNoticeDao extends BaseDao<SysNotice> {
   public List<SysNotice> findSysNoticeList();
 
   public List<SysNotice> findAll(SysNotice model);
-  
+
+    List<SysNotice> findByMostNew(SysNotice model,Integer newNum);
 }

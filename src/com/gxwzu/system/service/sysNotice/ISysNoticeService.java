@@ -24,4 +24,5 @@ public interface ISysNoticeService extends BaseService<SysNotice> {
 
 	public List<SysNotice> findAll(SysNotice model);
 
+    List<SysNotice> findByMostNew(SysNotice model,Integer newNum);
 }
