@@ -48,12 +48,36 @@
 
             layer.open({
                 type: 2,
-                area: ['45%', '70%'],
-                offset: '100px',
+                area: ['99%', '99%'],
+                offset: '10px',
                 fix: false, //不固定
                 title: false,
                 maxmin: true,
-                content: '<%=path%>/sys/notice_openNotice.action?view=detail&model.noticeId=' + noticeId
+                content: '<%=path%>/sys/notice_openNotice.action?view=detail&model.noticeId=' + noticeId,
+                //去除最大化最小化
+                success: function(layero) {
+                    layero.find('.layui-layer-min').remove();
+                    layero.find('.layui-layer-max').remove();
+                }
+            });
+
+        }
+
+        /*打开公告通知列表*/
+        function openNoticeList() {
+            layer.open({
+                type: 2,
+                area: ['99%', '99%'],
+                offset: '10px',
+                fix: false, //不固定
+                title: false,
+                maxmin: true,
+                content: '<%=path%>/sys/notice_list.action?view=list',
+                //去除最大化最小化
+                success: function(layero) {
+                    layero.find('.layui-layer-min').remove();
+                    layero.find('.layui-layer-max').remove();
+                }
             });
 
         }
@@ -84,7 +108,8 @@
 <div class="place">
     <span>位置：</span>
     <ul class="placeul">
-        <li><a href="#" target="_parent">首页</a>
+        <li><a href="<%=path%>/sys/login_view.action?view=right" target="_parent"></a></li>
+<%--        <li><a href="#" target="_parent">首页</a>--%>
         </li>
         <li><a href="#">工作台</a>
         </li>

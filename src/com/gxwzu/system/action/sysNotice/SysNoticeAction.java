@@ -118,6 +118,7 @@ public class SysNoticeAction extends BaseAction implements ModelDriven<SysNotice
 	private String imageyContentType;
 	private Integer newNum;//获取最新的通知条数
 
+	private UserHelp LoginUser;//用户类型：1.学生 2.老师 3.管理员
 	/************************ 方法体 ********************/
 
 	/**
@@ -130,7 +131,7 @@ public class SysNoticeAction extends BaseAction implements ModelDriven<SysNotice
 		try {
 			String loginName = (String) getSession().getAttribute(
 					SystemContext.LOGINNAME);
-			String type = (String) getSession().getAttribute(
+			String userType = (String) getSession().getAttribute(
 					SystemContext.USERTYPE);
 			
 			userHelpList = userHelpService.findAll(UserHelp.class);
@@ -138,9 +139,11 @@ public class SysNoticeAction extends BaseAction implements ModelDriven<SysNotice
 		    List<UserHelp> userHelp = userHelpService.findByLoginName(loginName);
 		    
 			model.setUserId(userHelp.get(0).getId());
-			
+			LoginUser = userHelp.get(0);//当前登入的用户
+			logger.info("当前登入的用户"+userHelp);
 			pageResult = sysNoticeService.find(model, getPage(), getRow());
 			footer = PageUtil.pageFooter(pageResult, getRequest());
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -410,5 +413,13 @@ public class SysNoticeAction extends BaseAction implements ModelDriven<SysNotice
 
 	public void setNewNum(Integer newNum) {
 		this.newNum = newNum;
+	}
+
+	public UserHelp getLoginUser() {
+		return LoginUser;
+	}
+
+	public void setLoginUser(UserHelp loginUser) {
+		LoginUser = loginUser;
 	}
 }

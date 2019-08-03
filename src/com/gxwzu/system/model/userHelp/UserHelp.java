@@ -172,23 +172,23 @@ public class UserHelp implements java.io.Serializable {
 		this.userImg = userImg;
 	}
 
-	@Override
-	public String toString() {
-		return "UserHelp{" +
-				"id=" + id +
-				", userName='" + userName + '\'' +
-				", loginName='" + loginName + '\'' +
-				", password='" + password + '\'' +
-				", userType='" + userType + '\'' +
-				", userSex='" + userSex + '\'' +
-				", userAge='" + userAge + '\'' +
-				", userTel='" + userTel + '\'' +
-				", userEmail='" + userEmail + '\'' +
-				", userImg='" + userImg + '\'' +
-				", opTime=" + opTime +
-				", sign='" + sign + '\'' +
-				", sysRoles=" + sysRoles +
-				", sysRoleList=" + sysRoleList +
-				'}';
-	}
+//	@Override
+//	public String toString() {
+//		return "UserHelp{" +
+//				"id=" + id +
+//				", userName='" + userName + '\'' +
+//				", loginName='" + loginName + '\'' +
+//				", password='" + password + '\'' +
+//				", userType='" + userType + '\'' +
+//				", userSex='" + userSex + '\'' +
+//				", userAge='" + userAge + '\'' +
+//				", userTel='" + userTel + '\'' +
+//				", userEmail='" + userEmail + '\'' +
+//				", userImg='" + userImg + '\'' +
+//				", opTime=" + opTime +
+//				", sign='" + sign + '\'' +
+//				", sysRoles=" + sysRoles +
+//				", sysRoleList=" + sysRoleList +
+//				'}';
+//	}
 }

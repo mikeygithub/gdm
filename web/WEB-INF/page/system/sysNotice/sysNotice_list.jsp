@@ -80,7 +80,7 @@ function openAdd(){
 		</ul>
 		</div>
      </form>
-        <table class="tablelist" >
+        <table class="tablelist fix-table" >
     	<thead>
     	<tr>
     	<th>序号</th>
@@ -106,14 +106,29 @@ function openAdd(){
 		                </td>
 						
 						<td align="center" >${noticeName}</td>
-						<td align="center" >${noticeContent}</td>
+						<td align="center" class="fix-td" >${noticeContent}</td>
 						<td align="center" >${noticeTime}</td>
 						<td align="center" width="20%">
+							<s:if test="LoginUser.id==#p.userId">
+								<a href="javascript:void(0)"
+								   target="rightFrame" onclick="del(this,${noticeId});"> <font
+										color="red"> <i class="layui-icon">&#xe640;</i>删除
+								</font>
+								</a>
+							</s:if>
 							<a href="javascript:void(0)"
-							target="rightFrame" onclick="del(this,${noticeId});"> <font
-								color="red"> <i class="layui-icon">&#xe640;</i>删除
+							   onclick="openNotice(${noticeId});"> <font
+									color="red"> <i class="layui-icon">&#xe649;</i>详情
 							</font></a>
-								</td>
+<%--							管理员可删除所有通知--%>
+							<s:if test="LoginUser.userType=='3'">
+								<a href="javascript:void(0)"
+								   target="rightFrame" onclick="del(this,${noticeId});"> <font
+										color="red"> <i class="layui-icon">&#xe640;</i>删除
+								</font>
+								</a>
+							</s:if>
+						</td>
 					</tr>
 				</s:iterator>
 				</tbody>
@@ -151,6 +166,24 @@ function del(name,id){
 				);
 			}
 		}
+
+function openNotice(noticeId) {
+	layer.open({
+		type: 2,
+		area: ['99%', '99%'],
+		offset: '10px',
+		fix: false, //不固定
+		title: false,
+		maxmin: false,
+		content: '<%=path%>/sys/notice_openNotice.action?view=detail&model.noticeId=' + noticeId,
+		//去除最大化最小化
+		success: function(layero) {
+			layero.find('.layui-layer-min').remove();
+			layero.find('.layui-layer-max').remove();
+		}
+		});
+
+}
 </script>
 </body>
 </html>
