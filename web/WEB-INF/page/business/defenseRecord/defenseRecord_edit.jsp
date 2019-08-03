@@ -20,9 +20,7 @@
 
 
 <script type="text/javascript">
-
 	$(function(){
-
 		    //校验手机号码
 	 	    $.validator.addMethod("mobile", function(value, element) {
 				var length = value.length;
@@ -66,8 +64,9 @@
 		   $("#defenseContent").val(getCon());
 	   }
 	 layui.use('form', function(){
-		  var form = layui.form();
-		});
+		  // var form = layui.form();
+		 var form = layui.form;
+	 });
 </script>
 
 <style type="text/css">

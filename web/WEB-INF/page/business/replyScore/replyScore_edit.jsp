@@ -26,12 +26,15 @@
 			focusInvalid : false, //当为false时，验证无效时，没有焦点响应  
 			onkeyup : false,
 			submitHandler : function(form) { //表单提交句柄,为一回调函数，带一个参数：form
-				if (confirm("是否要保存信息？")) {
-					form.submit(); //提交表单
-					var index = layer.load(2, {
-						time : 10 * 1000
-					}); //又换了种风格，并且设定最长等待10秒 
-				}
+				// if (layer.confirm("？")) {
+                    layer.confirm('是否要保存信息 ?', {icon: 3, title:'提示'}, function(index){
+                        //do something
+						form.submit(); //提交表单
+                        layer.close(index);
+                    });
+
+					// var index = layer.load(2, {time : 10 * 1000}); //又换了种风格，并且设定最长等待10秒
+				// }
 			},
 			rules : {
 				"model.reviewContent":{
@@ -78,7 +81,8 @@
 	}
 
 	layui.use('form', function() {
-		var form = layui.form();
+		// var form = layui.form();
+		var form = layui.form;
 	});
 </script>
 

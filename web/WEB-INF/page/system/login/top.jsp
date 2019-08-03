@@ -39,9 +39,10 @@ $(function(){
     		<li style="color:red;font-size: 14px"><sec:authentication property="principal.username"></sec:authentication></li>
     		<li>
     		
-    		<a href="<%=path%>/sys/userHelp_openEditUserInfo.action?view=userInfo&userHelpSign=0" target="rightFrame" >个人信息修改</a></li>
-    		
-    		<li><a href="<%=path %>/Userlogin_logout.action" target="_parent">退出系统</a></li>
+<%--    		<a href="<%=path%>/sys/userHelp_openEditUserInfo.action?view=userInfo&userHelpSign=0" target="rightFrame" >个人信息修改</a></li>--%>
+			<a href="<%=path%>/sys/userHelp_openUserInfo.action?view=userInfo" target="rightFrame" >个人信息修改</a></li>
+
+			<li><a href="<%=path %>/Userlogin_logout.action" target="_parent">退出系统</a></li>
     	</ul>
     	
     	<div class="user">

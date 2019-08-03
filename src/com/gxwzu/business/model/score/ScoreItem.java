@@ -91,4 +91,16 @@ public class ScoreItem implements java.io.Serializable {
 		this.year = year;
 	}
 
+	@Override
+	public String toString() {
+		return "ScoreItem{" +
+				"scoreItemId=" + scoreItemId +
+				", itemGroupNo='" + itemGroupNo + '\'' +
+				", itemName='" + itemName + '\'' +
+				", itemScore=" + itemScore +
+				", weight=" + weight +
+				", itemType='" + itemType + '\'' +
+				", year=" + year +
+				'}';
+	}
 }

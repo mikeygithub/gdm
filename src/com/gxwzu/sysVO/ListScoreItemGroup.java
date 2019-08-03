@@ -105,6 +105,17 @@ public class ListScoreItemGroup implements java.io.Serializable {
 		this.totalCount = totalCount;
 	}
 
-	
-	
+	@Override
+	public String toString() {
+		return "ListScoreItemGroup{" +
+				"itemGroupId=" + itemGroupId +
+				", groupName='" + groupName + '\'' +
+				", weight=" + weight +
+				", groupPercent='" + groupPercent + '\'' +
+				", groupType='" + groupType + '\'' +
+				", groupNo='" + groupNo + '\'' +
+				", totalCount=" + totalCount +
+				", scoreItemList=" + scoreItemList +
+				'}';
+	}
 }

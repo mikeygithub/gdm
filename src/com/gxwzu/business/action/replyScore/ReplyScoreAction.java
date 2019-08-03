@@ -168,10 +168,10 @@ public class ReplyScoreAction extends BaseAction implements
                 if ("2".equals(type)) {
                     teacherVO = sysTeacherService.findByTeacherNo(loginName);
                     planProgress = planProgressSerivce.findByTeacStaffroomId(teacherVO.getStaffroomId(), flag);
-                    logger.info("当前教师年度计划"+planProgress);
+                    logger.info("当前教师年度计划" + planProgress);
                 }
                 Timestamp d = new Timestamp(System.currentTimeMillis());
-                if (planProgress!=null&&planProgress.getStartTime()!=null&&d.after(planProgress.getStartTime())) {
+                if (planProgress != null && planProgress.getStartTime() != null && d.after(planProgress.getStartTime())) {
                     logger.info("老师查询所在组已分配评阅的学生信息");
                     // 老师查询学生课题信息
                     if (type.equals("2")) {
@@ -203,7 +203,7 @@ public class ReplyScoreAction extends BaseAction implements
                         pageResult1 = materialInfoSerivce.findGroupStudent(groupAllotId, model.getYear(), getPage(), getRow());
 
 
-                        logger.info("pageResult1=>"+pageResult1);
+                        logger.info("pageResult1=>" + pageResult1);
 
                         footer = PageUtil.pageFooter(pageResult1, getRequest());
                         //指导老师查询自己所在教研室进度计划信息
@@ -255,11 +255,12 @@ public class ReplyScoreAction extends BaseAction implements
      *
      * @return
      */
-    public String add() {
+    public void add() {
+        boolean isSuccess = false;
         String loginName = (String) getSession().getAttribute(SystemContext.LOGINNAME);
         String type = (String) getSession().getAttribute(SystemContext.USERTYPE);
         ResponeJson rJson = new ResponeJson();
-        System.out.println(thisReplyType + "," + thisStuId + "," + thisYear + "," + thisScore);
+        logger.info(thisReplyType + "," + thisStuId + "," + thisYear + "," + thisScore + model.getReplyLink());
         /************************** 查询教研室信息 *********************************************/
         try {
             logger.info(thisStuId + "" + thisYear + "" + thisReplyType);
@@ -296,7 +297,7 @@ public class ReplyScoreAction extends BaseAction implements
                 }
                 //优”（90分以上）；“良”（80～89）；“中”（70～79）；“及格”（60～69）；“不及格”（60以下）
                 if (replyScore != null && checkScore != null && guideScore != null && replyScore != null) {
-                    System.out.println(readScore + "," + checkScore + "," + guideScore + "," + replyScore);
+                    logger.info(readScore + "," + checkScore + "," + guideScore + "," + replyScore);
                     int replyScoreFinish = (int) (readScore + checkScore + guideScore + replyScore);
                     model.setReplyScoreFinish(replyScoreFinish);
                     System.out.println("最终成绩：" + replyScoreFinish);
@@ -340,7 +341,17 @@ public class ReplyScoreAction extends BaseAction implements
             mark = "0";
         }
         mark = "1";
-        return SUCCESS;
+        isSuccess = true;
+        PrintWriter out = null;
+        try {
+            out = getResponse().getWriter();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        out.print(isSuccess);
+        out.flush();
+        out.close();
+        logger.info("model==>>"+model);
     }
 
     /**
@@ -511,7 +522,7 @@ public class ReplyScoreAction extends BaseAction implements
 
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             PrintWriter out = null;
             try {
                 out = getResponse().getWriter();

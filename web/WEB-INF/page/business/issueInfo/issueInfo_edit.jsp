@@ -63,8 +63,9 @@
 	    }
 	});
 	 layui.use('form', function(){
-		  var form = layui.form();
-		});
+		  // var form = layui.form();
+		 var form = layui.form;
+	 });
 </script>
 
 <style type="text/css">

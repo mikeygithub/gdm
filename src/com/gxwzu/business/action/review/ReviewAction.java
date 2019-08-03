@@ -238,10 +238,9 @@ public class ReviewAction extends BaseAction implements ModelDriven<Review> {
 		int weight  = 1 ; //权值
 		try {
 			//遍历评分 
-			for (Iterator<Integer> key = scoreMap.keySet().iterator(); key
-					.hasNext();weight++) {
+			for (Iterator<Integer> key = scoreMap.keySet().iterator(); key.hasNext();weight++) {
+
 				Integer scoreItemId = key.next();
-				
 				ReviewScore reviewScore = new ReviewScore();
 				reviewScore = reviewScoreSerivce.findById(scoreItemId);
 
@@ -346,12 +345,9 @@ public class ReviewAction extends BaseAction implements ModelDriven<Review> {
 	 * @return 学生信息  + 指导老师信息+ 评分规则+ 评阅/审查信息
 	 */
 	public String openEdit() {
-		String loginName = (String) getSession().getAttribute(
-				SystemContext.LOGINNAME);
-		String type = (String) getSession()
-				.getAttribute(SystemContext.USERTYPE);
+		String loginName = (String) getSession().getAttribute(SystemContext.LOGINNAME);
+		String type = (String) getSession().getAttribute(SystemContext.USERTYPE);
 		/************************** 查询教研室信息 *********************************************/
-	
 		//查询 当前学生所属专业教研室  进度计划
 		if(flag!=null&&"07".equals(flag)){
 				if ("1".equals(type)) {
@@ -364,7 +360,7 @@ public class ReviewAction extends BaseAction implements ModelDriven<Review> {
 					 planProgress=planProgressSerivce.findByTeacStaffroomId(lTeacher.getStaffroomId(),flag); 
 				}
 				Timestamp d = new Timestamp(System.currentTimeMillis()); 
-				if(d.after(planProgress.getStartTime())){
+				if(planProgress!=null&&planProgress.getStartTime()!=null&&d.after(planProgress.getStartTime())){
 					try {
 						if (thisStuId!= null&&thisYear!=null&&thisId!=null&&thisReviewType!=null) {
 							//查询评阅信息

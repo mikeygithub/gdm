@@ -313,16 +313,15 @@
                 if (!result.success) {
                     return;
                 } else {
-                    // console.log('result length:' + result.obj.length);
                     var thisId = result.obj[2];
                     var userType = result.obj[3];
                     if (userType == 2) {
                         $.each(result.obj[0], function (index, con) {
-                            // console.log(con.student.majorName);
                             setChatinfoItem(con.student.stuId, 1, con.student.stuName, con.student.userImg, con.student.majorName, con.classId, con.categoryId, 0);
                         });
                     } else {
                         var teacher = result.obj[1];
+                        if (teacher==null)return;
                         setChatinfoItem(teacher.teacherId, 2, teacher.teacherName, teacher.userImg, teacher.staffName, 0, 0, teacher.technicalId);
                         $.each(result.obj[0], function (index, con) {
                             if (con.student.stuId != thisId) {

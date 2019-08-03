@@ -26,12 +26,40 @@
 			focusInvalid : false, //当为false时，验证无效时，没有焦点响应  
 			onkeyup : false,
 			submitHandler : function(form) { //表单提交句柄,为一回调函数，带一个参数：form
-				if (confirm("是否要保存信息？")) {
-					form.submit(); //提交表单
-					var index = layer.load(2, {
-						time : 10 * 1000
-					}); //又换了种风格，并且设定最长等待10秒 
-				}
+				layer.confirm('是否要保存信息?', {icon: 3, title:'提示'}, function(index){
+					layer.close(index);
+					var index = layer.load(1);
+					$.ajax({
+						type: "post",
+						cache: false,
+						url: '<%=path%>/biz/replyScore_add.action?view=list',
+						dataType : "json",
+						data : {
+							"replyId" : $(" input[ name='replyId' ] ").val(),
+							"thisStuId" : $(" input[ name='thisStuId' ] ").val(),
+							"thisYear" : $(" input[ name='thisYear' ] ").val(),
+							"thisReplyType": $(" input[ name='thisReplyType' ] ").val(),
+							"thisScore" : $(" input[ name='thisScore' ] ").val(),//答辩成绩
+							"model.replyLink": $(" textarea[ name='model.replyLink']").val()
+						},success : function(result) {
+							layer.close(index);
+							if (result) {
+								layer.alert('保存成功',{icon: 1},function(){
+									var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+									parent.layer.close(index); //再执行关闭
+								});
+							}else{
+								layer.msg('保存失败',{icon: 2});
+							}
+						},
+						error : function(result) {
+							layer.close(index);
+							layer.msg('选择学生失败',{icon: 2});
+						}
+					});
+				});
+				///////////////////////////////////////////////////
+
 			},
 			rules : {
 				"thisScore":{
@@ -86,7 +114,8 @@
 	}
 
 	layui.use('form', function() {
-		var form = layui.form();
+		// var form = layui.form();
+		var form = layui.form;
 	});
 </script>
 
@@ -196,7 +225,7 @@ td {
 								<tr style="height 100px">
 									<td colspan="10"><textarea rows="" cols=""
 											name="model.replyLink" id="model.replyLink"
-											style="min-height: 100px;width: 100%">${listReplyScore.replyLink }</textarea></td>
+											style="min-height: 300px;width: 100%">${listReplyScore.replyLink }</textarea></td>
 								</tr>
 							</table>
 						<li>

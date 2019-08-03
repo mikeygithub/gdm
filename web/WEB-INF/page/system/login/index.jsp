@@ -16,7 +16,7 @@
 	<div class="place">
     <span>位置：</span>
     <ul class="placeul">
-    <li><a href="<%=path %>/sys/Home_home.action">首页</a></li>
+    <li><a href="<%=path %>/sys/Home_home.action" target="_parent">首页</a></li>
     </ul>
     </div>
     <div class="mainindex">

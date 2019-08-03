@@ -80,7 +80,8 @@ $(function() {
 	}
 
 	layui.use('form', function() {
-		var form = layui.form();
+		// var form = layui.form();
+		var form = layui.form;
 	});
 </script>
 
@@ -171,6 +172,7 @@ td {
 									<td align="center">得分</td>
 								</tr>
 								<tr>
+<%--									<s:property value="review.reviewScoreList"></s:property>--%>
 									<s:iterator id="p" value="listScoreItemGroups">
 										<tr class="title">
 											<td align="center" rowspan="${totalCount }">${groupName }${groupPercent }</td>

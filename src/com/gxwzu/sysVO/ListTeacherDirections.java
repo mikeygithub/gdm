@@ -79,6 +79,14 @@ public class ListTeacherDirections implements java.io.Serializable {
 		this.directionsName = directionsName;
 	}
 
-
-
+	@Override
+	public String toString() {
+		return "ListTeacherDirections{" +
+				"id=" + id +
+				", directionsId=" + directionsId +
+				", teacherId=" + teacherId +
+				", year=" + year +
+				", directionsName='" + directionsName + '\'' +
+				'}';
+	}
 }

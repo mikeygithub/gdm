@@ -33,8 +33,9 @@
 	});
 
 	 layui.use('form', function(){
-		  var form = layui.form();
-	});
+		  // var form = layui.form();
+		 var form = layui.form;
+	 });
 </script>
 <style type="text/css">
 .rightText {text-align: right;width: 16%;}

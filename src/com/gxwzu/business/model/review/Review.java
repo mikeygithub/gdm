@@ -114,4 +114,18 @@ public class Review implements java.io.Serializable {
 		this.opTime = opTime;
 	}
 
+	@Override
+	public String toString() {
+		return "Review{" +
+				"reviewId=" + reviewId +
+				", stuId=" + stuId +
+				", totalScore=" + totalScore +
+				", teacherId=" + teacherId +
+				", reviewContent='" + reviewContent + '\'' +
+				", reviewType='" + reviewType + '\'' +
+				", replyLink='" + replyLink + '\'' +
+				", year=" + year +
+				", opTime=" + opTime +
+				'}';
+	}
 }

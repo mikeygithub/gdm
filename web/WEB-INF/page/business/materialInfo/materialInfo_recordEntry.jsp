@@ -269,7 +269,7 @@ function selStart(name){
 				 $.ajax({
 					    type: "post",
 					    cache: false,
-					    url: '<%=path%>/biz/replyScore_add.action', 
+					    url: '<%=path%>/biz/replyScore_add.action?view=list',
 					    dataType : "json",
 						data : {
 							"flag":13,
@@ -279,7 +279,8 @@ function selStart(name){
 							"thisReplyType":"00",//答辩小组
 							"thisScore" : replyScore
 						},success : function(result) {
-							layer.close(index); 
+							layer.close(index);
+							console.log(result)
 							if (result) {
 								layer.alert('保存成功',{icon: 1},function(){
 									 location.reload();

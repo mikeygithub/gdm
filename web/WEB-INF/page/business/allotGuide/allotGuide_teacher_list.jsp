@@ -104,13 +104,19 @@
 						          ${majorName} &nbsp;
 						</s:iterator></td>
 							<td align="center" >
-						<s:iterator id="tml" value="teacherDirectionList">
-						     <s:iterator id="sml" value="sysDirectionList">
-						       <s:if test="#tml.directionsId == directionsId">
-						          ${sml.directionsName} &nbsp;
-						   </s:if>
-						   </s:iterator>
-						</s:iterator> </td>
+								<c:if test="${teacherDirectionList==[]}">
+									<font color="red">未录入</font>
+								</c:if>
+								<c:if test="${teacherDirectionList!=[]}">
+									<s:iterator id="tml" value="teacherDirectionList">
+										<s:iterator id="sml" value="sysDirectionList">
+											<s:if test="#tml.directionsId == directionsId">
+												${sml.directionsName} &nbsp;
+											</s:if>
+										</s:iterator>
+									</s:iterator>
+								</c:if>
+							</td>
 						<td align="center" ><font color="blue"> ${maxStuNum}</font></td>
 						<td align="center" >${alreadyStuNum}</td>
 						

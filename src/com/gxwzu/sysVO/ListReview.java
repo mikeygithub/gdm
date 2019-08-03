@@ -24,7 +24,7 @@ public class ListReview implements java.io.Serializable {
 	private String reviewType;
 	
 	private Integer year;
-	private List<ReviewScore> reviewScoreList = new ArrayList<ReviewScore>(); 
+	private List<ReviewScore> reviewScoreList = new ArrayList<ReviewScore>();//评阅的各项分数
 	// Constructors
 
 	/** default constructor */
