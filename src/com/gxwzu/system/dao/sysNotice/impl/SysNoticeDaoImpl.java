@@ -61,13 +61,15 @@ public class SysNoticeDaoImpl extends BaseDaoImpl<SysNotice> implements ISysNoti
 			queryString = queryString +"and userId = ? ";
 			params.add(model.getUserId());
 		}
+		queryString = queryString + "order by noticeTime desc";
+
 		return (Result<SysNotice>) super.find(queryString, params.toArray(),null, start, limit);
    
 	}
 
 	@Override
 	public SysNotice findById(Integer id) {
-		log.debug("##########"+id);
+		log.debug("findNoticeById : "+id);
 		try {
 			SysNotice instance = (SysNotice) getHibernateTemplate().get(
 					"com.gxwzu.system.model.sysNotice.SysNotice", id);

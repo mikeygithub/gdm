@@ -73,7 +73,7 @@ function openGroup(){
 		<div class="place">
 		<span>位置：</span>
 		<ul class="placeul">
-		<li><a href="<%=path %>/Userlogin.action">首页</a></li>
+		<li><a href="<%=path%>/sys/login_view.action?view=right" target="rightFrame">首页</a></li>
 		<li>选择所带教师</li>
 		</ul>
 		</div>

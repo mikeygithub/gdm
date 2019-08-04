@@ -300,7 +300,7 @@ public class ReplyScoreAction extends BaseAction implements
                     logger.info(readScore + "," + checkScore + "," + guideScore + "," + replyScore);
                     int replyScoreFinish = (int) (readScore + checkScore + guideScore + replyScore);
                     model.setReplyScoreFinish(replyScoreFinish);
-                    System.out.println("最终成绩：" + replyScoreFinish);
+                    logger.info("最终成绩：" + replyScoreFinish);
                     if (replyScoreFinish < 60) {
                         model.setGrade("不及格");
                     } else if (replyScoreFinish < 60) {
@@ -314,7 +314,7 @@ public class ReplyScoreAction extends BaseAction implements
                     } else if (replyScoreFinish >= 90) {
                         model.setGrade("优");
                     }
-                    System.out.println(model.getGrade());
+                    logger.info("Grade "+model.getGrade());
                 }
                 if (replyScoreList != null) {
                     logger.info("更新" + model);
@@ -322,12 +322,12 @@ public class ReplyScoreAction extends BaseAction implements
                         model.setReplyScoreFinish(0);
                     }
                     if (model.getGrade() == null) {
-                        model.setGrade("请先评分");
+                        model.setGrade("未评分");
                     }
                     replyScoreSerivce.updateByStuId(thisStuId, model.getReplyLink(), model.getReplyScoreFinish(), model.getGrade(), Float.parseFloat(thisScore));
 
                 } else {
-                    System.out.println("保存");
+                    logger.debug("保存 "+model);
                     model = replyScoreSerivce.save(model);
                 }
                 rJson.setObj(model);

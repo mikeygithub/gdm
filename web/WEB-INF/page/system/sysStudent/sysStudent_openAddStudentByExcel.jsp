@@ -75,13 +75,19 @@ td {padding: 4px;font-size: 14px;color: red;}
 .inputfrom{width: 78%;height: 40px;border: 1px  solid #C1DAD7;font-size: 16px;}
 .warn{color: red;font-size: 25px;}
 h1{color: red;font-size: 15px;}
+	.fix-file{
+		/*position: absolute;*/
+		/*left: 0;*/
+		/*top: 0;*/
+		/*opacity: 0;*/
+	}
 </style>
 </head>
 
 <body><div class="place">
 <span>位置：</span>
 <ul class="placeul">
-<li><a href="<%=path %>/sys/Home_home.action">首页</a></li>
+<li><a href="<%=path%>/sys/login_view.action?view=right" target="rightFrame">首页</a></li>
 <li>学生管理</li>
 </ul>
 
@@ -91,8 +97,12 @@ h1{color: red;font-size: 15px;}
 			<div class="formtitle">
 				<span>导入学生信息</span>
 			</div>
-    	<form action="<%= basePath%>/sys/student_addStudentByExcel.action?view=openAddStudentByExcel" enctype="multipart/form-data" method="post" style="margin-left: 20px;"> 
-        	<input type="file" id="excelFile"  name="excelFile"/> 
+    	<form action="<%= basePath%>/sys/student_addStudentByExcel.action?view=openAddStudentByExcel" enctype="multipart/form-data" method="post" style="margin-left: 20px;">
+<%--			<button type="button" class="layui-btn" id="test1">--%>
+<%--				<i class="layui-icon">&#xe67c;</i>选择文件--%>
+<%--			</button>--%>
+			<input class="fix-file" type="file" id="excelFile"  name="excelFile"/>
+<%--			<input id="excelFile" class="layui-upload-file" type="file" name="excelFile" multiple="">--%>
         	<input type="submit" name="" class="btn" value="确认导入"/>
         	<a href="<%=path%>/sys/download.action?filePath=templete/templeteStudent.xlsx"><input type="button" name=""  class="btn" value="下载模板"/></a>
     	</form>

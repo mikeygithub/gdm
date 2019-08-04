@@ -45,7 +45,7 @@
  function openAddTeacherByExcel(){
 	layer.open({
 		type: 2,
-    	area: ['60%', '84%'],
+    	area: ['100%', '100%'],
     	fix: false, //不固定
 		title:'批量添加教师',
     	maxmin: true,
@@ -63,7 +63,7 @@
 <div class="place">
 <span>位置：</span>
 <ul class="placeul">
-<li><a href="<%=path %>/sys/Home_home.action">首页</a></li>
+<li><a href="<%=path%>/sys/login_view.action?view=right" target="rightFrame">首页</a></li>
 <li>教师管理</li>
 </ul>
 </div>
