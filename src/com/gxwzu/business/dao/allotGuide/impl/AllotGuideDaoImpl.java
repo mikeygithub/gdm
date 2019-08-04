@@ -227,17 +227,16 @@ public class AllotGuideDaoImpl extends BaseDaoImpl<AllotGuide> implements IAllot
 	        	queryString.append(" and model.dept_number=? ");
 	        	params.add(model.getDeptNumber());
 	        }
-		 if(StringUtils.isNotEmpty(model.getDeptNumber())){
-	        	queryString.append(" and model.dept_number=? ");
-	        	params.add(model.getDeptNumber());
-	        }
-		 
+//		 if(StringUtils.isNotEmpty(model.getDeptNumber())){
+//	        	queryString.append(" and model.dept_number=? ");
+//	        	params.add(model.getDeptNumber());
+//	        }
+//         if(StringUtils.isNotEmpty(model.getTeacherName())){
+//        	queryString.append(" and model.teacher_name like ? ");
+//			params.add("%"+model.getTeacherName()+"%");
+//		 }
          if(StringUtils.isNotEmpty(model.getTeacherName())){
-        	queryString.append(" and model.teacher_name like ? ");
-			params.add("%"+model.getTeacherName()+"%");
-		 }
-         if(StringUtils.isNotEmpty(model.getTeacherName())){
-         	queryString.append(" and model.teacher_name=? ");
+         	queryString.append(" and model.teacher_name like ? ");
  			params.add("%"+model.getTeacherName()+"%");
  		 }
          

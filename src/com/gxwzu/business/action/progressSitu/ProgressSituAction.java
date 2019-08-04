@@ -67,6 +67,7 @@ public class ProgressSituAction extends BaseAction implements ModelDriven<Progre
 	/*********************** 实例化ModelDriven ******************************/
 	private ProgressSitu model = new ProgressSitu();
 	private Class<ProgressSitu> progressSituClass;
+    private SysStudent stuMsg = new SysStudent();
 
 	@Override
 	public ProgressSitu getModel() {
@@ -245,7 +246,6 @@ public class ProgressSituAction extends BaseAction implements ModelDriven<Progre
 	 * @return
 	 */
 	public String openEdit() {
-		ProgressSitu progressSitu = new ProgressSitu();
 		String loginName = (String)getSession().getAttribute(SystemContext.LOGINNAME);
 		String usertype = (String)getSession().getAttribute(SystemContext.USERTYPE);
 		//查询 当前学生所属专业教研室  进度计划
@@ -260,17 +260,18 @@ public class ProgressSituAction extends BaseAction implements ModelDriven<Progre
 							 planProgress=planProgressSerivce.findByTeacStaffroomId(lTeacher.getStaffroomId(),flag); 
 						}
 						Timestamp d = new Timestamp(System.currentTimeMillis()); 
-						if(d.after(planProgress.getStartTime())){
+						if(planProgress!=null&&planProgress.getStartTime()!=null&&d.after(planProgress.getStartTime())){
 							try {
 								logger.info("打开进度情况修改界面");
 								model = progressSituSerivce.findById(thisId);
 								materialInfo = materialInfoSerivce.findByStuIdAndYear(thisStuId,thisYear);
+                                stuMsg = sysStudentService.findByStuId(model.getStuId());
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
 							return SUCCESS;
 						}else{
-						    return "view";
+						    return SUCCESS;
 						}
 			    }else{
 			    	return null;
@@ -285,15 +286,12 @@ public class ProgressSituAction extends BaseAction implements ModelDriven<Progre
 	 */
 	public String edit() {
 
-		logger.info("修改进度情况");
+		logger.info("修改进度情况:"+model);
 		try {
 			progressSituSerivce.edit(model);
 			thisYear = Calendar.getInstance().get(Calendar.YEAR);
 			model.setYear(thisYear);
-			
-			
 			mark = "1";
-			System.out.println(mark + "**********mark***********");
 		} catch (Exception e) {
 			e.printStackTrace();
 			setMark("0");
@@ -540,4 +538,11 @@ public class ProgressSituAction extends BaseAction implements ModelDriven<Progre
 		this.flag = flag;
 	}
 
+	public SysStudent getStuMsg() {
+		return stuMsg;
+	}
+
+	public void setStuMsg(SysStudent stuMsg) {
+		this.stuMsg = stuMsg;
+	}
 }

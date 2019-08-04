@@ -77,7 +77,6 @@ public class ProgressSituSerivceImpl extends BaseServiceImpl<ProgressSitu> imple
 	@Override
 	public ProgressSitu edit(ProgressSitu progressSitu) {
 		progressSituDao.update(progressSitu);
-		
 		return progressSitu;
 	}
 

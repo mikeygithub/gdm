@@ -45,40 +45,40 @@ function openAdd(thisId){
 </head>
 <body>
 
-<form id="form1" name="form1"  action="<%=path%>/biz/issueInfo_info.action?view=info&page=${pageResult.page}" method="post">
-        	<div class="place">
-		<ul class="placeul">
-		<li><span>院系：</span>${deptName }</li>
-					<li>当前年度：
-					<input class="dfinput" type="text"
-						id="issueInfo.year" name="thisYear" readonly value="${thisYear}"
-						style="text-align: center;"
-						onClick="WdatePicker({dateFmt:'yyyy'});"></td>
-				</li>
-				<li class="click">
-	        		<a href="javascript:void();"  onclick="openSearch(this);"><img src="<%=path%>/images/search.png"  />搜索</a>
-				</li> 
-		</ul>
-		</div>
-     </form>
-
-    <div class="formbody">
-      <div id="usual1" class="usual"> 
-      <%@ include file="/WEB-INF/page/business/materialInfo/select_tab.jsp"%>
-   <div id="tab2" class="tabson">
-
-<%--		<div class="place">--%>
-<%--		<span>位置：</span>--%>
+<%--<form id="form1" name="form1"  action="<%=path%>/biz/issueInfo_info.action?view=info&page=${pageResult.page}" method="post">--%>
+<%--        	<div class="place">--%>
 <%--		<ul class="placeul">--%>
-<%--		<li><a href="<%=path%>/sys/login_view.action?view=right" target="rightFrame">首页</a></li>--%>
-<%--		<li>进度情况</li>--%>
+<%--		<li><span>院系：</span>${deptName }</li>--%>
+<%--					<li>当前年度：--%>
+<%--					<input class="dfinput" type="text"--%>
+<%--						id="issueInfo.year" name="thisYear" readonly value="${thisYear}"--%>
+<%--						style="text-align: center;"--%>
+<%--						onClick="WdatePicker({dateFmt:'yyyy'});"></td>--%>
+<%--				</li>--%>
+<%--				<li class="click">--%>
+<%--	        		<a href="javascript:void();"  onclick="openSearch(this);"><img src="<%=path%>/images/search.png"  />搜索</a>--%>
+<%--				</li> --%>
 <%--		</ul>--%>
 <%--		</div>--%>
+<%--     </form>--%>
+
+<%--    <div class="formbody">--%>
+<%--      <div id="usual1" class="usual"> --%>
+<%--      <%@ include file="/WEB-INF/page/business/materialInfo/select_info_tab.jsp"%>--%>
+<%--   <div id="tab2" class="tabson">--%>
+
+		<div class="place">
+		<span>位置：</span>
+		<ul class="placeul">
+		<li><a href="<%=path%>/sys/login_view.action?view=right" target="rightFrame">首页</a></li>
+		<li>进度情况</li>
+		</ul>
+		</div>
 		<div class="rightinfo">
-<%--			<div class="formtitle">--%>
-<%--				<span>进度情况列表</span>--%>
-<%--			</div>--%>
-        <form id="form1" name="form1"  action="<%=path%>/biz/progressSitu_list.action?view=list&page=${pageResult.page}" method="post">
+		<div class="formbody">
+		<div id="usual1" class="usual">
+			<%@ include file="/WEB-INF/page/business/materialInfo/select_info_tab.jsp"%>
+        <form id="form1" name="form1"  action="<%=path%>/biz/progressSitu_list.action?view=list&page=${pageResult1.page}" method="post">
 		<ul class="placeul">
 		<li><span>院系：</span>${deptName }</li>
 					<li>当前年度：${thisYear }
@@ -108,7 +108,7 @@ function openAdd(thisId){
 	        </tr>
          </thead>
          <tbody>
-         <s:iterator id="p" value="pageResult.data" status="pp">
+         <s:iterator id="p" value="pageResult1.data" status="pp">
          <tr id="tr_${progressId }">
 						<td align="center"><s:property value="#pp.count" /></td>
 					   <td align="center">
@@ -126,7 +126,9 @@ function openAdd(thisId){
 						
 				        <td align="center" width="20%">
 							 <a href="javascript:void(0)"
-							target="rightFrame" onclick="del(this,${progressId});"> <font color="red"> <i class="layui-icon">&#xe640;</i>删除</font></a>
+							target="rightFrame" onclick="del(this,${progressId});"> <font
+								color="red"> <i class="layui-icon">&#xe640;</i>删除
+							</font></a>
 								<a target="_parent" href="javascript:dialog('100%','100%','修改进度情况','<%=path%>/biz/progressSitu_openEdit.action?view=edit&thisId=${progressId }&flag=05', 'true','0');">
 							      <font color="blue"> <i class="layui-icon">&#xe642;</i>修改</font></a>&nbsp;&nbsp;&nbsp;
 							<a target="_parent" href="javascript:dialog('100%','100%','查看进度情况','<%=path%>/biz/progressSitu_openEdit.action?view=detail&thisId=${progressId }&flag=05', 'true','20%');">
@@ -136,7 +138,7 @@ function openAdd(thisId){
 			</s:iterator>
 	     </tbody>
       </table>
-<%@ include file="/WEB-INF/common/pagination.jsp"%>
+<%@ include file="/WEB-INF/common/pagination1.jsp"%>
 </div>
 </div>
 </div>

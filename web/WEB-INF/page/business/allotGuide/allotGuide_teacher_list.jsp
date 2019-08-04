@@ -20,15 +20,13 @@
  
 //搜索
  function openSearch(){
-	
-	 var type =  $("#selectName").val();
- 	var nameValie = "";
+ 	var type =  $("#selectName").val();
  	if(type=='1'){
-  		nameValie = "teacherId";
+		$("#selectValue").attr("name","teacherId");
+
   }else if(type=='2'){
- 		nameValie = "teacherName";
+		$("#selectValue").attr("name","teacherName");
   }
- 	$("#selectValue").attr("name",nameValie);
  	$("#form1").submit();
 }
 
@@ -57,12 +55,11 @@
 	        		cssStyle="width: auto;" onchange="$('#form1').submit();" 
 	        		listKey="majorId" listValue="majorName"  name="majorId" id="majorId"/>
 	        		
-        		    <input type="text" class="dfinput" id="selectValue" name="teacherName"
-	        		       placeholder="老师名称"  >
+        		    <input type="text" class="dfinput" id="selectValue" name="teacherName" placeholder="老师名称"  >
         		</li>
         		
         		<li class="click">
-	        		<a href="javascript:void();"  onclick="openSearch(this);"><img src="<%=path%>/images/search.png"  />搜索</a>
+	        		<a href="javascript:void(0);"  onclick="openSearch(this);"><img src="<%=path%>/images/search.png"  />搜索</a>
 				</li>
 		</ul>
 		</div>
@@ -70,7 +67,6 @@
         <table class="tablelist" >
     	  <thead>
 	    	<tr>
-
 		    	<th>序号</th>
 		   		<th>老师名称</th>
 	   		    <th>所在学院</th>

@@ -3,7 +3,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html>
 <head>
-<title>修改进度情况</title>
+<title>详情进度情况</title>
 <meta http-equiv=Content-Type content="text/html; charset=utf-8">
 <link href="<%=path%>/css/style.css" rel="stylesheet" type="text/css">
 <link href="<%=path%>/css/newStyle.css" rel="stylesheet" type="text/css">
@@ -70,7 +70,7 @@ td {padding: 4px;font-size: 14px;}
 						onClick="WdatePicker({dateFmt:'yyyy'});"></td>
 				</li>
 				<li class="click">
-	        		<a href="javascript:void();"  onclick="openSearch(this);"><img src="<%=path%>/images/search.png"  />搜索</a>
+	        		<a href="javascript:void(0);"  onclick="openSearch(this);"><img src="<%=path%>/images/search.png"  />搜索</a>
 				</li> 
 		</ul>
 		</div>
@@ -88,14 +88,13 @@ td {padding: 4px;font-size: 14px;}
 		<form action="<%=path%>/biz/progressSitu_edit.action?view=edit" 
 			method="post" name="form1" id="form1" style="border:1px  solid #C1DAD7;" >
 			<input name="model.progressId" type="hidden"  value="${model.progressId }">
-			<input name="model.stuId" type="hidden"  value="${model.stuId }">
-			<input name="model.teacherId" type="hidden"  value="${model.teacherId }">
-			<input name="model.year" type="hidden"  value="${model.year }">
 			<ul>
 				<li>
 					<table  border="10" cellspacing="0" cellpadding="0" width="100%">						
 						<td  class="rightText" >学生姓名：</td>
-							<td style="font-size: 16px;padding: 4px;color: #3EAFE0;"><input type="text" class="inputfrom" readonly="readonly" value="${stuMsg.stuName }"> </td>
+							<td style="font-size: 16px;padding: 4px;color: #3EAFE0;"><input type="text" class="inputfrom" readonly="readonly"
+								id="model.stuId" name="model.stuId" value="${stuMsg.stuName }"> </td>
+								
 						<tr>
 							<td  class="rightText"  >时间：</td>
 							<td style="font-size: 16px;padding: 4px;color: #3EAFE0;">
@@ -105,21 +104,20 @@ td {padding: 4px;font-size: 14px;}
 								
 						<tr >
 							<td  class="rightText" >工作要求：</td>
-							<td ><textarea type="text" class="textareafrom"
+							<td ><textarea type="text" class="textareafrom" readonly="readonly"
 								id="model.progressWork" name="model.progressWork" > ${model.progressWork }</textarea></td>
 						</tr>	
 						
 						<tr >
 							<td  class="rightText" >进程记录：</td>
-							<td ><textarea type="text" class="textareafrom"
+							<td ><textarea type="text" class="textareafrom" readonly="readonly"
 								id="model.progressRecord" name="model.progressRecord" >${model.progressRecord } </textarea></td>
 						</tr>			
 					
 					</table>
 				<li>
 					<div style="text-align: center;">
-						<input name="" id="submit" type="submit"  class="scbtn" value="修改"
-							 />
+						<input name="" id="submit" type="button"  class="scbtn" value="关闭"/>
 					</div>
 				</li>
 			</ul>

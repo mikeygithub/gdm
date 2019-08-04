@@ -454,7 +454,7 @@ public class DefenseRecordAction extends BaseAction implements ModelDriven<Defen
 					 planProgress=planProgressSerivce.findByTeacStaffroomId(lTeacher.getStaffroomId(),flag); 
 				}
 				Timestamp d = new Timestamp(System.currentTimeMillis()); 
-				if(d.after(planProgress.getStartTime())){
+				if(planProgress!=null&&planProgress.getStartTime()!=null&&d.after(planProgress.getStartTime())){
 					try {
 						if (thisId != null && thisYear != null) {
 							if (thisId != null) {
@@ -464,6 +464,10 @@ public class DefenseRecordAction extends BaseAction implements ModelDriven<Defen
 								issueInfo = issueInfoSerivce.findByStuIdAndYear(model.getStuId(), thisYear);
 								// 查询指导老师信息
 								aGuide = allotGuideService.findByStuIdAndYear(model.getStuId(), thisYear);
+
+								logger.info("Model "+model);
+								logger.info("课题 "+issueInfo);
+								logger.info("导师 "+aGuide);
 
 							}else{
 								model = defenseRecordService.findByStuIdAndYear(thisStuId, thisYear);
@@ -477,7 +481,7 @@ public class DefenseRecordAction extends BaseAction implements ModelDriven<Defen
 					}
 					return openAdd();
 				}else{
-				    return "view";
+				    return SUCCESS;
 				}
 	    }else{
 	    	return SUCCESS;

@@ -66,7 +66,7 @@ $(function(){
 <style type="text/css">
 .rightText {text-align: left;width: 100px;;}
 td {padding: 4px;font-size: 14px;font-size: 14px;}
-.inputfrom{width: 78%;height: 40px;border: 1px  solid #C1DAD7;font-size: 14px;}
+.inputfrom{ width: 78%;height: 200px;border: 1px  solid #C1DAD7;font-size: 14px;}
 .textareafrom{width: 78%;height: 100px;border: 1px  solid #C1DAD7;font-size: 16px;}
 .title{height: 40px;}
 .warn{color: red;font-size: 25px;}
@@ -108,7 +108,8 @@ td {padding: 4px;font-size: 14px;font-size: 14px;}
 						</tr> 
 						<tr >
 							<td  class="rightText">工作要求：</td>
-							<td ><textarea class="inputfrom"cols="" rows="" 
+							<td >
+								<textarea class="inputfrom" cols="" rows=""
 								id="model.progressWork" name="model.progressWork"></textarea></td>
         		  			</tr>
         		  		<tr >

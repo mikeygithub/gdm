@@ -69,6 +69,17 @@ public class IssueInfo implements java.io.Serializable {
 		return this.year;
 	}
 
+	@Override
+	public String toString() {
+		return "IssueInfo{" +
+				"issueId=" + issueId +
+				", stuId=" + stuId +
+				", issueName='" + issueName + '\'' +
+				", issueType='" + issueType + '\'' +
+				", year=" + year +
+				'}';
+	}
+
 	public void setYear(Integer year) {
 		this.year = year;
 	}

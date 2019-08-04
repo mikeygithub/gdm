@@ -25,36 +25,35 @@ $(function(){
     if(mark=='taskBook'){
     	layer.open({
     	type: 2,
-    	area: ['90%', '90%'],
+    	area: ['100%', '100%'],
     	fix: false, //不固定
 		title:'我的任务书',
     	maxmin: true,
     	content: '<%=path%>/biz/taskBook_openEdit.action?view=edit&thisStuId=${studentModel.stuId }&thisId=${taskId }&thisYear=${model.year }&tabFlag=01&flag=03'
 	});
 	}
-	
+
 	if(mark=='openingReport'){
     	layer.open({
     	type: 2,
-    	area: ['90%', '90%'],
+    	area: ['100%', '100%'],
     	fix: false, //不固定
 		title:'填写开题报告',
     	maxmin: true,
     	content: '<%=path%>/biz/openReport_openEdit.action?view=edit&thisStuId=${studentModel.stuId }&thisId=${reportId }&thisYear=${model.year }&tabFlag=02&flag=04'
 	});
 	}
-	
+
 	if(mark=='progressStatus'){
     	layer.open({
     	type: 2,
-    	area: ['90%', '90%'],
+    	area: ['100%', '100%'],
     	fix: false, //不固定
 		title:'填写进展情况',
     	maxmin: true,
     	content: ' <%=path%>/biz/progressSitu_list.action?view=list&thisStuId=${studentModel.stuId }&thisId=${progressId }&thisYear=${model.year }&tabFlag=03&flag=05'
 	});
 	}
-	
 <%-- 	if(mark=='paper'){
     	layer.open({
     	type: 2,
@@ -65,18 +64,27 @@ $(function(){
     	content: ' <%=path%>/biz/paper_openEdit.action?view=edit&thisStuId=${studentModel.stuId }&thisId=${reportId }&thisYear=${model.year }&tabFlag=04&flag=06'
 	});
 	} --%>
-	
+	if(mark=='defenseRecord'){
+		layer.open({
+			type: 2,
+			area: ['100%', '100%'],
+			fix: false, //不固定
+			title:'答辩记录列表',
+			maxmin: true,
+			content: ' <%=path%>/biz/defenseRecord_openEdit.action?view=edit&thisStuId=${studentModel.stuId }&thisId=${defenseId }&thisYear=${model.year }&tabFlag=04&flag=11'
+		});
+	}
 	if(mark=='defenseRecord'){
     	layer.open({
     	type: 2,
-    	area: ['90%', '90%'],
+    	area: ['100%', '100%'],
     	fix: false, //不固定
-		title:'填写答辩记录',
+		title:'答辩记录列表',
     	maxmin: true,
-    	content: ' <%=path%>/biz/defenseRecord_openEdit.action?view=edit&thisStuId=${studentModel.stuId }&thisId=${defenseId }&thisYear=${model.year }&tabFlag=04&flag=11'
+    	content: ' <%=path%>/biz/defenseRecord_list.action?view=list&thisYear=${thisYear }&tabFlag=03&flag=11'
 	});
 	}
-	
+
 });
 
  //搜索
@@ -97,7 +105,7 @@ $(function(){
 		</div>
 		<div class="rightinfo">
 		  <div class="formbody">
-          <div id="usual1" class="usual"> 
+          <div id="usual1" class="usual">
              <%@ include file="/WEB-INF/page/business/materialInfo/select_info_tab.jsp"%>
           <div id="tab2" class="tabson">
         <form id="form1" name="form1"  action="<%=path%>/biz/issueInfo_info.action?view=info&page=${pageResult.page}" method="post">
@@ -112,7 +120,7 @@ $(function(){
 				</li>
 				<li class="click">
 	        		<a href="javascript:void();"  onclick="openSearch(this);"><img src="<%=path%>/images/search.png"  />搜索</a>
-				</li> 
+				</li>
 		</ul>
 		</div>
        </form>
@@ -141,20 +149,20 @@ $(function(){
 						<td align="center" >${student.stuName}</td>
 				       <td align="center">
 					         <s:if test="issueInfo.issueId==null">
-						        <a href="javascript:dialog('90%','98%','【<font color=blue >${student.stuName }</font>】 课题信息',
-						        '<%=path%>/biz/issueInfo_openEdit.action?view=add&thisStuId=${student.stuId }&thisYear=${model.year }&tabFlag=00', 'true','20%');" target="rightFrame" >  
+						        <a href="javascript:dialog('100%','100%','【<font color=blue >${student.stuName }</font>】 课题信息',
+						        '<%=path%>/biz/issueInfo_openEdit.action?view=add&thisStuId=${student.stuId }&thisYear=${model.year }&tabFlag=00', 'true','20%');" target="rightFrame" >
 						       <font color="red">未录入</font></a>
 					          </s:if>
 						      <s:else>
-						        <a href="javascript:dialog('90%','98%','【<font color=blue >${student.stuName }</font>】 课题信息',
-						        '<%=path%>/biz/issueInfo_openEdit.action?view=edit&thisStuId=${student.stuId }&thisId=${issueInfo.issueId }&thisYear=${model.year }&tabFlag=00', 'true','20%');" target="rightFrame" >  
+						        <a href="javascript:dialog('100%','100%','【<font color=blue >${student.stuName }</font>】 课题信息',
+						        '<%=path%>/biz/issueInfo_openEdit.action?view=edit&thisStuId=${student.stuId }&thisId=${issueInfo.issueId }&thisYear=${model.year }&tabFlag=00', 'true','20%');" target="rightFrame" >
 						       <s:if test="issueInfo.issueId!=null&(issueInfo.issueName==null|issueInfo.issueName=='')">
 						      <font color="red">未录入</font></s:if>
 						      <s:else>
 						       <font color="blue">${issueInfo.issueName}</font></s:else>
 						       </a>
 						      </s:else>
-				        </td> 
+				        </td>
 						  <td align="center" >
 					      <s:iterator  id="p" value="issueTypeList" status="sp">
 							<s:if test="issueInfo.issueType.contains(\"&\"+issueTypeId+\"&\")">${issueTypeName }&nbsp;</s:if>
@@ -162,61 +170,61 @@ $(function(){
 					    </td>
 					<td align="center">
 						<s:if test="taskId==null">
-				         <a href="javascript:dialog('98%','98%','【<font color=blue >${student.stuName }</font> 】任务书信息','
-				          <%=path%>/biz/taskBook_openAdd.action?view=add&thisStuId=${student.stuId }&thisYear=${model.year }&tabFlag=01&flag=03', 'true','20%');" target="rightFrame" >  
+				         <a href="javascript:dialog('100%','100%','【<font color=blue >${student.stuName }</font> 】任务书信息','
+				          <%=path%>/biz/taskBook_openAdd.action?view=add&thisStuId=${student.stuId }&thisYear=${model.year }&tabFlag=01&flag=03', 'true','20%');" target="rightFrame" >
 				       <font color="red">未录入</font></a>
 				       </s:if><s:else>
-				         <a href="javascript:dialog('98%','98%','【<font color=blue >${student.stuName }</font>】 任务书信息','
-				          <%=path%>/biz/taskBook_openEdit.action?view=edit&thisStuId=${student.stuId }&thisId=${taskId }&thisYear=${model.year }&tabFlag=01&flag=03', 'true','20%');" target="rightFrame" >  
+				         <a href="javascript:dialog('100%','100%','【<font color=blue >${student.stuName }</font>】 任务书信息','
+				          <%=path%>/biz/taskBook_openEdit.action?view=edit&thisStuId=${student.stuId }&thisId=${taskId }&thisYear=${model.year }&tabFlag=01&flag=03', 'true','20%');" target="rightFrame" >
 				       <font color="blue">查看</font></a></s:else>
-				        </td> 
-				        
+				        </td>
+
 					<td align="center">
 					<s:if test="reportId==null">
-				         <a href="javascript:dialog('98%','98%','【<font color=blue >${student.stuName }</font>】 开题报告信息','
-				          <%=path%>/biz/openReport_openAdd.action?view=add&thisStuId=${student.stuId }&thisYear=${model.year }&tabFlag=02&flag=04', 'true','20%');" target="rightFrame" >  
+				         <a href="javascript:dialog('100%','100%','【<font color=blue >${student.stuName }</font>】 开题报告信息','
+				          <%=path%>/biz/openReport_openAdd.action?view=add&thisStuId=${student.stuId }&thisYear=${model.year }&tabFlag=02&flag=04', 'true','20%');" target="rightFrame" >
 				       <font color="red">未录入</font></a>
 				       </s:if><s:else>
-				        <a href="javascript:dialog('98%','98%','【<font color=blue >${student.stuName }</font>】 开题报告信息','
-				          <%=path%>/biz/openReport_openEdit.action?view=edit&thisStuId=${student.stuId }&thisId=${reportId }&thisYear=${model.year }&tabFlag=02&flag=04', 'true','20%');" target="rightFrame" >  
+				        <a href="javascript:dialog('100%','100%','【<font color=blue >${student.stuName }</font>】 开题报告信息','
+				          <%=path%>/biz/openReport_openEdit.action?view=edit&thisStuId=${student.stuId }&thisId=${reportId }&thisYear=${model.year }&tabFlag=02&flag=04', 'true','20%');" target="rightFrame" >
 				       <font color="blue">查看</font></a></s:else>
-				        </td> 
+				        </td>
 				         <td align="center">
 						<s:if test="reportId==null">-</s:if><s:else>
-				        <a href="javascript:dialog('98%','98%','【<font color=blue >${student.stuName }</font>】 进度情况信息','
-				          <%=path%>/biz/progressSitu_list.action?view=list&thisStuId=${student.stuId }&thisId=${progressId }&thisYear=${model.year }&tabFlag=03&flag=05', 'true','20%');" target="rightFrame" >  
+				        <a href="javascript:dialog('100%','100%','【<font color=blue >${student.stuName }</font>】 进度情况信息','
+				          <%=path%>/biz/progressSitu_list.action?view=list&thisStuId=${student.stuId }&thisId=${progressId }&thisYear=${model.year }&tabFlag=03&flag=05', 'true','20%');" target="rightFrame" >
 				        <s:if test="progressId==null"><font color="red">未录入</font>
 				        </s:if><s:else><font color="blue">查看</font></s:else></a>
 				        </s:else>
-				        </td> 
+				        </td>
 						<td align="center">
 				          <s:if test="defenseId==null">
-				           <a href="javascript:dialog('98%','98%','【<font color=blue >${student.stuName }</font>】 答辩记录信息','
+				           <a href="javascript:dialog('100%','100%','【<font color=blue >${student.stuName }</font>】 答辩记录信息','
 				           <%=path%>/biz/defenseRecord_list.action?view=list&thisYear=${thisYear }&tabFlag=0&flag=11
 				           ', 'true','20%');" target="rightFrame" >
 				           <font color="red">未录入</font></a>
 				           </s:if><s:else>
-				           <a href="javascript:dialog('98%','98%','【<font color=blue >${student.stuName }</font>】 答辩记录信息','
-				           <%=path%>/biz/defenseRecord_openEdit.action?view=edit&thisStuId=${student.stuId }&thisId=${defenseId }&thisYear=${model.year }&tabFlag=04&flag=11', 'true','20%');" target="rightFrame" >  
+				           <a href="javascript:dialog('100%','100%','【<font color=blue >${student.stuName }</font>】 答辩记录信息','
+				           <%=path%>/biz/defenseRecord_openEdit.action?view=edit&thisStuId=${student.stuId }&thisId=${defenseId }&thisYear=${model.year }&tabFlag=04&flag=11', 'true','20%');" target="rightFrame" >
 				           <font color="blue">查看</font></a>
 				           </s:else>
 				        </td>
 
 				         <td align="center">
 				          ${model.year}
-				        </td> 
+				        </td>
 				        <td align="center">
-					      <a href="javascript:dialog('98%','98%','<font color=blue >${stuName }</font> 课题信息','
-					      <%=path%>/biz/issueInfo_openEdit.action?view=edit&thisStuId=${student.stuId }&thisId=${issueInfo.issueId }&thisYear=${model.year }', 'true','20%');" target="rightFrame" >  
+					      <a href="javascript:dialog('100%','100%','<font color=blue >${stuName }</font> 课题信息','
+					      <%=path%>/biz/issueInfo_openEdit.action?view=edit&thisStuId=${student.stuId }&thisId=${issueInfo.issueId }&thisYear=${model.year }', 'true','20%');" target="rightFrame" >
 				   		      <font color="blue"> <i class="layui-icon">&#xe642;</i>修改</font></a>
-				        </td> 
+				        </td>
 						</tr>
 			</s:iterator>
 	     </tbody>
       </table>
 </div>
 
-  
+
 <script type="text/javascript">
 //删除
 function del(name,id){
@@ -232,7 +240,7 @@ function del(name,id){
 					data : {
 						"thisId" : id
 					},success : function(result) {
-						layer.close(index); 
+						layer.close(index);
 						if (result) {
 							re.remove();
 							layer.alert('删除成功',{icon: 1},function(){
@@ -243,7 +251,7 @@ function del(name,id){
 						}
 					},
 					error : function(result) {
-						layer.close(index); 
+						layer.close(index);
 						layer.msg('删除失败',{icon: 2});
 					}
 				});

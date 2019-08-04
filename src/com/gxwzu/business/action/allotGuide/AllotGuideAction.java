@@ -188,8 +188,7 @@ public class AllotGuideAction extends BaseAction implements
 
 							/*************************** 学生选指导老师查询所带老师 ***************************/
 
-							if (teacherName != null)
-								guideCount.setTeacherName(teacherName);
+							if (teacherName != null)guideCount.setTeacherName(teacherName);
 							guideCount.setDeptNumber(student.getDeptNumber());
 							if (allotGuide.getYear() == null)
 								guideCount.setYear(planYear.getYear());

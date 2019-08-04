@@ -93,4 +93,16 @@ public class ProgressSitu implements java.io.Serializable {
 		this.year = year;
 	}
 
+	@Override
+	public String toString() {
+		return "ProgressSitu{" +
+				"progressId=" + progressId +
+				", stuId=" + stuId +
+				", teacherId=" + teacherId +
+				", progressTime='" + progressTime + '\'' +
+				", progressWork='" + progressWork + '\'' +
+				", progressRecord='" + progressRecord + '\'' +
+				", year=" + year +
+				'}';
+	}
 }

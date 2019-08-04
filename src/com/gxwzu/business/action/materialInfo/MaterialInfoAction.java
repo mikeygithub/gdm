@@ -2,8 +2,12 @@ package com.gxwzu.business.action.materialInfo;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
+import com.gxwzu.business.model.progressSitu.ProgressSitu;
+import com.gxwzu.business.service.progressSitu.IProgressSituSerivce;
+import com.gxwzu.sysVO.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,15 +29,6 @@ import com.gxwzu.core.context.SystemContext;
 import com.gxwzu.core.pagination.Result;
 import com.gxwzu.core.util.PageUtil;
 import com.gxwzu.core.web.action.BaseAction;
-import com.gxwzu.sysVO.ListAllotGuide;
-import com.gxwzu.sysVO.ListGroupAllot;
-import com.gxwzu.sysVO.ListGroupStudent;
-import com.gxwzu.sysVO.ListGroupTeacher;
-import com.gxwzu.sysVO.ListPlanProgress;
-import com.gxwzu.sysVO.ListStudent;
-import com.gxwzu.sysVO.ListTeacher;
-import com.gxwzu.sysVO.ListTeacherDirections;
-import com.gxwzu.sysVO.MaterialInfo;
 import com.gxwzu.system.model.sysDuties.SysDuties;
 import com.gxwzu.system.model.sysFileType.SysFileType;
 import com.gxwzu.system.model.sysIssueType.SysIssueType;
@@ -60,6 +55,7 @@ public class MaterialInfoAction extends BaseAction implements ModelDriven<Materi
 
     /*********************** 实例化ModelDriven ******************************/
     private MaterialInfo model = new MaterialInfo();
+    private Integer thisStuId;
 
     @Override
     public MaterialInfo getModel() {
@@ -99,6 +95,9 @@ public class MaterialInfoAction extends BaseAction implements ModelDriven<Materi
     private ISysDutiesService sysDutiesService; // 老师分组接口
     @Autowired
     private ISysFileTypeService sysFileTypeService; //文件类型接口
+    @Autowired
+    private IProgressSituSerivce progressSituSerivce;
+
     /*********************** 实体 ***************************/
     private PlanYear planYear; // 年度计划实体
     private AllotGuide allotGuide; // 指导分配实体
@@ -119,6 +118,7 @@ public class MaterialInfoAction extends BaseAction implements ModelDriven<Materi
     private List<ListPlanProgress> planProgressList = new ArrayList<ListPlanProgress>(); //进度计划
     /******************** 集合变量声明 *********************/
     private Result<MaterialInfo> pageResult; // 学生相关材料分页
+    private Result<ListProgressSitu> pageResult1; // 学生相关材料分页
     private List<SysIssueType> issueTypeList = new ArrayList<SysIssueType>();
     /************************** 基础变量声明 **************/
 
@@ -430,7 +430,34 @@ public class MaterialInfoAction extends BaseAction implements ModelDriven<Materi
         return SUCCESS;
     }
 
+    public String progressSitu(){
 
+        String loginName = (String)getSession().getAttribute(SystemContext.LOGINNAME);
+        String usertype = (String)getSession().getAttribute(SystemContext.USERTYPE);
+        ProgressSitu model = new ProgressSitu();
+        if(thisYear==null){
+            //获取当前年份并set进去
+            thisYear = Calendar.getInstance().get(Calendar.YEAR);
+            model.setYear(thisYear);
+        }
+        //根据类型查找相应的表,获取登录类型，2的话直接去教师表查询，
+        //3的话说明是管理员并且管理员只可能是老师？如果根据这个设计，3也应该去教师表查询。
+        if(usertype.equals("3")||usertype.equals("2")){
+            int teacherid=sysTeacherService.findByTeacherNo(loginName).getTeacherId();
+            model.setTeacherId(teacherid);
+        }else if(usertype.equals("1")){
+            //如果登录类型是1说明是学生，应该去学生表那里查询。
+            thisStuId = sysStudentService.findByStuNo(loginName).getStuId();
+            model.setStuId(thisStuId);
+        }
+        if (thisStuId!=null){
+            model.setStuId(thisStuId);
+        }
+        materialInfo = materialInfoSerivce.findByStuIdAndYear(thisStuId,thisYear);
+        pageResult1 = progressSituSerivce.find(model, getPage(), getRow());
+        footer = PageUtil.pageFooter(pageResult1, getRequest());
+        return SUCCESS;
+    }
     /********************************************** getter and setter方法 ************************************************************************/
 
     public PlanYear getPlanYear() {
@@ -642,4 +669,19 @@ public class MaterialInfoAction extends BaseAction implements ModelDriven<Materi
         this.thisReplyType = thisReplyType;
     }
 
+    public Integer getThisStuId() {
+        return thisStuId;
+    }
+
+    public void setThisStuId(Integer thisStuId) {
+        this.thisStuId = thisStuId;
+    }
+
+    public Result<ListProgressSitu> getPageResult1() {
+        return pageResult1;
+    }
+
+    public void setPageResult1(Result<ListProgressSitu> pageResult1) {
+        this.pageResult1 = pageResult1;
+    }
 }

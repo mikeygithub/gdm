@@ -73,4 +73,14 @@ public class AllotGuide implements java.io.Serializable {
 		this.year = year;
 	}
 
+	@Override
+	public String toString() {
+		return "AllotGuide{" +
+				"id=" + id +
+				", teacherId=" + teacherId +
+				", stuId=" + stuId +
+				", opTime=" + opTime +
+				", year=" + year +
+				'}';
+	}
 }
