@@ -141,7 +141,8 @@ public class SysNoticeAction extends BaseAction implements ModelDriven<SysNotice
 			model.setUserId(userHelp.get(0).getId());
 			LoginUser = userHelp.get(0);//当前登入的用户
 			logger.info("当前登入的用户"+userHelp);
-			pageResult = sysNoticeService.find(model, getPage(), getRow());
+//			pageResult = sysNoticeService.find(model, getPage(), getRow());
+			pageResult = sysNoticeService.find(new SysNotice(), getPage(), getRow());
 			footer = PageUtil.pageFooter(pageResult, getRequest());
 
 		} catch (Exception e) {
