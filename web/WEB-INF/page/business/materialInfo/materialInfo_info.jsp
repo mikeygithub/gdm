@@ -89,6 +89,7 @@ $(function(){
 
  //搜索
     function openSearch(name){
+    	// console.log(name)
     	$("#form1").submit();
     }
 </script>
@@ -108,7 +109,7 @@ $(function(){
           <div id="usual1" class="usual">
              <%@ include file="/WEB-INF/page/business/materialInfo/select_info_tab.jsp"%>
           <div id="tab2" class="tabson">
-        <form id="form1" name="form1"  action="<%=path%>/biz/issueInfo_info.action?view=info&page=${pageResult.page}" method="post">
+        <form id="form1" name="form1"  action="<%=path%>/biz/materialInfo_info.action?view=info&page=${pageResult.page}" method="post">
         	<div class="place">
 		<ul class="placeul">
 		<li><span>院系：</span>${deptName }</li>
@@ -119,7 +120,7 @@ $(function(){
 						onClick="WdatePicker({dateFmt:'yyyy'});"></td>
 				</li>
 				<li class="click">
-	        		<a href="javascript:void();"  onclick="openSearch(this);"><img src="<%=path%>/images/search.png"  />搜索</a>
+	        		<a href="javascript:void(0);"  onclick="openSearch(this);"><img src="<%=path%>/images/search.png"  />搜索</a>
 				</li>
 		</ul>
 		</div>

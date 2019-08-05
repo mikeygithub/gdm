@@ -121,7 +121,7 @@ function openAdd(){
 						<td align="center" >${staffName}</td>
 						<td align="center" width="20%">
 							<a href="javascript:void(0)"
-							target="rightFrame" onclick="del(this,${majorId});"> <font
+							target="rightFrame" onclick="del(this,${majorId},'${majorName}');"> <font
 								color="red"> <i class="layui-icon">&#xe640;</i>删除
 							</font></a>
 							<a href="javascript:dialog('36%','44%','修改用户信息','<%=path%>/sys/major_openEdit.action?view=edit&thisId=${majorId }', 'true','20%');">
@@ -136,9 +136,12 @@ function openAdd(){
 </div>
 <script type="text/javascript">
 //单个删除
-function del(name,id){
+function del(name,id,majorName){
 	var re=$(name).parent().parent();
-	if(confirm("您确定要删除吗?")){
+	// if(confirm("您确定要删除吗?")){
+	// 	var index = layer.load(1);
+	layer.confirm('您确定要删除 '+majorName+' 吗?', {icon: 2, title:'提示'}, function(index){
+		layer.close(index);
 		var index = layer.load(1);
 		 $.ajax({
 	        type: "post",
@@ -160,9 +163,8 @@ function del(name,id){
 						layer.close(index); 
 						alert('删除失败');
 					}
-				}
-				);
-			}
+				});
+			});
 		}
 </script>
 </body>

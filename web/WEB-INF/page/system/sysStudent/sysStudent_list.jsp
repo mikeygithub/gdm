@@ -56,7 +56,10 @@ function openAddStudentByExcel(){
     		nameValie = "model.stuNo";
     	}else if(type==2){
     		nameValie = "model.stuName";
-    	}
+    	}else {
+			nameValie = "model.stuName";//默认名字搜索
+		}
+
     	$("#selectValue").attr("name",nameValie);
      	$("#form1").submit();
     }
@@ -108,7 +111,7 @@ function openAddStudentByExcel(){
         		</li>
         			
         		<li class="click">
-	        		<a href="javascript:void();"  onclick="openSearch(this);"><img src="<%=path%>/images/search.png"  />搜索</a>
+	        		<a href="javascript:void(0);"  onclick="openSearch(this);"><img src="<%=path%>/images/search.png"  />搜索</a>
 				</li>
 					
 					<li class="click">
@@ -161,7 +164,7 @@ function openAddStudentByExcel(){
 						
 						<td align="center" width="20%">
 							 <a href="javascript:void(0)"
-							target="rightFrame" onclick="del(this,${stuId});"> <font
+							target="rightFrame" onclick="del(this,${stuId},'${stuName}');"> <font
 								color="red"> <i class="layui-icon">&#xe640;</i>删除
 							</font></a>
 								<a 
@@ -177,35 +180,34 @@ function openAddStudentByExcel(){
 
 <script type="text/javascript">
 //单个删除
-function del(name,id){
-	var re=$(name).parent().parent();
-	if(confirm("您确定要删除吗?")){
-		var index = layer.load(1);
-		 $.ajax({
-	        type: "post",
-	        cache: false,
-	        url: '<%=path%>/sys/student_del.action',
-					dataType : "json",
-					data : {
-						"thisId" : id
-					},success : function(result) {
-						layer.close(index); 
-						if (result) {
-							re.remove();
-							alert('删除成功');
-						}else{
-							alert('删除失败');
-						}
-					},
-					error : function(result) {
-						layer.close(index); 
-						alert('删除失败');
-					}
-				}
-				);
-			}
-		}
-	</script>	
+function del(name,id,stuName){
+    var re=$(name).parent().parent();
+    layer.confirm('您确定要删除 '+stuName+' 吗?', {icon: 2, title:'提示'}, function(index){
+        layer.close(index);
+        var index = layer.load(1);
+        $.ajax({
+            type: "post",
+            cache: false,
+            url: '<%=path%>/sys/student_del.action',
+            dataType : "json",
+            data : {
+                "thisId" : id
+            },success : function(result) {
+                layer.close(index);
+                if (result) {
+                    re.remove();
+                    layer.alert('删除成功');
+                }else{
+                    layer.alert('删除失败');
+                }
+            },
+            error : function(result) {
+                layer.close(index);
+                layer.alert('删除失败');
+            }
+        });
+    });
+}
 </script>
 </body>
 </html>

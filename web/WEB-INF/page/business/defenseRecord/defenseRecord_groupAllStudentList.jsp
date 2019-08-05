@@ -106,13 +106,13 @@
                 <td align="center">${student.stuName}</td>
                 <td align="center">
                     <s:if test="issueInfo.issueId==null">
-                        <a href="javascript:dialog('50%','50%','【<font color=blue >${student.stuName }</font>】 课题信息',
+                        <a href="javascript:dialog('100%','100%','【<font color=blue >${student.stuName }</font>】 课题信息',
 					        '<%=path%>/biz/issueInfo_openEdit.action?view=add&thisStuId=${student.stuId }&thisYear=${model.year }', 'true','20%');"
                            target="rightFrame">
                             <font color="red">未录入</font></a>
                     </s:if>
                     <s:else>
-                        <a href="javascript:dialog('98%','98%','【<font color=blue >${student.stuName }</font>】 课题信息',
+                        <a href="javascript:dialog('100%','100%','【<font color=blue >${student.stuName }</font>】 课题信息',
 					        '<%=path%>/biz/issueInfo_openEdit.action?view=edit&thisStuId=${student.stuId }&thisId=${issueInfo.issueId }&thisYear=${model.year }', 'true','20%');" target="rightFrame" >
                             <font color="blue">${issueInfo.issueName}</font></a>
                     </s:else>

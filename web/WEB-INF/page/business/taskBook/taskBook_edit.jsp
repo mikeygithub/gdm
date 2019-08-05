@@ -70,7 +70,10 @@
 	 layui.use('form', function(){
 		  // var form = layui.form();
 		 var form = layui.form;
-	 });
+	 }) //搜索
+	function openSearch(name){
+		// $("#form1").submit();
+	};
 </script>
 <script type="text/javascript"> 
       $("#usual1 ul").idTabs(); 
@@ -97,7 +100,7 @@ td {padding: 4px;font-size: 14px;font-size: 14px;border: 1px  solid #C1DAD7;}
 						onClick="WdatePicker({dateFmt:'yyyy'});"></td>
 				</li>
 				<li class="click">
-	        		<a href="javascript:void();"  onclick="openSearch(this);"><img src="<%=path%>/images/search.png"  />搜索</a>
+	        		<a href="javascript:void(0);"  onclick="openSearch(this);"><img src="<%=path%>/images/search.png"  />搜索</a>
 				</li> 
 		</ul>
 		</div>

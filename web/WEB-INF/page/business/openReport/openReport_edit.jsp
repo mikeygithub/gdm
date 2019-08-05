@@ -74,7 +74,11 @@
 </script>
 
 <script type="text/javascript"> 
-      $("#usual1 ul").idTabs(); 
+      $("#usual1 ul").idTabs();
+	  //搜索
+	  function openSearch(name){
+		  // $("#form1").submit();
+	  }
     </script>
 
 <style type="text/css">
@@ -86,8 +90,8 @@ td {padding: 4px;font-size: 14px;font-size: 14px;border: 1px  solid #C1DAD7;}
 </style>
 </head>
 <body style="min-width: 200px;">
-
-<form id="form1" name="form1"  action="<%=path%>/biz/issueInfo_info.action?view=info&page=${pageResult.page}" method="post">
+<%--http://localhost:8080/gdm_war_exploded/biz/openReport_openEdit.action?view=edit&=3448&thisId=8--%>
+<form id="form1" name="form1"  action="<%=path%>/biz/openReport_openEdit.action?view=edit&thisYear=${thisYear}&tabFlag=02&flag=04&thisStuId=${thisStuId}&page=${pageResult.page}" method="post">
         	<div class="place">
 		<ul class="placeul">
 		<li><span>院系：</span>${deptName }</li>
@@ -98,7 +102,7 @@ td {padding: 4px;font-size: 14px;font-size: 14px;border: 1px  solid #C1DAD7;}
 						onClick="WdatePicker({dateFmt:'yyyy'});"></td>
 				</li>
 				<li class="click">
-	        		<a href="javascript:void();"  onclick="openSearch(this);"><img src="<%=path%>/images/search.png"  />搜索</a>
+	        		<a href="javascript:void(0);"  onclick="openSearch(this);"><img src="<%=path%>/images/search.png"  />搜索</a>
 				</li> 
 		</ul>
 		</div>

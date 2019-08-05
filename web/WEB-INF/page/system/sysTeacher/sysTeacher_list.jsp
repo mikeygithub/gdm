@@ -37,8 +37,10 @@
   		nameValie = "model.teacherNo";
   }else if(type=='2'){
  		nameValie = "model.teacherName";
-  }
- 	$("#selectValue").attr("name",nameValie);
+  }else {
+		nameValie = "model.teacherName";
+	}
+	 $("#selectValue").attr("name",nameValie);
  	$("#form1").submit();
 }
 
@@ -146,7 +148,7 @@
 						<td align="center" >${userEmail}</td>
 						<td align="center" width="20%">
 							<a href="javascript:void(0)"
-							target="rightFrame" onclick="del(this,${teacherId});"> <font
+							target="rightFrame" onclick="del(this,${teacherId},'${teacherName}');"> <font
 								color="red"> <i class="layui-icon">&#xe640;</i>删除
 							</font>
 							</a>
@@ -166,38 +168,35 @@
 </div>
 
 <script type="text/javascript">
-
-		
 //单个删除
-function del(name,id){
+function del(name,id,teacherName){
 	var re=$(name).parent().parent();
-	// console.log("删除ID="+id)
-	if(confirm("您确定要删除吗?")){
+	layer.confirm('您确定要删除 '+teacherName+' 吗?', {icon: 2, title:'提示'}, function(index){
+		layer.close(index);
 		var index = layer.load(1);
-		 $.ajax({
-	        type: "post",
-	        cache: false,
-	        url: '<%=path%>/sys/teacher_del.action',
-					dataType : "json",
-					data : {
-						"thisId" : id
-					},success : function(result) {
-						layer.close(index); 
-						if (result) {
-							re.remove();
-							alert('删除成功');
-						}else{
-							alert('删除失败');
-						}
-					},
-					error : function(result) {
-						layer.close(index); 
-						alert('删除失败');
-					}
+		$.ajax({
+			type: "post",
+			cache: false,
+			url: '<%=path%>/sys/teacher_del.action',
+			dataType : "json",
+			data : {
+				"thisId" : id
+			},success : function(result) {
+				layer.close(index);
+				if (result) {
+					re.remove();
+					layer.alert('删除成功');
+				}else{
+					layer.alert('删除失败');
 				}
-				);
+			},
+			error : function(result) {
+				layer.close(index);
+				layer.alert('删除失败');
 			}
-		}
+		});
+	});
+}
 </script>
 </body>
 </html>

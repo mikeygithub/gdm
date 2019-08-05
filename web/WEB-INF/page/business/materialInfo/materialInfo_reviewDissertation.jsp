@@ -38,7 +38,7 @@
 			<div class="formtitle">
 				<span>所分配评阅学生列表</span>
 			</div>
-        <form id="form1" name="form1"  action="<%=path%>/biz/materialInfo_guideStudentList.action?view=reviewDissertation&flag=13" method="post">
+        <form id="form1" name="form1"  action="<%=path%>/biz/materialInfo_groupDefenseStudentList.action?view=reviewDissertation&flag=13" method="post">
         	<div class="place">
 		<ul class="placeul">
 		<li><span>院系：</span>${teacher.deptName }</li>

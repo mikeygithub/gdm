@@ -62,7 +62,9 @@ function openAdd(){
     		nameValie = "model.classNo";
     	}else if(type=='2'){
     		nameValie = "model.className";
-    	}
+    	}else {
+			nameValie = "model.className";
+		}
     	$("#selectValue").attr("name",nameValie);
     	$('#form1').submit();
     }
@@ -109,7 +111,7 @@ function openAdd(){
 	        	</li>	
 	        		
         		<li class="click">
-	        		<a href="javascript:void();"  onclick="openSearch(this);"><img src="<%=path%>/images/search.png"  />搜索</a>
+	        		<a href="javascript:void(0);"  onclick="openSearch(this);"><img src="<%=path%>/images/search.png"  />搜索</a>
 				</li>
         		
 					<li class="click">
@@ -136,7 +138,7 @@ function openAdd(){
 						<%-- <td align="center" >${classNo}</td> --%>
 						<td align="center" width="20%">
 						 <a href="javascript:void(0)"
-							target="rightFrame" onclick="del(this,${classId});"> <font
+							target="rightFrame" onclick="del(this,${classId},'${className}');"> <font
 								color="red"> <i class="layui-icon">&#xe640;</i>删除
 							</font></a>
 								<a 
@@ -152,9 +154,10 @@ function openAdd(){
 
 <script type="text/javascript">
 //单个删除
-function del(name,id){
+function del(name,id,className){
 	var re=$(name).parent().parent();
-	if(confirm("您确定要删除吗?")){
+	layer.confirm('您确定要删除 '+className+' 吗?', {icon: 2, title:'提示'}, function(index){
+		layer.close(index);
 		var index = layer.load(1);
 		 $.ajax({
 	        type: "post",
@@ -178,7 +181,7 @@ function del(name,id){
 					}
 				}
 				);
-			}
+			});
 		}
 </script>
 </body>
