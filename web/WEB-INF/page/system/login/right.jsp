@@ -65,6 +65,7 @@
 
         /*打开公告通知列表*/
         function openNoticeList() {
+
             layer.open({
                 type: 2,
                 area: ['99%', '99%'],
@@ -210,7 +211,6 @@
 
         str = num.split(" ");
 
-
         date = str[2] + "-";
         date = date + month[str[0]] + "-" + str[1].replace(/,/g, '') + " " + str[3];
         return date;
@@ -295,11 +295,18 @@
                 var noticelist = $('#sysNotice');
                 var result = eval('(' + res + ')');
                 $.each(result, function (index, con) {
-                    var noticelist_li = $('<li onclick="openNotice(' + con.noticeId + ')" class="noli"></li>');
-                    var noticelist_span = $('<img src=\"<%=path%>/images/titleb.png \">');
-                    var noticelist_a = $('<a id="noa">&nbsp;&nbsp;' + con.noticeName + '</a>');
-                    var noticelist_time = $('<span id="notime" >' + Todate(con.noticeTime) + '</span>');//date.getFullYear()
-                    noticelist_span.appendTo(noticelist_li);
+                    // var noticelist_li = $('<li onclick="openNotice(' + con.noticeId + ')" class="noli"></li>');
+                    var noticelist_li = $('<li class="noli"></li>');
+
+                    var noticeName = con.noticeName
+                    if (noticeName.length>12){//通知名称超出用...代替
+                        noticeName = noticeName.substring(0,12)+"......"
+                    }
+
+                    var noticelist_a = $('<a id="noa" href="javascript:dialog(\'100%\',\'100%\',\'通知详情\',\'<%=path%>/sys/notice_openNotice.action?view=detail&model.noticeId='+con.noticeId+'\', \'true\',\'0\');">&nbsp;&nbsp;' + noticeName + '</a>');
+                    var dataArray = Todate(con.noticeTime).split(' ');
+                    var noticelist_time = $('<span id="notime" >' + dataArray[0] + '</span>');//date.getFullYear()
+
                     noticelist_a.appendTo(noticelist_li);
                     noticelist_time.appendTo(noticelist_li);
                     noticelist_li.appendTo(noticelist);

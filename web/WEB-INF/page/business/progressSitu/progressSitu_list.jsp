@@ -8,7 +8,6 @@
 <link href="<%=path%>/css/style.css" rel="stylesheet" type="text/css" />
 <link href="<%=path%>/css/newStyle.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="<%=path%>/third/layui/css/layui.css" type="text/css" />
-
 <script type="text/javascript" src="<%=path%>/third/jquery-1.8.3.min.js"></script>
 <script type="text/javascript" src="<%=path%>/third/layer/layer.js"></script>
 <script type="text/javascript" src="<%=path%>/third/layer/extend/layer.ext.js"></script>
@@ -56,7 +55,7 @@ function openAdd(thisId){
 						onClick="WdatePicker({dateFmt:'yyyy'});"></td>
 				</li>
 				<li class="click">
-	        		<a href="javascript:void();"  onclick="openSearch(this);"><img src="<%=path%>/images/search.png"  />搜索</a>
+	        		<a href="javascript:void(0);"  onclick="openSearch(this);"><img src="<%=path%>/images/search.png"  />搜索</a>
 				</li> 
 		</ul>
 		</div>

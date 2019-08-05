@@ -18,7 +18,7 @@
 		</li>
 		<li>
 			<a <s:if test="tabFlag==03"> class="selected" </s:if>
-					href="<%=path%>/biz/materialInfo_progressSitu.action?view=progressSitu&thisYear=${thisYear }&flag=03">
+					href="<%=path%>/biz/materialInfo_progressSitu.action?view=progressSitu&thisYear=${thisYear }&tabFlag=03">
 				答辩记录信息
 			</a>
 		</li>

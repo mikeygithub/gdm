@@ -88,7 +88,6 @@ function openAdd(thisId){
 	        		<a href="#" onclick="openAdd()"><img src="<%=path%>/images/t01.png"  style="width: 16px;"/>添加</a>
 				</li>
 		</ul>
-		</div>
 		<div class="formtitle" style="float:right;">
 			<ul>
 				<li class="line"> <a href="<%=path%>/biz/progressSitu_outProgressSitu.action?thisStuId=${thisStuId }&thisYear=${thisYear }">
@@ -129,11 +128,11 @@ function openAdd(thisId){
 							target="rightFrame" onclick="del(this,${progressId});"> <font
 								color="red"> <i class="layui-icon">&#xe640;</i>删除
 							</font></a>
-								<a target="_parent" href="javascript:dialog('100%','100%','修改进度情况','<%=path%>/biz/progressSitu_openEdit.action?view=edit&thisId=${progressId }&flag=05', 'true','0');">
+								<a href="javascript:dialog('100%','100%','修改进度情况','<%=path%>/biz/progressSitu_openEdit.action?view=edit&thisId=${progressId }&flag=05', 'true','0%');">
 							      <font color="blue"> <i class="layui-icon">&#xe642;</i>修改</font></a>&nbsp;&nbsp;&nbsp;
-							<a target="_parent" href="javascript:dialog('100%','100%','查看进度情况','<%=path%>/biz/progressSitu_openEdit.action?view=detail&thisId=${progressId }&flag=05', 'true','20%');">
+							<a href="javascript:dialog('100%','100%','查看进度情况','<%=path%>/biz/progressSitu_openEdit.action?view=detail&thisId=${progressId }&flag=05', 'true','20%');">
 							<font color="blue"> <i class="layui-icon">&#xe655;</i>查看</font></a>&nbsp;&nbsp;&nbsp;
-								</td>
+						</td>
 						</tr>
 			</s:iterator>
 	     </tbody>

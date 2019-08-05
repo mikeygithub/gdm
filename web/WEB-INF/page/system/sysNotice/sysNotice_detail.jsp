@@ -41,7 +41,7 @@
                                 <td>
                                     <p style="text-align:center;" align="center">&nbsp;</p>
                                     <p style="text-align:center;" align="center">&nbsp;</p>
-                                    <p style="text-indent:33pt;">
+                                    <p style="text-indent:33pt;margin: 5% 5%">
                                         <span style="font-size:18px;font-family:宋体;line-height:2;">
                                             <span style="font-size:18px;line-height:2;">
                                                 <%--全校师生员工：全校师生员工：全校师生员工：全校师生员工：全校师生员工：全校师生员工：全校师生员工：全校师生员工：全校师生员工：全校师生员工：全校师生员工：全校师生员工：全校师生员工：全校师生员工：--%>
