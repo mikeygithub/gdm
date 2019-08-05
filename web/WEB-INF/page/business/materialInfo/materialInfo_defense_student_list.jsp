@@ -133,7 +133,7 @@ td {
 				     
 				         <td align="center" >  ${model.year} </td> 
 				         <td align="center"><font color="blue">分配给：</font>
-				         <s:select list="groupAllot.teacherList" cssClass="dfinput" cssStyle="width: auto;"
+				         <s:select list="groupAllot.teacherList" cssClass="dfinput" cssStyle="width: 100px;"
 				         listKey="teacherId" listValue="teacherName" value="model.teacherId"
 				         ></s:select>
 				         <a href="javascript:void(0);"

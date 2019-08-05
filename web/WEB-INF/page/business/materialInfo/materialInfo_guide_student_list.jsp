@@ -51,7 +51,13 @@
 				</li>
 				<li class="click">
 	        		<a href="javascript:void(0);"  onclick="openSearch(this);"><img src="<%=path%>/images/search.png"  />搜索</a>
-				</li> 
+				</li>
+			<li>
+<%--				导出过程文档--%>
+				<a href="javascript:void(0);" onclick="optionExportSelectStudentDoc()">
+					<font color="green"> <img src="/gdm_war_exploded/images/i01.png" width="20px">导出</font>
+				</a>
+			</li>
 		</ul>
 		</div>
        </form>
@@ -60,7 +66,7 @@
     	  <thead>
 	    	<tr>
 				<th width="80px;" rowspan="2">
-					<input onclick="selectAll()" type="checkbox" name="controlAll" style="controlAll" id="controlAll" />&nbsp;全选
+					<input onclick="selectAll()" type="checkbox" name="controlAll" id="controlAll" />&nbsp;全选
 				</th>
 	    	<th rowspan="2">序号</th>
 	    	<th colspan="4">学生信息</th>
@@ -96,7 +102,7 @@
          <tr id="tr_${taskId }">
 			 <td align="center">
 				 <s:if test="groupAllotId==null" >
-					 <input value="${stuId}"  title="${stuName }"  type="checkbox" name="selected"/>
+					 <input value="${student.stuId }"  title="${student.stuName }"  type="checkbox" name="selected"/>
 				 </s:if>
 				 <s:else>
 					 <font color="red"> <i class="layui-icon">&#xe618;</i></font>
@@ -219,35 +225,97 @@
 </script>
 <script type="text/javascript">
 //删除
-function del(name,id){
+<%--function del(name,id){--%>
+<%--	var re=$(name).parent().parent();--%>
+<%--	layer.confirm('您确定要删除该课题吗?', {icon: 3, title:'提示'}, function(index){--%>
+<%--		  layer.close(index);--%>
+<%--		var index = layer.load(1);--%>
+<%--		 $.ajax({--%>
+<%--	        type: "post",--%>
+<%--	        cache: false,--%>
+<%--	        url: '<%=path%>/biz/issueInfo_del.action',--%>
+<%--					dataType : "json",--%>
+<%--					data : {--%>
+<%--						"thisId" : id--%>
+<%--					},success : function(result) {--%>
+<%--						layer.close(index); --%>
+<%--						if (result) {--%>
+<%--							re.remove();--%>
+<%--							layer.alert('删除成功',{icon: 1},function(){--%>
+<%--								 location.reload();--%>
+<%--								});--%>
+<%--						}else{--%>
+<%--							layer.msg('删除失败',{icon: 2});--%>
+<%--						}--%>
+<%--					},--%>
+<%--					error : function(result) {--%>
+<%--						layer.close(index); --%>
+<%--						layer.msg('删除失败',{icon: 2});--%>
+<%--					}--%>
+<%--				});--%>
+<%--});--%>
+<%--}--%>
+//全选
+function selectAll() {
+	var checklist = document.getElementsByName("selected");
+	if (document.getElementById("controlAll").checked) {
+		for (var i = 0; i < checklist.length; i++) {
+			checklist[i].checked = 1;
+		}
+	} else {
+		for (var j = 0; j < checklist.length; j++) {
+			checklist[j].checked = 0;
+		}
+	}
+}
+//选择学生
+function optionExportSelectStudentDoc(){
+	var stuIds ="";
+	var stuName ="<br><font color='blue'> ";
+	$("input[name='selected']").each(function(index,content){
+		if(this.checked==true){
+			stuIds = stuIds+$(this).val()+",";
+			stuName = stuName+(index+1)+"."+$(this).attr('title')+"<br>";
+		}
+	});
+	stuName=stuName+"</font>";
+	console.log(stuName)
+	if(stuIds == ""){
+		layer.alert('请勾选学生',{icon: 3});
+	}else{
+		exportDoc(stuIds,stuName);
+	}
+}
+//删除已选学生
+function exportDoc(thisIds,stuNames){
 	var re=$(name).parent().parent();
-	layer.confirm('您确定要删除该课题吗?', {icon: 3, title:'提示'}, function(index){
-		  layer.close(index);
+	layer.confirm('您确定要到处以下学生过程文档吗?<br>'+stuNames+'', {icon: 3, title:'提示'}, function(index){
+		layer.close(index);
 		var index = layer.load(1);
-		 $.ajax({
-	        type: "post",
-	        cache: false,
-	        url: '<%=path%>/biz/issueInfo_del.action',
-					dataType : "json",
-					data : {
-						"thisId" : id
-					},success : function(result) {
-						layer.close(index); 
-						if (result) {
-							re.remove();
-							layer.alert('删除成功',{icon: 1},function(){
-								 location.reload();
-								});
-						}else{
-							layer.msg('删除失败',{icon: 2});
-						}
-					},
-					error : function(result) {
-						layer.close(index); 
-						layer.msg('删除失败',{icon: 2});
-					}
-				});
-});
+		$.ajax({
+			type: "post",
+			cache: false,
+			url: '<%=path%>/biz/allotGuide.action',
+			dataType : "json",
+			data : {
+				"thisIds" : thisId
+			},success : function(result) {
+				layer.close(index);
+				if (result.length==0) {
+					re.remove();
+					layer.alert('取消选择成功',{icon: 1},function(){
+						location.reload();
+					});
+				}else{
+					layer.msg('导出失败',{icon: 2});
+				}
+			},
+			error : function(result) {
+				layer.close(index);
+				layer.msg('导出失败',{icon: 2});
+			}
+		});
+	});
 }
 </script>
 </body>

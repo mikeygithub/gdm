@@ -291,7 +291,7 @@
 
         /*公告信息  */
         function loadNotice() {
-            $.post('<%=path%>/sys/notice_loadNoticeList.action?newNum=10', function (res) {
+            $.post('<%=path%>/sys/notice_loadNoticeList.action?newNum=16', function (res) {
                 var noticelist = $('#sysNotice');
                 var result = eval('(' + res + ')');
                 $.each(result, function (index, con) {

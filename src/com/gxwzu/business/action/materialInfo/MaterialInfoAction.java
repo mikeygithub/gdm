@@ -430,6 +430,10 @@ public class MaterialInfoAction extends BaseAction implements ModelDriven<Materi
         return SUCCESS;
     }
 
+    /**
+     * 进度情况
+     * @return
+     */
     public String progressSitu(){
 
         String loginName = (String)getSession().getAttribute(SystemContext.LOGINNAME);
@@ -458,6 +462,9 @@ public class MaterialInfoAction extends BaseAction implements ModelDriven<Materi
         footer = PageUtil.pageFooter(pageResult1, getRequest());
         return SUCCESS;
     }
+
+    
+
     /********************************************** getter and setter方法 ************************************************************************/
 
     public PlanYear getPlanYear() {
