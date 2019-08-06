@@ -36,10 +36,12 @@ function openAdd(){
     	var type =  $("#selectName").val();
     	var nameValie = "";
     	if(type=='1'){
- 		nameValie = "model.noticeId";
- }else if(type=='2'){
-		nameValie = "model.noticeName";
- }
+ 			nameValie = "model.noticeId";
+ 		}else if(type=='2'){
+			nameValie = "model.noticeName";
+ 		}else {
+			nameValie = "model.noticeName";
+		}
     	$("#selectValue").attr("name",nameValie);
     	$('#form1').submit();
     }
@@ -111,7 +113,7 @@ function openAdd(){
 						<td align="center" width="20%">
 							<s:if test="LoginUser.id==#p.userId">
 								<a href="javascript:void(0)"
-								   target="rightFrame" onclick="del(this,${noticeId});"> <font
+								   target="rightFrame" onclick="del(this,${noticeId},'${noticeName}');"> <font
 										color="red"> <i class="layui-icon">&#xe640;</i>删除
 								</font>
 								</a>
@@ -138,9 +140,12 @@ function openAdd(){
 
 <script type="text/javascript">
 //单个删除
-function del(name,id){
+function del(name,id,noticeName){
 	var re=$(name).parent().parent();
-	if(confirm("您确定要删除吗?")){
+	// if(confirm("您确定要删除吗?")){
+	// 	var index = layer.load(1);
+	layer.confirm('您确定要删除 <font color="red">'+noticeName+'</font> 吗?', {icon: 2, title:'提示'}, function(index){
+		layer.close(index);
 		var index = layer.load(1);
 		 $.ajax({
 	        type: "post",
@@ -153,18 +158,18 @@ function del(name,id){
 						layer.close(index); 
 						if (result) {
 							re.remove();
-							alert('删除成功');
+							layer.alert('删除成功');
 						}else{
-							alert('删除失败');
+							layer.alert('删除失败');
 						}
 					},
 					error : function(result) {
 						layer.close(index); 
-						alert('删除失败');
+						layer.alert('删除失败');
 					}
 				}
 				);
-			}
+			});
 		}
 
 function openNotice(noticeId) {

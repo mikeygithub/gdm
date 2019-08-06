@@ -79,7 +79,17 @@ function openAdd(){
 							<a 
 							href="<%=path%>/sys/sysRole_del.action?view=list&resUri=list&thisId=${id }"
 							target="rightFrame"
-							onclick="javascript:if(confirm('确定要删除此信息吗？')){alert('删除成功！');return true;}return false;">
+							onclick="javascript:
+							// if(confirm('确定要删除此信息吗？')){
+							// 	alert('删除成功！');return true;
+							// }return false;
+							layer.confirm('您确定要删除吗?', {icon: 2, title:'提示'}, function(index){
+							layer.close(index);
+							var index = layer.load(1);
+								return true;
+							});
+							return false;
+							">
 							<font color="red"> <i class="layui-icon">&#xe640;</i>删除</font></a> 
 								<a 
 							      href="javascript:dialog('50%','75%','修改角色信息','<%=path%>/sys/sysRole_openEdit.action?view=edit&thisId=${id }', 'true');">

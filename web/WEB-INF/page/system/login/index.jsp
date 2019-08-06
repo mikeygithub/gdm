@@ -24,10 +24,7 @@
     <div class="welinfo">
     <span><img src="<%=path %>/images/sun.png" id="timeIcon"/></span>
     <b>${fullName }&nbsp;<i id="shijianduan"></i>，欢迎使用欢迎使用梧州学院毕业设计选题档案管理系统</b>
-    
- 
     </div>
-
 </body>
 
 </html>

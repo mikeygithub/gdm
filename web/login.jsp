@@ -98,7 +98,7 @@ request.setAttribute("", "hagl");
 
 	</div>
 	<div class="loginbm">
-		版权所有 2017 <a href="http://www.gxuwz.edu.cn/">梧州学院软件开发中心</a>
+		版权所有 2019 <a href="http://www.gxuwz.edu.cn/">梧州学院软件开发中心</a>
 	</div>
 
 </body>

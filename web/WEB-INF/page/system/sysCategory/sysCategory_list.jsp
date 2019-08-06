@@ -113,7 +113,7 @@ function openAdd(){
 
 						<td align="center" width="20%">
 							<a href="javascript:void(0)"
-							   target="rightFrame" onclick="del(this,${categoryId});"> 
+							   target="rightFrame" onclick="del(this,${categoryId},'${categoryName}');">
 							   <font color="red"> <i class="layui-icon">&#xe640;</i>删除</font>
 							</a>
 							<a href="javascript:dialog('50%','84%','修改信息','<%=path%>/sys/category_openEdit.action?view=edit&thisId=${categoryId }', 'true','20%');">
@@ -128,9 +128,10 @@ function openAdd(){
 
 <script type="text/javascript">
 //单个删除
-function del(name,id){
+function del(name,id,categoryName){
 	var re=$(name).parent().parent();
-	if(confirm("您确定要删除吗?")){
+	layer.confirm('您确定要删除 '+categoryName+' 吗?', {icon: 2, title:'提示'}, function(index){
+		layer.close(index);
 		var index = layer.load(1);
 		 $.ajax({
 	        type: "post",
@@ -143,18 +144,18 @@ function del(name,id){
 						layer.close(index); 
 						if (result) {
 							re.remove();
-							alert('删除成功');
+							layer.alert('删除成功');
 						}else{
-							alert('删除失败');
+							layer.alert('删除失败');
 						}
 					},
 					error : function(result) {
-						layer.close(index); 
-						alert('删除失败');
+						layer.close(index);
+						layer.alert('删除失败');
 					}
 				}
 				);
-			}
+			});
 		}
 </script>
 </body>

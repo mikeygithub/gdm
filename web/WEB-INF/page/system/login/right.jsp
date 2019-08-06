@@ -26,7 +26,6 @@
     <script type="text/javascript" src="<%=path%>/js/business/replyScore/replyScore.js"></script>
 
     <script type="text/javascript">
-
         /*打开聊天框  */
         function openChat(thisId, type, chatType) {
             layer.open({
@@ -109,11 +108,9 @@
 <div class="place">
     <span>位置：</span>
     <ul class="placeul">
-        <li><a href="<%=path%>/sys/login_view.action?view=right" target="_parent"></a></li>
-<%--        <li><a href="#" target="_parent">首页</a>--%>
+        <li><a href="<%=path%>/sys/login_view.action?view=right" target="rightFrame">首页</a></li>
         </li>
-        <li><a href="#">工作台</a>
-        </li>
+        <li><a href="<%=path%>/sys/login_view.action?view=right" target="rightFrame">工作台</a></li>
     </ul>
 </div>
 <c:choose>

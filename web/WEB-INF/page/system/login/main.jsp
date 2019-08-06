@@ -6,7 +6,6 @@
 <title><%=SystemContext.PROJECTNAME %></title>
 <meta name="renderer" content="webkit" /> 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-
 </head>
 <frameset rows="88,*" cols="*" frameborder="no" framespacing="0">
 <frame src="<%=path %>/sys/login_view.action?view=top" name="topFrame" scrolling="no" noresize="noresize" id="topFrame" title="topFrame" />
@@ -14,5 +13,5 @@
     <frame src="<%=path %>/sys/login_view.action?view=left" name="leftFrame" scrolling="no"   noresize="noresize" id="leftFrame" title="leftFrame" />
     <frame src="<%=path %>/sys/login_view.action?view=right" name="rightFrame" id="rightFrame" title="rightFrame" />
   </frameset>
-</frameset><noframes></noframes> 
+</frameset><noframes></noframes>
 </html>

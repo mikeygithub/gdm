@@ -50,7 +50,7 @@
 					  <span>
 					     <img src="<%=path%>/images/icon06.png" alt="天气" />
 					  </span>
-					  <b>技术支持：<a href="#" target="_blank">软件开发中心</a></b>
+					  <b>技术支持：<a href="javascript:void(0);" target="_blank">软件开发中心</a></b>
 			   </div>
 			</div>
 			<div class="xline"></div>

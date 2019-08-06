@@ -9,7 +9,6 @@
 <script type="text/javascript" src="<%=path%>/third/layer/extend/layer.ext.js"></script>
 <script type="text/javascript" src="<%=path%>/js/core/dialog/dialog.js"></script>
 <script type="text/javascript" src="<%=path%>/js/core/dialog/enable.js"></script>
-
 <title>无标题文档</title>
 <link href="<%=path %>/css/style.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="<%=path%>/third/layui/css/layui.css" type="text/css" />
@@ -22,16 +21,28 @@ $(function(){
 		$(this).addClass("selected");
 	});
 });
+function loginout() {
+
+	if (confirm('您确定要退出登入吗?')){
+		layer.msg('退出成功', {icon: 1, time: 2000}, function(){
+			top.location = "<%=path%>/Userlogin_logout.action";
+		});
+	};
+
+	// layer.confirm('您确定要退出登入吗?', {icon: 2, title:'提示'}, function(index){
+	// 	layer.close(index);
+	// 	var index = layer.load(1);
+	// 	layer.msg('退出成功', {icon: 1, time: 2000}, function(){
+	<%--		top.location = "<%=path%>/Userlogin_logout.action";--%>
+	// 	});
+	// });
+}
 </script>
-
-
 </head>
-
 <body style="background:url(<%=path %>/images/topbg.gif) repeat-x;">
-
     <div class="topleft">
  		<a href="<%=path%>/sys/login_view.action?view=right"  
- 		target="rightFrame"><img src="<%=path %>/images/loginlogo450881.png" title="系统首页" /></a>
+ 		target="rightFrame"><img src="<%=path %>/images/loginlogo450881.png" style="margin-left: -50px;" title="系统首页" /></a>
     </div>
      
     <div class="topright">    
@@ -42,7 +53,8 @@ $(function(){
 <%--    		<a href="<%=path%>/sys/userHelp_openEditUserInfo.action?view=userInfo&userHelpSign=0" target="rightFrame" >个人信息修改</a></li>--%>
 			<a href="<%=path%>/sys/userHelp_openUserInfo.action?view=userInfo" target="rightFrame" >个人信息修改</a></li>
 
-			<li><a href="<%=path %>/Userlogin_logout.action" target="_parent">退出系统</a></li>
+<%--			<li><a href="<%=path %>/Userlogin_logout.action" target="_parent">退出系统</a></li>--%>
+			<li><a href="javascript:void (0);" onclick="loginout()" target="rightFrame">退出系统</a></li>
     	</ul>
     	
     	<div class="user">
@@ -50,7 +62,7 @@ $(function(){
     		  <!-- <i>消息</i>
               <b>5</b> -->
     	</div>    
-    	<!-- <ul><li><font color="white" ><strong>版权所有 2016 梧州学院软件开发中心&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong></font></li></ul>
+    	<!-- <ul><li><font color="white" ><strong>版权所有 2019 梧州学院软件开发中心&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong></font></li></ul>
    -->
     </div>
 </body>

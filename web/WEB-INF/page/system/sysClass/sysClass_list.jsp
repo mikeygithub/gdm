@@ -170,14 +170,14 @@ function del(name,id,className){
 						layer.close(index); 
 						if (result) {
 							re.remove();
-							alert('删除成功');
+							layer.alert('删除成功');
 						}else{
-							alert('删除失败');
+							layer.alert('删除失败');
 						}
 					},
 					error : function(result) {
-						layer.close(index); 
-						alert('删除失败');
+						layer.close(index);
+						layer.alert('删除失败');
 					}
 				}
 				);
