@@ -450,6 +450,7 @@ public class DefenseRecordAction extends BaseAction implements ModelDriven<Defen
 				}
 				//查询 当前老师所属专业教研室 中的进度计划
 				if ("2".equals(type)) {
+					student = sysStudentService.findViewModelById(thisStuId);
 					 lTeacher = sysTeacherService.findByTeacherNo(loginName);
 					 planProgress=planProgressSerivce.findByTeacStaffroomId(lTeacher.getStaffroomId(),flag); 
 				}
@@ -464,8 +465,9 @@ public class DefenseRecordAction extends BaseAction implements ModelDriven<Defen
 								issueInfo = issueInfoSerivce.findByStuIdAndYear(model.getStuId(), thisYear);
 								// 查询指导老师信息
 								aGuide = allotGuideService.findByStuIdAndYear(model.getStuId(), thisYear);
-
+								teacher  =  sysTeacherService.findById(aGuide.getTeacherId());
 								logger.info("Model "+model);
+								logger.info("学生 "+student);
 								logger.info("课题 "+issueInfo);
 								logger.info("导师 "+aGuide);
 
@@ -473,13 +475,14 @@ public class DefenseRecordAction extends BaseAction implements ModelDriven<Defen
 								model = defenseRecordService.findByStuIdAndYear(thisStuId, thisYear);
 								if(model==null){
 									view =  "add";
+									return openAdd();
 								}
 							} 
 						}
 					}catch (Exception e) {
 						e.printStackTrace();
 					}
-					return openAdd();
+					return SUCCESS;
 				}else{
 				    return SUCCESS;
 				}

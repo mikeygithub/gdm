@@ -145,7 +145,7 @@ td {padding: 4px;font-size: 14px;font-size: 14px;border: 1px  solid #C1DAD7;}
 						<tr>
 						<td colspan="10">
 							<div >
-							<textarea name="model.defenseContent" cols="" rows="" class="textinput"style="width: 100%">${model.defenseContent}</textarea>
+							<textarea readonly="readonly" name="model.defenseContent" cols="" rows="" class="textinput"style="width: 100%">${model.defenseContent}</textarea>
 							</div>
 							</td>
 							</tr>

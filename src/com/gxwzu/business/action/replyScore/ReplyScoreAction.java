@@ -50,15 +50,14 @@ import com.opensymphony.xwork2.ModelDriven;
  * @author 何志明
  * @date 2017.7.21
  */
-public class ReplyScoreAction extends BaseAction implements
-        ModelDriven<ReplyScore> {
+public class ReplyScoreAction extends BaseAction implements ModelDriven<ReplyScore> {
 
     private static final long serialVersionUID = -3343014949806289390L;
+
     protected final Log logger = LogFactory.getLog(getClass());
 
     /*********************** 实例化ModelDriven ******************************/
     private ReplyScore model = new ReplyScore();
-
 
     @Override
     public ReplyScore getModel() {
@@ -72,7 +71,6 @@ public class ReplyScoreAction extends BaseAction implements
     /*********************** Service接口注入 ***************************/
     @Autowired
     private IReplyScoreSerivce replyScoreSerivce; // 答辩成绩及评语接口
-
     @Autowired
     private ISysTeacherService sysTeacherService; // 老师接口
     @Autowired

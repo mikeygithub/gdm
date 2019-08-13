@@ -163,10 +163,10 @@ td {
 									<s:if test="review.replyLink==01"> 是</s:if>
 									</td></s:if>
 								</tr>
-								<tr style="height: 100px" >
+								<tr style="height: 300px" >
 									<td  colspan="10"><textarea rows="" cols=""  
 									name="model.reviewContent"
-									style="min-height: 100px;width: 100%">${review.reviewContent }</textarea></td>
+									style="min-height: 100px;height:300px;width: 100%">${review.reviewContent }</textarea></td>
 								</tr>
 							</table>
 					</ul>

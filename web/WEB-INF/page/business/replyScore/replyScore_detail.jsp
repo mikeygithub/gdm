@@ -234,11 +234,11 @@ td {
 								</tr>
 								<tr align="center">
 									<td colspan="4" align="center">评语</td></tr>
-								<tr style="height 100px">
+								<tr style="height:300px">
 									<td colspan="10"><textarea rows="" cols=""
 															   readonly="readonly"
 															   name="model.replyLink" id="model.replyLink"
-															   style="min-height: 100px;width: 100%">${listReplyScore.replyLink }</textarea></td>
+															   style="min-height: 100px;height:300px;width: 100%">${listReplyScore.replyLink }</textarea></td>
 								</tr>
 							</table>
 						<%--<li>--%>

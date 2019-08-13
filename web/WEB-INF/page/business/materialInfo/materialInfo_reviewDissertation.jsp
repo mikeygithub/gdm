@@ -102,12 +102,12 @@
 				        </td>  --%>
 				        <td align="center">
 					       <s:if test="issueInfo.issueId==null">
-					        <a href="javascript:dialog('90%','90%','【<font color=blue >${student.stuName }</font>】 课题信息',
+					        <a href="javascript:dialog('100%','100%','【<font color=blue >${student.stuName }</font>】 课题信息',
 					        '<%=path%>/biz/issueInfo_openEdit.action?view=add&thisStuId=${student.stuId }&thisYear=${model.year }', 'true','20%');" target="rightFrame" >  
 					       <font color="red">未录入</font></a>
 					       </s:if>
 					       <s:else>
-					        <a href="javascript:dialog('98%','98%','【<font color=blue >${student.stuName }</font>】 课题信息',
+					        <a href="javascript:dialog('100%','100%','【<font color=blue >${student.stuName }</font>】 课题信息',
 					        '<%=path%>/biz/issueInfo_openEdit.action?view=edit&thisStuId=${student.stuId }&thisId=${issueInfo.issueId }&thisYear=${model.year }', 'true','20%');" target="rightFrame" >  
 					       <font color="blue">${issueInfo.issueName}</font></a>
 					       </s:else>
@@ -119,11 +119,11 @@
 					    </td>
 				<td align="center">
 				       <s:if test="reviewReadId==null">
-				        <a href="javascript:dialog('98%','98%','【<font color=blue >${student.stuName }</font>】 评阅老师评阅信息','
+				        <a href="javascript:dialog('100%','100%','【<font color=blue >${student.stuName }</font>】 评阅老师评阅信息','
 				          <%=path%>/biz/review_openAdd.action?view=add&thisStuId=${student.stuId }&thisReviewType=01&thisYear=${model.year }&flag=07', 'true','20%');" target="rightFrame" >  
 				       <font color="red">未录入</font></a>
 				       </s:if><s:else>
-				         <a href="javascript:dialog('98%','98%','【<font color=blue >${student.stuName }</font> 】评阅老师评阅信息','
+				         <a href="javascript:dialog('100%','100%','【<font color=blue >${student.stuName }</font> 】评阅老师评阅信息','
 				          <%=path%>/biz/review_openEdit.action?view=edit&thisId=${reviewReadId }&thisStuId=${student.stuId }&thisReviewType=01&thisYear=${model.year }&flag=07', 'true','20%');" target="rightFrame" >  
 				      <font color="blue">查看</font></a>
 				       </s:else>
