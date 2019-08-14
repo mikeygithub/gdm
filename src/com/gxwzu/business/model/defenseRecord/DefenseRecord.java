@@ -32,8 +32,9 @@ public class DefenseRecord implements java.io.Serializable {
 		public Integer getStuId() {
 			return stuId;
 		}
-		public void setStuId(Integer stuId) {
+		public DefenseRecord setStuId(Integer stuId) {
 			this.stuId = stuId;
+			return this;
 		}
 		public Integer getTeacherId() {
 			return teacherId;
@@ -44,8 +45,9 @@ public class DefenseRecord implements java.io.Serializable {
 		public Integer getYear() {
 			return year;
 		}
-		public void setYear(Integer year) {
+		public DefenseRecord setYear(Integer year) {
 			this.year = year;
+			return this;
 		}
 		public String getDefenseContent() {
 			return defenseContent;

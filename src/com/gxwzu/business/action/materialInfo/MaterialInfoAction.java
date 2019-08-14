@@ -1,13 +1,20 @@
 package com.gxwzu.business.action.materialInfo;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
+import java.util.*;
 
+import com.gxwzu.business.model.defenseRecord.DefenseRecord;
 import com.gxwzu.business.model.progressSitu.ProgressSitu;
+import com.gxwzu.business.service.defenseRecord.IDefenseRecordService;
+import com.gxwzu.business.service.openReport.IOpenReportSerivce;
+import com.gxwzu.business.service.openReport.impl.OpenReportServiceImpl;
 import com.gxwzu.business.service.progressSitu.IProgressSituSerivce;
+import com.gxwzu.business.service.replyScore.IReplyScoreSerivce;
+import com.gxwzu.business.service.review.IReviewSerivce;
+import com.gxwzu.business.service.taskBook.ITaskBookSerivce;
+import com.gxwzu.core.util.WordUtils;
 import com.gxwzu.sysVO.*;
+import com.gxwzu.system.service.sysTechnical.ISysTechnicalService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +64,8 @@ public class MaterialInfoAction extends BaseAction implements ModelDriven<Materi
     private MaterialInfo model = new MaterialInfo();
     private Integer thisStuId;
 
+    private String thisIds;//批量导出过程文档ids
+
     @Override
     public MaterialInfo getModel() {
         return model;
@@ -71,6 +80,8 @@ public class MaterialInfoAction extends BaseAction implements ModelDriven<Materi
     private ISysStudentService sysStudentService; // 学生接口
     @Autowired
     private ISysTeacherService sysTeacherService; // 老师接口
+    @Autowired
+    private ISysTechnicalService iSysTechnicalService;//
     @Autowired
     private IMaterialInfoSerivce materialInfoSerivce; // 学生相关材料接口
     @Autowired
@@ -96,7 +107,17 @@ public class MaterialInfoAction extends BaseAction implements ModelDriven<Materi
     @Autowired
     private ISysFileTypeService sysFileTypeService; //文件类型接口
     @Autowired
-    private IProgressSituSerivce progressSituSerivce;
+    private IProgressSituSerivce progressSituSerivce;//进展情况
+    @Autowired
+    private ITaskBookSerivce iTaskBookSerivce;//任务书
+    @Autowired
+    private IOpenReportSerivce iOpenReportSerivce;//开题报告
+    @Autowired
+    private IReviewSerivce iReviewSerivce;//论文评阅
+    @Autowired
+    private IDefenseRecordService iDefenseRecordService;//答辩过程
+    @Autowired
+    private IReplyScoreSerivce iReplyScoreSerivce;//评语及成绩
 
     /*********************** 实体 ***************************/
     private PlanYear planYear; // 年度计划实体
@@ -130,6 +151,10 @@ public class MaterialInfoAction extends BaseAction implements ModelDriven<Materi
     private Integer fileTypeSize = 0; //默认文件类型个数 0
     private String flag;
     private String thisReplyType; // 类型：答辩类型： 00答辩小组 01系答辩委员会
+
+    private String templetePath;
+    private String fileName;
+    private String filePath;
 
     /************************** 方法类 **************************************************************************************/
     @Override
@@ -231,7 +256,7 @@ public class MaterialInfoAction extends BaseAction implements ModelDriven<Materi
                 planProgress = planProgressSerivce.findByTeacStaffroomId(teacher.getStaffroomId(), flag);
             }
             Timestamp d = new Timestamp(System.currentTimeMillis());
-            if (planProgress!=null&&planProgress.getStartTime()!=null&&d.after(planProgress.getStartTime())) {
+            if (planProgress != null && planProgress.getStartTime() != null && d.after(planProgress.getStartTime())) {
                 logger.info("老师查询所在组已分配评阅的学生信息");
                 try {
                     // 老师查询学生课题信息
@@ -261,7 +286,7 @@ public class MaterialInfoAction extends BaseAction implements ModelDriven<Materi
                                 }
                             }
                         }
-                        logger.info("groupAllotId : "+groupAllotId);
+                        logger.info("groupAllotId : " + groupAllotId);
                         //老师查询所在组的学生信息
                         pageResult = materialInfoSerivce.findGroupStudent(groupAllotId, model.getYear(), getPage(), getRow());
 
@@ -306,7 +331,7 @@ public class MaterialInfoAction extends BaseAction implements ModelDriven<Materi
                 planProgress = planProgressSerivce.findByTeacStaffroomId(teacher.getStaffroomId(), flag);
             }
             Timestamp d = new Timestamp(System.currentTimeMillis());
-            if (planProgress!=null&&planProgress.getStartTime()!=null&&d.after(planProgress.getStartTime())) {
+            if (planProgress != null && planProgress.getStartTime() != null && d.after(planProgress.getStartTime())) {
                 logger.info("老师查询所在组已分配评阅的学生信息");
                 try {
                     // 老师查询学生课题信息
@@ -365,8 +390,7 @@ public class MaterialInfoAction extends BaseAction implements ModelDriven<Materi
             } else {
                 return SUCCESS;
             }
-        }
-        else {
+        } else {
             return SUCCESS;
         }
     }
@@ -432,38 +456,176 @@ public class MaterialInfoAction extends BaseAction implements ModelDriven<Materi
 
     /**
      * 进度情况
+     *
      * @return
      */
-    public String progressSitu(){
+    public String progressSitu() {
 
-        String loginName = (String)getSession().getAttribute(SystemContext.LOGINNAME);
-        String usertype = (String)getSession().getAttribute(SystemContext.USERTYPE);
+        String loginName = (String) getSession().getAttribute(SystemContext.LOGINNAME);
+        String usertype = (String) getSession().getAttribute(SystemContext.USERTYPE);
         ProgressSitu model = new ProgressSitu();
-        if(thisYear==null){
+        if (thisYear == null) {
             //获取当前年份并set进去
             thisYear = Calendar.getInstance().get(Calendar.YEAR);
             model.setYear(thisYear);
         }
         //根据类型查找相应的表,获取登录类型，2的话直接去教师表查询，
         //3的话说明是管理员并且管理员只可能是老师？如果根据这个设计，3也应该去教师表查询。
-        if(usertype.equals("3")||usertype.equals("2")){
-            int teacherid=sysTeacherService.findByTeacherNo(loginName).getTeacherId();
+        if (usertype.equals("3") || usertype.equals("2")) {
+            int teacherid = sysTeacherService.findByTeacherNo(loginName).getTeacherId();
             model.setTeacherId(teacherid);
-        }else if(usertype.equals("1")){
+        } else if (usertype.equals("1")) {
             //如果登录类型是1说明是学生，应该去学生表那里查询。
             thisStuId = sysStudentService.findByStuNo(loginName).getStuId();
             model.setStuId(thisStuId);
         }
-        if (thisStuId!=null){
+        if (thisStuId != null) {
             model.setStuId(thisStuId);
         }
-        materialInfo = materialInfoSerivce.findByStuIdAndYear(thisStuId,thisYear);
+        materialInfo = materialInfoSerivce.findByStuIdAndYear(thisStuId, thisYear);
         pageResult1 = progressSituSerivce.find(model, getPage(), getRow());
         footer = PageUtil.pageFooter(pageResult1, getRequest());
         return SUCCESS;
     }
 
-    
+    /**
+     * 导出过程文档
+     *
+     * @return
+     */
+    public String exportStudentProcessDoc() {
+
+        String[] stuIds = thisIds.split(",");//需导出学生id数组
+
+        for (int i = 0; i < stuIds.length; i++) {
+
+            StudentProcessDocVO doc = findStudentProcessDocVOByStuId(Integer.parseInt(stuIds[i]), thisYear);
+
+            Map<String, String> map = new HashMap<String, String>();
+            //任务书
+            map.put("issueName", doc.getTaskBook().get.getIssueName());
+            map.put("deptName", student.getDeptName());
+            map.put("majorName", student.getMajorName());
+            map.put("className", student.getClassName());
+            map.put("stuNo", student.getStuNo());
+            map.put("stunName", student.getStuName());
+            map.put("content", model.getTaskContent());
+            map.put("planJob", model.getTaskPlanJob());
+            map.put("document", model.getTaskDocument());
+            map.put("teacherName", teacher.getTeacherName());
+            //开题报告
+            map.put("issueName", issueInfo.getIssueName());
+            map.put("deptName", student.getDeptName());
+            map.put("majorName", student.getMajorName());
+            map.put("className", student.getClassName());
+            map.put("stuNo", student.getStuNo());
+            map.put("stuName", student.getStuName());
+            map.put("tN", teacher.getTeacherName());
+            map.put("lN", technical.getTechnicalName());
+            map.put("cT", model.getReportContent());
+            map.put("bD", model.getBackground());
+            map.put("dT", model.getReportDocument());
+            map.put("mD", model.getReportMethod());
+            //进展情况记录(五个阶段)
+            map.put("", doc);
+            map.put("", doc);
+            map.put("", doc);
+            map.put("", doc);
+            map.put("", doc);
+            //论文（设计）评阅表（指导教师用）
+            if (issueInfo != null) {
+                map.put("iN", issueInfo.getIssueName());
+            } else {
+                map.put("iN", "");
+            }
+
+            map.put("dT", student.getDeptName());
+            map.put("mR", student.getMajorName());
+            map.put("tN", teacher.getTeacherName());
+            map.put("sN", student.getStuName());
+            map.put("tL", ""+model.getTotalScore());
+            List<ReviewScore> list = model.getReviewScoreList();
+            for (int i = 0; i < list.size(); i++) {
+                ReviewScore reviewScore = list.get(i);
+                map.put("sc"+(i+1),""+reviewScore.getScore());
+            }
+
+            map.put("con", model.getReviewContent());
+            if("00".equals(model.getReplyLink()) ){
+                map.put("rL", "否");
+            }else if("01".equals(model.getReplyLink()) ){
+                map.put("rL", "是");
+            }else{
+                map.put("rL", "");
+            }
+            //论文（设计）评阅表（评阅教师用）
+
+            //规范审查表（指导教师用）
+
+            //答辩过程记录表
+            map.put("dN", student.getDeptName());
+            map.put("mN", student.getMajorName());
+            map.put("cN", student.getClassName());
+            map.put("sNo", student.getStuNo());
+            map.put("sNa", student.getStuName());
+            map.put("dC", model.getDefenseContent());
+
+            map.put("iN", issueInfo.getIssueName());
+            map.put("tN", teacher.getTeacherName());
+            map.put("lN", sysTechnical.getTechnicalName());
+            //答辩成绩及评语表
+            map.put("dT", student.getDeptName());
+            map.put("mR", student.getMajorName());
+            map.put("tN", teacher.getTeacherName());
+            map.put("sN", student.getStuName());
+
+//                WordUtils.exportWord(map, getTempletePath(), getFilePath());
+//                StringBuffer sBuffer = new StringBuffer(student.getClassName());
+//                sBuffer.append("-").append(student.getStuId()).append("-").append(student.getStuName()).append("-").append("过程文档.doc");
+//                fileName = sBuffer.toString();
+        }
+        return OUT;
+    }
+
+    /**
+     * 返回过程文档对象
+     *
+     * @param id
+     * @param year
+     * @return
+     */
+    private StudentProcessDocVO findStudentProcessDocVOByStuId(Integer id, Integer year) {
+        //查询相关信息
+        StudentProcessDocVO studentProcessDocVO = new StudentProcessDocVO();
+        //学生
+        studentProcessDocVO.setListStudent(sysStudentService.findViewModelById(id));
+        //分组
+        AllotGuide aGuide = allotGuideService.findByStuIdAndYear(id, year);
+        //教师
+        studentProcessDocVO.setSysTeacher(sysTeacherService.findById(aGuide.getTeacherId()));
+        //教师
+        studentProcessDocVO.setSysTechnical(iSysTechnicalService.findById(studentProcessDocVO.getSysTeacher().getTeacherId()));
+        //任务书
+        studentProcessDocVO.setTaskBook(iTaskBookSerivce.findByStuIdAndYear(id, year));
+        //开题报告
+        studentProcessDocVO.setOpenReport(iOpenReportSerivce.findByStuIdAndYear(id, year));
+        //进展情况记录
+        studentProcessDocVO.setProgressSitus(progressSituSerivce.findByStuIdAndYear(id, year));
+        //论文（设计）评阅表（指导教师用）type:00
+        studentProcessDocVO.setListReviewReadGuide(iReviewSerivce.findByStuIdAndReviewTypeAndYear(id, "00", year));
+        //论文（设计）评阅表（评阅教师用）type:01
+        studentProcessDocVO.setListReviewReadTeacher(iReviewSerivce.findByStuIdAndReviewTypeAndYear(id, "01", year));
+        //规范审查表（指导教师用）type:02
+        studentProcessDocVO.setListReviewCheckTeacher(iReviewSerivce.findByStuIdAndReviewTypeAndYear(id, "02", year));
+        //答辩过程记录表
+        studentProcessDocVO.setDefenseRecordVOS(iDefenseRecordService.findByExample(new DefenseRecord().setStuId(id).setYear(year)));
+        //答辩成绩及评语表// 00答辩小组
+        studentProcessDocVO.setGroupReply(iReplyScoreSerivce.findByStuIdAndReplyTypeAndYear(id, "00", year));
+        //01系答辩委员会
+        studentProcessDocVO.setDeptReply(iReplyScoreSerivce.findByStuIdAndReplyTypeAndYear(id, "01", year));
+
+        return studentProcessDocVO;
+    }
 
     /********************************************** getter and setter方法 ************************************************************************/
 
@@ -691,4 +853,37 @@ public class MaterialInfoAction extends BaseAction implements ModelDriven<Materi
     public void setPageResult1(Result<ListProgressSitu> pageResult1) {
         this.pageResult1 = pageResult1;
     }
+
+    public String getThisIds() {
+        return thisIds;
+    }
+
+    public void setThisIds(String thisIds) {
+        this.thisIds = thisIds;
+    }
+
+    public String getTempletePath() {
+        return templetePath;
+    }
+
+    public void setTempletePath(String templetePath) {
+        this.templetePath = templetePath;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
+    }
+
 }

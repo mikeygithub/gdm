@@ -424,7 +424,7 @@ public class OpenReportAction extends BaseAction implements ModelDriven<OpenRepo
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "out";
+		return OUT;
 	}
 
 	/**

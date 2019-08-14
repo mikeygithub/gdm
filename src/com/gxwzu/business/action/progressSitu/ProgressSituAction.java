@@ -376,7 +376,7 @@ public class ProgressSituAction extends BaseAction implements ModelDriven<Progre
 			e.printStackTrace();
 			//state = "0";
 		}
-		return "out";
+		return OUT;
 	}
 	
 	

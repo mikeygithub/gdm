@@ -386,8 +386,6 @@ public class TaskBookAction extends BaseAction implements ModelDriven<TaskBook> 
 				map.put("document", model.getTaskDocument());
 				map.put("teacherName",teacher.getTeacherName());
 
-				logger.info(map.toString());
-
 				WordUtils.exportWord(map, getTempletePath(), getFilePath());
 
 				StringBuffer sBuffer = new StringBuffer(student.getClassName());
@@ -399,7 +397,7 @@ public class TaskBookAction extends BaseAction implements ModelDriven<TaskBook> 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "out";
+		return OUT;
 	}
 
 	/**

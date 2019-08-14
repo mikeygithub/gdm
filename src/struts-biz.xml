@@ -27,7 +27,16 @@
 		<!-- 学生相关材料 -->
 		<action name="materialInfo_*"
 			class="com.gxwzu.business.action.materialInfo.MaterialInfoAction" method="{1}">
+			<param name="templetePath">templete/templeteOpenReport.mht</param>
+			<param name="filePath">attached/openReport/openReport.doc</param>
 			<result name="success">/WEB-INF/page/business/materialInfo/materialInfo_${view}.jsp
+			</result>
+			<result name="out" type="redirectAction"   >
+				<param name="actionName">download.action</param>
+				<param name="filePath">attached/openReport/openReport.doc</param>
+				<param name="fileName">${fileName}</param>
+				<param name="namespace">/sys</param>
+				<param name="encode">true</param>
 			</result>
 		</action>
 		<!-- 课题管理 -->

@@ -32,6 +32,7 @@ public class BaseAction extends ActionSupport {
 	public final String QUERY = "query";
 	public final String LOGIN = "login";
 	public final String LOGOUT = "logout";
+	public final String OUT = "out";
 	
 	protected String forwardView;//自定义的跳转页面
 	protected Integer page=1;

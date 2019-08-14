@@ -289,16 +289,17 @@ function optionExportSelectStudentDoc(){
 //删除已选学生
 function exportDoc(thisIds,stuNames){
 	var re=$(name).parent().parent();
-	layer.confirm('您确定要到处以下学生过程文档吗?<br>'+stuNames+'', {icon: 3, title:'提示'}, function(index){
+	layer.confirm('您确定要导出以下学生过程文档吗?<br>'+stuNames+'', {icon: 3, title:'提示'}, function(index){
 		layer.close(index);
 		var index = layer.load(1);
 		$.ajax({
 			type: "post",
 			cache: false,
-			url: '<%=path%>/biz/allotGuide.action',
+			url: '<%=path%>/biz/materialInfo_exportStudentProcessDoc.action',
 			dataType : "json",
 			data : {
-				"thisIds" : thisId
+				"thisIds" : thisId,
+				"thisYear" : ${model.year}
 			},success : function(result) {
 				layer.close(index);
 				if (result.length==0) {

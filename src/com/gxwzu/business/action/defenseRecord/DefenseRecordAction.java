@@ -619,7 +619,7 @@ public class DefenseRecordAction extends BaseAction implements ModelDriven<Defen
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "out";
+		return OUT;
 	}
 	/**
 	 * 删除答辩记录信息
