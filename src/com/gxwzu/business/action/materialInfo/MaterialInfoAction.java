@@ -17,8 +17,10 @@ import com.gxwzu.business.service.taskBook.ITaskBookSerivce;
 import com.gxwzu.core.util.WordUtils;
 import com.gxwzu.sysVO.*;
 import com.gxwzu.system.service.sysTechnical.ISysTechnicalService;
+import com.gxwzu.util.ExportDocUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.gxwzu.business.model.allotGuide.AllotGuide;
@@ -506,7 +508,7 @@ public class MaterialInfoAction extends BaseAction implements ModelDriven<Materi
 
                 StudentProcessDocVO doc = findStudentProcessDocVOByStuId(Integer.parseInt(stuIds[i]), thisYear);
 
-                Map<String, String> map = new HashMap<String, String>();
+                Map<String, String> map = ExportDocUtil.initMapMsg();
                 //任务书
                 map.put("issueName", doc.getIssueInfo().getIssueName());
                 map.put("deptName", doc.getListStudent().getDeptName());
@@ -526,21 +528,11 @@ public class MaterialInfoAction extends BaseAction implements ModelDriven<Materi
                 map.put("dT", doc.getOpenReport().getReportDocument());
                 map.put("mD", doc.getOpenReport().getReportMethod());
                 //进展情况记录(五个阶段)
-                map.put("firstTime", doc.getProgressSitus().get(0).getProgressTime());
-                map.put("firstWork", doc.getProgressSitus().get(0).getProgressWork());
-                map.put("firstProgressRecord", doc.getProgressSitus().get(0).getProgressRecord());
-                map.put("secondTime", doc.getProgressSitus().get(1).getProgressTime());
-                map.put("secondWork", doc.getProgressSitus().get(1).getProgressWork());
-                map.put("secondProgressRecord", doc.getProgressSitus().get(1).getProgressRecord());
-                map.put("threeTime", doc.getProgressSitus().get(2).getProgressTime());
-                map.put("threeWork", doc.getProgressSitus().get(2).getProgressWork());
-                map.put("threeProgressRecord", doc.getProgressSitus().get(2).getProgressRecord());
-                map.put("fourTime", doc.getProgressSitus().get(3).getProgressTime());
-                map.put("fourWork", doc.getProgressSitus().get(3).getProgressWork());
-                map.put("fourProgressRecord", doc.getProgressSitus().get(3).getProgressRecord());
-                map.put("fiveTime", doc.getProgressSitus().get(4).getProgressTime());
-                map.put("fiveWork", doc.getProgressSitus().get(4).getProgressWork());
-                map.put("fiveProgressRecord", doc.getProgressSitus().get(4).getProgressRecord());
+                for (int j = 0; j < doc.getProgressSitus().size(); j++) {
+                    map.put("time" + (j+1), doc.getProgressSitus().get(j).getProgressTime());
+                    map.put("work" + (j+1), doc.getProgressSitus().get(j).getProgressWork());
+                    map.put("ProgressRecord" + (j+1), doc.getProgressSitus().get(j).getProgressRecord());
+                }
                 //论文（设计）评阅表（指导教师用）
                 map.put("iN", doc.getIssueInfo().getIssueName());
                 map.put("dT", doc.getListStudent().getDeptName());
@@ -553,6 +545,7 @@ public class MaterialInfoAction extends BaseAction implements ModelDriven<Materi
                     ReviewScore reviewScore = list.get(j);
                     map.put("GR" + (j + 1), "" + reviewScore.getScore());
                 }
+                map.put("GRSum",doc.getListReviewReadGuide().getTotalScore().toString());
                 map.put("reviewGuideRemark", doc.getListReviewReadGuide().getReviewContent());
                 if ("00".equals(doc.getListReviewReadGuide().getReplyLink())) {
                     map.put("GRPass", "否");
@@ -562,6 +555,7 @@ public class MaterialInfoAction extends BaseAction implements ModelDriven<Materi
                     map.put("GRPass", "");
                 }
                 //论文（设计）评阅表（评阅教师用）
+                if (doc.getListReviewReadTeacher()!=null){
                 map.put("TRSum", "" + doc.getListReviewReadTeacher().getTotalScore());
                 List<ReviewScore> listT = doc.getListReviewReadTeacher().getReviewScoreList();
                 for (int k = 0; k < listT.size(); k++) {
@@ -575,14 +569,17 @@ public class MaterialInfoAction extends BaseAction implements ModelDriven<Materi
                     map.put("TRPass", "是");
                 } else {
                     map.put("TRPass", "");
-                }
+                }}
                 //规范审查表（指导教师用）
+
                 List<ReviewScore> listC = doc.getListReviewCheckTeacher().getReviewScoreList();
                 for (int l = 0; l < listC.size(); l++) {
                     ReviewScore reviewScore = listC.get(l);
                     map.put("checkScore" + (l + 1), "" + reviewScore.getScore());
                     map.put("checkRemark" + (l + 1), "" + reviewScore.getRemark());
                 }
+                if (doc.getListReviewReadTeacher()!=null)
+                map.put("checkScoreSum",doc.getListReviewReadTeacher().getTotalScore().toString());
                 map.put("flunkCase", doc.getListReviewCheckTeacher().getReviewContent());
                 //答辩过程记录表
                 map.put("issueName", doc.getIssueInfo().getIssueName());
@@ -598,23 +595,26 @@ public class MaterialInfoAction extends BaseAction implements ModelDriven<Materi
                     defenceGroupName.append(teacher.getTeacherName()+" ");
                 }
                 map.put("defenceGroupName",defenceGroupName.toString() );
-                map.put("groupRemark", doc.getGroupReply().getReplyLink());
-                map.put("groupReviewScore", doc.getListReviewReadTeacher().getTotalScore().toString());
-                map.put("groupGuideReadScore", doc.getGroupReply().getGuideScore().toString());
-                map.put("groupReaderScore", doc.getGroupReply().getReadScore().toString());
-                map.put("groupDefenceScore", doc.getGroupReply().getReplyScore().toString());
-                map.put("finalScore", doc.getGroupReply().getReplyScoreFinish()+"");
-                map.put("groupRank", doc.getGroupReply().getGrade());
+                if (doc.getGroupReply()!=null) {
+                    map.put("groupReviewScore", doc.getListReviewReadTeacher().getTotalScore().toString());
+                    map.put("groupRemark", doc.getGroupReply().getReplyLink());
+                    map.put("groupGuideReadScore", doc.getGroupReply().getGuideScore().toString());
+                    map.put("groupReaderScore", doc.getGroupReply().getReadScore().toString());
+                    map.put("groupDefenceScore", doc.getGroupReply().getReplyScore().toString());
+                    map.put("finalScore", doc.getGroupReply().getReplyScoreFinish() + "");
+                    map.put("groupRank", doc.getGroupReply().getGrade());
+                }
                 //系
                 StringBuilder commiteeGroupName = new StringBuilder();
                 for (ListGroupTeacher teacher:doc.getCommiteeGroup().getTeacherList()) {
                     commiteeGroupName.append(teacher.getTeacherName()+" ");
                 }
                 map.put("committeeGroupName",commiteeGroupName.toString());
-                map.put("committeeRemark", doc.getDeptReply().getReplyLink());
-                map.put("committeeFinalScore", doc.getDeptReply().getReplyScoreFinish()+"");
-                map.put("committeeRank", doc.getDeptReply().getGrade());
-
+                if (doc.getDeptReply()!=null) {
+                    map.put("committeeRemark", doc.getDeptReply().getReplyLink());
+                    map.put("committeeFinalScore", doc.getDeptReply().getReplyScoreFinish() + "");
+                    map.put("committeeRank", doc.getDeptReply().getGrade());
+                }
 
                 WordUtils.exportWord(map, getTempletePath(), getFilePath());
                 StringBuffer sBuffer = new StringBuffer(doc.getListStudent().getClassName());
@@ -644,7 +644,7 @@ public class MaterialInfoAction extends BaseAction implements ModelDriven<Materi
         //教师
         studentProcessDocVO.setSysTeacher(sysTeacherService.findById(aGuide.getTeacherId()));
         //教师
-        studentProcessDocVO.setSysTechnical(iSysTechnicalService.findById(studentProcessDocVO.getSysTeacher().getTeacherId()));
+        studentProcessDocVO.setSysTechnical(iSysTechnicalService.findById(studentProcessDocVO.getSysTeacher().getTechnicalId()));
         //任务书
         studentProcessDocVO.setTaskBook(iTaskBookSerivce.findByStuIdAndYear(id, year));
         studentProcessDocVO.setIssueInfo(issueInfoService.findByStuIdAndYear(id, year));
@@ -668,9 +668,9 @@ public class MaterialInfoAction extends BaseAction implements ModelDriven<Materi
         }
         //01系答辩委员会
         studentProcessDocVO.setDeptReply(iReplyScoreSerivce.findByStuIdAndReplyTypeAndYear(id, "01", year));
-        ListGroupStudent gCommiteee = groupStudentService.findByStuIdAndYearAndType(id, year,"01");//系答辩委员会
-        if (gStudent != null) {
-            studentProcessDocVO.setCommiteeGroup(groupAllotService.findViewModelById(gStudent.getGroupAllotId()));
+        ListGroupStudent gCommitee = groupStudentService.findByStuIdAndYearAndType(id, year,"01");//系答辩委员会
+        if (gCommitee != null) {
+            studentProcessDocVO.setCommiteeGroup(groupAllotService.findViewModelById(gCommitee.getGroupAllotId()));
         }
         return studentProcessDocVO;
     }
@@ -911,7 +911,7 @@ public class MaterialInfoAction extends BaseAction implements ModelDriven<Materi
     }
 
     public String getTempletePath() {
-        return templetePath;
+        return ServletActionContext.getServletContext().getRealPath(templetePath);
     }
 
     public void setTempletePath(String templetePath) {
@@ -927,7 +927,7 @@ public class MaterialInfoAction extends BaseAction implements ModelDriven<Materi
     }
 
     public String getFilePath() {
-        return filePath;
+        return ServletActionContext.getServletContext().getRealPath(filePath);
     }
 
     public void setFilePath(String filePath) {

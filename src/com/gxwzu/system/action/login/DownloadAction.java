@@ -1,10 +1,7 @@
 package com.gxwzu.system.action.login;
 
 import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -12,7 +9,6 @@ import org.apache.struts2.ServletActionContext;
 
 import com.gxwzu.core.web.action.BaseAction;
 
-@SuppressWarnings("serial")
 public class DownloadAction extends BaseAction {
 	protected final Log logger = LogFactory.getLog(getClass());
 	private String fileName;

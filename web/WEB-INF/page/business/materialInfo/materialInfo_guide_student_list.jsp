@@ -279,42 +279,20 @@ function optionExportSelectStudentDoc(){
 		}
 	});
 	stuName=stuName+"</font>";
-	console.log(stuName)
 	if(stuIds == ""){
 		layer.alert('请勾选学生',{icon: 3});
 	}else{
 		exportDoc(stuIds,stuName);
 	}
 }
-//删除已选学生
+//导出已选学生
 function exportDoc(thisIds,stuNames){
 	var re=$(name).parent().parent();
 	layer.confirm('您确定要导出以下学生过程文档吗?<br>'+stuNames+'', {icon: 3, title:'提示'}, function(index){
 		layer.close(index);
-		var index = layer.load(1);
-		$.ajax({
-			type: "post",
-			cache: false,
-			url: '<%=path%>/biz/materialInfo_exportStudentProcessDoc.action',
-			dataType : "json",
-			data : {
-				"thisIds" : thisId,
-				"thisYear" : ${model.year}
-			},success : function(result) {
-				layer.close(index);
-				if (result.length==0) {
-					re.remove();
-					layer.alert('取消选择成功',{icon: 1},function(){
-						location.reload();
-					});
-				}else{
-					layer.msg('导出失败',{icon: 2});
-				}
-			},
-			error : function(result) {
-				layer.close(index);
-				layer.msg('导出失败',{icon: 2});
-			}
+		window.location.href='<%=path%>/biz/materialInfo_exportStudentProcessDoc.action?thisIds='+thisIds+'&thisYear=${model.year}'
+		layer.alert('导出成功',{icon: 1},function(index){
+			layer.close(index);
 		});
 	});
 }

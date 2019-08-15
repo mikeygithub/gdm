@@ -110,7 +110,7 @@ public class WordUtils {
 		*/
 		configuration.setDirectoryForTemplateLoading(new File(tempPath));
 		// 输出文档路径及名称
-		File outFile = new File(outPath);
+		File outFile = new File(outPath);//写入文件
 		// 以utf-8的编码读取ftl文件
 		Template t = configuration.getTemplate(templateFileName, "utf-8");
 

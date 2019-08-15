@@ -27,7 +27,7 @@
 		<!-- 学生相关材料 -->
 		<action name="materialInfo_*"
 			class="com.gxwzu.business.action.materialInfo.MaterialInfoAction" method="{1}">
-			<param name="templetePath">templete/processDoc.mht</param>
+			<param name="templetePath">templete/templeteProcessDoc.mht</param>
 			<param name="filePath">attached/processdoc/processDoc.doc</param>
 			<result name="success">/WEB-INF/page/business/materialInfo/materialInfo_${view}.jsp
 			</result>
