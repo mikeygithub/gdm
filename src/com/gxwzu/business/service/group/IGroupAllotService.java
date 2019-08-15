@@ -42,7 +42,5 @@ public interface IGroupAllotService extends BaseService<GroupAllot>{
 	 * @param year
 	 * @return
 	 */
-	public List<ListGroupAllot> findByGroupTypeAndYear(String groupType,
-			Integer year);
-
+	public List<ListGroupAllot> findByGroupTypeAndYear(String groupType, Integer year);
 }

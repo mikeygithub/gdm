@@ -433,12 +433,10 @@ public class ReviewAction extends BaseAction implements ModelDriven<Review> {
 				// 查询指导老师信息
 				AllotGuide aGuide = allotGuideService.findByStuIdAndYear(model.getStuId(), model.getYear());
 				teacher = sysTeacherService.findById(aGuide.getTeacherId());
-			
 
 			// ##################根据Word模板导出单个Word文档###################################################
 			Map<String, String> map = new HashMap<String, String>();
-			
-			
+
 			if (issueInfo != null) {
 				map.put("iN", issueInfo.getIssueName());
 			} else {

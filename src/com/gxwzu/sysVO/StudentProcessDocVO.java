@@ -1,6 +1,7 @@
 package com.gxwzu.sysVO;
 
 import com.gxwzu.business.model.defenseRecord.DefenseRecord;
+import com.gxwzu.business.model.issueInfo.IssueInfo;
 import com.gxwzu.business.model.openReport.OpenReport;
 import com.gxwzu.business.model.taskBook.TaskBook;
 import com.gxwzu.system.model.sysStudent.SysStudent;
@@ -27,6 +28,8 @@ public class StudentProcessDocVO {
     private SysTechnical sysTechnical = new SysTechnical();
     //任务书
     private TaskBook taskBook = new TaskBook();
+    //课题信息
+    private IssueInfo issueInfo = new IssueInfo();
     //开题报告
     private OpenReport openReport = new OpenReport();
     //进展情况记录
@@ -40,9 +43,11 @@ public class StudentProcessDocVO {
     //答辩过程记录表
     private List<DefenseRecord> defenseRecordVOS = new ArrayList<>();
     //答辩小组成绩及评语表
-    private  ListReplyScore groupReply = new ListReplyScore();
+    private ListReplyScore groupReply = new ListReplyScore();
+    private ListGroupAllot defenceGroup = new ListGroupAllot();//答辩小组
     //系答辩委员会成绩及评语表
-    private  ListReplyScore deptReply = new ListReplyScore();
+    private ListReplyScore deptReply = new ListReplyScore();
+    private ListGroupAllot commiteeGroup = new ListGroupAllot();//系答辩委员会
 
     public ListStudent getListStudent() {
         return listStudent;
@@ -139,5 +144,29 @@ public class StudentProcessDocVO {
 
     public void setSysTechnical(SysTechnical sysTechnical) {
         this.sysTechnical = sysTechnical;
+    }
+
+    public IssueInfo getIssueInfo() {
+        return issueInfo;
+    }
+
+    public void setIssueInfo(IssueInfo issueInfo) {
+        this.issueInfo = issueInfo;
+    }
+
+    public ListGroupAllot getDefenceGroup() {
+        return defenceGroup;
+    }
+
+    public void setDefenceGroup(ListGroupAllot defenceGroup) {
+        this.defenceGroup = defenceGroup;
+    }
+
+    public ListGroupAllot getCommiteeGroup() {
+        return commiteeGroup;
+    }
+
+    public void setCommiteeGroup(ListGroupAllot commiteeGroup) {
+        this.commiteeGroup = commiteeGroup;
     }
 }

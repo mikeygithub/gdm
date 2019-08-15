@@ -68,5 +68,5 @@ public interface IGroupStudentService extends BaseService<GroupStudent>{
 	 */
 	void updateAutoAllotTeacher(ListGroupAllot groupAllot);
 
-
+	ListGroupStudent findByStuIdAndYearAndType(Integer id, Integer year, String s);
 }

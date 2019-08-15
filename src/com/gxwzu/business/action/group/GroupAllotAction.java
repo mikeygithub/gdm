@@ -218,6 +218,7 @@ public class GroupAllotAction extends BaseAction implements ModelDriven<GroupAll
 			out.flush();
 			out.close();
 		} catch (Exception e) {
+			e.printStackTrace();
             logger.info("检查组名出错");
 		}
 	}

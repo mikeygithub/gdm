@@ -27,7 +27,6 @@ public class GroupStudentServiceImpl extends BaseServiceImpl<GroupStudent> imple
 	
 	@Autowired
 	private ISysStudentService sysStudentService;             //学生接口
-	
 	@Autowired
 	private IGroupStudentDao groupStudentDao;
 	@Autowired
@@ -194,6 +193,24 @@ public class GroupStudentServiceImpl extends BaseServiceImpl<GroupStudent> imple
 		}
 	}
 
+	@Override
+	public ListGroupStudent findByStuIdAndYearAndType(Integer id, Integer year, String s) {
 
+		ListGroupStudent model = new ListGroupStudent();
+		model.setStuId(id);
+		model.setYear(year);
+		model.setGroupType(s);
+
+		log.info("Model : "+model.toString());
+
+		List<ListGroupStudent> list= findByExample(model);
+		if(list==null||list.size()<=0)
+			return null;
+		else{
+			return list.get(0);
+		}
 	}
+
+
+}
 
