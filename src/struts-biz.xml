@@ -29,6 +29,7 @@
 			class="com.gxwzu.business.action.materialInfo.MaterialInfoAction" method="{1}">
 			<param name="templetePath">templete/templeteProcessDoc.mht</param>
 			<param name="filePath">attached/processdoc/processDoc.doc</param>
+			<param name="zipPath">attached/tempzip/processfiles</param>
 			<result name="success">/WEB-INF/page/business/materialInfo/materialInfo_${view}.jsp
 			</result>
 			<result name="out" type="redirectAction"   >

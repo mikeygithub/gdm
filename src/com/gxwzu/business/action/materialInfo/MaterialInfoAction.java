@@ -163,6 +163,7 @@ public class MaterialInfoAction extends BaseAction implements ModelDriven<Materi
     private String templetePath;
     private String fileName;
     private String filePath;
+    private String zipPath;
 
     /************************** 方法类 **************************************************************************************/
     @Override
@@ -504,6 +505,8 @@ public class MaterialInfoAction extends BaseAction implements ModelDriven<Materi
 
             String[] stuIds = thisIds.split(",");//需导出学生id数组
 
+            List<Map<String,String>> maps = new ArrayList<>();
+
             for (int i = 0; i < stuIds.length; i++) {
 
                 StudentProcessDocVO doc = findStudentProcessDocVOByStuId(Integer.parseInt(stuIds[i]), thisYear);
@@ -571,7 +574,6 @@ public class MaterialInfoAction extends BaseAction implements ModelDriven<Materi
                     map.put("TRPass", "");
                 }}
                 //规范审查表（指导教师用）
-
                 List<ReviewScore> listC = doc.getListReviewCheckTeacher().getReviewScoreList();
                 for (int l = 0; l < listC.size(); l++) {
                     ReviewScore reviewScore = listC.get(l);
@@ -615,15 +617,19 @@ public class MaterialInfoAction extends BaseAction implements ModelDriven<Materi
                     map.put("committeeFinalScore", doc.getDeptReply().getReplyScoreFinish() + "");
                     map.put("committeeRank", doc.getDeptReply().getGrade());
                 }
-
-                WordUtils.exportWord(map, getTempletePath(), getFilePath());
+                //文件名
                 StringBuffer sBuffer = new StringBuffer(doc.getListStudent().getClassName());
                 sBuffer.append("-").append(doc.getListStudent().getStuId()).append("-").append(doc.getListStudent().getStuName()).append("-").append("过程文档.doc");
-                fileName = sBuffer.toString();
+                map.put("fileName",sBuffer.toString());
+                maps.add(map);//add
             }
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+
+        WordUtils.exportWordByBatch(maps, getTempletePath(), getFilePath(),getZipPath());
+
+    }catch (Exception e){
+        e.printStackTrace();
+    }
+        fileName = getZipPath().substring(0,getZipPath().lastIndexOf("/")+1)+"/学生毕业设计过程文档.zip";
         return OUT;
     }
 
@@ -934,4 +940,11 @@ public class MaterialInfoAction extends BaseAction implements ModelDriven<Materi
         this.filePath = filePath;
     }
 
+    public String getZipPath() {
+        return ServletActionContext.getServletContext().getRealPath(zipPath);
+    }
+
+    public void setZipPath(String zipPath) {
+        this.zipPath = zipPath;
+    }
 }

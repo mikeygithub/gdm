@@ -10,9 +10,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.gxwzu.util.ExportDocUtil;
+import com.gxwzu.util.ZipUtils;
 import org.apache.poi.hwpf.HWPFDocument;
 import org.apache.poi.hwpf.usermodel.Range;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
@@ -121,5 +124,60 @@ public class WordUtils {
 		out.close();
 	}
 
+	/**
+	 * 批量导出zip格式
+	 * @param dataMap
+	 * @param templatePath
+	 * @param outPath
+	 * @throws Exception
+	 */
+	public static void exportWordByBatch(List<Map<String, String>> dataMap,String templatePath, String outPath,String zipPaths) throws Exception {
+
+		Configuration configuration = new Configuration();
+		configuration.setDefaultEncoding("utf-8");
+
+		String templateFileName;
+		String tempPath;
+		switch (java.io.File.separator){
+			case "\\":
+				//win平台
+				templateFileName = templatePath.substring(templatePath.lastIndexOf("\\")+1, templatePath.length());
+				tempPath = templatePath.substring(0, templatePath.lastIndexOf("\\")+1);
+				break;
+			case "/":
+				//linux平台
+				templateFileName = templatePath.substring(templatePath.lastIndexOf("/")+1, templatePath.length());
+				tempPath = templatePath.substring(0, templatePath.lastIndexOf("/")+1);
+				break;
+			default: //默认linux平台
+				templateFileName = templatePath.substring(templatePath.lastIndexOf("/")+1, templatePath.length());
+				tempPath = templatePath.substring(0, templatePath.lastIndexOf("/")+1);
+				break;
+		}
+		configuration.setDirectoryForTemplateLoading(new File(tempPath));
+		//要压缩的文件
+		List<File> fileList = new ArrayList<>();
+		// 输出文档路径及名称
+		for (int i = 0; i < dataMap.size(); i++) {
+
+			File outFile = new File(zipPaths+"/"+dataMap.get(i).get("fileName"));//写入文件
+			// 以utf-8的编码读取ftl文件
+			Template t = configuration.getTemplate(templateFileName, "utf-8");
+
+			Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outFile), "utf-8"), 10240);
+
+			t.process(dataMap.get(i), out);
+
+			out.close();
+
+			fileList.add(outFile);
+		}
+//		ExportDocUtil.delNotDir(new File(zipPaths));
+		//压缩
+		FileOutputStream fos = new FileOutputStream(new File("学生毕业设计过程文档.zip"));
+		ZipUtils.toZip(fileList, fos);
+		//清理压缩文件
+//		ExportDocUtil.delNotDir(new File(zipPaths));
+	}
 	
 }

@@ -2,7 +2,10 @@ package com.gxwzu.util;
 
 import com.gxwzu.business.model.review.ReviewScore;
 import com.gxwzu.sysVO.ListGroupTeacher;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,11 +20,17 @@ import java.util.Map;
  **/
 
 public class ExportDocUtil {
+
+    protected static final Log logger = LogFactory.getLog(ExportDocUtil.class);
+
     /**
      * 初始化数据map
      * @return
      */
     public static Map initMapMsg() {
+
+        logger.info("初始化Map");
+
         Map<String, String> map = new HashMap<String, String>();
         map.put("issueName", "");
         map.put("deptName", "");
@@ -101,5 +110,16 @@ public class ExportDocUtil {
         return map;
     }
 
+    public static void delNotDir(File file){
 
+        logger.info("清理压缩文件："+file);
+
+        File[] f = file.listFiles();
+        for (int i = 0; i < f.length; i++) {
+            if (f[i].isDirectory()) {
+                delNotDir(f[i]);
+            }
+            f[i].delete();
+        }
+    }
 }
