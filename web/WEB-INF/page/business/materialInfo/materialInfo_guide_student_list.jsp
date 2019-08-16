@@ -224,37 +224,6 @@
 	$('.tablelist tbody tr:odd').addClass('odd');
 </script>
 <script type="text/javascript">
-//删除
-<%--function del(name,id){--%>
-<%--	var re=$(name).parent().parent();--%>
-<%--	layer.confirm('您确定要删除该课题吗?', {icon: 3, title:'提示'}, function(index){--%>
-<%--		  layer.close(index);--%>
-<%--		var index = layer.load(1);--%>
-<%--		 $.ajax({--%>
-<%--	        type: "post",--%>
-<%--	        cache: false,--%>
-<%--	        url: '<%=path%>/biz/issueInfo_del.action',--%>
-<%--					dataType : "json",--%>
-<%--					data : {--%>
-<%--						"thisId" : id--%>
-<%--					},success : function(result) {--%>
-<%--						layer.close(index); --%>
-<%--						if (result) {--%>
-<%--							re.remove();--%>
-<%--							layer.alert('删除成功',{icon: 1},function(){--%>
-<%--								 location.reload();--%>
-<%--								});--%>
-<%--						}else{--%>
-<%--							layer.msg('删除失败',{icon: 2});--%>
-<%--						}--%>
-<%--					},--%>
-<%--					error : function(result) {--%>
-<%--						layer.close(index); --%>
-<%--						layer.msg('删除失败',{icon: 2});--%>
-<%--					}--%>
-<%--				});--%>
-<%--});--%>
-<%--}--%>
 //全选
 function selectAll() {
 	var checklist = document.getElementsByName("selected");
@@ -293,6 +262,11 @@ function exportDoc(thisIds,stuNames){
 		window.location.href='<%=path%>/biz/materialInfo_exportStudentProcessDoc.action?thisIds='+thisIds+'&thisYear=${model.year}'
 		layer.alert('导出成功',{icon: 1},function(index){
 			layer.close(index);
+			var checklist = document.getElementsByName("selected");
+				for (var j = 0; j < checklist.length; j++) {
+					checklist[j].checked = 0;
+				}
+			document.getElementById("controlAll").checked = 0;
 		});
 	});
 }

@@ -34,7 +34,7 @@
 			</result>
 			<result name="out" type="redirectAction"   >
 				<param name="actionName">download.action</param>
-				<param name="filePath">attached/processdoc/processDoc.doc</param>
+				<param name="filePath">attached/tempzip/studentProcessDoc.zip</param>
 				<param name="fileName">${fileName}</param>
 				<param name="namespace">/sys</param>
 				<param name="encode">true</param>

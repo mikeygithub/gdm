@@ -131,7 +131,7 @@ public class WordUtils {
 	 * @param outPath
 	 * @throws Exception
 	 */
-	public static void exportWordByBatch(List<Map<String, String>> dataMap,String templatePath, String outPath,String zipPaths) throws Exception {
+	public synchronized static void exportWordByBatch(List<Map<String, String>> dataMap,String templatePath, String outPath,String zipPaths) throws Exception {
 
 		Configuration configuration = new Configuration();
 		configuration.setDefaultEncoding("utf-8");
@@ -172,12 +172,11 @@ public class WordUtils {
 
 			fileList.add(outFile);
 		}
-//		ExportDocUtil.delNotDir(new File(zipPaths));
 		//压缩
-		FileOutputStream fos = new FileOutputStream(new File("学生毕业设计过程文档.zip"));
+		FileOutputStream fos = new FileOutputStream(new File(zipPaths.substring(0,zipPaths.lastIndexOf("/")+1)+"/studentProcessDoc.zip"));
 		ZipUtils.toZip(fileList, fos);
 		//清理压缩文件
-//		ExportDocUtil.delNotDir(new File(zipPaths));
+		ExportDocUtil.delNotDir(new File(zipPaths));
 	}
 	
 }

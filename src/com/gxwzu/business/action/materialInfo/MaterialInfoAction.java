@@ -510,117 +510,11 @@ public class MaterialInfoAction extends BaseAction implements ModelDriven<Materi
             for (int i = 0; i < stuIds.length; i++) {
 
                 StudentProcessDocVO doc = findStudentProcessDocVOByStuId(Integer.parseInt(stuIds[i]), thisYear);
-
+                //初始化map
                 Map<String, String> map = ExportDocUtil.initMapMsg();
-                //任务书
-                map.put("issueName", doc.getIssueInfo().getIssueName());
-                map.put("deptName", doc.getListStudent().getDeptName());
-                map.put("majorName", doc.getListStudent().getMajorName());
-                map.put("className", doc.getListStudent().getClassName());
-                map.put("stuNo", doc.getListStudent().getStuNo());
-                map.put("stunName", doc.getListStudent().getStuName());
-                map.put("content", doc.getTaskBook().getTaskContent());
-                map.put("planJob", doc.getTaskBook().getTaskPlanJob());
-                map.put("document", doc.getTaskBook().getTaskDocument());
-                map.put("teacherName", doc.getSysTeacher().getTeacherName());
-                //开题报告
-                map.put("tN", doc.getSysTeacher().getTeacherName());
-                map.put("lN", doc.getSysTechnical().getTechnicalName());
-                map.put("cT", doc.getOpenReport().getReportContent());
-                map.put("bD", doc.getOpenReport().getBackground());
-                map.put("dT", doc.getOpenReport().getReportDocument());
-                map.put("mD", doc.getOpenReport().getReportMethod());
-                //进展情况记录(五个阶段)
-                for (int j = 0; j < doc.getProgressSitus().size(); j++) {
-                    map.put("time" + (j+1), doc.getProgressSitus().get(j).getProgressTime());
-                    map.put("work" + (j+1), doc.getProgressSitus().get(j).getProgressWork());
-                    map.put("ProgressRecord" + (j+1), doc.getProgressSitus().get(j).getProgressRecord());
-                }
-                //论文（设计）评阅表（指导教师用）
-                map.put("iN", doc.getIssueInfo().getIssueName());
-                map.put("dT", doc.getListStudent().getDeptName());
-                map.put("mR", doc.getListStudent().getMajorName());
-                map.put("tN", doc.getSysTeacher().getTeacherName());
-                map.put("sN", doc.getListStudent().getStuName());
-                map.put("tL", "" + doc.getListReviewReadGuide().getTotalScore());
-                List<ReviewScore> list = doc.getListReviewReadGuide().getReviewScoreList();
-                for (int j = 0; j < list.size(); j++) {
-                    ReviewScore reviewScore = list.get(j);
-                    map.put("GR" + (j + 1), "" + reviewScore.getScore());
-                }
-                map.put("GRSum",doc.getListReviewReadGuide().getTotalScore().toString());
-                map.put("reviewGuideRemark", doc.getListReviewReadGuide().getReviewContent());
-                if ("00".equals(doc.getListReviewReadGuide().getReplyLink())) {
-                    map.put("GRPass", "否");
-                } else if ("01".equals(doc.getListReviewReadGuide().getReplyLink())) {
-                    map.put("GRPass", "是");
-                } else {
-                    map.put("GRPass", "");
-                }
-                //论文（设计）评阅表（评阅教师用）
-                if (doc.getListReviewReadTeacher()!=null){
-                map.put("TRSum", "" + doc.getListReviewReadTeacher().getTotalScore());
-                List<ReviewScore> listT = doc.getListReviewReadTeacher().getReviewScoreList();
-                for (int k = 0; k < listT.size(); k++) {
-                    ReviewScore reviewScore = listT.get(k);
-                    map.put("TR" + (k + 1), "" + reviewScore.getScore());
-                }
-                map.put("reviewTeacherRemark", doc.getListReviewReadTeacher().getReviewContent());
-                if ("00".equals(doc.getListReviewReadTeacher().getReplyLink())) {
-                    map.put("TRPass", "否");
-                } else if ("01".equals(doc.getListReviewReadTeacher().getReplyLink())) {
-                    map.put("TRPass", "是");
-                } else {
-                    map.put("TRPass", "");
-                }}
-                //规范审查表（指导教师用）
-                List<ReviewScore> listC = doc.getListReviewCheckTeacher().getReviewScoreList();
-                for (int l = 0; l < listC.size(); l++) {
-                    ReviewScore reviewScore = listC.get(l);
-                    map.put("checkScore" + (l + 1), "" + reviewScore.getScore());
-                    map.put("checkRemark" + (l + 1), "" + reviewScore.getRemark());
-                }
-                if (doc.getListReviewReadTeacher()!=null)
-                map.put("checkScoreSum",doc.getListReviewReadTeacher().getTotalScore().toString());
-                map.put("flunkCase", doc.getListReviewCheckTeacher().getReviewContent());
-                //答辩过程记录表
-                map.put("issueName", doc.getIssueInfo().getIssueName());
-                map.put("teacherName", doc.getSysTeacher().getTeacherName());
-                map.put("technical", doc.getSysTechnical().getTechnicalName());
-                map.put("stuName", doc.getListStudent().getStuName());
-                map.put("grade", doc.getListStudent().getStuGrade());
-                map.put("stuNo", doc.getListStudent().getStuNo());
-                map.put("reviewContent", doc.getDefenseRecordVOS().get(0).getDefenseContent());//TODO：取一个
-                //答辩成绩及评语表
-                StringBuilder defenceGroupName = new StringBuilder();
-                for (ListGroupTeacher teacher:doc.getDefenceGroup().getTeacherList()) {
-                    defenceGroupName.append(teacher.getTeacherName()+" ");
-                }
-                map.put("defenceGroupName",defenceGroupName.toString() );
-                if (doc.getGroupReply()!=null) {
-                    map.put("groupReviewScore", doc.getListReviewReadTeacher().getTotalScore().toString());
-                    map.put("groupRemark", doc.getGroupReply().getReplyLink());
-                    map.put("groupGuideReadScore", doc.getGroupReply().getGuideScore().toString());
-                    map.put("groupReaderScore", doc.getGroupReply().getReadScore().toString());
-                    map.put("groupDefenceScore", doc.getGroupReply().getReplyScore().toString());
-                    map.put("finalScore", doc.getGroupReply().getReplyScoreFinish() + "");
-                    map.put("groupRank", doc.getGroupReply().getGrade());
-                }
-                //系
-                StringBuilder commiteeGroupName = new StringBuilder();
-                for (ListGroupTeacher teacher:doc.getCommiteeGroup().getTeacherList()) {
-                    commiteeGroupName.append(teacher.getTeacherName()+" ");
-                }
-                map.put("committeeGroupName",commiteeGroupName.toString());
-                if (doc.getDeptReply()!=null) {
-                    map.put("committeeRemark", doc.getDeptReply().getReplyLink());
-                    map.put("committeeFinalScore", doc.getDeptReply().getReplyScoreFinish() + "");
-                    map.put("committeeRank", doc.getDeptReply().getGrade());
-                }
-                //文件名
-                StringBuffer sBuffer = new StringBuffer(doc.getListStudent().getClassName());
-                sBuffer.append("-").append(doc.getListStudent().getStuId()).append("-").append(doc.getListStudent().getStuName()).append("-").append("过程文档.doc");
-                map.put("fileName",sBuffer.toString());
+                //数据填充
+                ExportDocUtil.putData(doc,map);
+
                 maps.add(map);//add
             }
 
@@ -629,7 +523,7 @@ public class MaterialInfoAction extends BaseAction implements ModelDriven<Materi
     }catch (Exception e){
         e.printStackTrace();
     }
-        fileName = getZipPath().substring(0,getZipPath().lastIndexOf("/")+1)+"/学生毕业设计过程文档.zip";
+        fileName = "学生毕业设计过程文档.zip";
         return OUT;
     }
 
