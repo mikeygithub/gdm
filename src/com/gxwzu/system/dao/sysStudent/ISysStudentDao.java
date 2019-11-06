@@ -38,4 +38,5 @@ public interface ISysStudentDao extends BaseDao<SysStudent>{
 
 	public List<Object> findGroupAllotByStuId();
 
+    SysStudent findByUserId(Integer id);
 }

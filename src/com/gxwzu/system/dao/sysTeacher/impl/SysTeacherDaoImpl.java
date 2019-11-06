@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.xwork.StringUtils;
+import org.hibernate.Criteria;
+import org.hibernate.classic.Session;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import com.gxwzu.core.dao.impl.BaseDaoImpl;
@@ -144,6 +147,15 @@ public class SysTeacherDaoImpl extends BaseDaoImpl<SysTeacher> implements
 		}
 
 		return model;
+	}
+
+	@Override
+	public SysTeacher findTeacherByUserId(Integer userId) {
+		Session session = this.getSessionFactory().openSession();
+		Criteria criteria = session.createCriteria(SysTeacher.class);
+		List<SysTeacher> teacher = criteria.add(Restrictions.eq("userId", userId)).list();
+		session.close();
+		return teacher.get(0);
 	}
 
 }

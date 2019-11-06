@@ -5,7 +5,6 @@ import java.util.List;
 import com.gxwzu.core.dao.BaseDao;
 import com.gxwzu.core.pagination.Result;
 import com.gxwzu.system.model.sysDuties.SysDuties;
-import com.gxwzu.system.model.sysTechnical.SysTechnical;
 
 public interface ISysDutiesDao extends BaseDao<SysDuties>{
 	/**
@@ -32,6 +31,5 @@ public interface ISysDutiesDao extends BaseDao<SysDuties>{
 	public List<SysDuties> findAllSysDutiesList(String dutiesId);
 
 
-
-
+	SysDuties findByDutiesNo(String dutiesNo);
 }

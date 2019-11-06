@@ -201,6 +201,25 @@ public class ListTeacher extends ListUser implements java.io.Serializable {
 		this.teacherDirectionList = teacherDirectionList;
 	}
 
-
-
+	@Override
+	public String toString() {
+		return "ListTeacher{" +
+				"teacherId=" + teacherId +
+				", teacherNo='" + teacherNo + '\'' +
+				", teacherName='" + teacherName + '\'' +
+				", deptNumber='" + deptNumber + '\'' +
+				", categoryId=" + categoryId +
+				", staffroomId=" + staffroomId +
+				", technicalId=" + technicalId +
+				", dutiesNo='" + dutiesNo + '\'' +
+				", userId=" + userId +
+				", deptName='" + deptName + '\'' +
+				", categoryName='" + categoryName + '\'' +
+				", staffName='" + staffName + '\'' +
+				", technicalName='" + technicalName + '\'' +
+				", dutiesName='" + dutiesName + '\'' +
+				", teacherMajorList=" + teacherMajorList +
+				", teacherDirectionList=" + teacherDirectionList +
+				'}';
+	}
 }

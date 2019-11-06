@@ -45,4 +45,5 @@ public interface ISysStudentService extends BaseService<SysStudent> {
 
 	public List<ListGroupAllotExport> findGroupAllotByStuId();
 
+    SysStudent findByUserId(Integer id);
 }

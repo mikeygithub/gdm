@@ -527,8 +527,9 @@ public class SysTeacherAction extends BaseAction implements ModelDriven<SysTeach
 								if (this.sysMajor != null){
 									model.setStaffroomId(this.sysMajor.getMajorId());//教研室
 									model.setCategoryId(this.sysMajor.getCategoryId());//大类
-								}else {
+								}else {//TODO:duck , later fix
 									logger.warn("查找教研室失败,查找条件："+row.getCell(4));
+									logger.warn("Message:"+sM);
 								}
 							}
 							// 教师职称

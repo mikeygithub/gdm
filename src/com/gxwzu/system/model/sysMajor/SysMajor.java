@@ -81,4 +81,15 @@ public class SysMajor implements java.io.Serializable {
 		this.staffName = staffName;
 	}
 
+	@Override
+	public String toString() {
+		return "SysMajor{" +
+				"majorId=" + majorId +
+				", deptNumber='" + deptNumber + '\'' +
+				", categoryId=" + categoryId +
+				", majorNo='" + majorNo + '\'' +
+				", majorName='" + majorName + '\'' +
+				", staffName='" + staffName + '\'' +
+				'}';
+	}
 }

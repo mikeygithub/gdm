@@ -14,6 +14,8 @@ public interface ISysTechnicalDao extends BaseDao<SysTechnical>{
 	
 	public  SysTechnical findByName(String technicalName);
 
+	public  SysTechnical findByNo(String technicalNo);
+
 	public List<SysTechnical> findAllSysTechnicalList();
 
 	public List<SysTechnical> findByExample(SysTechnical model);

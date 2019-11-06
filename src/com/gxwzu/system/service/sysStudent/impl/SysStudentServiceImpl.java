@@ -4,23 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.gxwzu.system.model.userRole.UserRoleEntity;
-import com.gxwzu.system.service.sysRole.ISysRoleService;
 import com.gxwzu.system.service.userRole.UserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.gxwzu.business.model.review.Review;
 import com.gxwzu.business.service.allotGuide.IAllotGuideService;
 import com.gxwzu.core.dao.BaseDao;
 import com.gxwzu.core.pagination.Result;
 import com.gxwzu.core.service.impl.BaseServiceImpl;
 import com.gxwzu.sysVO.ListGroupAllotExport;
-import com.gxwzu.sysVO.ListReview;
 import com.gxwzu.sysVO.ListStudent;
-import com.gxwzu.sysVO.ListTeacher;
 import com.gxwzu.system.dao.sysStudent.ISysStudentDao;
 import com.gxwzu.system.model.sysStudent.SysStudent;
-import com.gxwzu.system.model.sysTeacher.SysTeacher;
 import com.gxwzu.system.model.userHelp.UserHelp;
 import com.gxwzu.system.service.sysStudent.ISysStudentService;
 import com.gxwzu.system.service.userHelp.IUserHelpService;
@@ -222,4 +217,8 @@ public class SysStudentServiceImpl extends BaseServiceImpl<SysStudent> implement
 		return newList;
 	}
 
+	@Override
+	public SysStudent findByUserId(Integer id) {
+		return sysStudentDao.findByUserId(id);
+	}
 }

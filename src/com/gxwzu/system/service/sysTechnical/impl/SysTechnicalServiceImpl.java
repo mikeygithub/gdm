@@ -58,6 +58,11 @@ public class SysTechnicalServiceImpl extends BaseServiceImpl<SysTechnical> imple
 	}
 
 	@Override
+	public SysTechnical findByNo(String technicalNo) {
+		return sysTechnicalDao.findByNo(technicalNo);
+	}
+
+	@Override
 	public List<SysTechnical> findAllSysTechnicalList() {
 		return sysTechnicalDao.findAllSysTechnicalList();
 	}

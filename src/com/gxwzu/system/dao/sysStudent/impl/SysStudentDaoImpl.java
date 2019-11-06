@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.xwork.StringUtils;
+import org.hibernate.Criteria;
+import org.hibernate.classic.Session;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import com.gxwzu.business.model.allotGuide.AllotGuide;
@@ -269,6 +272,16 @@ public class SysStudentDaoImpl extends BaseDaoImpl<SysStudent> implements
 		
 		
 		return super.query(queryString.toString(), params.toArray());
+	}
+
+	@Override
+	public SysStudent findByUserId(Integer id) {
+		Session session = this.getSessionFactory().openSession();
+		Criteria criteria = session.createCriteria(SysStudent.class);
+		List<SysStudent> userId = criteria.add(Restrictions.eq("userId", id)).list();
+		session.close();
+
+		return userId.get(0);
 	}
 
 }

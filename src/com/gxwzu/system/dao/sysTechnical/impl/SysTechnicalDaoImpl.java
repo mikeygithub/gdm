@@ -64,6 +64,27 @@ public class SysTechnicalDaoImpl extends BaseDaoImpl<SysTechnical> implements IS
 		return model;
 	}
 
+	/**
+	 * 通过编号查询
+	 * @param technicalNo
+	 * @return
+	 */
+	@Override
+	public SysTechnical findByNo(String technicalNo) {
+		List<Object>  params=new ArrayList<Object>();
+		SysTechnical model = null;
+		if(StringUtils.isNotEmpty(technicalNo)){
+			String queryString="from SysTechnical model where model.technicalNo=?";
+			params.add(technicalNo);
+
+			List<SysTechnical> list = super.findByExample(queryString, params.toArray());
+			if(list!=null&&list.size()!=0){
+				model = list.get(0);
+			}
+		}
+		return model;
+	}
+
 
 	@Override
 	public List<SysTechnical> findAllSysTechnicalList() {

@@ -15,6 +15,8 @@ public interface ISysTechnicalService {
 	
 	public  SysTechnical findByName(String technicalName);
 
+	public  SysTechnical findByNo(String technicalNo);
+
 	public  SysTechnical del(Integer thisId);
 
 	public  SysTechnical edit(SysTechnical model);

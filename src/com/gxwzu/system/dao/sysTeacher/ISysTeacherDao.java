@@ -8,19 +8,25 @@ import com.gxwzu.system.model.sysTeacher.SysTeacher;
 
 public interface ISysTeacherDao extends BaseDao<SysTeacher>{
 
-	public Result<Object> find(SysTeacher model, int page, int size);
+	 Result<Object> find(SysTeacher model, int page, int size);
 
-	public SysTeacher findById(Integer id);
+	 SysTeacher findById(Integer id);
 
 
-	public List<Object> findByExample(SysTeacher model);
+	 List<Object> findByExample(SysTeacher model);
 	/**
 	   * 查询指导老师通过老师职工号
 	   * @author 何金燕
 	   * @date 2017.7.15
 	   * @param teacherId
 	   */
-	public SysTeacher findTeacherByTeacherId(String teacherId);
-	
+	 SysTeacher findTeacherByTeacherId(String teacherId);
+
+	/**
+	 * 通过用户id查询教师
+	 * @param userId
+	 * @return
+	 */
+	 SysTeacher findTeacherByUserId(Integer userId);
 
 }

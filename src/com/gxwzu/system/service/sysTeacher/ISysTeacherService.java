@@ -26,7 +26,7 @@ public interface ISysTeacherService extends BaseService<SysTeacher> {
    * 查询指导老师通过老师职工号
    * @author 何金燕
    * @date 2017.7.15
-   * @param teacherId
+   * @param teacherNO
    */
 	public  ListTeacher findByTeacherNo(String teacherNO);
     /**
@@ -38,5 +38,12 @@ public interface ISysTeacherService extends BaseService<SysTeacher> {
 
 	public ListTeacher findModelById(Integer teacherId);
 
-	
+	/**
+	 * 通过用户id查询教师
+	 * @param userId
+	 * @return
+	 */
+	SysTeacher findTeacherByUserId(Integer userId);
+
+	SysTeacher saveOrUpdate(SysTeacher sysTeacher);
 }

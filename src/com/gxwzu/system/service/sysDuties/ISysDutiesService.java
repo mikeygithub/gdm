@@ -47,4 +47,5 @@ public interface ISysDutiesService extends BaseService<SysDuties>{
 	 */
 	public List<SysDuties> findAllSysDutiesList();
 
+	SysDuties findByDutiesNo(String dutiesNo);
 }

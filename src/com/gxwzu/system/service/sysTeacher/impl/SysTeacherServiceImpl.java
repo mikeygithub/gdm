@@ -231,4 +231,14 @@ public class SysTeacherServiceImpl extends BaseServiceImpl<SysTeacher>
 		}
 		return null;
 	}
+
+	@Override
+	public SysTeacher findTeacherByUserId(Integer userId) {
+		return sysTeacherDao.findTeacherByUserId(userId);
+	}
+
+	@Override
+	public SysTeacher saveOrUpdate(SysTeacher sysTeacher) {
+		return sysTeacherDao.saveOrUpdate(sysTeacher);
+	}
 }

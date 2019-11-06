@@ -343,8 +343,8 @@ public class AllotGuideAction extends BaseAction implements
 				for (String stuId : thisIDs) {
 					// 查找指导分配中的学生是否存在指导老师
 					AllotGuide aGuide = allotGuideService.findByStuIdAndYear(
-							model.getStuId(), planYear.getYear());
-					if (aGuide != null) {
+							Integer.parseInt(stuId), planYear.getYear());
+					if (aGuide == null) {
 						// 添加指导老师 所带学生
 						try {
 							model = new AllotGuide();

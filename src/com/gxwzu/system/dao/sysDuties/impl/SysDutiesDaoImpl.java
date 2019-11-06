@@ -3,14 +3,13 @@ package com.gxwzu.system.dao.sysDuties.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.xwork.StringUtils;
 import org.springframework.stereotype.Repository;
 
 import com.gxwzu.core.dao.impl.BaseDaoImpl;
 import com.gxwzu.core.pagination.Result;
 import com.gxwzu.system.dao.sysDuties.ISysDutiesDao;
-import com.gxwzu.system.model.sysDepartment.SysDepartment;
 import com.gxwzu.system.model.sysDuties.SysDuties;
-import com.gxwzu.system.model.sysTechnical.SysTechnical;
 
 @SuppressWarnings("unchecked")
 @Repository("SysDutiesDao")
@@ -69,9 +68,25 @@ public class SysDutiesDaoImpl extends BaseDaoImpl<SysDuties>implements ISysDutie
 			String queryString = "from  SysDuties  where dutiesId='"+dutiesId+"'";
 			return getHibernateTemplate().find(queryString);
 		}else{
-			String queryString = "from SysDuties where 1!=1";
+			String queryString = "from SysDuties where 1 = 1";
 			return getHibernateTemplate().find(queryString);
 		}
+	}
+
+	@Override
+	public SysDuties findByDutiesNo(String dutiesNo) {
+		List<Object>  params=new ArrayList<Object>();
+		SysDuties model = null;
+		if(StringUtils.isNotEmpty(dutiesNo)){
+			String queryString="from SysDuties model where model.dutiesNo=?";
+			params.add(dutiesNo);
+
+			List<SysDuties> list = super.findByExample(queryString, params.toArray());
+			if(list!=null&&list.size()!=0){
+				model = list.get(0);
+			}
+		}
+		return model;
 	}
 
 }
