@@ -1,47 +1,46 @@
 # GDM
 毕业设计管理系统
 ###### 介绍
-{**以下是码云平台说明，您可以替换此简介**
-码云是开源中国推出的基于 Git 的代码托管平台（同时支持 SVN）。专为开发者提供稳定、高效、安全的云端软件开发协作平台
-无论是个人、团队、或是企业，都能够用码云实现代码托管、项目管理、协作开发。企业项目请看 [https://gitee.com/enterprises](https://gitee.com/enterprises)}
+毕业设计管理系统，结合学校实际情况开发，提供教师和学生在整个毕业设计管理流程中使用，其主要包括
+````text
+1.教师和学生相互选取  
+2.学生提交相关毕业设计材料
+3.教师和学生进行答辩分组
+4.教师对学生答辩成绩的录入
+5.
+````
+
 
 #### 软件架构
-软件架构说明
+1.采用struts2+hibernate+spring框架搭建  
+2.前端采用layui
 
 
 #### 安装教程
 
 Mysql配置：
-
+````sql
 set global sql_mode='STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';
 set session sql_mode='STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';
-
-
+````
+打包镜像
+```dockerfile
+docker build -t gdm
+```
 推送镜像：
+```dockerfile
 docker push mikeyboom/graduationproject:tagname
+```
 拉取镜像：
+```dockerfile
 docker pull mikeyboom/graduationproject:tagname
-
+```
+运行容器
+````dockerfile
+docker run -p 8080:8080 <imageId>
+````
 #### 使用说明
-部署地址：
-http://47.106.210.183:8888/gdm_war_exploded/
-1. xxxx
-2. xxxx
-3. xxxx
-
-#### 参与贡献
-
-1. Fork 本仓库
-2. 新建 Feat_xxx 分支
-3. 提交代码
-4. 新建 Pull Request
+部署地址：[gdm](http://47.106.210.183:8888/gdm_war_exploded/)
 
 
-#### 码云特技
 
-1. 使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2. 码云官方博客 [blog.gitee.com](https://blog.gitee.com)
-3. 你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解码云上的优秀开源项目
-4. [GVP](https://gitee.com/gvp) 全称是码云最有价值开源项目，是码云综合评定出的优秀开源项目
-5. 码云官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6. 码云封面人物是一档用来展示码云会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)

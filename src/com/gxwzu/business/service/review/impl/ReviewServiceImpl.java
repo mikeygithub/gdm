@@ -116,8 +116,7 @@ public class ReviewServiceImpl extends BaseServiceImpl<Review> implements IRevie
 	}
 
 	@Override
-	public ListReview findByStuIdAndReviewTypeAndYear(Integer stuId,
-			String reviewType, Integer year) {
+	public ListReview findByStuIdAndReviewTypeAndYear(Integer stuId, String reviewType, Integer year) {
 		Review model = new Review();
 		model.setStuId(stuId);
 		model.setYear(year);

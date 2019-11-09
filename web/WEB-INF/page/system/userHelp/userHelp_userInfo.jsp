@@ -230,9 +230,14 @@
                                                   id="student.majorId" name="student.majorId"/>
                                     </td>
                                 </tr>
-                                <tr style=" ">
-                                    <th>所属年级：</th>
-                                    <td class="textContent" colspan="3">${student.stuGrade}</td>
+                                <tr>
+                                    <th>大类：</th>
+                                    <td class="textContent" colspan="3">
+                                        <s:select cssClass="dfinput" list="sysCategorys"
+                                                  value="student.categoryId"
+                                                  listKey="categoryId" listValue="categoryName"
+                                                  id="student.categoryId" name="student.categoryId"/>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th>所属班级：</th>
@@ -248,6 +253,10 @@
                                                   id="student.classId" name="student.classId"/>
                                     </td>
                                 </tr>
+                                <tr style=" ">
+                                    <th>所属年级：</th>
+                                    <td class="textContent" colspan="3">${student.stuGrade}</td>
+                                </tr>
                                 <tr>
                                     <th>学制：</th>
                                     <td class="textContent" colspan="3">${student.stuSchoollength }</td>
@@ -255,9 +264,19 @@
                                 <tr>
                                     <th>学历：</th>
                                     <td class="textContent" colspan="3">
-                                            ${student.stuArrangement }
-                                            <%--											<s:if test="student.stuArrangement == 0 ">本科</s:if>--%>
-                                            <%--											<s:if test="student.stuArrangement == 1 ">高职</s:if>--%>
+                                                <input type="text" value="${student.stuArrangement}" name="student.stuArrangement">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>身份证：</th>
+                                    <td class="textContent" colspan="3">
+                                        <input type="text" style="width: 100%;" name="student.stuIdcart" value="${student.stuIdcart}">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>家庭住址：</th>
+                                    <td class="textContent" colspan="3">
+                                        <input type="text" style="width: 100%; height: 50px" name="student.stuAddress" value="${student.stuAddress}">
                                     </td>
                                 </tr>
                             </s:if>

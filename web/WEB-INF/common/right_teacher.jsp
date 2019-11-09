@@ -101,9 +101,6 @@
 		</div>
 		<!--mainright end-->
 	</div>
-
-
-	
 	<!--我的聊天室   -->
 	<div id="myChat"
 		style="width: 260px;height: 520px;position: absolute;bottom: 0; right: 3px;box-shadow: 1px 1px 50px rgba(0,0,0,.3);">
@@ -187,5 +184,9 @@
 			src="<%=path%>/images/qq.jpg"
 			style="width: 40px;height: 40px;
            border-radius: 25px;float: left;margin: 6px;"><span
-			style="height: 50px;line-height: 50px;font-size:16px;">最新消息<span class="layui-badge">5+</span></span>
+			style="height: 50px;line-height: 50px;font-size:16px;">最新消息
+		<s:if test="chatCount!=null&&chatCount!=0">
+			<span class="layui-badge message-count"><s:property value="chatCount"></s:property></span>
+		</s:if>
+	</span>
 	</div>

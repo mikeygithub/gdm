@@ -235,7 +235,8 @@ td {
 									<td align="center">
 									否&nbsp; <input type="radio" name="model.replyLink"  value="00" alt="否"  <s:if test="review.replyLink==00"> checked="checked"</s:if>>
 									是&nbsp;<input type="radio" name="model.replyLink" value="01"  alt="是" <s:if test="review.replyLink==01"> checked="checked"</s:if>>
-									</td></s:if>
+									</td>
+									</s:if>
 								</tr>
 								<tr style="height: 100px" >
 									<td  colspan="10"><textarea rows="" cols=""  

@@ -136,10 +136,10 @@ public class SysNoticeDaoImpl extends BaseDaoImpl<SysNotice> implements ISysNoti
 					Restrictions.or(
 							Restrictions.eq("majorId", model.getMajorId()),
 							Restrictions.eq("majorId", -2)))
-					.setFirstResult(1)
+					.setFirstResult(0)
 					.setMaxResults(newNum).addOrder(Order.desc("noticeTime")).list();
 		}else {
-			list = criteria.setFirstResult(1).setMaxResults(newNum).addOrder(Order.desc("noticeTime")).list();
+			list = criteria.setFirstResult(0).setMaxResults(newNum).addOrder(Order.desc("noticeTime")).list();
 		}
 		session.close();
 		return list;

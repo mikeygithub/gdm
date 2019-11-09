@@ -189,9 +189,12 @@
 					       </s:else>
 				        </td> 
 						<td align="center">
-				      	   <s:if test="issueInfo.issueType==0">专业学科类</s:if>
-				           <s:if test="issueInfo.issueType==1">课外调研类</s:if>
-				        </td> 
+<%--				      	   <s:if test="issueInfo!=null&&issueInfo.issueType!=null&&issueInfo.issueType==0">专业学科类</s:if>--%>
+<%--				           <s:if test="issueInfo!=null&&issueInfo.issueType!=null&&issueInfo.issueType==1">课外调研类</s:if>--%>
+							<s:iterator  id="p" value="issueTypeList" status="sp">
+								<s:if test="issueInfo.issueType!=null&&issueInfo!=null&&issueInfo.issueType.contains(\"&\"+issueTypeId+\"&\")">${issueTypeName }&nbsp;</s:if>
+							</s:iterator>
+						</td>
 				        	
 			      <td align="center">		
 				        <input type="radio"    name="replyLink${student.stuId }" value="01"   

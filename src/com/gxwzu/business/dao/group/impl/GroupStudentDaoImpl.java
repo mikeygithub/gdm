@@ -153,9 +153,9 @@ public class GroupStudentDaoImpl extends BaseDaoImpl<GroupStudent> implements
 				.append(" LEFT OUTER JOIN group_student gst ON st.stu_id = gst.student_id and age.`year` = gst.`year` ")
 				.append(" LEFT OUTER JOIN issue_info ifo ON st.stu_id = ifo.stu_id and   age.`year` = ifo.`year` ")
 				.append(" LEFT OUTER JOIN group_allot gat ON gst.group_allot_id = gat.group_id and gst.year = gat.year ")
-				
+
 				.append(" LEFT OUTER JOIN reply_score rse ON st.stu_id = rse.stu_id and   age.`year` = rse.`year` ")
-				
+
 				.append(" WHERE gst.group_allot_id is not null  ")
 				.append(") AS model WHERE 1 = 1 ");
 
@@ -200,9 +200,9 @@ public class GroupStudentDaoImpl extends BaseDaoImpl<GroupStudent> implements
 				.append(" LEFT OUTER JOIN group_student gst ON st.stu_id = gst.student_id and age.`year` = gst.`year` ")
 				.append(" LEFT OUTER JOIN issue_info ifo ON st.stu_id = ifo.stu_id and   age.`year` = ifo.`year` ")
 				.append(" LEFT OUTER JOIN group_allot gat ON gst.group_allot_id = gat.group_id and gst.year = gat.year ")
-				
+
 				.append(" LEFT OUTER JOIN reply_score rse ON st.stu_id = rse.stu_id and   age.`year` = rse.`year` ")
-				
+
 				.append(" WHERE gst.group_allot_id is not null  ")
 				.append(") AS model WHERE 1 = 1 ");
 

@@ -222,7 +222,7 @@ $(function(){
 								  timechat_li.appendTo(timechat);
 
 						     }else if(con.contType == '1'){
-						          alert("长度："+result.obj.chatFileList.length);
+						          // alert("长度："+result.obj.chatFileList.length);
 								  for ( var i = 0; i < result.obj.chatFileList.length; i++) {
 									  var filePath = result.obj.chatFileList[i].filePath; //图片路径
 									  $("#chattext").val("");

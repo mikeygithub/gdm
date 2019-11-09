@@ -215,7 +215,10 @@ function option(stuId,stuName){
 	
 var maxStuNum = '${guideCount.maxStuNum}';
 var alreadyStuNum = '${guideCount.alreadyStuNum}';	
-	
+	if(maxStuNum==null||maxStuNum==''){
+		layer.alert('您还未分配指导人数,请联系管理员或教研室主任分配！',{icon: 3});
+		return
+	}
 	if(maxStuNum!=''&&maxStuNum!=undefined&&alreadyStuNum!=''&&alreadyStuNum!=undefined&&maxStuNum==alreadyStuNum){
 		layer.alert('最多可选:${guideCount.maxStuNum} 位学生， 不能再选其他学生！',{icon: 3});
 	}else {

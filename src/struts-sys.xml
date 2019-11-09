@@ -4,34 +4,26 @@
 <struts>
 	<!-- 定义系统设置模块 -->
 	<package name="system" extends="base" namespace="/sys">
-
 		<!-- 登陆 -->
-		<action name="login_*" class="com.gxwzu.system.action.login.LoginAction"
-			method="{1}">
+		<action name="login_*" class="com.gxwzu.system.action.login.LoginAction" method="{1}">
 			<result name="success">/WEB-INF/page/system/login/main.jsp</result>
 			<result name="view">/WEB-INF/page/system/login/${view}.jsp</result>
 			<result name="toIndex">/default.html</result>
 			<result name="logout">/login.jsp</result>
 			<result name="error">/error/errorTimeOut.jsp</result>
 		</action>
-
 		<!-- 学院信息 -->
 		<action name="department_*"
-			class="com.gxwzu.system.action.sysDepartment.SysDepartmentAction"
-			method="{1}">
+			class="com.gxwzu.system.action.sysDepartment.SysDepartmentAction" method="{1}">
 			<result name="success">${view}</result>
 		</action>
-
 		<!-- 专业信息 -->
 		<action name="major_*" class="com.gxwzu.system.action.sysMajor.SysMajorAction"
 			method="{1}">
 			<result name="success">${view}</result>
 		</action>
-
-
 		<!-- 权限管理 -->
-		<action name="sysRole_*" class="com.gxwzu.system.action.sysRole.SysRoleAction"
-			method="{1}">
+		<action name="sysRole_*" class="com.gxwzu.system.action.sysRole.SysRoleAction" method="{1}">
 			<result name="success">/WEB-INF/page/system/sysRole/sysRole_${view}.jsp
 			</result>
 		</action>

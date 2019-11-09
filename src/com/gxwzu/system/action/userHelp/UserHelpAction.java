@@ -22,7 +22,6 @@ import com.gxwzu.system.service.sysDepartment.ISysDepartmentService;
 import com.gxwzu.system.service.sysDuties.ISysDutiesService;
 import com.gxwzu.system.service.sysMajor.ISysMajorService;
 import com.gxwzu.system.service.sysTechnical.ISysTechnicalService;
-import com.gxwzu.util.ConstFieldInfoUtil;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.xwork.StringUtils;
 import org.apache.commons.logging.Log;
@@ -31,19 +30,16 @@ import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.gson.Gson;
-import com.gxwzu.business.model.paper.StudentPaper;
 import com.gxwzu.core.context.SystemContext;
 import com.gxwzu.core.model.UploadFileResponse;
 import com.gxwzu.core.pagination.Result;
 import com.gxwzu.core.util.PageUtil;
 import com.gxwzu.core.util.UidUtils;
 import com.gxwzu.core.web.action.BaseAction;
-import com.gxwzu.sysVO.ListClass;
 import com.gxwzu.sysVO.ListStudent;
 import com.gxwzu.sysVO.ListTeacher;
 import com.gxwzu.system.model.sysClass.SysClass;
 import com.gxwzu.system.model.sysMajor.SysMajor;
-import com.gxwzu.system.model.sysNotice.SysNotice;
 import com.gxwzu.system.model.sysRole.SysRole;
 import com.gxwzu.system.model.sysStudent.SysStudent;
 import com.gxwzu.system.model.userHelp.UserHelp;
@@ -237,7 +233,8 @@ public class UserHelpAction extends BaseAction {
             majors = iSysMajorService.findAllSysMajorList();
             //二级学院
             sysDepartments = sysDepartmentService.findAllSysDepartmentList();
-
+            //大类
+            sysCategorys = iSysCategoryService.findAllSysCategoryList();
             // 1-学生 2-老师 3-管理员
             if ("1".equals(userType)) {
                 student = sysStudentService.findByStuNo(userNo);
@@ -249,8 +246,6 @@ public class UserHelpAction extends BaseAction {
                 duties = iSysDutiesService.findAllSysDutiesList();
                 //职称
                 sysTechnicals = iSysTechnicalService.findAllSysTechnicalList();
-                //大类
-                sysCategorys = iSysCategoryService.findAllSysCategoryList();
             }
 
         } catch (Exception e) {
@@ -345,11 +340,27 @@ public class UserHelpAction extends BaseAction {
 
                 userHelpService.edit(userHelp);
 
-                if (ConstFieldInfoUtil.USER_STUDENT_TYPE.equals(userHelp.getUserType())){//学生
+                if (SystemContext.USER_STUDENT_TYPE.equals(userHelp.getUserType())){//学生
 
-                    sysStudentService.findByUserId(userHelp.getId());
+                    SysStudent oldStudent = sysStudentService.findByUserId(userHelp.getId());
+                    //班级
+                    if (student.getClassId()!=null)oldStudent.setClassId(student.getClassId());
+                    //学院
+                    if(student.getDeptNumber()!=null)oldStudent.setDeptNumber(student.getDeptNumber());
+                    //专业
+                    if (student.getMajorId()!=null)oldStudent.setMajorId(student.getMajorId());
+                    //身份证
+                    if (student.getStuIdcart()!=null)oldStudent.setStuIdcart(student.getStuIdcart());
+                    //大类
+                    if (student.getCategoryId()!=null)oldStudent.setCategoryId(student.getCategoryId());
+                    //家庭住址
+                    if (student.getStuAddress()!=null)oldStudent.setStuAddress(student.getStuAddress());
+                    //学历
+                    if (student.getStuArrangement()!=null)oldStudent.setStuArrangement(student.getStuArrangement());
 
-                }else if (ConstFieldInfoUtil.USER_TEACHER_TYPE.equals(userHelp.getUserType())){//教师
+                    sysStudentService.update(oldStudent);
+
+                }else if (SystemContext.USER_TEACHER_TYPE.equals(userHelp.getUserType())){//教师
 
                     SysTeacher oldTeacher = sysTeacherService.findTeacherByUserId(userHelp.getId());
                     //教研室

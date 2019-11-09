@@ -39,8 +39,7 @@ public interface IChatInfoSerivce extends BaseService<ChatInfo> {
 	 * @param allotGuideStudentList 
 	 * @return
 	 */
-	public List<ListChatInfo> findByGuideTreacherId(Integer treacherId,Integer year, String chatType, 
-			List<ListStudentAllotGuide> allotGuideStudentList);
+	public List<ListChatInfo> findByGuideTreacherId(Integer treacherId,Integer year, String chatType, List<ListStudentAllotGuide> allotGuideStudentList);
 
 	public List<ChatInfo> findByAnswerId(Integer answerId, Integer senderId, String chatType, String readType);
 
@@ -54,5 +53,11 @@ public interface IChatInfoSerivce extends BaseService<ChatInfo> {
 
 	public void updateByChatId(Integer chatId, String readType);
 
+	/**
+	 * 通过教师或学生的ID查询未读的聊天信息数量
+	 * @param userId
+	 * @return
+	 */
+	Integer findChatCountByTeacherIdOrStudentId(Integer userId);
 
 }

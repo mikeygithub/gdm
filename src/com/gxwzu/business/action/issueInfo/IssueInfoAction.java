@@ -364,12 +364,10 @@ public class IssueInfoAction extends BaseAction implements
 			if (thisId != null) {
 				IssueInfo issueInfo = issueInfoSerivce.findById(thisId);
 				
-				if (model.getIssueName() != null) {
-					issueInfo.setIssueName(model.getIssueName());
-				}
-				if (model.getIssueType() != null) {
-					issueInfo.setIssueType(model.getIssueType());
-				}
+				if (model.getIssueName() != null)issueInfo.setIssueName(model.getIssueName());
+				if (model.getIssueType() != null)issueInfo.setIssueType(model.getIssueType());
+				if (model.getIsPass()!=null)issueInfo.setIsPass(model.getIsPass());
+
 				String issueType  = "";
 				for(SysIssueType ite: issueTypeList){
 					if(ite!=null&&ite.getIssueTypeId()!=null)

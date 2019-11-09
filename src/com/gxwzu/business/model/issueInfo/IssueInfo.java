@@ -16,6 +16,7 @@ public class IssueInfo implements java.io.Serializable {
 	private String issueName;
 	private String issueType;
 	private Integer year;
+	private Integer isPass;
 
 	// Constructors
 
@@ -23,13 +24,17 @@ public class IssueInfo implements java.io.Serializable {
 	public IssueInfo() {
 	}
 
-	/** full constructor */
-	public IssueInfo(Integer stuId, String issueName, String issueType, Integer year) {
+	public IssueInfo(Integer issueId, Integer stuId, String issueName, String issueType, Integer year, Integer isPass) {
+		this.issueId = issueId;
 		this.stuId = stuId;
 		this.issueName = issueName;
 		this.issueType = issueType;
 		this.year = year;
+		this.isPass = isPass;
 	}
+
+	/** full constructor */
+
 
 	// Property accessors
 
@@ -66,21 +71,18 @@ public class IssueInfo implements java.io.Serializable {
 	}
 
 	public Integer getYear() {
-		return this.year;
-	}
-
-	@Override
-	public String toString() {
-		return "IssueInfo{" +
-				"issueId=" + issueId +
-				", stuId=" + stuId +
-				", issueName='" + issueName + '\'' +
-				", issueType='" + issueType + '\'' +
-				", year=" + year +
-				'}';
+		return year;
 	}
 
 	public void setYear(Integer year) {
 		this.year = year;
+	}
+
+	public Integer getIsPass() {
+		return isPass;
+	}
+
+	public void setIsPass(Integer isPass) {
+		this.isPass = isPass;
 	}
 }

@@ -46,4 +46,5 @@ public interface IChatInfoDao extends BaseDao<ChatInfo> {
 
 	public void updateByChatId(Integer chatId, String readType);
 
+    Integer findChatCountByTeacherIdOrStudentId(Integer userId);
 }

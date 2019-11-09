@@ -19,17 +19,16 @@ import org.springframework.security.crypto.password.StandardPasswordEncoder;
  * @version 1.0
  */
 public final class SystemContext {
+
 	protected final Log logger = LogFactory.getLog(getClass());
 
 	/*配置软件版本信息*/
 	public static final String AREACODE="apk";
 	public static final String PROJECTNAME="毕业选题档案管理系统";
 	public static final String PROJECT_VERSION="V1.0";
-	
 	public static final Integer DEFUALT_PAGE_SIZE=12;//默认分页数,Result有一个BUG，
 	public static final Integer DEFUALT_PAGE_NUM=1;//默认分页码
 	public static final String ACTION_CONTENT_TYPE="application/json;charset=utf-8";//默认传输编码，注意utf-8
-	
 	public static final int TIME_INTERVAL_MSG = 900;//单位，秒。2次发送短信的时间间隔不能少于900秒
 
 	/* 配置系统session信息 */
@@ -42,7 +41,20 @@ public final class SystemContext {
 	public static final String USERTYPE = "userType"; // 用户类型
 	public static final String SIGN = "sign"; // 登录标识
 	public static final String CFILE = "cFile"; // 消息文件实体
-	
+
+	//类型常量配置
+	public static final String USER_STUDENT_TYPE = "1";//学生
+	public static final String USER_TEACHER_TYPE = "2";//教师
+	public static final String USER_ADMIN_TYPE = "3";//管理员
+	//评阅审查表类型：
+	public static final String REVIEW_TYPE_TEACHER = "00";//00 指导老师评阅
+	public static final String REVIEW_TYPE_REVIEWER = "01";//01评阅人评阅
+	public static final String REVIEW_TYPE_CHECK = "02";//02指导老师审查
+	//答辩类型
+	public static final String REPLY_TYPE_SMALL_GROUP = "00";//答辩小组
+	public static final String REPLY_TYPE_BIG_GROUP = "01";//系答辩委员会
+
+	//硬件信息
 	public static  String ipName = ""; //本机IP
 	public static  String hostName = ""; //本机计算机名称
 	public static  String osName = System.getProperties().getProperty("os.name");  //系统名称

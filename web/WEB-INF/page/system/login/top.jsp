@@ -42,8 +42,9 @@ function loginout() {
 <body style="background:url(<%=path %>/images/topbg.gif) repeat-x;">
     <div class="topleft">
  		<a href="<%=path%>/sys/login_view.action?view=right"  
- 		target="rightFrame"><img src="<%=path %>/images/loginlogo450881.png" style="margin-left: -50px;" title="系统首页" /></a>
-    </div>
+<%-- 		target="rightFrame"><img src="<%=path %>/images/loginlogo450881.png" style="margin-left: -50px;" title="系统首页" /></a>--%>
+		target="rightFrame"><img src="<%=path %>/images/banner_logo.png" style="width: 420px;margin-left: -7px;margin-top: -3px" title="系统首页" /></a>
+	</div>
      
     <div class="topright">    
     	<ul>

@@ -221,39 +221,4 @@ public class ListStudent  extends ListUser   {
 		this.categoryName = categoryName;
 	}
 
-
-	@Override
-	public String toString() {
-		return "ListStudent{" +
-				"stuId=" + stuId +
-				", stuNo='" + stuNo + '\'' +
-				", stuName='" + stuName + '\'' +
-				", stuIdcart='" + stuIdcart + '\'' +
-				", stuAddress='" + stuAddress + '\'' +
-				", stuArrangement='" + stuArrangement + '\'' +
-				", stuSchoollength='" + stuSchoollength + '\'' +
-				", stuEntrance=" + stuEntrance +
-				", stuGrade='" + stuGrade + '\'' +
-				", deptNumber='" + deptNumber + '\'' +
-				", categoryId=" + categoryId +
-				", majorId=" + majorId +
-				", classId=" + classId +
-				", userId=" + userId +
-				", deptName='" + deptName + '\'' +
-				", categoryName='" + categoryName + '\'' +
-				", majorName='" + majorName + '\'' +
-				", className='" + className + '\'' +
-				", userName='" + userName + '\'' +
-				", loginName='" + loginName + '\'' +
-				", password='" + password + '\'' +
-				", userType='" + userType + '\'' +
-				", userSex='" + userSex + '\'' +
-				", userAge='" + userAge + '\'' +
-				", userTel='" + userTel + '\'' +
-				", userEmail='" + userEmail + '\'' +
-				", userImg='" + userImg + '\'' +
-				", opTime=" + opTime +
-				", sign='" + sign + '\'' +
-				'}';
-	}
 }

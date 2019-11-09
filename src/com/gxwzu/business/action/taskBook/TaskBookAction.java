@@ -281,7 +281,7 @@ public class TaskBookAction extends BaseAction implements ModelDriven<TaskBook> 
 								view =  "add";
 							}
 						}
-						thisId = model.getTaskId()!=null?model.getTaskId():null;
+						thisId = model!=null&&model.getTaskId()!=null?model.getTaskId():null;
 					}
 				} catch (Exception e) {
 					e.printStackTrace();

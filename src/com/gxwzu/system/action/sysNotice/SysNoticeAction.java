@@ -264,28 +264,22 @@ public class SysNoticeAction extends BaseAction implements ModelDriven<SysNotice
 		try {
 			PrintWriter out = getResponse().getWriter();
 			//公告信息列表
-			
 			String loginName = (String) getSession().getAttribute(SystemContext.LOGINNAME);
 			String userType = (String) getSession().getAttribute(SystemContext.USERTYPE);
 			//查询 当前老师所属专业教研室
-			
 			if ("1".equals(userType)) {
 				student = sysStudentService.findByStuNo(loginName);		
 				model.setMajorId(student.getMajorId());
-				
 			}else if ("2".equals(userType)) {
 				teacher = sysTeacherService.findByTeacherNo(loginName);
 				model.setMajorId(teacher.getStaffroomId());
-				
 			}
-			
 			if (newNum!=null&&newNum>0){//查询最新的通知
 				logger.info("查询公告条数"+newNum);
 				sysNoticeList = sysNoticeService.findByMostNew(model,newNum);
 			}else {
 				sysNoticeList = sysNoticeService.findAll(model);
 			}
-			logger.info(sysNoticeList.size());
 			out.print(new Gson().toJson(sysNoticeList));
 			out.flush();
 			out.close();

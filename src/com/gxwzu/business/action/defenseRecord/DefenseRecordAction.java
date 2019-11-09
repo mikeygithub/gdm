@@ -405,6 +405,7 @@ public class DefenseRecordAction extends BaseAction implements ModelDriven<Defen
 	 */
 	public String add() {
 		try {
+			PrintWriter out = getResponse().getWriter();
 			planYear = planYearSerivce.findPlanYear();
 //			if (thisStuId != null && thisYear != null) {
 				if (thisStuId != null) {

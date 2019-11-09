@@ -59,8 +59,10 @@ public class IssueInfoDaoImpl extends BaseDaoImpl<IssueInfo>implements IIssueInf
 			queryString.append("and model.issueName=?");
 			params.add(model.getIssueName());
 		}
-		
-		
+		if (model.getIsPass()!=null){
+			queryString.append("and model.isPass = ?");
+			params.add(model.getIsPass());
+		}
 		if(StringUtils.isNotEmpty(model.getIssueType())){
 			queryString.append("and model.issueType=?");
 			params.add(model.getIssueType());

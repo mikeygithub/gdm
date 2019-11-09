@@ -176,8 +176,6 @@ public class GroupStudentAction extends BaseAction implements
 						/*登录名称	 :查询学院*/
 						//String loginName = (String) getSession().getAttribute(SystemContext.LOGINNAME);
 						/*用户类型：1-学生 2-老师*/
-
-
 						/************************************三级查询，通学院编号查询大类 下拉选择信息 start******************************************/
 						sysDepartmentList = sysDepartmentService.findAllSysDepartmentList();
 						if (userType.equals("2")) {

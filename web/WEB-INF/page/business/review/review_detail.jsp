@@ -161,7 +161,8 @@ td {
 									<td align="center">
 									 <s:if test="review.replyLink==00">否</s:if>
 									<s:if test="review.replyLink==01"> 是</s:if>
-									</td></s:if>
+									</td>
+									</s:if>
 								</tr>
 								<tr style="height: 300px" >
 									<td  colspan="10"><textarea rows="" cols=""  

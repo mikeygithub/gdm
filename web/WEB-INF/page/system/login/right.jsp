@@ -42,9 +42,6 @@
 
         /*打开公告通知页面  */
         function openNotice(noticeId) {
-
-            // console.log("公告ID："+noticeId)
-
             layer.open({
                 type: 2,
                 area: ['99%', '99%'],
@@ -289,6 +286,7 @@
         /*公告信息  */
         function loadNotice() {
             $.post('<%=path%>/sys/notice_loadNoticeList.action?newNum=16', function (res) {
+                // console.log(res)
                 var noticelist = $('#sysNotice');
                 var result = eval('(' + res + ')');
                 $.each(result, function (index, con) {
@@ -325,7 +323,8 @@
                     if (result.obj[0] > 0) {
                         var chatinfolist_span2 = $('<span class=\"layui-badge\">' + result.obj[0] + '</span>');
                     } else {
-                        var chatinfolist_span2 = $('<font color="#5FB878" class=\"layui-btn  layui-btn-mini layui-btn-radius layui-btn-primary\"><b>' + result.obj[0] + '</b></font>');
+                        // var chatinfolist_span2 = $('<font color="#5FB878" class=\"layui-btn  layui-btn-mini layui-btn-radius layui-btn-primary\"><b>' + result.obj[0] + '</b></font>');
+                        // var chatinfolist_span2 = $('<font color="#5FB878" class=\"layui-btn  layui-btn-mini layui-btn-radius layui-btn-primary\"><b>' + result.obj[0] + '</b></font>');
                     }
                     chatinfolist_img.appendTo(chatinfolist);
                     chatinfolist_span1.appendTo(chatinfolist);
@@ -354,7 +353,7 @@
                         setChatinfoItem(teacher.teacherId, 2, teacher.teacherName, teacher.userImg, teacher.staffName, 0, 0, teacher.technicalId);
                         $.each(result.obj[0], function (index, con) {
                             if (con.student.stuId != thisId) {
-                                console.log(con.student.majorName);
+                                // console.log(con.student.majorName);
                                 setChatinfoItem(con.student.stuId, 1, con.student.stuName, con.student.userImg, con.student.majorName, con.classId, con.categoryId, 0);
                             }
                         });
@@ -370,13 +369,15 @@
                 if (classId > 0) {
                     var chatinfolist_span = $('<span>' + name + '</span><span class="layui-badge">' + classId + '</span>');
                 } else {
-                    var chatinfolist_span = $('<span>' + name + '</span><font color="#5FB878" class=\"layui-btn  layui-btn-mini layui-btn-radius layui-btn-primary\"><b>' + classId + '</b></font>');
+                    // var chatinfolist_span = $('<span>' + name + '</span><font color="#5FB878" class=\"layui-btn  layui-btn-mini layui-btn-radius layui-btn-primary\"><b>' + classId + '</b></font>');
+                    var chatinfolist_span = $('<span>' + name + '</span>');
                 }
             } else {
                 if (classId > 0) {
-                    var chatinfolist_span = $('<span>' + name + '</span><span class="layui-badge">' + technicalId + '</span>');
+                    var chatinfolist_span = $('<span>' + name + '</span><span class="layui-badge">' + technicalId + '</span>');//有消息
                 } else {
-                    var chatinfolist_span = $('<span>' + name + '</span><font color="#5FB878" class=\"layui-btn  layui-btn-mini layui-btn-radius layui-btn-primary\"><b>' + technicalId + '</b></font>');
+                    // var chatinfolist_span = $('<span>' + name + '</span><font color="#5FB878" class=\"layui-btn  layui-btn-mini layui-btn-radius layui-btn-primary\"><b>' + technicalId + '</b></font>');//无消息
+                    var chatinfolist_span = $('<span>' + name + '</span>');//无消息
                 }
             }
             var chatinfolist_p = $('<p>' + contents + '</p>');

@@ -169,7 +169,8 @@ table{margin:0 auto;}
 						<tr >
 							<td  class="rightText">课题：</td>
 							<td colspan="10">
-						 <textarea class="textinput" placeholder="请输入课题"
+						 <textarea placeholder="请输入课题"
+								   style="width: 100%;height: 300px;"
 								id="model.issueName" name="model.issueName" >${model.issueName }</textarea>
         		  		    </td>
         		  		</tr>

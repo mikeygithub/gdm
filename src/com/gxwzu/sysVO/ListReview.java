@@ -124,6 +124,20 @@ public class ListReview implements java.io.Serializable {
 	public void setReviewType(String reviewType) {
 		this.reviewType = reviewType;
 	}
-	
 
+	@Override
+	public String toString() {
+		return "ListReview{" +
+				"reviewId=" + reviewId +
+				", issueId=" + issueId +
+				", stuId=" + stuId +
+				", totalScore=" + totalScore +
+				", reviewContent='" + reviewContent + '\'' +
+				", replyLink='" + replyLink + '\'' +
+				", teacherId=" + teacherId +
+				", reviewType='" + reviewType + '\'' +
+				", year=" + year +
+				", reviewScoreList=" + reviewScoreList +
+				'}';
+	}
 }

@@ -3,6 +3,10 @@ package com.gxwzu.business.dao.chatInfo.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Criteria;
+import org.hibernate.classic.Session;
+import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import com.gxwzu.business.dao.chatInfo.IChatInfoDao;
@@ -13,6 +17,7 @@ import com.gxwzu.core.dao.impl.BaseDaoImpl;
 import com.gxwzu.core.pagination.Result;
 import com.gxwzu.sysVO.ListChatInfo;
 import com.gxwzu.sysVO.ListStudentAllotGuide;
+import org.springframework.transaction.annotation.Transactional;
 
 @SuppressWarnings("unchecked")
 @Repository("chatInfoDao")
@@ -165,6 +170,28 @@ public class ChatInfoDaoImpl extends BaseDaoImpl<ChatInfo>implements IChatInfoDa
 			params.add(chatId);
 		}
 		super.bulkUpdate(updateString, params.toArray(), null);
+	}
+
+	@Override
+	@Transactional
+	public Integer findChatCountByTeacherIdOrStudentId(Integer userId) {
+		Integer size = 0;
+		try {
+		Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(ChatInfo.class);
+		//查询个人消息数量
+			size = criteria.add(
+					Restrictions.or(
+							Restrictions.and(
+									Restrictions.eq("readType", String.valueOf(1)),
+									Restrictions.eq("answerId", userId)),
+							Restrictions.and(
+									Restrictions.eq("answerId", 1),
+									Restrictions.like("readType", String.valueOf(userId), MatchMode.ANYWHERE))))
+					.list().size();
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		return size;
 	}
 
 }

@@ -30,5 +30,10 @@
                 <comment>年度</comment>
             </column>
         </property>
+        <property name="isPass" type="java.lang.Integer">
+            <column name="is_pass">
+                <comment>是否通过</comment>
+            </column>
+        </property>
     </class>
 </hibernate-mapping>

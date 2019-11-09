@@ -153,7 +153,15 @@ public class ChatInfoServiceImpl extends BaseServiceImpl<ChatInfo> implements IC
 		
 	}
 
-	
-	
+	/**
+	 *通过教师或学生的ID查询未读的聊天信息数量
+	 * @param userId
+	 * @return
+	 */
+	@Override
+	public Integer findChatCountByTeacherIdOrStudentId(Integer userId) {
+		return chatInfoDao.findChatCountByTeacherIdOrStudentId(userId);
+	}
+
 
 }
