@@ -76,9 +76,10 @@ public class SysDutiesAction extends BaseAction implements ModelDriven<SysDuties
 				logger.info("添加职务"+model);
 				model = sysDutiesService.add(model);
 				model =new SysDuties();
-				/*mark = "1";*/
+				mark = "1";
 		} catch (Exception e) {
 			e.printStackTrace();
+			mark = "0";
 		}
 		return list();
 	}

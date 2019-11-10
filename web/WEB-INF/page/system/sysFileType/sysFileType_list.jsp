@@ -26,10 +26,15 @@ $(function(){
         focusInvalid: false, //当为false时，验证无效时，没有焦点响应  
         onkeyup: false,   
         submitHandler: function(form){   //表单提交句柄,为一回调函数，带一个参数：form
-        	if(confirm('是否添加该文件类型?')){
-                    var index = layer.load(1);
-                   form.submit();   //提交表单
-          }
+			layer.confirm('您确定要保存 '+$("input[name='model.fileName']").val()+' 吗?', {icon: 1, title:'提示'}, function(){
+				var index = layer.load(1);
+				layer.close(index)
+				form.submit();
+			});
+        	// if(confirm('是否添加该文件类型?')){
+            //         var index = layer.load(1);
+            //        form.submit();   //提交表单
+          // }
         },   
         rules:{
         	"model.fileTypeNo":{
@@ -78,11 +83,11 @@ $(function(){
         },
         messages:{
         	"model.fileTypeNo":{
-        		required:"职务编号不能为空",
-        	 remote:"该职务编号已存在"},
+        		required:"文件类型编号不能为空",
+        	 remote:"文件编号已存在"},
         	"model.fileName":{
-        		required:"职务名称不能为空",
-        	 remote:"该职务名称已存在"},
+        		required:"类型名称不能为空",
+        	 remote:"类型名称已存在"},
         },
         errorPlacement: function(error, element) { //错误信息位置设置方法
 			error.appendTo( element.parent() ); //这里的element是录入数据的对象
@@ -95,13 +100,13 @@ $(function(){
      if(flag!='' && flag!=undefined){
     	 if(flag=="1"){
         $('#submit').attr('disabled','disabled');
-        layer.msg('添加成功');
+        layer.msg('添加成功',{icon: 1});
         setTimeout(function(){
-           parent.location.reload();
+           // parent.location.reload();
            layer.close(index);
         },1000);
      }else if(flag=="0"){
-     layer.msg('添加失败');
+     layer.msg('添加失败',{icon: 2});
      }
     }
 });
@@ -133,7 +138,7 @@ $(function(){
         		</li>
         		<li class="click" >
         		<a href="#">
-        		<input name="" id="submit" type="submit" class="scbtn" value="添加"/></a>
+        		<input name="" type="submit" class="scbtn" value="添加"/></a>
         		</li>
 		</ul>
 		</form>
@@ -152,10 +157,10 @@ $(function(){
 					<tr id="tr_${fileId}">
 						<td align="center"><s:property value="#pp.count" /></td>
 						<td align="center" >${fileTypeNo}</td>
-						<td align="center" >${fileName}</td>
+						<td align="center" name="fileTypeName">${fileName}</td>
 						<td align="center" width="20%">
 							<a href="javascript:void(0)"
-							target="rightFrame" onclick="del(this,${fileId});"> <font
+							target="rightFrame" onclick="del(this,${fileId},'${fileName}');"> <font
 								color="red"> <i class="layui-icon">&#xe640;</i>删除
 							</font></a>
 								</td>
@@ -170,9 +175,9 @@ $(function(){
 <%@ include file="/WEB-INF/common/pagination.jsp"%>
 <script type="text/javascript">
 //单个删除
-function del(name,id){
+function del(name,id,fileName){
 	var re=$(name).parent().parent();
-	var index = layer.confirm('您确定要删除该职务吗?'
+	var index = layer.confirm('您确定要删除['+fileName+']吗?'
             ,{icon: 3, title:'提示'}, function(index){
             	layer.close(index); 
 		  var index = layer.load(1);

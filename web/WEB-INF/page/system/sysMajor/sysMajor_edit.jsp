@@ -24,8 +24,13 @@
 	        focusInvalid: false, //当为false时，验证无效时，没有焦点响应  
 	        onkeyup: false,   
 	        submitHandler: function(form){   //表单提交句柄,为一回调函数，带一个参数：form
-	              form.submit();   //提交表单
-	              var index = layer.load(2, {time: 10*1000}); //又换了种风格，并且设定最长等待10秒 
+	              // form.submit();   //提交表单
+	              // var index = layer.load(2, {time: 10*1000}); //又换了种风格，并且设定最长等待10秒
+				layer.confirm('您确定要修改 '+$("input[name='model.majorName']").val()+' 吗?', {icon: 1, title:'提示'}, function(){
+					var index = layer.load(1);
+					layer.close(index)
+					form.submit();
+				});
 	        },   
 	        rules:{
 	        	"model.majorNo":{
@@ -208,7 +213,7 @@ td {padding: 4px;font-size: 14px;}
 					</table>
 				<li>
 					<div style="text-align: center;">
-						<input name="" id="submit" type="submit" class="scbtn" value="提交"
+						<input name="" type="submit" class="scbtn" value="提交"
 							 />
 					</div>
 				</li>

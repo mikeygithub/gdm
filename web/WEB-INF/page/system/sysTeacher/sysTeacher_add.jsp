@@ -37,9 +37,12 @@
 		        focusInvalid: false, //当为false时，验证无效时，没有焦点响应  
 		        onkeyup: false,   
 		        submitHandler: function(form){   //表单提交句柄,为一回调函数，带一个参数：form
-		              form.submit();   //提交表单
-		              var index = layer.load(2, {time: 10*1000}); //又换了种风格，并且设定最长等待10秒 
-		        },   
+					layer.confirm('您确定要保存专业 '+$("input[name='model.teacherName']").val()+' 吗?', {icon: 1, title:'提示'}, function(){
+						var index = layer.load(1);
+						layer.close(index)
+						form.submit();
+					});
+		        },
 		        rules:{
 		        	"model.teacherNo":{
 		                required:true,
@@ -117,21 +120,21 @@
 	     if(flag!='' && flag!=undefined){
 	    	 if(flag=="1"){
 	        $('#submit').attr('disabled','disabled');
-	        layer.msg('添加成功');
+	        layer.msg('添加成功',{icon:1});
 	        setTimeout(function(){
 	           parent.location.reload();
 	           layer.close(index);
 	        },1000);
 	     }else if(flag=="0"){
-	     layer.msg('添加失败');
+	     layer.msg('添加失败',{icon:2});
 	     }
 	     }
 	});
 	 function onSelect(name){
-		 var deptNumber = function(){return $(name).val();};
-	$.ajax({
-	    type: "post",
-	    url: '<%=path%>/sys/category_findJsonByDept.action',
+	 	var deptNumber = function(){return $(name).val();};
+		 $.ajax({
+	    	type: "post",
+	    	url: '<%=path%>/sys/category_findJsonByDept.action',
 			dataType : "json",
 			data : {
 				"deptNumber" : deptNumber
@@ -141,8 +144,7 @@
 					$("#categoryList").html('');
 					$.each(result, function(index, content) {
 						$("#categoryList").append(
-								"<option value='"+content.categoryId+"' >"
-										+ content.categoryName + "</option>");
+								"<option value='"+content.categoryId+"' >"+ content.categoryName + "</option>");
 						if(index==1){
 							onSelect1(this,content.categoryId);
 						}
@@ -185,7 +187,7 @@
 		});
 	} 
 	layui.use('form', function() {
-		var form = layui.form();
+		var form = layui.form;
 	});
 </script>
 <style type="text/css">
@@ -246,7 +248,7 @@ td {
 									<td class="rightText">大类：</td>
 									<td><s:select cssClass="dfinput" list="categoryList"
 											listKey="categoryId" listValue="categoryName"
-											onchange="onSelect1(this,-1);" name="model.categoryId" id="category"
+											onchange="onSelect1(this,-1);" name="model.categoryId" id="categoryList"
 											value="teacher.categoryId" /></td>
 								</tr>
 								<tr>
@@ -299,7 +301,7 @@ td {
 							</table>
 						<li>
 							<div style="text-align: center;">
-								<input name="" id="submit" type="submit" class="scbtn"
+								<input name="" type="submit" class="scbtn"
 									value="添加" />
 							</div>
 						</li>

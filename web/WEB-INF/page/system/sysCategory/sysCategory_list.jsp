@@ -22,7 +22,7 @@
 function openAdd(){
 	layer.open({
     	type: 2,
-    	area: ['50%', '84%'],
+    	area: ['50%', '40%'],
     	fix: false, //不固定
 		title:'添加大类',
     	maxmin: true,

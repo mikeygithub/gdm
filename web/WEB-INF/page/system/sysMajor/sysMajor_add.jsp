@@ -24,8 +24,13 @@
 	        focusInvalid: false, //当为false时，验证无效时，没有焦点响应  
 	        onkeyup: false,   
 	        submitHandler: function(form){   //表单提交句柄,为一回调函数，带一个参数：form
-	              form.submit();   //提交表单
-	              var index = layer.load(2, {time: 10*1000}); //又换了种风格，并且设定最长等待10秒 
+				layer.confirm('您确定要保存专业 '+$("input[name='model.majorName']").val()+' 吗?', {icon: 1, title:'提示'}, function(){
+					var index = layer.load(1);
+					layer.close(index)
+					form.submit();
+				});
+	              // form.submit();   //提交表单
+	              // var index = layer.load(2, {time: 10*1000}); //又换了种风格，并且设定最长等待10秒
 	        },   
 	        rules:{
 	        	"model.majorNo":{
@@ -49,6 +54,9 @@
 		            },
 		            rangelength:[2,20]
 	            },
+				"model.categoryId":{
+	        		required:true
+				},
 	            "model.majorName":{
 	            	remote: {  
 		                type: "post",  
@@ -93,6 +101,9 @@
 	            },
 	          },
 	        messages:{
+	        	"model.categoryId":{
+	        		required:"请选择所属大类"
+				},
 	        	"model.majorNo":{
 	        	required:"请输入专业编号",
 	        	rangelength:"长度为2到 20个字或字母",
@@ -207,7 +218,7 @@ td {padding: 4px;font-size: 14px;}
 					</table>
 				<li>
 					<div style="text-align: center;">
-						<input name="" id="submit" type="submit" class="scbtn" value="添加"
+						<input name="" type="submit" class="scbtn" value="添加"
 							 />
 					</div>
 				</li>

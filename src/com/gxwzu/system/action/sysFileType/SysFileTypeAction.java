@@ -79,9 +79,10 @@ public class SysFileTypeAction extends BaseAction implements ModelDriven<SysFile
 				logger.info("添加文件类型"+model);
 				model = sysFileTypeService.add(model);
 				model =new SysFileType();
-				/*mark = "1";*/
+				mark = "1";
 		} catch (Exception e) {
 			e.printStackTrace();
+			mark = "0";
 		}
 		return list();
 	}

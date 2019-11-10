@@ -10,15 +10,18 @@
 <base href="<%=basePath%>">
 <style type="text/css">
 .systemlogo {
-	background:
-		url(<%=path%>/images/loginlogo450881.png)
-		no-repeat center;
-	width: 100%;
-	height: 71px;
-	margin-top: 75px;
+	background: url(<%=path%>/images/banner_logo.png) no-repeat center;
+	background-size: contain;
+	margin-left: 20%;
+	margin-right: 20%;
+	width: 60%;
+	height: 200px;
+	margin-top: 20px;
+	margin-bottom: -10px;
 }
 </style>
 <script language="JavaScript" src="<%=path%>/third/jquery.js"></script>
+<script language="JavaScript" src="<%=path%>/third/layer/layer.js"></script>
 
 <script language="javascript">
 	$(function() {
@@ -44,6 +47,43 @@
 			$('#errorInfo').html("用户名或密码不能为空");
 			return false;
 		}
+	}
+	function forgetPassword() {
+
+		var type = othis.data('type')
+				,text = othis.text();
+
+		layer.open({
+			type: 1
+			,offset: type //具体配置参考：http://www.layui.com/doc/modules/layer.html#offset
+			,id: 'layerDemo'+type //防止重复弹出
+			,content: '<div style="padding: 20px 100px;">'+ text +'</div>'
+			,btn: '关闭全部'
+			,btnAlign: 'c' //按钮居中
+			,shade: 0 //不显示遮罩
+			,yes: function(){
+				layer.closeAll();
+			}
+		});
+
+
+		//////////////////
+		// layer.open({
+		// 	type: 1
+		// 	,offset: '-300px'
+		// 	,title: false
+		// 	,closeBtn: false
+		// 	,area: '300px;'
+		// 	,shade: 0.8
+		// 	,id: 'LAY_layuipro' //设定一个id，防止重复弹出
+		// 	,btn: ['好了好了,我知道了']
+		// 	,btnAlign: 'c'
+		// 	,moveType: 1 //拖拽模式，0或者1
+		// 	,content: '<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">忘记密码请联系管理员,就这样,告辞！<br></div>'
+		// 	,yes: function(index,layero){
+		// 		layer.close(index);
+		// 	}
+		// });
 	}
 </script>
 <%
@@ -87,7 +127,7 @@ request.setAttribute("", "hagl");
 
 					<li><input name="" type="submit" class="loginbtn" value="登录" />
 						<label><input name="" type="checkbox" value=""
-							checked="checked" />记住密码</label><label><a href="#">忘记密码？</a></label></li>
+							checked="checked" />记住密码</label><label><a href="#" onclick="forgetPassword()">忘记密码？</a></label></li>
 				</ul>
 			
 			</form>

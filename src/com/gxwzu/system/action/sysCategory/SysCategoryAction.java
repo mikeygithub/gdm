@@ -203,6 +203,7 @@ public class SysCategoryAction extends BaseAction implements ModelDriven<SysCate
 			PrintWriter out=response.getWriter();
 			if(StringUtils.isNotEmpty(model.getDeptNumber())){
 			 lists=sysCategoryService.findByDeptNumber(model.getDeptNumber());
+			 logger.info("编号="+model.getDeptNumber()+"\t的大类信息="+lists);
 			}
 			out.print(new Gson().toJson(lists));
 			out.flush();

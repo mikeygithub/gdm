@@ -78,9 +78,10 @@ public class SysIssueTypeAction extends BaseAction implements ModelDriven<SysIss
 				logger.info("添加课题类型"+model);
 				model = sysIssueTypeService.add(model);
 			    model =new SysIssueType();
-			    /*mark = "1";*/
+			    mark = "1";
 		} catch (Exception e) {
 			e.printStackTrace();
+			mark = "0";
 		}
 		return list();
 	}

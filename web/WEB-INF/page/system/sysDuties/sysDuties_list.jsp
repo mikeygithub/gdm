@@ -26,10 +26,15 @@ $(function(){
         focusInvalid: false, //当为false时，验证无效时，没有焦点响应  
         onkeyup: false,   
         submitHandler: function(form){   //表单提交句柄,为一回调函数，带一个参数：form
-        	if(confirm('是否添加改职务?')){
-                    var index = layer.load(1);
-                   form.submit();   //提交表单
-          }
+        	// if(confirm('是否添加改职务?')){
+            //         var index = layer.load(1);
+            //        form.submit();   //提交表单
+          // }
+			layer.confirm('您确定要保存 '+$("input[name='model.dutiesName']").val()+' 吗?', {icon: 1, title:'提示'}, function(){
+				var index = layer.load(1);
+				layer.close(index)
+				form.submit();
+			});
         },   
         rules:{
         	"model.dutiesNo":{
@@ -95,12 +100,10 @@ $(function(){
      if(flag!='' && flag!=undefined){
     	 if(flag=="1"){
         $('#submit').attr('disabled','disabled');
-        layer.msg('添加成功');
+        layer.msg('添加成功',{icon: 1});
         setTimeout(function(){
-           parent.location.reload();
-           layer.close(index);
         },1000);
-     }else if(flag=="0"){
+     }else if(flag=="0",{icon: 2}){
      layer.msg('添加失败');
      }
     }
@@ -133,7 +136,7 @@ $(function(){
         		</li>
         		<li class="click" >
         		<a href="#">
-        		<input name="" id="submit" type="submit" class="scbtn" value="添加"/></a>
+        		<input name="" type="submit" class="scbtn" value="添加"/></a>
         		</li>
 		</ul>
 		</form>
@@ -155,7 +158,7 @@ $(function(){
 						<td align="center" >${dutiesName}</td>
 						<td align="center" width="20%">
 							<a href="javascript:void(0)"
-							target="rightFrame" onclick="del(this,${dutiesId});"> <font
+							target="rightFrame" onclick="del(this,${dutiesId},'${dutiesName}');"> <font
 								color="red"> <i class="layui-icon">&#xe640;</i>删除
 							</font></a>
 								</td>
@@ -170,9 +173,9 @@ $(function(){
 <%@ include file="/WEB-INF/common/pagination.jsp"%>
 <script type="text/javascript">
 //单个删除
-function del(name,id){
+function del(name,id,dutiesName){
 	var re=$(name).parent().parent();
-	var index = layer.confirm('您确定要删除该职务吗?'
+	var index = layer.confirm('您确定要删除['+dutiesName+']该职务吗?'
             ,{icon: 3, title:'提示'}, function(index){
             	layer.close(index); 
 		  var index = layer.load(1);

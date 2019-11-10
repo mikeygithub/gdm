@@ -31,9 +31,13 @@
 	        focusInvalid: false, //当为false时，验证无效时，没有焦点响应  
 	        onkeyup: false,   
 	        submitHandler: function(form){   //表单提交句柄,为一回调函数，带一个参数：form
-	              form.submit();   //提交表单
-	              var index = layer.load(2, {time: 10*1000}); //又换了种风格，并且设定最长等待10秒 
-	        },   
+				layer.confirm('您确定要保存 '+$("input[name='model.classroomName']").val()+' 吗?', {icon: 1, title:'提示'}, function(index){
+					var index = layer.load(1);
+					layer.close(index)
+					// layer.alert('保存成功');
+					form.submit();
+				});
+	        },
 	        rules:{
 	        	"model.classroomName":{
 	                required:true,
@@ -74,13 +78,13 @@
 	     if(flag!='' && flag!=undefined){
 	    	 if(flag=="1"){
 	        $('#submit').attr('disabled','disabled');
-	        layer.msg('添加成功');
+	        layer.msg('添加成功',{icon: 1});
 	        setTimeout(function(){
 	           parent.location.reload();
 	           layer.close(index);
 	        },1000);
 	     }else if(flag=="0"){
-	     layer.msg('添加失败');
+	     layer.msg('添加失败',{icon: 2});
 	     }
 	    }
 	});
@@ -132,7 +136,7 @@ td {padding: 4px;font-size: 14px;}
 					</table>
 				<li>
 					<div style="text-align: center;">
-						<input name="" id="submit" type="submit" class="scbtn" value="添加"
+						<input name="" type="submit" class="scbtn" value="添加"
 							 />
 					</div>
 				</li>
