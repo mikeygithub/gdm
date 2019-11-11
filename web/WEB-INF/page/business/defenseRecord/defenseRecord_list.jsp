@@ -46,7 +46,7 @@
 	        		<a href="<%=path%>/biz/defenseRecord_openAdd.action?view=add&flag=11&thisStuId=${thisStuId }&thisYear=${thisYear }" >
 	        		<img src="<%=path%>/images/t01.png"  style="width: 16px;"/>添加</a>
 				</li>
-				
+
 		</ul>
 		</div>
        </form>
@@ -110,7 +110,7 @@ function del(name,id){
 					data : {
 						"thisId" : id
 					},success : function(result) {
-						layer.close(index); 
+						layer.close(index);
 						if (result) {
 							re.remove();
 							layer.alert('删除成功',{icon: 1},function(){
@@ -121,7 +121,7 @@ function del(name,id){
 						}
 					},
 					error : function(result) {
-						layer.close(index); 
+						layer.close(index);
 						layer.msg('删除失败',{icon: 2});
 					}
 				});

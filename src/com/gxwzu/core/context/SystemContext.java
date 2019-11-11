@@ -24,7 +24,7 @@ public final class SystemContext {
 
 	/*配置软件版本信息*/
 	public static final String AREACODE="apk";
-	public static final String PROJECTNAME="毕业选题档案管理系统";
+	public static final String PROJECTNAME="毕业设计管理及过程监管云平台";
 	public static final String PROJECT_VERSION="V1.0";
 	public static final Integer DEFUALT_PAGE_SIZE=12;//默认分页数,Result有一个BUG，
 	public static final Integer DEFUALT_PAGE_NUM=1;//默认分页码
@@ -99,11 +99,11 @@ public final class SystemContext {
 	 * @param password 数据库保存的加密的密码
 	 * @return true = 通过，fasle=失败
 	 */
-	public static boolean passwdDecryption(String rawPasswd, String password){
+	public static boolean passwdDecryption(String rawPassword, String password){
 
 		boolean isT = false;
 		try {
-			isT = encoder.matches(rawPasswd, password);
+			isT = encoder.matches(rawPassword, password);
 		} catch (Exception e) {
 			
 			System.out.println("密码匹配："+e);
@@ -133,7 +133,7 @@ public final class SystemContext {
 	public static String getHostName() {
 		try {
 			  InetAddress addr = InetAddress.getLocalHost();
-			  hostName = addr.getHostName().toString(); //获取本机ip
+			  hostName = addr.getHostName(); //获取本机ip
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}

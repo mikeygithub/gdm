@@ -6,6 +6,9 @@
 <title><%=SystemContext.PROJECTNAME %></title>
 <meta name="renderer" content="webkit" /> 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="shortcut icon" href="<%=path%>/images/favicon.ico">
+    <script type="text/javascript" src="<%=path%>/third/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="<%=path%>/third/layer/layer.js"></script>
 </head>
 <frameset rows="88,*" cols="*" frameborder="no" framespacing="0">
 <frame src="<%=path %>/sys/login_view.action?view=top" name="topFrame" scrolling="no" noresize="noresize" id="topFrame" title="topFrame" />
@@ -13,5 +16,6 @@
     <frame src="<%=path %>/sys/login_view.action?view=left" name="leftFrame" scrolling="no"   noresize="noresize" id="leftFrame" title="leftFrame" />
     <frame src="<%=path %>/sys/login_view.action?view=right" name="rightFrame" id="rightFrame" title="rightFrame" />
   </frameset>
-</frameset><noframes></noframes>
+</frameset>
+<noframes><body><h2>你的浏览器不支持FRAME,请更换浏览器使用！</h2></body></noframes>
 </html>

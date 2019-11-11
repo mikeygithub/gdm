@@ -280,7 +280,7 @@
 	        layer.msg('添加成功',{icon:1});
 	        setTimeout(function(){
 	           parent.location.reload();
-	           layer.close(index);
+	           // layer.close(index);
 	        },1000);
 	     }else if(flag=="0"){
 	     layer.msg('添加失败',{icon:2});
@@ -288,9 +288,9 @@
 	     }
 	});
  
-	 layui.use('form', function(){
-		  var form = layui.form();
-		});
+	 // layui.use('form', function(){
+		//   var form = layui.form();
+		// });
 </script>
 <style type="text/css">
 .rightText {
@@ -461,7 +461,7 @@ td {
 							</table>
 						<li>
 							<div style="text-align: center;">
-								<input name="" type="submit" class="scbtn" value="添加" onClick="getData();" />
+								<input name="" type="submit" class="scbtn" value="添加"/>
 							</div>
 						</li>
 					</ul>

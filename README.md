@@ -10,37 +10,29 @@
 5.
 ````
 
-
 #### 软件架构
 1.采用struts2+hibernate+spring框架搭建  
 2.前端采用layui
 
-
 #### 安装教程
 
-Mysql配置：
-````sql
+````text
+1.配置数据库
 set global sql_mode='STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';
 set session sql_mode='STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';
-````
-打包镜像
-```dockerfile
-docker build -t gdm
-```
-推送镜像：
-```dockerfile
-docker push mikeyboom/graduationproject:tagname
-```
-拉取镜像：
-```dockerfile
-docker pull mikeyboom/graduationproject:tagname
-```
-运行容器
-````dockerfile
-docker run -p 8080:8080 <imageId>
+2.复制文件  
+1.将tomcat和jdk放进classes目录下,参考Dockerfile的COPY命名格式
+3.打包镜像
+docker build -t mikeyboom/gdm：v1.0.0 .
+4.推送镜像
+docker push mikeyboom/gdm:tagname
+5.拉取镜像
+docker pull mikeyboom/gdm:tagname
+6.运行容器
+docker run -d --name gdm -v /root/GDM/gdm:/usr/local/tomcat/webapps/ROOT -p 8080:8080 <imageId>
 ````
 #### 使用说明
-部署地址：[gdm](http://47.106.210.183:8888/gdm_war_exploded/)
+部署地址：[gdm](http://47.106.210.183:8888/gdm/)
 
 
 

@@ -135,11 +135,11 @@
         <span>评阅录入列表</span>
     </div>
     <ul class="layui-tab-title">
-        <li class="layui-this">
+        <li>
             <a class="selected" href="<%=path%>/biz/replyScore_list.action?view=list&flag=12&thisReplyType=00">
                 评阅录入- 答辩组</a>
         </li>
-        <li>
+        <li class="layui-this">
             <a class="selected" href="<%=path%>/biz/replyScore_list.action?view=excellent_list&flag=12&thisReplyType=01">
                 评阅录入- 大组</a>
         </li>

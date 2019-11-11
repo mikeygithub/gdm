@@ -181,8 +181,7 @@
                             </li>
                         </ul>
                     </div>
-                    <input class="layui-layim-remark" placeholder="编辑签名"
-                           value="在深邃的编码世界，做一枚轻盈的纸飞机">
+<%--                    <input class="layui-layim-remark" placeholder="编辑签名" value="在深邃的编码世界，做一枚轻盈的纸飞机">--%>
                 </div>
 
                 <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">

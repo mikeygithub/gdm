@@ -109,7 +109,7 @@
    <a  class="selected" href="<%=path%>/biz/materialInfo_groupStudentList.action?view=recordEntry&flag=13&thisReplyType=00">  
 	 成绩录入- 答辩组</a>  
     </li>
-    <li>
+    <li class="layui-this">
     <a  class="selected" href="<%=path%>/biz/materialInfo_groupStudentList.action?view=excellent_recordEntry&thisYear=${thisYear}&thisReplyType=01&flag=13">  
 	 成绩录入- 大组</a>
     </li>

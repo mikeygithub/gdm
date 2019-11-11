@@ -10,10 +10,8 @@
     <link rel="stylesheet" href="<%=path%>/third/layui/css/layui.css" type="text/css"/>
     <link rel="stylesheet" href="<%=basePath %>/third/layui/css/layui.css" type="text/css">
     <link rel="stylesheet" href="<%=basePath %>/third/layer/skin/layer.css" id="layui_layer_skinlayercss">
-    <link id="layuicss-skinlayimcss" rel="stylesheet"
-          href="<%=basePath %>/third/layui/css/modules/layim/layim.css?v=3.60Pro" media="all">
-    <link id="layuicss-skinlayercss" rel="stylesheet"
-          href="<%=basePath %>/third/layui/css/modules/layer/default/layer.css?v=3.0.3303" media="all">
+    <link id="layuicss-skinlayimcss" rel="stylesheet" href="<%=basePath %>/third/layui/css/modules/layim/layim.css?v=3.60Pro" media="all">
+    <link id="layuicss-skinlayercss" rel="stylesheet" href="<%=basePath %>/third/layui/css/modules/layer/default/layer.css?v=3.0.3303" media="all">
 
     <script type="text/javascript" src="<%=path%>/third/jquery-1.8.3.min.js"></script>
     <script type="text/javascript" src="<%=path%>/third/jquery.validate.js"></script>
@@ -24,7 +22,6 @@
     <script type="text/javascript" src="<%=path%>/js/core/dialog/enable.js"></script>
     <script type="text/javascript" src="<%=path%>/datePicket/WdatePicker.js"></script>
     <script type="text/javascript" src="<%=path%>/js/business/replyScore/replyScore.js"></script>
-
     <script type="text/javascript">
         /*打开聊天框  */
         function openChat(thisId, type, chatType) {
@@ -231,8 +228,7 @@
                     var timeline_h3 = $('<h3 class=\"layui-timeline-title\">' + con.progressName + '&nbsp;'
                         + (con.progressStart == 1 ? '<font color=\"#5FB878\" class=\"layui-btn  layui-btn-mini layui-btn-radius  layui-btn-danger\">已开始</font>'
                             : '<font color=\"#5FB878\" class=\"layui-btn  layui-btn-mini layui-btn-radius layui-btn-primary\">未开始</font>') + '</h3>');
-                    var timeline_p = $('<p>&nbsp开始时间：&nbsp;' + getformatdate(con.startTime)
-                        + '<p>&nbsp;结束时间 ：&nbsp;' + getformatdate(con.endTime) + '</p>');
+                    var timeline_p = $('<p>&nbsp开始时间：&nbsp;' + getformatdate(con.startTime) + '<p>&nbsp;结束时间 ：&nbsp;' + getformatdate(con.endTime) + '</p>');
 
                     timeline_h3.appendTo(timeline_div);
                     timeline_p.appendTo(timeline_div);
@@ -246,7 +242,6 @@
 
         /*毕业设计成绩  */
         function loadScore() {
-
             $.post('<%=path%>/biz/replyScore_loadReplyScoreList.action', function (res) {
                 if (res === null) return;
                 var scoreMenu = getReplyScore();
@@ -406,5 +401,30 @@
 
         var width = ($('.leftinfos').width() - 12) / 2;
         $('.infoleft,.inforight').width(width);
+    }
+
+    function loginOutTip() {
+        layer.open({
+            title:'系统提示'
+            ,content: '您确认退出吗？'
+            ,offset: ['40%', '40%']
+            ,btn: ['确定退出', '取消']
+            ,shadeClose: true
+            ,yes: function(index, layero){
+                //按钮【按钮一】的回调
+                layer.msg('退出成功',{icon:1})
+                top.location = "<%=path%>/Userlogin_logout.action";
+            }
+            ,btn2: function(index, layero){
+                //按钮【按钮二】的回调
+
+                //return false 开启该代码可禁止点击该按钮关闭
+            }
+            ,cancel: function(){
+                //右上角关闭回调
+
+                //return false 开启该代码可禁止点击该按钮关闭
+            }
+        });
     }
 </script>

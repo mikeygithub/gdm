@@ -9,7 +9,7 @@
 <script type="text/javascript" src="<%=path%>/third/layer/extend/layer.ext.js"></script>
 <script type="text/javascript" src="<%=path%>/js/core/dialog/dialog.js"></script>
 <script type="text/javascript" src="<%=path%>/js/core/dialog/enable.js"></script>
-<title>无标题文档</title>
+<title>top</title>
 <link href="<%=path %>/css/style.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="<%=path%>/third/layui/css/layui.css" type="text/css" />
 <script language="JavaScript" src="<%=path %>/third/jquery.js"></script>
@@ -22,20 +22,7 @@ $(function(){
 	});
 });
 function loginout() {
-
-	if (confirm('您确定要退出登入吗?')){
-		layer.msg('退出成功', {icon: 1, time: 2000}, function(){
-			top.location = "<%=path%>/Userlogin_logout.action";
-		});
-	};
-
-	// layer.confirm('您确定要退出登入吗?', {icon: 2, title:'提示'}, function(index){
-	// 	layer.close(index);
-	// 	var index = layer.load(1);
-	// 	layer.msg('退出成功', {icon: 1, time: 2000}, function(){
-	<%--		top.location = "<%=path%>/Userlogin_logout.action";--%>
-	// 	});
-	// });
+	self.parent.frames['rightFrame'].loginOutTip();
 }
 </script>
 </head>

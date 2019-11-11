@@ -11,8 +11,8 @@
 <link href="<%=path %>/css/animate.css" rel="stylesheet">
 <link href="<%=path %>/css/bootstrap.min.css" rel="stylesheet">
 
-
-<script type="text/javascript" src="<%=path%>/third/jquery-1.8.3.min.js"></script>
+	<script type="text/javascript" src="<%=path%>/third/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="<%=path%>/third/layer/layer.js"></script>
 <script type="text/javascript" src="<%=path%>/third/jquery.validate.js"></script>
 <script type="text/javascript" src="<%=path%>/js/jquery.js"></script>
 <script src="<%=path %>/js/bootstrap.min.js"></script>

@@ -32,11 +32,11 @@
         <span>答辩过程记录</span>
     </div>
     <ul class="layui-tab-title">
-        <li class="layui-this">
+        <li>
             <a class="selected" href="<%=path%>/biz/defenseRecord_groupAllStudentList.action?view=groupAllStudentList&flag=12&thisReplyType=00">
                 答辩过程记录录入- 答辩组</a>
         </li>
-        <li>
+        <li  class="layui-this">
             <a class="selected" href="<%=path%>/biz/defenseRecord_groupAllStudentList.action?view=excellent_groupAllStudentList&flag=12&thisReplyType=01">
                 答辩过程记录录入- 大组</a>
         </li>

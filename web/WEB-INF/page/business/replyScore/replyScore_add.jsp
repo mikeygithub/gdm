@@ -68,7 +68,8 @@
 				},
 				"model.replyLink":{
 					required:true,
-	            	rangelength:[200,10000]
+	            	// rangelength:[200,10000]
+					rangelength:[100,10000]
 				}
 			},
 			messages : {
@@ -78,7 +79,8 @@
 				},
 				"model.replyLink":{
 					required:"请填写评语",
-	            	rangelength:"评语不少于200字"
+	            	// rangelength:"评语不少于200字"
+					rangelength:"评语不少于100字"
 				}
 			},
 			errorPlacement : function(error, element) { //错误信息位置设置方法
@@ -91,15 +93,10 @@
 		var flag = "${mark}";
 		if (flag != '' && flag != undefined) {
 			if (flag == "1") {
-				layer.msg('保存成功', {
-					icon : 1
-				});
-				setTimeout(function() {
-				}, 1000);
+				layer.msg('保存成功', {icon : 1});
+				setTimeout(function() {}, 1000);
 			} else if (flag == "0") {
-				layer.msg('保存失败', {
-					icon : 2
-				});
+				layer.msg('保存失败', {icon : 2});
 			}
 		}
 	});
