@@ -149,6 +149,16 @@ public class OpenReportAction extends BaseAction implements ModelDriven<OpenRepo
 			//用户类型：1-学生 2-老师
 			String userType = (String) getSession().getAttribute(SystemContext.USERTYPE);
 
+			// 查询学生信息
+			student = sysStudentService.findViewModelById(thisStuId);
+			//查询课题信息
+			issueInfo = issueInfoSerivce.findByStuIdAndYear(thisStuId, thisYear);
+			// 查询指导老师信息
+			AllotGuide aGuide = allotGuideService.findByStuIdAndYear(thisStuId, thisYear);
+			teacher = sysTeacherService.findById(aGuide.getTeacherId());
+			//
+			model = openReportSerivce.findByStuIdAndYear(thisStuId, thisYear);
+
 			pageResult = openReportSerivce.find(model, getPage(), getRow());
 			footer = PageUtil.pageFooter(pageResult, getRequest());
 
@@ -164,10 +174,8 @@ public class OpenReportAction extends BaseAction implements ModelDriven<OpenRepo
 	 * @return
 	 */
 	public String info() {
-		String loginName = (String) getSession().getAttribute(
-				SystemContext.LOGINNAME);
-		String type = (String) getSession()
-				.getAttribute(SystemContext.USERTYPE);
+		String loginName = (String) getSession().getAttribute(SystemContext.LOGINNAME);
+		String type = (String) getSession().getAttribute(SystemContext.USERTYPE);
 		if (type.equals("1")) {
 			ListStudent s = sysStudentService.findByStuNo(loginName);
 			model.setStuId(s.getStuId());
@@ -335,13 +343,11 @@ public class OpenReportAction extends BaseAction implements ModelDriven<OpenRepo
 	 */
 	public String edit() {
 
-		logger.info("修改开题报告："+model);
+		logger.info("修改开题报告：id="+thisId+"|"+model);
 
 		try {
 			if (thisId != null) {
-
 				OpenReport openReport = openReportSerivce.findById(thisId);
-
 				if (StringUtils.isNotEmpty(model.getReportContent())) {
 					openReport.setReportContent(model.getReportContent());
 				}
@@ -357,13 +363,9 @@ public class OpenReportAction extends BaseAction implements ModelDriven<OpenRepo
 				if(model.getReplyLink()!=null){
 					openReport.setReplyLink(model.getReplyLink());
 				}
-
 				logger.info("开题报告信息："+model);
-
 				openReportSerivce.update(openReport);
-
 				mark = "1";
-
 			} else {
 				mark = "0";
 			}

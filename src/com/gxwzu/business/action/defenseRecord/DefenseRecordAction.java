@@ -254,7 +254,7 @@ public class DefenseRecordAction extends BaseAction implements ModelDriven<Defen
 							}
 						}
 						//老师查询所在组的学生信息
-						pageResult1 = materialInfoSerivce.findGroupStudent(groupAllotId, model.getYear(), getPage(), getRow());
+						pageResult1 = materialInfoSerivce.findGroupStudent(groupAllotId,thisReplyType, model.getYear(), getPage(), getRow());
 
 						footer = PageUtil.pageFooter(pageResult1, getRequest());
 						logger.info("pageResult"+pageResult1);

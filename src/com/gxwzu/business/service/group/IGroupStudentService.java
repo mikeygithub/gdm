@@ -46,12 +46,13 @@ public interface IGroupStudentService extends BaseService<GroupStudent>{
 	/**
 	 * 查询分组学生信息 通过组Id 可年度
 	 * @param groupAllotId
+	 * @param groupType
 	 * @param year
-	 * @param size 
-	 * @param page 
+	 * @param page
+	 * @param size
 	 * @return
 	 */
-	Result<ListGroupStudent> findByGroupAllotIdAndYear(Integer groupAllotId, Integer year, int page, int size);
+	Result<ListGroupStudent> findByGroupAllotIdAndYearAndGroupType(Integer groupAllotId,String groupType, Integer year, int page, int size);
 	
 	/**
 	 * 查询分组已分配评阅的学生信息 通过组Id 老师Id 可年度

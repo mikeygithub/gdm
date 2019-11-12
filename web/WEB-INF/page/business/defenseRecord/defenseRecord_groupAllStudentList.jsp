@@ -123,7 +123,7 @@
                     </s:iterator>
                 </td>
                 <td align="center"
-                    width="auto">${groupReply.replyScore!=null&&groupReply.replyScore!=""?groupReply.replyScore:'0'}</td>
+                    width="auto">${groupReply.replyScore!=null&&groupReply.replyScore!=""?groupReply.replyScore:'未录入'}</td>
                 <%--<td align="center" width="auto">${groupReply.replyScoreFinish} </td>--%>
 
                 <td align="center"> ${model.year} </td>

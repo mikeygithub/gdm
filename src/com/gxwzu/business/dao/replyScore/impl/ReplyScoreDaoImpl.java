@@ -67,7 +67,7 @@ public class ReplyScoreDaoImpl extends BaseDaoImpl<ReplyScore>implements IReplyS
 
 
 	@Override
-	public void updateByStuId(Integer stuId,String replyLink, int replyScoreFinish, String grade,float replyScore) {
+	public void updateByStuId(Integer stuId,String replyLink, int replyScoreFinish, String grade,float replyScore,String replyType) {
 		List<Object> params = new ArrayList<Object>();
 		if(stuId != null && !"".equals(stuId)){
 			String updateString = "update ReplyScore set replyScoreFinish = ? , replyLink = ? , grade = ? , replyScore = ? where  stuId = ?";
@@ -76,7 +76,10 @@ public class ReplyScoreDaoImpl extends BaseDaoImpl<ReplyScore>implements IReplyS
 			params.add(grade);
 			params.add(replyScore);
 			params.add(stuId);
-			
+			if (replyType!=null){
+				updateString+=" and reply_type = ?";
+				params.add(replyType);
+			}
 			super.bulkUpdate(updateString, params.toArray(), null);
 		}
 	}

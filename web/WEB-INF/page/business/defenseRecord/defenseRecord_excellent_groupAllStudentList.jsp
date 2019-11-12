@@ -122,14 +122,13 @@
                         <s:if test="issueInfo.issueType.contains(\"&\"+issueTypeId+\"&\")">${issueTypeName }&nbsp;</s:if>
                     </s:iterator>
                 </td>
-                <td align="center"
-                    width="auto">${groupReply.replyScore!=null&&groupReply.replyScore!=""?groupReply.replyScore:'0'}</td>
+                <td align="center" width="auto">${groupReply.replyScore!=null&&groupReply.replyScore!=""?groupReply.replyScore:'未录入'}</td>
                 <%--<td align="center" width="auto">${groupReply.replyScoreFinish} </td>--%>
 
                 <td align="center"> ${model.year} </td>
 
                 <td align="center" width="10%">
-                    <a href="javascript:dialog('70%','90%','查看答辩记录信息','<%=path%>/biz/defenseRecord_findStudentAllDefenseRecordBy.action?view=list&thisYear=${model.year}&thisStuId=${student.stuId }','true', '5%', '15%');">
+                    <a href="javascript:dialog('70%','90%','查看答辩记录信息','<%=path%>/biz/defenseRecord_findStudentAllDefenseRecordBy.action?view=list&thisYear=${model.year}&thisStuId=${student.stuId }&thisReplyType=01','true', '5%', '15%');">
                         <font color="blue"><img src="<%=path%>/images/eye_visible.png" width="10px"/>&nbsp;查看</font>
                     </a>
                     &nbsp;&nbsp;&nbsp;

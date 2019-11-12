@@ -198,7 +198,7 @@ public class ReplyScoreAction extends BaseAction implements ModelDriven<ReplySco
                             }
                         }
                         //老师查询所在组的学生信息
-                        pageResult1 = materialInfoSerivce.findGroupStudent(groupAllotId, model.getYear(), getPage(), getRow());
+                        pageResult1 = materialInfoSerivce.findGroupStudent(groupAllotId, thisReplyType, model.getYear(), getPage(), getRow());
 
 
                         logger.info("pageResult1=>" + pageResult1);
@@ -261,8 +261,7 @@ public class ReplyScoreAction extends BaseAction implements ModelDriven<ReplySco
         logger.info(thisReplyType + "," + thisStuId + "," + thisYear + "," + thisScore + model.getReplyLink());
         /************************** 查询教研室信息 *********************************************/
         try {
-            logger.info(thisStuId + "" + thisYear + "" + thisReplyType);
-            ListReplyScore replyScoreList = replyScoreSerivce.findByStudentIdAndYear(thisStuId, thisYear);
+            ListReplyScore replyScoreList = replyScoreSerivce.findByStuIdAndReplyTypeAndYear(thisStuId, thisReplyType, thisYear);
 
             if (thisStuId != null && thisYear != null && thisReplyType != null) {
                 model.setYear(thisYear);
@@ -270,26 +269,22 @@ public class ReplyScoreAction extends BaseAction implements ModelDriven<ReplySco
                 model.setStuId(thisStuId);
                 model.setYear(thisYear);
                 model.setReplyType(thisReplyType);
-//                model.setReplyLink(thisReplyLink);
                 // 90分×25%=22.8
                 model.setReplyScore(Float.parseFloat(thisScore));
                 Float replyScore = (float) (Float.parseFloat(thisScore) * 0.25);
                 // 评阅审查表类型：00 指导老师评阅 01评阅人评阅 02指导老师审查
                 // 指导老师评阅评分 90分×45%=40.5
-                ListReview reviewGuide = reviewSerivce
-                        .findByStuIdAndReviewTypeAndYear(thisStuId, "00", thisYear);
+                ListReview reviewGuide = reviewSerivce.findByStuIdAndReviewTypeAndYear(thisStuId, "00", thisYear);
                 if (reviewGuide != null) {
                     guideScore = (float) (reviewGuide.getTotalScore() * 0.45);
                 }
                 // 指导评阅审查评分 93分×10%= 9.3
-                ListReview reviewCheck = reviewSerivce
-                        .findByStuIdAndReviewTypeAndYear(thisStuId, "02", thisYear);
+                ListReview reviewCheck = reviewSerivce.findByStuIdAndReviewTypeAndYear(thisStuId, "02", thisYear);
                 if (reviewCheck != null) {
                     checkScore = (float) (reviewCheck.getTotalScore() * 0.1);
                 }
                 // 评阅老师评阅评分 88分×20%= 17.6
-                ListReview reviewRead = reviewSerivce
-                        .findByStuIdAndReviewTypeAndYear(thisStuId, "01", thisYear);
+                ListReview reviewRead = reviewSerivce.findByStuIdAndReviewTypeAndYear(thisStuId, "01", thisYear);
                 if (reviewRead != null) {
                     readScore = (float) (reviewRead.getTotalScore() * 0.2);
                 }
@@ -312,7 +307,7 @@ public class ReplyScoreAction extends BaseAction implements ModelDriven<ReplySco
                     } else if (replyScoreFinish >= 90) {
                         model.setGrade("优");
                     }
-                    logger.info("Grade "+model.getGrade());
+                    logger.info("Grade " + model.getGrade());
                 }
                 if (replyScoreList != null) {
                     logger.info("更新" + model);
@@ -322,10 +317,10 @@ public class ReplyScoreAction extends BaseAction implements ModelDriven<ReplySco
                     if (model.getGrade() == null) {
                         model.setGrade("未评分");
                     }
-                    replyScoreSerivce.updateByStuId(thisStuId, model.getReplyLink(), model.getReplyScoreFinish(), model.getGrade(), Float.parseFloat(thisScore));
+                    replyScoreSerivce.updateByStuId(thisStuId, model.getReplyLink(), model.getReplyScoreFinish(), model.getGrade(), Float.parseFloat(thisScore),thisReplyType);
 
                 } else {
-                    logger.debug("保存 "+model);
+                    logger.debug("保存 " + model);
                     model = replyScoreSerivce.save(model);
                 }
                 rJson.setObj(model);
@@ -349,7 +344,6 @@ public class ReplyScoreAction extends BaseAction implements ModelDriven<ReplySco
         out.print(isSuccess);
         out.flush();
         out.close();
-        logger.info("model==>>"+model);
     }
 
     /**
@@ -360,9 +354,7 @@ public class ReplyScoreAction extends BaseAction implements ModelDriven<ReplySco
     public String openAdd() {
         try {
             if (thisStuId != null && thisYear != null && thisReplyType != null) {
-
                 listReplyScore = replyScoreSerivce.findByStuIdAndReplyTypeAndYear(thisStuId, thisReplyType, thisYear);
-
                 // 查询学生信息
                 student = sysStudentService.findViewModelById(thisStuId);
                 // 查询课题信息
@@ -382,6 +374,7 @@ public class ReplyScoreAction extends BaseAction implements ModelDriven<ReplySco
 
                     logger.info("分组老师信息：" + groupTeachers);
                 }
+                logger.info(listReplyScore);
 
             }
             // 评阅审查表类型：00 指导老师评阅 01评阅人评阅 02指导老师审查
@@ -449,7 +442,6 @@ public class ReplyScoreAction extends BaseAction implements ModelDriven<ReplySco
                 rScore.setReplyLink(model.getReplyLink());
                 replyScoreSerivce.update(rScore); // 更改信息
                 replyScore = replyScoreSerivce.findViewModelById(thisId);
-
                 mark = "1";
             } else {
                 mark = "0";
@@ -470,18 +462,13 @@ public class ReplyScoreAction extends BaseAction implements ModelDriven<ReplySco
     public String outReplyScore() {
         try {
             if (thisId != null) {
-                ListReplyScore model = replyScoreSerivce
-                        .findViewModelById(thisId);
-                ListStudent student = sysStudentService.findViewModelById(model
-                        .getStuId());
+                ListReplyScore model = replyScoreSerivce.findViewModelById(thisId);
+                ListStudent student = sysStudentService.findViewModelById(model.getStuId());
                 // 查询指导老师信息
-                AllotGuide aGuide = allotGuideService.findByStuIdAndYear(
-                        model.getStuId(), model.getYear());
+                AllotGuide aGuide = allotGuideService.findByStuIdAndYear(model.getStuId(), model.getYear());
                 teacher = sysTeacherService.findById(aGuide.getTeacherId());
-
                 // ##################根据Word模板导出单个Word文档###################################################
                 Map<String, String> map = new HashMap<String, String>();
-
                 map.put("dT", student.getDeptName());
                 map.put("mR", student.getMajorName());
                 map.put("tN", teacher.getTeacherName());
@@ -489,9 +476,7 @@ public class ReplyScoreAction extends BaseAction implements ModelDriven<ReplySco
 
                 WordUtils.exportWord(map, getTempletePath(), getFilePath());
                 StringBuffer sBuffer = new StringBuffer(student.getClassName());
-                sBuffer.append("-").append(student.getStuId()).append("-")
-                        .append(student.getStuName()).append("-")
-                        .append("梧州学院本科生毕业论文答辩成绩及评语表.doc");
+                sBuffer.append("-").append(student.getStuId()).append("-").append(student.getStuName()).append("-").append("梧州学院本科生毕业论文答辩成绩及评语表.doc");
                 fileName = sBuffer.toString();
             }
         } catch (Exception e) {
@@ -531,8 +516,6 @@ public class ReplyScoreAction extends BaseAction implements ModelDriven<ReplySco
             out.flush();
             out.close();
         }
-
-
     }
 
 
@@ -553,7 +536,6 @@ public class ReplyScoreAction extends BaseAction implements ModelDriven<ReplySco
             }
             //查询安排计划年度
             planYear = planYearSerivce.findPlanYear();
-
             // 毕业设计成绩列表
             replyScore = replyScoreSerivce.findByStudentIdAndYear(student.getStuId(), planYear.getYear());
             //type是判断学生老师的字段

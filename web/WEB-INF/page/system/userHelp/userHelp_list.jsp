@@ -41,7 +41,10 @@ function openAdd(){
     		nameValie = "model.loginName";
     	}else if(type==3){
     		nameValie = "model.tel";
-    	}
+    	}else {//默认名字
+			nameValie = "model.userName";
+		}
+
     	$("#selectValue").attr("name",nameValie);
     	$("#form1").submit();
     }

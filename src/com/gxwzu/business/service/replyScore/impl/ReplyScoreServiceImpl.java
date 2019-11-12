@@ -170,8 +170,7 @@ public class ReplyScoreServiceImpl extends BaseServiceImpl<ReplyScore> implement
 	}
 
 	@Override
-	public ListReplyScore findByStuIdAndReplyTypeAndYear(Integer stuId,
-			String replyType, Integer year) {
+	public ListReplyScore findByStuIdAndReplyTypeAndYear(Integer stuId, String replyType, Integer year) {
 		ReplyScore model = new ReplyScore();
 		model.setStuId(stuId);
 		model.setReplyType(replyType);
@@ -198,8 +197,8 @@ public class ReplyScoreServiceImpl extends BaseServiceImpl<ReplyScore> implement
 	}
 
 	@Override
-	public void updateByStuId(Integer stuId,String replyLink, int replyScoreFinish, String grade, float replyScore) {
-	    replyScoreDao.updateByStuId(stuId,replyLink,replyScoreFinish,grade,  replyScore);
+	public void updateByStuId(Integer stuId,String replyLink, int replyScoreFinish, String grade, float replyScore,String replyType) {
+	    replyScoreDao.updateByStuId(stuId,replyLink,replyScoreFinish,grade,  replyScore,replyType);
 	}
 
 	@Override

@@ -130,8 +130,7 @@ public class GroupStudentDaoImpl extends BaseDaoImpl<GroupStudent> implements
 	 * @author 黎艺侠
 	 */
 	@Override
-	public Result<Object> findStuGroupList(ListGroupStudent model, int page,
-			int size) {
+	public Result<Object> findStuGroupList(ListGroupStudent model, int page, int size) {
 		int start = (page - 1) * size;
 		int limit = size;
 		List<Object> params = new ArrayList<Object>();
@@ -141,7 +140,7 @@ public class GroupStudentDaoImpl extends BaseDaoImpl<GroupStudent> implements
 				.append(" up.userSex,up.userAge,up.userEmail,up.userTel,up.userImg,up.userType, ")
 				.append(" sdt.dept_name,scy.category_name,smr.major_name,scs.class_name, ")
 				.append(" age.teacher_id ,str.teacher_name ,gst.id,gst.group_allot_id, gat.group_name,gst.`year`, ")
-				.append(" ifo.issue_name ,ifo.issue_type,gat.group_type ,gst.defense_teacher_id,rse.reply_score_finish")
+				.append(" ifo.issue_name ,ifo.issue_type,gat.group_type ,gst.defense_teacher_id,rse.reply_score_finish,rse.reply_type")
 				.append(" FROM sys_student st ")
 				.append(" INNER JOIN user_hlep up ON st.user_id = up.id ")
 				.append(" LEFT OUTER JOIN sys_department sdt ON st.dept_number = sdt.dept_number ")
@@ -153,9 +152,7 @@ public class GroupStudentDaoImpl extends BaseDaoImpl<GroupStudent> implements
 				.append(" LEFT OUTER JOIN group_student gst ON st.stu_id = gst.student_id and age.`year` = gst.`year` ")
 				.append(" LEFT OUTER JOIN issue_info ifo ON st.stu_id = ifo.stu_id and   age.`year` = ifo.`year` ")
 				.append(" LEFT OUTER JOIN group_allot gat ON gst.group_allot_id = gat.group_id and gst.year = gat.year ")
-
 				.append(" LEFT OUTER JOIN reply_score rse ON st.stu_id = rse.stu_id and   age.`year` = rse.`year` ")
-
 				.append(" WHERE gst.group_allot_id is not null  ")
 				.append(") AS model WHERE 1 = 1 ");
 
@@ -169,14 +166,24 @@ public class GroupStudentDaoImpl extends BaseDaoImpl<GroupStudent> implements
 			queryString.append(" and model.defense_teacher_id = ? ");
 			params.add(model.getDefenseTeacherId());
 		}
+		//类型
+		if (model.getGroupType()!=null){
+			queryString.append(" and model.group_type = ?");
+			params.add(model.getGroupType());
+		}
+		//成绩类型:00答辩成绩,01:大组成绩
+		if (model.getGroupType()!=null){
+			queryString.append(" and model.reply_type = ?");
+			params.add(model.getGroupType());
+		}
 		
 		if (model.getYear() != null) {
 			queryString.append(" and model.year = ? ");
 			params.add(model.getYear());
 		}
 		queryString.append(" ORDER BY model.stu_id DESC ");
-		return (Result<Object>) super.findBySQL(queryString.toString(),
-				params.toArray(), start, limit);
+		System.out.println(queryString);
+		return (Result<Object>) super.findBySQL(queryString.toString(), params.toArray(), start, limit);
 	}
 
 	@Override

@@ -19,12 +19,11 @@ public interface IReplyScoreSerivce extends BaseService<ReplyScore> {
 
 	public void del(Integer id);
 
-	public ListReplyScore findByStuIdAndReplyTypeAndYear(Integer stuId,
-			String replyType, Integer year);
+	public ListReplyScore findByStuIdAndReplyTypeAndYear(Integer stuId, String replyType, Integer year);
 
 	public ListReplyScore findByStudentIdAndYear(Integer stuId, Integer year);
 
-	public void updateByStuId(Integer stuId,String replyLink, int replyScoreFinish, String grade, float replyScore);
+	public void updateByStuId(Integer stuId,String replyLink, int replyScoreFinish, String grade, float replyScore,String replyType);
 
 	public ReplyScore findExcellentStudntBySudentReplyType(int replyScoreFinish, String replyType);
 

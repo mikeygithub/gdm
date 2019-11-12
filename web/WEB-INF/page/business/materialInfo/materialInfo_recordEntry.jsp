@@ -209,15 +209,16 @@
 				        
 				        <td align="center" width="auto">
 				          <div name="laypage1.3" class="laypage_main laypageskin_molv" >
-								<span class="laypage_total"> <input type="number" style="text-align: center;"
+								<span class="laypage_total"> <input type="number" style="text-align: left;width: auto;"
 									  min="1" onkeyup="this.value=this.value.replace(/\D/, '');" max="100"
 									  class="laypage_skip" value="${groupReply.replyScore}" id="thisScore${student.stuId}" >
 								</span>
 							</div>
 				          </td>
-				         <td align="center" width="auto">${groupReply.replyScoreFinish} </td>
-				          
-				        <td align="center">  ${model.year} </td> 
+<%--				         <td align="center" width="auto">${groupReply.replyScoreFinish} </td>--%>
+			 <td align="center" width="auto">${groupReply.replyScoreFinish==null||groupReply.replyScoreFinish==''?'未录入':groupReply.replyScoreFinish} </td>
+
+			 <td align="center">  ${model.year} </td>
 				        <td align="center"><a href="javascript:void(0);"
 								onclick="selStart(this)"  id="${student.stuId}"     title="${student.stuName}"
 								class="layui-btn layui-btn-primary  layui-btn-small"><font

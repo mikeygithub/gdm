@@ -239,18 +239,17 @@
                     <%--<s:if test="report.replyLink==02">checked="checked"</s:if>--%>
                     <%--alt="缺席">缺席--%>
                     <%--</td>--%>
+                <td align="center" width="auto">${groupReply.replyScore!=null&&groupReply.replyScore!=""?groupReply.replyScore:'未录入'}</td>
+                <td align="center" width="auto">${groupReply.replyScoreFinish!=null&&groupReply.replyScoreFinish!=""?groupReply.replyScoreFinish:'未录入'} </td>
 
-                <td align="center"
-                    width="auto">${groupReply.replyScore!=null&&groupReply.replyScore!=""?groupReply.replyScore:'0'}</td>
-                <td align="center" width="auto">${groupReply.replyScoreFinish} </td>
 
                 <td align="center"> ${model.year} </td>
 
                 <td align="center" width="20%">
-                    <a href="javascript:dialog('70%','90%','添加评阅信息','<%=path%>/biz/replyScore_openAdd.action?view=add&thisYear=${model.year}&thisReplyType=00&thisStuId=${student.stuId}','true', '5%', '15%');">
+                    <a href="javascript:dialog('70%','90%','添加评阅信息','<%=path%>/biz/replyScore_openAdd.action?view=add&thisYear=${model.year}&thisReplyType=01&thisStuId=${student.stuId}','true', '5%', '15%');">
                         <font color="blue"><img src="<%=path%>/images/t01.png" width="10px"/>&nbsp;编辑</font>
                     </a>
-                    <a href="javascript:dialog('70%','90%','查看评阅信息','<%=path%>/biz/replyScore_info.action?view=detail&thisYear=${model.year}&thisReplyType=00&thisStuId=${student.stuId }','true', '5%', '15%');">
+                    <a href="javascript:dialog('70%','90%','查看评阅信息','<%=path%>/biz/replyScore_info.action?view=detail&thisYear=${model.year}&thisReplyType=01&thisStuId=${student.stuId }','true', '5%', '15%');">
                         <font color="blue"><img src="<%=path%>/images/eye_visible.png" width="10px"/>&nbsp;查看</font>
                     </a>
                     <!--<a href="javascript:dialog('70%','90%','修改评阅信息','<%=path%>/biz/replyScore_openEdit.action?view=edit&thisYear=${model.year}&thisStuId=${student.stuId }', 'true','20%');">-->

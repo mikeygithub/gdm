@@ -10,25 +10,21 @@
 <link rel="stylesheet" href="<%=path%>/third/layui/css/layui.css" type="text/css" />
 <link rel="stylesheet" href="<%=path%>/third/ueditor/themes/default/css/ueditor.css" type="text/css" />
 
-<script type="text/javascript" src="<%=path%>/third/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="<%=path%>/third/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="<%=path%>/third/layer/layer.js"></script>
 <script type="text/javascript">
-$(function() {
-	var flag = "${mark}";
-	if (flag != '' && flag != undefined) {
-		if (flag == "1") {
-			layer.msg('保存成功', {
-				icon : 1
-			});
-			setTimeout(function() {
-				parent.location.reload();
-			}, 1000);
-		} else if (flag == "0") {
-			layer.msg('保存失败', {
-				icon : 2
-			});
+	$(function () {
+		var flag = "${mark}";
+		if (flag != '' && flag != undefined) {
+			if (flag == "1") {
+				layer.msg('保存成功', {icon: 1});
+				setTimeout(function () {
+				}, 1000);
+			} else if (flag == "0") {
+				layer.msg('保存失败', {icon: 2});
+			}
 		}
-	}
-});
+	});
 </script>
 <script type="text/javascript" src="<%=path%>/third/jquery.validate.js"></script>
 <script type="text/javascript" src="<%=path%>/third/layer/layer.js"></script>
@@ -41,10 +37,10 @@ $("#form1").validate({
     focusInvalid: false, //当为false时，验证无效时，没有焦点响应  
     onkeyup: false,   
     submitHandler: function(form){   //表单提交句柄,为一回调函数，带一个参数：form
-    	if(confirm("是否要保存信息？")){
+    	// if(confirm("是否要保存信息？")){
               form.submit();   //提交表单
-              var index = layer.load(2, {time: 10*1000}); //又换了种风格，并且设定最长等待10秒 
-        	}
+              // var index = layer.load(2, {time: 10*1000}); //又换了种风格，并且设定最长等待10秒
+        	// }
     },   
     rules:{},
     messages:{},
@@ -52,7 +48,6 @@ $("#form1").validate({
 		error.appendTo( element.parent() ); //这里的element是录入数据的对象
 	}
 });    
-});
 
 
 function getData(){
@@ -64,7 +59,7 @@ function getData(){
 }
 
 layui.use('form', function(){
-	  var form = layui.form();
+	  var form = layui.form
 	});
 </script>
 
@@ -123,12 +118,10 @@ td {padding: 4px;font-size: 14px;font-size: 14px;border: 1px  solid #C1DAD7;}
         		  			</tr>
 						<tr class="title" >					
 						       <td class="rightText">是否进入答辩环节：</td>
-						       <td align=colspan="10" id="replyLink"> 
-						       <input type="radio" name="model.replyLink" value="01"
-						       alt="是">是&nbsp;
-						       <input type="radio"
-						       name="model.replyLink" value="00" alt="否" >否&nbsp;
-						       
+						       <td align=colspan="10" id="replyLink">
+								   <span>
+									   ${model.replyLink!=null&&model.replyLink=='1'?'是':'否'}
+								   </span>
 						       </td>
 						</tr>
 						<tr >
@@ -168,8 +161,7 @@ td {padding: 4px;font-size: 14px;font-size: 14px;border: 1px  solid #C1DAD7;}
 					</table>
 				<li>
 					<div style="text-align: center;">
-								<input name="" id="submit" type="submit" class="scbtn"
-									value="提交" onClick="getData();" />
+<%--						<input name="" type="submit" class="scbtn" value="提交" onClick="getData();" />--%>
 					</div>
 				</li>
 			</ul>

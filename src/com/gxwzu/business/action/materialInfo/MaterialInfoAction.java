@@ -271,7 +271,6 @@ public class MaterialInfoAction extends BaseAction implements ModelDriven<Materi
                     // 老师查询学生课题信息
                     if (type.equals("2")) {
                         teacher = sysTeacherService.findByTeacherNo(loginName);
-
                         // 设置年度
                         if (thisYear != null) {
                             model.setYear(thisYear);
@@ -297,8 +296,7 @@ public class MaterialInfoAction extends BaseAction implements ModelDriven<Materi
                         }
                         logger.info("groupAllotId : " + groupAllotId);
                         //老师查询所在组的学生信息
-                        pageResult = materialInfoSerivce.findGroupStudent(groupAllotId, model.getYear(), getPage(), getRow());
-
+                        pageResult = materialInfoSerivce.findGroupStudent(groupAllotId,thisReplyType, model.getYear(), getPage(), getRow());
 
                         footer = PageUtil.pageFooter(pageResult, getRequest());
                         //指导老师查询自己所在教研室进度计划信息

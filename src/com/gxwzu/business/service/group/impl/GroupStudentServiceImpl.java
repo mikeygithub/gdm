@@ -135,18 +135,16 @@ public class GroupStudentServiceImpl extends BaseServiceImpl<GroupStudent> imple
 	}
 
 	@Override
-	public Result<ListGroupStudent> findByGroupAllotIdAndYear(
-			Integer groupAllotId, Integer year, int page, int size) {
+	public Result<ListGroupStudent> findByGroupAllotIdAndYearAndGroupType(Integer groupAllotId,String groupType, Integer year, int page, int size) {
 		ListGroupStudent model = new ListGroupStudent();
 		model.setGroupAllotId(groupAllotId);
+		if (groupType!=null&&groupType!="")model.setGroupType(groupType);
 		model.setYear(year);
 		return findStuGroupList(model, page, size);
 	}
 
 	@Override
-	public Result<ListGroupStudent> findByGroupAllotIdAndDefenseTeacherIdAndYear(
-			Integer groupAllotId, Integer teacherId, Integer year, int page,
-			int size) {
+	public Result<ListGroupStudent> findByGroupAllotIdAndDefenseTeacherIdAndYear(Integer groupAllotId, Integer teacherId, Integer year, int page, int size) {
 		ListGroupStudent model = new ListGroupStudent();
 		model.setGroupAllotId(groupAllotId);
 		model.setDefenseTeacherId(teacherId);
@@ -167,8 +165,7 @@ public class GroupStudentServiceImpl extends BaseServiceImpl<GroupStudent> imple
 			 
 			    int studentCount = Integer.parseInt(groupAllot.getStudentNum());
 				int teacherCount = Integer.parseInt(groupAllot.getTeacherNum());
-				System.out.println(studentCount+"&&&&&&&&&&&&&");
-				
+
 				if(gList!=null&&gList.size()!=0&&teacherCount!=0){
 				int limt = 0;
 				int size = studentCount/teacherCount;

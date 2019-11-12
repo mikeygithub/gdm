@@ -403,9 +403,9 @@ public class MaterialInfoServiceImpl implements IMaterialInfoSerivce {
 	}
 
 	@Override
-	public Result<MaterialInfo> findGroupStudent(Integer groupAllotId, Integer year, int page, int size) {
+	public Result<MaterialInfo> findGroupStudent(Integer groupAllotId,String groupType, Integer year, int page, int size) {
 		/************************* 填充结果集 ************************************************/
-		Result<ListGroupStudent> oldResult = groupStudentService.findByGroupAllotIdAndYear(groupAllotId, year, page, size);
+		Result<ListGroupStudent> oldResult = groupStudentService.findByGroupAllotIdAndYearAndGroupType(groupAllotId,groupType, year, page, size);
 		Result<MaterialInfo> newResult = new Result<MaterialInfo>();
 		List<MaterialInfo> newList = new ArrayList<MaterialInfo>();
 		if (oldResult != null && oldResult.getData() != null && oldResult.getData().size() != 0) {
@@ -418,7 +418,8 @@ public class MaterialInfoServiceImpl implements IMaterialInfoSerivce {
 					newModel.setIssueInfo(issueInfo);
 				}
 				// 最终成绩信息
-				ListReplyScore replyScore = replyScoreSerivce.findByStudentIdAndYear(m.getStuId(), year);
+				// TODO:分为优秀答辩成绩和答辩组成绩
+				ListReplyScore replyScore = replyScoreSerivce.findByStuIdAndReplyTypeAndYear(m.getStuId(),groupType, year);
 				if (replyScore != null) {
 					newModel.setGroupReply(replyScore);
 				}

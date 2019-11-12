@@ -33,10 +33,10 @@
                 focusInvalid: false, //当为false时，验证无效时，没有焦点响应
                 onkeyup: false,
                 submitHandler: function (form) {   //表单提交句柄,为一回调函数，带一个参数：form
-                    if (confirm("是否要保存信息？")) {
+                    // if (confirm("是否要保存信息？")) {
                         form.submit();   //提交表单
-                        var index = layer.load(2, {time: 10 * 1000}); //又换了种风格，并且设定最长等待10秒
-                    }
+                        // var index = layer.load(2, {time: 10 * 1000}); //又换了种风格，并且设定最长等待10秒
+                    // }
                 },
                 rules: {},
                 messages: {},
@@ -52,7 +52,7 @@
                 if (flag == "1") {
                     layer.msg('保存成功', {icon: 1});
                     setTimeout(function () {
-                    }, 1000);
+                    }, 500);
                 } else if (flag == "0") {
                     layer.msg('保存失败', {icon: 2});
                 }
@@ -113,9 +113,7 @@
 </head>
 <body style="min-width: 200px;">
 <%--http://localhost:8080/gdm_war_exploded/biz/openReport_openEdit.action?view=edit&=3448&thisId=8--%>
-<form id="form1" name="form1"
-      action="<%=path%>/biz/openReport_openEdit.action?view=edit&thisYear=${thisYear}&tabFlag=02&flag=04&thisStuId=${thisStuId}&page=${pageResult.page}"
-      method="post">
+<form id="forms" name="forms" action="<%=path%>/biz/openReport_openEdit.action?view=edit&thisYear=${thisYear}&tabFlag=02&flag=04&thisStuId=${thisStuId}&page=${pageResult.page}" method="post">
     <div class="place">
         <ul class="placeul">
             <li><span>院系：</span>${deptName }</li>
@@ -152,8 +150,7 @@
                                     <font> <img src="<%=path%>/images/i01.png" width="20px"/>一键导出</font></a></li>
                             </ul>
                         </div>
-                        <form action="<%=path%>/biz/openReport_edit.action?view=detail" method="post" name="form1"
-                              id="form1">
+                        <form action="<%=path%>/biz/openReport_edit.action?view=detail" method="post" name="form1" id="form1">
                             <input name="thisStuId" type="hidden" value="${thisStuId }">
                             <input type="hidden" name="thisId" value="${thisId }">
                             <input type="hidden" name="thisYear" value="${thisYear }">
@@ -201,7 +198,7 @@
                                                 <s:if test="#session.userType==2">
                                                     <s:select cssClass="dfinput" list="#{0:'未审核',1:'是',2:'否'}"
                                                               listKey="key" listValue="value" value="model.replyLink"
-                                                              id="model.replyLink" name="model.replyLink"/>
+                                                              name="model.replyLink"/>
                                                 </s:if>
                                             </td>
                                         </tr>
@@ -286,8 +283,7 @@
                                     </table>
                                 <li>
                                     <div style="text-align: center;">
-                                        <input name="" id="submit" type="submit" class="scbtn" value="提交"
-                                               onClick="getData();"/>
+                                        <input name="" type="submit" class="scbtn" value="提交" onClick="getData();"/>
                                     </div>
                                 </li>
                             </ul>
@@ -297,5 +293,6 @@
             </div>
         </div>
     </div>
+</div>
 </body>
 </html>

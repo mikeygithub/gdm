@@ -27,19 +27,18 @@ public interface IMaterialInfoSerivce {
 	 * @param groupAllotId
 	 * @param year
 	 * @param page
-	 * @param row
+	 * @param size
 	 * @return
 	 */
-	public Result<MaterialInfo> findGroupStudent(
-			Integer groupAllotId, Integer year,int page, int size);
+	public Result<MaterialInfo> findGroupStudent(Integer groupAllotId,String groupType, Integer year,int page, int size);
 
 	/**
 	 * 查询老师所在组已分配评阅的学生信息
 	 * @param groupAllotId
 	 * @param teacherId
 	 * @param year
+	 * @param page
 	 * @param size
-	 * @param row
 	 * @return
 	 */
 	public Result<MaterialInfo> findGroupDefenseStudent(Integer groupAllotId,
