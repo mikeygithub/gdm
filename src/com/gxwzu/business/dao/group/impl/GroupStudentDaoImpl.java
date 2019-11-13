@@ -181,8 +181,7 @@ public class GroupStudentDaoImpl extends BaseDaoImpl<GroupStudent> implements
 			queryString.append(" and model.year = ? ");
 			params.add(model.getYear());
 		}
-		queryString.append(" ORDER BY model.stu_id DESC ");
-		System.out.println(queryString);
+		queryString.append("GROUP by model.stu_no ORDER BY model.stu_id DESC ");
 		return (Result<Object>) super.findBySQL(queryString.toString(), params.toArray(), start, limit);
 	}
 

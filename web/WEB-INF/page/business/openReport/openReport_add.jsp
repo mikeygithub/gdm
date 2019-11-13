@@ -149,8 +149,8 @@
                                     <font> <img src="<%=path%>/images/i01.png" width="20px"/>一键导出</font></a></li>
                             </ul>
                         </div>
-                        <form action="<%=path%>/biz/openReport_add.action?view=detail"
-                              method="post" name="form1" id="form1">
+<%--                        <form action="<%=path%>/biz/openReport_add.action?view=detail" method="post" name="form1" id="form1">--%>
+                        <form action="<%=path%>/biz/openReport_add.action?view=edit" method="post" name="form1" id="form1">
                             <input name="thisStuId" type="hidden" value="${thisStuId }">
                             <input type="hidden" name="thisYear" value="${thisYear }">
                             <ul>

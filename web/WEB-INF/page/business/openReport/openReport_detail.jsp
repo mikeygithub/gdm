@@ -12,25 +12,23 @@
 
 <script type="text/javascript" src="<%=path%>/third/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="<%=path%>/third/layer/layer.js"></script>
-<script type="text/javascript">
-	$(function () {
-		var flag = "${mark}";
-		if (flag != '' && flag != undefined) {
-			if (flag == "1") {
-				layer.msg('保存成功', {icon: 1});
-				setTimeout(function () {
-				}, 1000);
-			} else if (flag == "0") {
-				layer.msg('保存失败', {icon: 2});
-			}
-		}
-	});
-</script>
 <script type="text/javascript" src="<%=path%>/third/jquery.validate.js"></script>
 <script type="text/javascript" src="<%=path%>/third/layer/layer.js"></script>
 <script type="text/javascript" src="<%=path%>/third/layui/layui.js"></script>
 
 <script type="text/javascript">
+$(function () {
+	var flag = "${mark}";
+	if (flag != '' && flag != undefined) {
+		if (flag == "1") {
+			layer.msg('保存成功', {icon: 1});
+			setTimeout(function () {
+			}, 1000);
+		} else if (flag == "0") {
+			layer.msg('保存失败', {icon: 2});
+		}
+	}
+});
 $("#form1").validate({
     errorClass:"errorInfo", //默认为错误的样式类为：error
     errorElement:"em",

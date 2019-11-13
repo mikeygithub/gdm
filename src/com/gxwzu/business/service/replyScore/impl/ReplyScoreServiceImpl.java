@@ -127,7 +127,7 @@ public class ReplyScoreServiceImpl extends BaseServiceImpl<ReplyScore> implement
 				}
 				//  指导评阅审查评分  93分×10%= 9.3
 				ListReview reviewCheck  = reviewSerivce.findByStuIdAndReviewTypeAndYear(m.getStuId(),"02",model.getYear());
-				if (reviewCheck != null) {
+				if (reviewGuide != null) {
 					Float checkScore =  (float) (reviewGuide.getTotalScore()*0.1);
 					newModel.setCheckScore(checkScore);
 				}

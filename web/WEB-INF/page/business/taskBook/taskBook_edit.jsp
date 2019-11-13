@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="<%=path%>/third/layui/css/layui.css" type="text/css" />
 <link rel="stylesheet" href="<%=path%>/third/ueditor/themes/default/css/ueditor.css" type="text/css" />
 
-<script type="text/javascript" src="<%=path%>/third/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="<%=path%>/third/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="<%=path%>/third/jquery.validate.js"></script>
 <script type="text/javascript" src="<%=path%>/third/layer/layer.js"></script>
 <script type="text/javascript" src="<%=path%>/third/layui/layui.js"></script>
@@ -21,7 +21,7 @@
 <script type="text/javascript" src="<%=path%>/js/core/dialog/enable.js"></script>
 <script type="text/javascript" src="<%=path%>/datePicket/WdatePicker.js"></script>
 <script type="text/javascript" src="<%=path%>/js/select-ui.min.js"></script>
-<script type="text/javascript" src="<%=path%>/js/jquery.js"></script>
+<%--<script type="text/javascript" src="<%=path%>/js/jquery.js"></script>--%>
 
 
 
@@ -35,10 +35,24 @@
 	        focusInvalid: false, //当为false时，验证无效时，没有焦点响应  
 	        onkeyup: false,   
 	        submitHandler: function(form){   //表单提交句柄,为一回调函数，带一个参数：form
-	        	if(confirm("是否要保存信息？")){
-		              form.submit();   //提交表单
-		              var index = layer.load(2, {time: 10*1000}); //又换了种风格，并且设定最长等待10秒 
-		        	}
+	        	// if(confirm("是否要保存信息？")){
+		        //       form.submit();   //提交表单
+		        //       var index = layer.load(2, {time: 10*1000}); //又换了种风格，并且设定最长等待10秒
+		        // 	}
+				layer.open({
+					title:'系统提示'
+					,content: '您确认保存吗？'
+					,offset: ['40%', '40%']
+					,btn: ['确定', '取消']
+					,shadeClose: true
+					,yes: function(index, layero){
+						form.submit();
+					}
+					,btn2: function(index, layero){
+					}
+					,cancel: function(){
+					}
+				});
 	        },   
 	        rules:{},
 	        messages:{},
@@ -72,7 +86,7 @@
 		 var form = layui.form;
 	 }) //搜索
 	function openSearch(name){
-		// $("#form1").submit();
+		$("#forms").submit();
 	};
 </script>
 <script type="text/javascript"> 
@@ -88,8 +102,8 @@ td {padding: 4px;font-size: 14px;font-size: 14px;border: 1px  solid #C1DAD7;}
 </style>
 </head>
 <body style="min-width: 200px;">
-
-    <form id="form1" name="form1"  action="<%=path%>/biz/issueInfo_info.action?view=info&page=${pageResult.page}" method="post">
+<%--    <form id="forms" name="forms"  action="<%=path%>/biz/issueInfo_info.action?view=info&page=${pageResult.page}" method="post">--%>
+		<form id="forms" name="forms"  action="<%=path%>/biz/taskBook_openEdit.action?view=edit&thisStuId=${thisStuId}&page=${pageResult.page}" method="post">
         	<div class="place">
 		<ul class="placeul">
 		<li><span>院系：</span>${deptName }</li>
@@ -214,8 +228,7 @@ td {padding: 4px;font-size: 14px;font-size: 14px;border: 1px  solid #C1DAD7;}
 					</table>
 				<li>
 					<div style="text-align: center;">
-								<input name="" id="submit" type="submit" class="scbtn"
-									value="提交" onClick="getData();" />
+								<input name="" type="submit" class="scbtn" value="提交" onClick="getData();" />
 					</div>
 				</li>
 			</ul>
@@ -225,5 +238,6 @@ td {padding: 4px;font-size: 14px;font-size: 14px;border: 1px  solid #C1DAD7;}
 	</div>
    </div>
   </div>
+	</div>
 </body>
 </html>

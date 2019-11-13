@@ -148,7 +148,6 @@ public class OpenReportAction extends BaseAction implements ModelDriven<OpenRepo
 			String loginName = (String) getSession().getAttribute(SystemContext.LOGINNAME);
 			//用户类型：1-学生 2-老师
 			String userType = (String) getSession().getAttribute(SystemContext.USERTYPE);
-
 			// 查询学生信息
 			student = sysStudentService.findViewModelById(thisStuId);
 			//查询课题信息

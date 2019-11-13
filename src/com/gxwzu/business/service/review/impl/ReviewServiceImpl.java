@@ -102,9 +102,7 @@ public class ReviewServiceImpl extends BaseServiceImpl<Review> implements IRevie
 
 	@Override
 	public ListReview findViewModelById(Integer id) {
-		if(id==null)
-			return null;
-		
+		if(id==null)return null;
 		Review model = new Review();
 		model.setReviewId(id);
 		List<ListReview> list = findByExample(model);

@@ -1,5 +1,6 @@
 package com.gxwzu.system.action.login;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -134,7 +135,7 @@ public class LoginAction extends BaseAction {
                     getSession().setAttribute(SysConstant.GRANT, SysConstant.GRANT);
                     return SUCCESS;
                 } else {
-                    return errorHint(LoginName, Password, "用户名或密码错误");
+                    return errorHint(LoginName, Password, "账号或密码错误");
                 }
             } else {
                 return errorHint(LoginName, Password, "用户名或密码不能为空");
@@ -211,6 +212,23 @@ public class LoginAction extends BaseAction {
         return "toIndex";
     }
 
+    public void checkLoginName(){
+        logger.info("检查用户是否存在");
+        try {
+            boolean idTrue = false;
+            PrintWriter out = getResponse().getWriter();
+            //查询
+            List<UserHelp> exist = userHelpService.findByLoginName(getParameters("LoginName"));
+            if (null != exist && exist.size() > 0) {// 不可用
+                idTrue = true;
+            }
+            out.print(idTrue);
+            out.flush();
+            out.close();
+        } catch (Exception e) {
+            logger.info("检查用户出错");
+        }
+    }
 
     /**
      * 退出

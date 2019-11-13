@@ -23,8 +23,6 @@ public class ReviewScoreServiceImpl extends BaseServiceImpl<ReviewScore> impleme
 
 	@Override
 	public ReviewScore addOrEdit(ReviewScore model) {
-		
-		
 		return reviewScoreDao.saveOrUpdate(model);
 	}
 

@@ -55,7 +55,7 @@ public class MyUsernamePasswordAuthenticationFilter extends
 			request.setAttribute("LoginName",username);
 			request.setAttribute("Password",password);
 			
-			throw new AuthenticationServiceException("用户名或者密码错误！");
+			throw new AuthenticationServiceException("密码错误！");
 		}
 		
 		// UsernamePasswordAuthenticationToken实现 Authentication

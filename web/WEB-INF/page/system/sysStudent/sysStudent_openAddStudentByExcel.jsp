@@ -107,7 +107,7 @@ h1{color: red;font-size: 15px;}
         	<a href="<%=path%>/sys/download.action?filePath=templete/templeteStudent.xlsx"><input type="button" name=""  class="btn" value="下载模板"/></a>
     	</form>
 		<br/>
-			<s:if test="exitList!=null">
+			<s:if test="exitList!=null&&exitList!=[]">
 			<h1>*该信息已存在</h1>
 		  <table class="tablelist" >
     	<thead>

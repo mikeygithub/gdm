@@ -7,9 +7,12 @@
 <meta http-equiv=Content-Type content="text/html; charset=utf-8">
 <link href="<%=path%>/css/style.css" rel="stylesheet" type="text/css">
 <link href="<%=path%>/css/newStyle.css" rel="stylesheet" type="text/css">
-<link rel="stylesheet" href="<%=path%>/third/layui/css/layui.css"
-	type="text/css" />
-	<script type="text/javascript" >
+<link rel="stylesheet" href="<%=path%>/third/layui/css/layui.css" type="text/css" />
+	<script type="text/javascript" src="<%=path%>/third/jquery-1.9.1.min.js"></script>
+	<script type="text/javascript" src="<%=path%>/third/jquery.validate.js"></script>
+	<script type="text/javascript" src="<%=path%>/third/layer/layer.js"></script>
+	<script type="text/javascript" src="<%=path%>/third/layui/layui.js"></script>
+<script type="text/javascript" >
 $(function() {
 		var flag = "${mark}";
 		if (flag != '' && flag != undefined) {
@@ -26,11 +29,7 @@ $(function() {
 			}
 		}
 	});
-	</script>
-<script type="text/javascript" src="<%=path%>/third/jquery-1.8.3.min.js"></script>
-<script type="text/javascript" src="<%=path%>/third/jquery.validate.js"></script>
-<script type="text/javascript" src="<%=path%>/third/layer/layer.js"></script>
-<script type="text/javascript" src="<%=path%>/third/layui/layui.js"></script>
+</script>
 
 
 
@@ -43,23 +42,24 @@ $(function() {
 			focusInvalid : false, //当为false时，验证无效时，没有焦点响应  
 			onkeyup : false,
 			submitHandler : function(form) { //表单提交句柄,为一回调函数，带一个参数：form
-				if (confirm("是否要保存信息？")) {
+				layer.confirm('您确定要修改吗?', {icon: 2, title:'提示'}, function(index){
+					layer.close(index);
 					form.submit(); //提交表单
 					var index = layer.load(2, {
 						time : 10 * 1000
-					}); //又换了种风格，并且设定最长等待10秒 
-				}
+					}); //又换了种风格，并且设定最长等待10秒
+				});
 			},
 			rules : {
 				"model.reviewContent":{
-					required:true,
-	            	rangelength:[200,1000]
+					required:true
+	            	// rangelength:[200,1000]
 				}
 			},
 			messages : {
 				"model.reviewContent":{
-					required:"请填写内容",
-	            	rangelength:"填写内容不少于200-1000字"
+					required:"请填写内容"
+	            	// rangelength:"填写内容不少于200-1000字"
 				}
 			},
 			errorPlacement : function(error, element) { //错误信息位置设置方法
@@ -246,8 +246,7 @@ td {
 							</table>
 						<li>
 							<div style="text-align: center;">
-								<input name="" id="submit" type="submit" class="scbtn"
-									value="提交" onClick="getData();" />
+								<input name="" type="submit" class="scbtn" value="提交" onClick="getData();" />
 							</div>
 						</li>
 					</ul>

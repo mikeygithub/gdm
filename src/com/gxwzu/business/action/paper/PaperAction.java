@@ -303,6 +303,7 @@ public class PaperAction extends BaseAction implements ModelDriven<StudentPaper>
 						student.getStuId(), thisYear);
 				SysFileType sysFileType = new SysFileType();
 				StudentPaper studentPaper = new StudentPaper();
+
 				
 				studentPaper.setStuId(student.getStuId());
 				studentPaper.setTeacherId(allotGuide.getTeacherId());
@@ -336,11 +337,7 @@ public class PaperAction extends BaseAction implements ModelDriven<StudentPaper>
 
 	/**
 	 * 上传论文
-	 * 
-	 * @param request
 	 * @return
-	 * @throws IllegalStateException
-	 * @throws IOException
 	 */
 	public List<String> upload() {
 	
@@ -398,11 +395,8 @@ public class PaperAction extends BaseAction implements ModelDriven<StudentPaper>
 	   }
 	/**
 	 * 下载单个文件
-	 * @param request
 	 * @return
-	 * @throws UnsupportedEncodingException 
-	 * @throws IllegalStateException
-	 * @throws IOException
+	 * @throws UnsupportedEncodingException
 	 */
    	public String downLoad() throws UnsupportedEncodingException{
    		

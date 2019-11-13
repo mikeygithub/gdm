@@ -23,29 +23,27 @@
 		$("#form1").validate({
 			errorClass : "errorInfo", //默认为错误的样式类为：error
 			errorElement : "em",
-			focusInvalid : false, //当为false时，验证无效时，没有焦点响应  
+			focusInvalid : false, //当为false时，验证无效时，没有焦点响应
 			onkeyup : false,
 			submitHandler : function(form) { //表单提交句柄,为一回调函数，带一个参数：form
-				layer.confirm('您确定要删除 '+className+' 吗?', {icon: 2, title:'提示'}, function(index){
+				layer.confirm('您确定提交吗?', {icon: 2, title:'提示'}, function(index){
 					layer.close(index);
-					// var index = layer.load(1);
-				// if (confirm("是否要保存信息？")) {
 					form.submit(); //提交表单
 					var index = layer.load(2, {
 						time : 10 * 1000
-					}); //又换了种风格，并且设定最长等待10秒 
+					}); //又换了种风格，并且设定最长等待10秒
 				});
 			},
 			rules : {
 				"model.reviewContent":{
-					required:true,
-	            	rangelength:[200,1000]
+					required:true
+	            	// rangelength:[200,1000]
 				}
 			},
 			messages : {
 				"model.reviewContent":{
-					required:"请填写内容",
-	            	rangelength:"填写内容不少于200-1000字"
+					required:"请填写内容"
+	            	// rangelength:"填写内容不少于200-1000字"
 				}
 			},
 			errorPlacement : function(error, element) { //错误信息位置设置方法
@@ -182,21 +180,18 @@ td {
 												</s:if>
 											</s:iterator>
 										</tr>
+<%--								<tr><s:property value="scoreItemList"></s:property></tr>--%>
+<%--									<tr><s:property value="review.reviewScoreList"></s:property></tr>--%>
 										<s:iterator id="ps" value="scoreItemList" status="sp">
 											<s:if test="#sp.count>1">
 												<tr class="title">
 													<td>${itemName}</td>
 													<td align="center">${itemScore }</td>
-													<td align="center"><input class="dfinput"
-														style="width: 50px" min="0" name="score"
-														id="${scoreItemId }"
+													<td align="center"><input class="dfinput" style="width: 50px" min="0" name="score" id="${scoreItemId }"
 														<s:iterator id="rp" value="review.reviewScoreList" >
-													   <s:if test="scoreItemId==#ps.scoreItemId">
-													    value="${score }"
-													    alt="${reviewScoreId }"
-													   </s:if>
-													</s:iterator>
-														max="${itemScore }" type="number"></td>
+															<s:if test="scoreItemId==#ps.scoreItemId"> value="${score }" alt="${reviewScoreId }"</s:if>
+														</s:iterator>
+													max="${itemScore }" type="number"></td>
 												</tr>
 											</s:if>
 										</s:iterator>
@@ -208,16 +203,18 @@ td {
 									<td align="center">${review.totalScore }</td>
 								</tr>
 								<tr class="title">
-									<s:if test="thisReviewType==00">
-										指导教师评语:【评语不少于200字】
-									</s:if>
-									<s:if test="thisReviewType==01">
-										评阅人评语:【评阅意见不少于200字】
-									</s:if>
-									<s:if test="thisReviewType==02">
-										对规范审查不合格者说明原因:
-									</s:if>
-									<td align="left">指导教师评语:</td>
+									<td>
+										<s:if test="thisReviewType==00">
+											指导教师评语:【评语不少于200字】
+										</s:if>
+										<s:if test="thisReviewType==01">
+											评阅人评语:【评阅意见不少于200字】
+										</s:if>
+										<s:if test="thisReviewType==02">
+											对规范审查不合格者说明原因:
+										</s:if>
+									</td>
+<%--									<td align="left">指导教师评语:</td>--%>
 									<s:if test="thisReviewType!=02">
 										<td align="center"></td>
 										<td align="center">是否进入答辩环节</td>
@@ -236,8 +233,7 @@ td {
 							</table>
 						<li>
 							<div style="text-align: center;">
-								<input name="" id="submit" type="submit" class="scbtn"
-									value="提交" onClick="getData();" />
+								<input name="" type="submit" class="scbtn" value="提交" onClick="getData();" />
 							</div>
 						</li>
 					</ul>

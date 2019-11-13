@@ -536,8 +536,8 @@ public class ReplyScoreAction extends BaseAction implements ModelDriven<ReplySco
             }
             //查询安排计划年度
             planYear = planYearSerivce.findPlanYear();
-            // 毕业设计成绩列表
-            replyScore = replyScoreSerivce.findByStudentIdAndYear(student.getStuId(), planYear.getYear());
+            // 毕业设计成绩列表(非学生不进行查询)
+            if (SystemContext.USER_STUDENT_TYPE.equals(type))replyScore = replyScoreSerivce.findByStudentIdAndYear(student.getStuId(), planYear.getYear());
             //type是判断学生老师的字段
 
             if (replyScore != null) {

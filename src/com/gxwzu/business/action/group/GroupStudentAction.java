@@ -360,8 +360,7 @@ public class GroupStudentAction extends BaseAction implements
 		try {
 			if (thisId != null) {
 				listGroupStudent.setGroupAllotId(thisId);
-				pageResult = groupStudentService.findStuGroupList(
-						listGroupStudent, getPage(), getRow());
+				pageResult = groupStudentService.findStuGroupList(listGroupStudent, getPage(), getRow());
 				footer = PageUtil.pageFooter(pageResult, getRequest());
 			}
 		} catch (Exception e) {

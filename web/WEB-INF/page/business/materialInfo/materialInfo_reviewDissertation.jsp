@@ -136,8 +136,7 @@
 					             <font color="red">论文未录入</font>
 					         </s:elseif>
 					         <s:elseif test='(issueInfo.issueId!=null && issueInfo.issueId !="") && (paperId != null && paperId !="")' >
-					             <a href=" <%=basePath%>/biz/paper_downFile.action?thisId=${paperId}";
-				                       id="fileInfoDownLoad"  style="color: blue;">下载</a>
+					             <a href=" <%=basePath%>/biz/paper_downFile.action?thisId=${paperId}"; id="fileInfoDownLoad"  style="color: blue;">下载</a>
 					         </s:elseif>
 				         </td>
 				         <td align="center">  ${model.year} </td> 
