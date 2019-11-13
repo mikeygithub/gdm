@@ -41,7 +41,6 @@ public interface IMaterialInfoSerivce {
 	 * @param size
 	 * @return
 	 */
-	public Result<MaterialInfo> findGroupDefenseStudent(Integer groupAllotId,
-			Integer teacherId, Integer year, int page, int size);
+	public Result<MaterialInfo> findGroupDefenseStudent(Integer groupAllotId, Integer teacherId, Integer year, int page, int size);
 
 }

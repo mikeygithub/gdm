@@ -30,6 +30,8 @@ public interface IGroupStudentService extends BaseService<GroupStudent>{
 	 */
 	Result<ListGroupStudent> findStuGroupList(ListGroupStudent model,int page, int row);
 
+	Result<ListGroupStudent> findStuGroupListByExcellent(ListGroupStudent model, int page, int row);
+
 	List<ListGroupStudent> findByExample(ListGroupStudent model);
 	
 	public void del(Integer thisId);

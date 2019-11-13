@@ -157,8 +157,8 @@ td {
 						<td align="center" > ${staffName}</td>
 						<td align="center" >${technicalName}</td>
 						<td align="center" >
-						<s:if test="userSex==0">男</s:if>
-						<s:if test="userSex==1">女</s:if></td>
+						<s:if test="userSex==1">男</s:if>
+						<s:if test="userSex==0">女</s:if></td>
 						
 						<td align="center" >
 						 <s:iterator id="tml" value="teacherMajorList">

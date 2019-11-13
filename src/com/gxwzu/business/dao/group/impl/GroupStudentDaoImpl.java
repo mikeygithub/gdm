@@ -24,8 +24,7 @@ import com.gxwzu.sysVO.ListGroupTeacher;
 
 @SuppressWarnings("unchecked")
 @Repository("groupStudentDao")
-public class GroupStudentDaoImpl extends BaseDaoImpl<GroupStudent> implements
-		IGroupStudentDao {
+public class GroupStudentDaoImpl extends BaseDaoImpl<GroupStudent> implements IGroupStudentDao {
 
 	@Override
 	public Result<Object> find(ListGroupStudent model, ListGroupAllot groupAllot,int page, int size) {
@@ -126,7 +125,6 @@ public class GroupStudentDaoImpl extends BaseDaoImpl<GroupStudent> implements
 
 	/**
 	 * 查看学生分组列表
-	 * 
 	 * @author 黎艺侠
 	 */
 	@Override
@@ -172,11 +170,74 @@ public class GroupStudentDaoImpl extends BaseDaoImpl<GroupStudent> implements
 			params.add(model.getGroupType());
 		}
 		//成绩类型:00答辩成绩,01:大组成绩
-		if (model.getGroupType()!=null){
-			queryString.append(" and model.reply_type = ?");
+		if (model.getGroupType()!=null){//TODO:waite fix
+			queryString.append(" and (model.reply_type = ? or reply_type is null)");
 			params.add(model.getGroupType());
 		}
 		
+		if (model.getYear() != null) {
+			queryString.append(" and model.year = ? ");
+			params.add(model.getYear());
+		}
+		queryString.append("GROUP by model.stu_no ORDER BY model.stu_id DESC ");
+		return (Result<Object>) super.findBySQL(queryString.toString(), params.toArray(), start, limit);
+	}
+
+	/**
+	 * 查询大组的学生
+	 * @param model
+	 * @param page
+	 * @param size
+	 * @return
+	 */
+	@Override
+	public Result<Object> findStuGroupListByExcellent(ListGroupStudent model, int page, int size) {
+		int start = (page - 1) * size;
+		int limit = size;
+		List<Object> params = new ArrayList<Object>();
+		StringBuffer queryString = new StringBuffer("SELECT * FROM (")
+				.append("SELECT ")
+				.append(" st.*, ")
+				.append(" up.userSex,up.userAge,up.userEmail,up.userTel,up.userImg,up.userType, ")
+				.append(" sdt.dept_name,scy.category_name,smr.major_name,scs.class_name, ")
+				.append(" age.teacher_id ,str.teacher_name ,gst.id,gst.group_allot_id, gat.group_name,gst.`year`, ")
+				.append(" ifo.issue_name ,ifo.issue_type,gat.group_type ,gst.defense_teacher_id,rse.reply_score_finish,rse.reply_type")
+				.append(" FROM sys_student st ")
+				.append(" INNER JOIN user_hlep up ON st.user_id = up.id ")
+				.append(" LEFT OUTER JOIN sys_department sdt ON st.dept_number = sdt.dept_number ")
+				.append(" LEFT OUTER JOIN sys_category scy ON st.category_id = scy.category_id ")
+				.append(" LEFT OUTER JOIN sys_major smr ON st.major_id =smr.major_id ")
+				.append(" LEFT OUTER JOIN sys_class scs ON st.class_id = scs.class_id ")
+				.append(" LEFT OUTER JOIN allot_guide age ON st.stu_id = age.stu_id ")
+				.append(" LEFT OUTER JOIN sys_teacher str ON age.teacher_id = str.teacher_id")
+				.append(" LEFT OUTER JOIN group_student gst ON st.stu_id = gst.student_id and age.`year` = gst.`year` ")
+				.append(" LEFT OUTER JOIN issue_info ifo ON st.stu_id = ifo.stu_id and   age.`year` = ifo.`year` ")
+				.append(" LEFT OUTER JOIN group_allot gat ON gst.group_allot_id = gat.group_id and gst.year = gat.year ")
+				.append(" LEFT OUTER JOIN reply_score rse ON st.stu_id = rse.stu_id and   age.`year` = rse.`year` ")
+				.append(" WHERE gst.group_allot_id is not null  ")
+				.append(") AS model WHERE 1 = 1 ");
+
+
+		if (model.getGroupAllotId() != null) {
+			queryString.append(" and model.group_allot_id = ? ");
+			params.add(model.getGroupAllotId());
+		}
+
+		if (model.getDefenseTeacherId()!= null) {
+			queryString.append(" and model.defense_teacher_id = ? ");
+			params.add(model.getDefenseTeacherId());
+		}
+		//类型
+		if (model.getGroupType()!=null){
+			queryString.append(" and model.group_type = ?");
+			params.add(model.getGroupType());
+		}
+		//成绩类型:00答辩成绩,01:大组成绩
+		if (model.getGroupType()!=null){//TODO:waite fix
+			queryString.append(" and (model.reply_type = ? or reply_type is null)");
+			params.add(model.getGroupType());
+		}
+
 		if (model.getYear() != null) {
 			queryString.append(" and model.year = ? ");
 			params.add(model.getYear());

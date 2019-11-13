@@ -192,7 +192,8 @@
 <%--				      	   <s:if test="issueInfo!=null&&issueInfo.issueType!=null&&issueInfo.issueType==0">专业学科类</s:if>--%>
 <%--				           <s:if test="issueInfo!=null&&issueInfo.issueType!=null&&issueInfo.issueType==1">课外调研类</s:if>--%>
 							<s:iterator  id="p" value="issueTypeList" status="sp">
-								<s:if test="issueInfo.issueType!=null&&issueInfo!=null&&issueInfo.issueType.contains(\"&\"+issueTypeId+\"&\")">${issueTypeName }&nbsp;</s:if>
+<%--								<s:if test="issueInfo.issueType!=null&&issueInfo!=null&&issueInfo.issueType.contains(\"&\"+issueTypeId+\"&\")">${issueTypeName }&nbsp;</s:if>--%>
+								<s:if test="issueInfo!=null&&issueInfo.issueType!=null&&issueInfo.issueType.contains(\"&\"+issueTypeId+\"&\")">${issueTypeName }&nbsp;</s:if>
 							</s:iterator>
 						</td>
 				        	
@@ -221,8 +222,7 @@
 				         <td align="center" width="auto">${groupReply.replyScoreFinish==null||groupReply.replyScoreFinish==''?'未录入':groupReply.replyScoreFinish} </td>
 				        <td align="center">  ${model.year} </td> 
 				        <td align="center">
-							<a href="javascript:void(0);"
-								onclick="selStart(this)"  id="${student.stuId}"  title="${student.stuName}"
+							<a href="javascript:void(0);" onclick="selStart(this)"  id="${student.stuId}"  title="${student.stuName}"
 								class="layui-btn layui-btn-primary  layui-btn-small"><font color="blue">保存</font> </a></td>
 						</tr>
 			</s:iterator>

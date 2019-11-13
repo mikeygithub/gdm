@@ -39,19 +39,31 @@ td {
 		<li>所带学生信息</li>
 		</ul>
 		</div>
+		<div>
+			<ul class="layui-tab-title">
+				<li  class="layui-this">
+					<a  class="selected" href="<%=path%>/biz/materialInfo_groupDefenseStudentList.action?view=defense_student_list&flag=13&thisReplyType=00" >
+						学生列表(<font style="font-weight: bold;font-size: 14px; "color="blue">${pageResult.total }</font>)- 答辩组</a>
+				</li>
+				<li >
+					<a  class="selected" href="<%=path%>/biz/materialInfo_groupDefenseStudentList.action?view=excellent_defense_student_list&flag=13&thisReplyType=01" >
+						优秀学生列表(<font style="font-weight: bold;font-size: 14px; "color="blue"></font>)- 大组</a>
+				</li>
+			</ul>
+		</div>
 		<div class="rightinfo">
 		  <div class="itab">
   	        <ul> 
   	        <s:iterator id="" value="groupAllot.teacherList">
   	         <li>
   	       <a <s:if test="model.teacherId==teacherId"> class="selected" </s:if>
-  	        href="<%=path%>/biz/materialInfo_groupDefenseStudentList.action?view=defense_student_list&thisYear=${thisYear }&model.teacherId=${teacherId}&flag=13" >  
+  	        href="<%=path%>/biz/materialInfo_groupDefenseStudentList.action?view=defense_student_list&thisYear=${thisYear }&model.teacherId=${teacherId}&flag=13&thisReplyType=00" >
 			 ${teacherName }<s:if test="type==0">(组长)</s:if><s:if test="type==1">(答辩)</s:if> <s:if test="type==2">(记录员)</s:if>
 			 </a> <li>
 			 </s:iterator>
 				  </ul>
          </div>
-        <form id="form1" name="form1"  action="<%=path%>/biz/materialInfo_groupDefenseStudentList.action?view=defense_student_list&flag=13" method="post">
+        <form id="form1" name="form1"  action="<%=path%>/biz/materialInfo_groupDefenseStudentList.action?view=defense_student_list&flag=13&thisReplyType=00" method="post">
         	<div class="place">
 		<ul class="placeul">
 		<li><span>院系：</span>${teacher.deptName }</li>
@@ -63,7 +75,7 @@ td {
 						onClick="WdatePicker({dateFmt:'yyyy'});"></td>
 				</li>
 				<li class="click">
-	        		<a href="javascript:void();"  onclick="openSearch(this);"><img src="<%=path%>/images/search.png"  />搜索</a>
+	        		<a href="javascript:void(0);"  onclick="openSearch(this);"><img src="<%=path%>/images/search.png"  />搜索</a>
 				</li> 
 		</ul>
 		</div>

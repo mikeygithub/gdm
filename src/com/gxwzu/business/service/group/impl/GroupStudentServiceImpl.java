@@ -3,6 +3,7 @@ package com.gxwzu.business.service.group.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.gxwzu.core.context.SystemContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -89,6 +90,33 @@ public class GroupStudentServiceImpl extends BaseServiceImpl<GroupStudent> imple
 		 return newResult;
 	}
 
+	/**
+	 * 查询大组学生
+	 * @param model
+	 * @param page
+	 * @param row
+	 * @return
+	 */
+	@Override
+	public Result<ListGroupStudent> findStuGroupListByExcellent(ListGroupStudent model, int page, int row) {
+		Result<ListGroupStudent>  newResult = new Result<ListGroupStudent>();
+		List<ListGroupStudent> newList = new ArrayList<ListGroupStudent>();
+		Result<Object> oldList = groupStudentDao.findStuGroupListByExcellent(model,page,row);
+		if(oldList!=null&&oldList.getData()!=null&&oldList.getData().size()!=0){
+			for(Object object:oldList.getData()){
+				Object[] o= (Object[]) object;
+				newList.add(new ListGroupStudent(o));
+			}
+		}
+		newResult.setData(newList);
+		newResult.setOffset(oldList.getOffset());
+		newResult.setPage(oldList.getPage());
+		newResult.setSize(oldList.getSize());
+		newResult.setTotal(oldList.getTotal());
+		newResult.setTotalPage(oldList.getTotalPage());
+		return newResult;
+	}
+
 	@Override
 	public List<ListGroupStudent> findByExample(ListGroupStudent model) {
 		List<ListGroupStudent> newList = new ArrayList<ListGroupStudent>();
@@ -138,8 +166,10 @@ public class GroupStudentServiceImpl extends BaseServiceImpl<GroupStudent> imple
 	public Result<ListGroupStudent> findByGroupAllotIdAndYearAndGroupType(Integer groupAllotId,String groupType, Integer year, int page, int size) {
 		ListGroupStudent model = new ListGroupStudent();
 		model.setGroupAllotId(groupAllotId);
-		if (groupType!=null&&groupType!="")model.setGroupType(groupType);
 		model.setYear(year);
+
+		if (SystemContext.REPLY_TYPE_BIG_GROUP.equals(groupType))return findStuGroupListByExcellent(model,page,size);//大组
+
 		return findStuGroupList(model, page, size);
 	}
 

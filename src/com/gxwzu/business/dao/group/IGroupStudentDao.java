@@ -14,7 +14,9 @@ public interface IGroupStudentDao extends BaseDao<GroupStudent>{
 
 
 	Result<Object> findStuGroupList(ListGroupStudent model, int page, int row);
-	
+
+	Result<Object> findStuGroupListByExcellent(ListGroupStudent model, int page, int size);
+
 	List<Object> findByExample(ListGroupStudent model);
 
 

@@ -260,7 +260,7 @@ public class MaterialInfoAction extends BaseAction implements ModelDriven<Materi
 
         if (flag != null && "13".equals(flag)) {
             // 查询 当前老师所属专业教研室 中的进度计划
-            if ("2".equals(type)) {
+            if (SystemContext.USER_TEACHER_TYPE.equals(type)) {
                 teacher = sysTeacherService.findByTeacherNo(loginName);
                 planProgress = planProgressSerivce.findByTeacStaffroomId(teacher.getStaffroomId(), flag);
             }
@@ -269,7 +269,7 @@ public class MaterialInfoAction extends BaseAction implements ModelDriven<Materi
                 logger.info("老师查询所在组已分配评阅的学生信息");
                 try {
                     // 老师查询学生课题信息
-                    if (type.equals("2")) {
+                    if (SystemContext.USER_TEACHER_TYPE.equals(type)) {
                         teacher = sysTeacherService.findByTeacherNo(loginName);
                         // 设置年度
                         if (thisYear != null) {
@@ -294,16 +294,18 @@ public class MaterialInfoAction extends BaseAction implements ModelDriven<Materi
                                 }
                             }
                         }
-                        logger.info("groupAllotId : " + groupAllotId);
                         //老师查询所在组的学生信息
-                        pageResult = materialInfoSerivce.findGroupStudent(groupAllotId,thisReplyType, model.getYear(), getPage(), getRow());
-
+                        if (SystemContext.REPLY_TYPE_SMALL_GROUP.equals(thisReplyType)){//答辩组
+                            pageResult = materialInfoSerivce.findGroupStudent(groupAllotId,thisReplyType, model.getYear(), getPage(), getRow());
+                        }else if (SystemContext.REPLY_TYPE_BIG_GROUP.equals(thisReplyType)){//大组
+                            pageResult = materialInfoSerivce.findGroupStudent(groupAllotId,thisReplyType, model.getYear(), getPage(), getRow());
+                        }else {//默认答辩组
+                            pageResult = materialInfoSerivce.findGroupStudent(groupAllotId,thisReplyType, model.getYear(), getPage(), getRow());
+                        }
                         footer = PageUtil.pageFooter(pageResult, getRequest());
                         //指导老师查询自己所在教研室进度计划信息
-                        if (teacher.getStaffroomId() == null)
-                            teacher.setStaffroomId(-1);
+                        if (teacher.getStaffroomId() == null) teacher.setStaffroomId(-1);
                         planProgressList = planProgressSerivce.findByMajorAndYear(teacher.getStaffroomId(), model.getYear());
-
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -325,8 +327,6 @@ public class MaterialInfoAction extends BaseAction implements ModelDriven<Materi
      */
     public String groupDefenseStudentList() {
 
-        logger.info("老师查询所在组已分配评阅的学生信息");
-
         String type = (String) getSession().getAttribute(SystemContext.USERTYPE);
         String loginName = (String) getSession().getAttribute(SystemContext.LOGINNAME);
 
@@ -342,7 +342,7 @@ public class MaterialInfoAction extends BaseAction implements ModelDriven<Materi
                 logger.info("老师查询所在组已分配评阅的学生信息");
                 try {
                     // 老师查询学生课题信息
-                    if (type.equals("2")) {
+                    if (SystemContext.USER_TEACHER_TYPE.equals(type)) {
                         teacher = sysTeacherService.findByTeacherNo(loginName);
                         // 设置年度
                         if (thisYear != null) {
@@ -358,34 +358,26 @@ public class MaterialInfoAction extends BaseAction implements ModelDriven<Materi
                             model.setTeacherId(teacher.getTeacherId());
                         }
                         List<ListGroupTeacher> gTeacherList = groupTeacherService.findByTeacherIdAndYear(model.getTeacherId(), model.getYear());
-
+                        //查询教师所在分组
                         ListGroupTeacher gTeacher = null;
                         if (gTeacherList != null) {
                             for (int i = 0; i < gTeacherList.size(); i++) {
                                 Integer gId = gTeacherList.get(i).getGroupAllotId();
                                 GroupAllot gAllot = groupAllotService.findById(gId);
-                                if ("00".equals(gAllot.getGroupType())) { //普通组
+                                if (thisReplyType.equals(gAllot.getGroupType())) { //普通组
                                     gTeacher = gTeacherList.get(i);
                                     break;
                                 }
                             }
                         }
-
                         groupAllot = groupAllotService.findViewModelById(gTeacher.getGroupAllotId());
 
-                        if ("00".equals(groupAllot.getFirstDefense())) {
-                            groupStudentService.updateAutoAllotTeacher(groupAllot);
-                        }
+                        if ("00".equals(groupAllot.getFirstDefense()))groupStudentService.updateAutoAllotTeacher(groupAllot);
                         //老师查询所在组的学生信息
-                        pageResult = materialInfoSerivce.findGroupDefenseStudent(
-                                gTeacher.getGroupAllotId()
-                                , gTeacher.getTeacherId()
-                                , model.getYear(),
-                                getPage(), getRow());
+                        pageResult = materialInfoSerivce.findGroupDefenseStudent(gTeacher.getGroupAllotId(), gTeacher.getTeacherId(), model.getYear(), getPage(), getRow());
                         footer = PageUtil.pageFooter(pageResult, getRequest());
                         //指导老师查询自己所在教研室进度计划信息
-                        if (teacher.getStaffroomId() == null)
-                            teacher.setStaffroomId(-1);
+                        if (teacher.getStaffroomId() == null) teacher.setStaffroomId(-1);
                         planProgressList = planProgressSerivce.findByMajorAndYear(teacher.getStaffroomId(), model.getYear());
 
                     }

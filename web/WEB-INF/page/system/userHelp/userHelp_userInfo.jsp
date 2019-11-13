@@ -408,7 +408,7 @@
                 </table>
                 <li>
                     <div style="text-align: center;">
-                        <input name="" id="submit" type="submit" class="scbtn" value="修改"
+                        <input name="" type="submit" class="scbtn" value="修改"
                         />
                     </div>
                 </li>

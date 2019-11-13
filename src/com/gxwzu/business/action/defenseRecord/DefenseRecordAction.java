@@ -208,8 +208,6 @@ public class DefenseRecordAction extends BaseAction implements ModelDriven<Defen
 	 */
 	public String groupAllStudentList(){
 
-		logger.info("当前教师所答辩学生过程记录列表");
-
 		try {
 			/* 登录名称 :查询学院 */
 			String loginName = (String) getSession().getAttribute(SystemContext.LOGINNAME);
@@ -218,7 +216,7 @@ public class DefenseRecordAction extends BaseAction implements ModelDriven<Defen
 
 			if (flag != null && "12".equals(flag)) {
 				// 查询 当前老师所属专业教研室 中的进度计划
-				if ("2".equals(type)) {
+				if (SystemContext.USER_TEACHER_TYPE.equals(type)) {
 					teacherVO = sysTeacherService.findByTeacherNo(loginName);
 					planProgress = planProgressSerivce.findByTeacStaffroomId(teacherVO.getStaffroomId(), flag);
 					logger.info("当前教师年度计划"+planProgress);
@@ -227,9 +225,8 @@ public class DefenseRecordAction extends BaseAction implements ModelDriven<Defen
 				if (planProgress!=null&&planProgress.getStartTime()!=null&&d.after(planProgress.getStartTime())) {
 					logger.info("老师查询所在组已分配评阅的学生信息");
 					// 老师查询学生课题信息
-					if (type.equals("2")) {
+					if (SystemContext.USER_TEACHER_TYPE.equals(type)) {
 						teacherVO = sysTeacherService.findByTeacherNo(loginName);
-
 						// 设置年度
 						if (thisYear != null) {
 							model.setYear(thisYear);
@@ -254,11 +251,16 @@ public class DefenseRecordAction extends BaseAction implements ModelDriven<Defen
 							}
 						}
 						//老师查询所在组的学生信息
-						pageResult1 = materialInfoSerivce.findGroupStudent(groupAllotId,thisReplyType, model.getYear(), getPage(), getRow());
-
+//						pageResult1 = materialInfoSerivce.findGroupStudent(groupAllotId,thisReplyType, model.getYear(), getPage(), getRow());
+						//老师查询所在组的学生信息
+						if (SystemContext.REPLY_TYPE_SMALL_GROUP.equals(thisReplyType)){//答辩组
+							pageResult1 = materialInfoSerivce.findGroupStudent(groupAllotId,thisReplyType, model.getYear(), getPage(), getRow());
+						}else if (SystemContext.REPLY_TYPE_BIG_GROUP.equals(thisReplyType)){//大组
+							pageResult1 = materialInfoSerivce.findGroupStudent(groupAllotId,thisReplyType, model.getYear(), getPage(), getRow());
+						}else {//默认答辩组
+							pageResult1 = materialInfoSerivce.findGroupStudent(groupAllotId,thisReplyType, model.getYear(), getPage(), getRow());
+						}
 						footer = PageUtil.pageFooter(pageResult1, getRequest());
-						logger.info("pageResult"+pageResult1);
-						logger.info("footer"+footer);
 						//指导老师查询自己所在教研室进度计划信息
 						if (teacher.getStaffroomId() == null) {
 							teacher.setStaffroomId(-1);
