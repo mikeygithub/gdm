@@ -139,8 +139,8 @@ td {
 				        
 						  <td align="center" >
 					        <s:iterator  id="p" value="issueTypeList" status="sp">
-							<s:if test="issueInfo.issueType.contains(\"&\"+issueTypeId+\"&\")">${issueTypeName }&nbsp;</s:if>
-						   </s:iterator>
+								<s:if test="issueInfo!=null&&issueInfo.issueType!=null&&issueInfo.issueType.contains(\"&\"+issueTypeId+\"&\")">${issueTypeName }&nbsp;</s:if>
+							</s:iterator>
 					     </td>
 				     
 				         <td align="center" >  ${model.year} </td> 

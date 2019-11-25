@@ -193,8 +193,8 @@ public class ExportDocUtil {
         List<ReviewScore> listC = doc.getListReviewCheckTeacher().getReviewScoreList();
         for (int l = 0; l < listC.size(); l++) {
             ReviewScore reviewScore = listC.get(l);
-            map.put("checkScore" + (l + 1), "" + reviewScore.getScore());
-            map.put("checkRemark" + (l + 1), "" + reviewScore.getRemark()!=null?reviewScore.getRemark():"");
+            map.put("checkScore" + (l + 1), reviewScore.getScore().toString());
+            map.put("checkRemark" + (l + 1),  reviewScore.getRemark()==null?"":reviewScore.getRemark());
         }}
         if (doc.getListReviewReadTeacher()!=null)map.put("checkScoreSum",doc.getListReviewReadTeacher().getTotalScore().toString());
         map.put("flunkCase", doc.getListReviewCheckTeacher()!=null?doc.getListReviewCheckTeacher().getReviewContent():"");

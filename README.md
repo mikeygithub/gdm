@@ -20,15 +20,13 @@
 1.配置数据库
 set global sql_mode='STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';
 set session sql_mode='STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';
-2.复制文件  
-1.将tomcat和jdk放进classes目录下,参考Dockerfile的COPY命名格式
-3.打包镜像
+2.打包镜像
 docker build -t mikeyboom/gdm：v1.0.0 .
-4.推送镜像
+3.推送镜像
 docker push mikeyboom/gdm:tagname
-5.拉取镜像
+4.拉取镜像
 docker pull mikeyboom/gdm:tagname
-6.运行容器
+5.运行容器
 docker run -d --name gdm -v /root/GDM/gdm:/usr/local/tomcat/webapps/ROOT -p 8080:8080 <imageId>
 ````
 #### 使用说明
