@@ -508,12 +508,13 @@ public class MaterialInfoAction extends BaseAction implements ModelDriven<Materi
                 maps.add(map);//add
             }
 
-        WordUtils.exportWordByBatch(maps, getTempletePath(), getFilePath(),getZipPath());
+        WordUtils.exportWordByBatch(maps, getTempletePath(),getZipPath());
 
     }catch (Exception e){
         e.printStackTrace();
     }
         fileName = "学生毕业设计过程文档.zip";
+
         return OUT;
     }
 

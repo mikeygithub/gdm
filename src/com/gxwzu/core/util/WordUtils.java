@@ -128,10 +128,9 @@ public class WordUtils {
 	 * 批量导出zip格式
 	 * @param dataMap
 	 * @param templatePath
-	 * @param outPath
 	 * @throws Exception
 	 */
-	public synchronized static void exportWordByBatch(List<Map<String, String>> dataMap,String templatePath, String outPath,String zipPaths) throws Exception {
+	public synchronized static void exportWordByBatch(List<Map<String, String>> dataMap,String templatePath,String zipPaths) throws Exception {
 
 		Configuration configuration = new Configuration();
 		configuration.setDefaultEncoding("utf-8");

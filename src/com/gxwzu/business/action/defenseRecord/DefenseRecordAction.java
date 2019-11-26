@@ -604,7 +604,6 @@ public class DefenseRecordAction extends BaseAction implements ModelDriven<Defen
 			map.put("sNo", student.getStuNo());
 			map.put("sNa", student.getStuName());
 			map.put("dC", model.getDefenseContent());
-
 			map.put("iN", issueInfo.getIssueName());
 			map.put("tN", teacher.getTeacherName());
 			map.put("lN", sysTechnical.getTechnicalName());

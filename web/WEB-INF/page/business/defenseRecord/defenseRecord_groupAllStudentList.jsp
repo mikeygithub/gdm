@@ -36,10 +36,10 @@
             <a class="selected" href="<%=path%>/biz/defenseRecord_groupAllStudentList.action?view=groupAllStudentList&flag=12&thisReplyType=00">
                 答辩过程记录录入- 答辩组</a>
         </li>
-        <li>
-            <a class="selected" href="<%=path%>/biz/defenseRecord_groupAllStudentList.action?view=excellent_groupAllStudentList&flag=12&thisReplyType=01">
-                答辩过程记录录入- 大组</a>
-        </li>
+<%--        <li>--%>
+<%--            <a class="selected" href="<%=path%>/biz/defenseRecord_groupAllStudentList.action?view=excellent_groupAllStudentList&flag=12&thisReplyType=01">--%>
+<%--                答辩过程记录录入- 大组</a>--%>
+<%--        </li>--%>
     </ul>
 
 
