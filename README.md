@@ -32,7 +32,7 @@ docker run -d --name gdm -v /root/GDM/gdm:/usr/local/tomcat/webapps/ROOT -p 8080
 #### 使用说明
 部署地址：[gdm](http://47.106.210.183:8888/gdm/)
 
-用户手册：[operation instruction](./web/attached/doc/operation%20instruction.doc)
+用户手册：[operation instruction](./web/attached/doc/operation%20instruction.wps)
 
 ```text
 批量导入数字不能以字符串导出
