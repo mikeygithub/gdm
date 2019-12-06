@@ -34,3 +34,6 @@ docker run -d --name gdm -v /root/GDM/gdm:/usr/local/tomcat/webapps/ROOT -p 8080
 
 用户手册：[operation instruction](./web/attached/doc/operation%20instruction.doc)
 
+```text
+批量导入数字不能以字符串导出
+`

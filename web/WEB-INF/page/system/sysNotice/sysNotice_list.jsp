@@ -55,12 +55,12 @@ function openAdd(){
 <span>位置：</span>
 <ul class="placeul">
 <li><a href="<%=path%>/sys/login_view.action?view=right" target="rightFrame">首页</a></li>
-<li>学院管理</li>
+<li>公告信息管理</li>
 </ul>
 </div>
 		<div class="rightinfo">
 			<div class="formtitle">
-				<span>学院管理</span>
+				<span>公告信息管理</span>
 			</div>
         <form id="form1" name="form1" action="<%=path%>/sys/notice_list.action?resUri=list&view=list&page=${pageResult.page}" method="post">
         	

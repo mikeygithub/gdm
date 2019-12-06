@@ -317,13 +317,14 @@
                     var chatinfolist_span1 = $('<span>交流群</span>');
                     if (result.obj[0] > 0) {
                         var chatinfolist_span2 = $('<span class=\"layui-badge\">' + result.obj[0] + '</span>');
+                        chatinfolist_span2.appendTo(chatinfolist);
                     } else {
                         // var chatinfolist_span2 = $('<font color="#5FB878" class=\"layui-btn  layui-btn-mini layui-btn-radius layui-btn-primary\"><b>' + result.obj[0] + '</b></font>');
                         // var chatinfolist_span2 = $('<font color="#5FB878" class=\"layui-btn  layui-btn-mini layui-btn-radius layui-btn-primary\"><b>' + result.obj[0] + '</b></font>');
                     }
                     chatinfolist_img.appendTo(chatinfolist);
                     chatinfolist_span1.appendTo(chatinfolist);
-                    chatinfolist_span2.appendTo(chatinfolist);
+
                 }
 
             });
