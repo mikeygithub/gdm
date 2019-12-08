@@ -1116,7 +1116,7 @@ CREATE TABLE `sys_teacher` (
 
 LOCK TABLES `sys_teacher` WRITE;
 /*!40000 ALTER TABLE `sys_teacher` DISABLE KEYS */;
-INSERT INTO `sys_teacher` VALUES (201,'admin','admin','201700201',NULL,NULL,213,'24',772);
+INSERT INTO `sys_teacher` VALUES (201,'admin','admin','201700201',NULL,NULL,213,'24',1);
 /*!40000 ALTER TABLE `sys_teacher` ENABLE KEYS */;
 UNLOCK TABLES;
 
