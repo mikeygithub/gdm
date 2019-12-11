@@ -3,7 +3,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html>
 <head>
-<title>添加课题</title>
+<title>添加通知</title>
 <meta http-equiv=Content-Type content="text/html; charset=utf-8">
 <link href="<%=path%>/css/style.css" rel="stylesheet" type="text/css">
 <link href="<%=path%>/css/newStyle.css" rel="stylesheet" type="text/css">

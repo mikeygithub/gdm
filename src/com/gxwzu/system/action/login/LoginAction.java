@@ -97,10 +97,15 @@ public class LoginAction extends BaseAction {
             List<UserHelp> listAdmin = userHelpService.findByExample(user);
             if (listAdmin.size() > 0) {
                 UserHelp userHelp = listAdmin.get(0);
-                getSession().setAttribute(SystemContext.USERID, userHelp.getId()); // 用户id
-                getSession().setAttribute(SystemContext.USERNAME, userHelp.getUserName()); // 用户姓名
-                getSession().setAttribute(SystemContext.LOGINNAME, userHelp.getLoginName()); // 用户登录名
-                getSession().setAttribute(SystemContext.USERTYPE, userHelp.getUserType()); // 用户类型
+                // 用户id
+                getSession().setAttribute(SystemContext.USERID, userHelp.getId());
+                // 用户姓名
+                getSession().setAttribute(SystemContext.USERNAME, userHelp.getUserName());
+                // 用户登录名
+                getSession().setAttribute(SystemContext.LOGINNAME, userHelp.getLoginName());
+                // 用户类型
+                getSession().setAttribute(SystemContext.USERTYPE, userHelp.getUserType());
+
                 getSession().setAttribute(SysConstant.GRANT, SysConstant.GRANT);
             }
         }

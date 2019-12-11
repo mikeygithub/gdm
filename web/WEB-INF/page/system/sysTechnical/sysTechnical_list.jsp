@@ -27,10 +27,15 @@ $(function(){
         focusInvalid: false, //当为false时，验证无效时，没有焦点响应  
         onkeyup: false,   
         submitHandler: function(form){   //表单提交句柄,为一回调函数，带一个参数：form
-        	if(confirm('是否添加改职称?')){
-                    var index = layer.load(1);
-                   form.submit();   //提交表单
-          }
+        	// if(confirm('是否添加改职称?')){
+            //         var index = layer.load(1);
+            //        form.submit();   //提交表单
+          // }
+			layer.confirm('您确定要保存 '+$("input[name='model.technicalName']").val()+' 吗?', {icon: 1, title:'提示'}, function(){
+				var index = layer.load(1);
+				layer.close(index)
+				form.submit();
+			});
         },   
         rules:{
         	"model.technicalNo":{

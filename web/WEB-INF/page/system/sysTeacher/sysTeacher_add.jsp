@@ -37,7 +37,7 @@
 		        focusInvalid: false, //当为false时，验证无效时，没有焦点响应  
 		        onkeyup: false,   
 		        submitHandler: function(form){   //表单提交句柄,为一回调函数，带一个参数：form
-					layer.confirm('您确定要保存专业 '+$("input[name='model.teacherName']").val()+' 吗?', {icon: 1, title:'提示'}, function(){
+					layer.confirm('您确定要保存 '+$("input[name='model.teacherName']").val()+' 吗?', {icon: 1, title:'提示'}, function(){
 						var index = layer.load(1);
 						layer.close(index)
 						form.submit();
