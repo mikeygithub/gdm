@@ -131,18 +131,4 @@ public class ZipUtils {
             }
         }
     }
-
-//    public static void main(String[] args) throws Exception {
-//        /** 测试压缩方法1  */
-////        FileOutputStream fos1 = new FileOutputStream(new File("c:/mytest01.zip"));
-////        ZipUtils.toZip("D:/log", fos1,true);
-//        /** 测试压缩方法2  */
-//        List<File> fileList = new ArrayList<>();
-//        fileList.add(new File("/home/mikey/下载/16软件工程4班-3461-覃丽菊-过程文档 (1).doc"));
-//        fileList.add(new File("/home/mikey/下载/16软件工程4班-3461-覃丽菊-过程文档 (2).doc"));
-//        fileList.add(new File("/home/mikey/下载/16软件工程4班-3461-覃丽菊-过程文档 (3).doc"));
-//        fileList.add(new File("/home/mikey/下载/16软件工程4班-3461-覃丽菊-过程文档 (4).doc"));
-//        FileOutputStream fos2 = new FileOutputStream(new File("/home/mikey/文档/mytest02.zip"));
-//        ZipUtils.toZip(fileList, fos2);
-//    }
 }

@@ -397,9 +397,10 @@ td {
 									<tr>
 										<td class="rightText">入学时间：</td>
 										<td style="font-size: 16px;padding: 4px;color: #3EAFE0;">
-											<input name="stuEntrance" id="stuEntrance"
+											<input name="model.stuEntrance" id="stuEntrance"
 											class="dfinput" value="${student.stuEntrance }" type="text"
-											onfocus="WdatePicker({skin:'whyGreen',dateFmt:'MM/dd/yyyy',isShowWeek:true})" />
+<%--											onfocus="WdatePicker({skin:'whyGreen',dateFmt:'MM/dd/yyyy',isShowWeek:true})" />--%>
+											onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd',isShowWeek:true})" />
 										<i
 											class="warn">*</i>
 										</td>

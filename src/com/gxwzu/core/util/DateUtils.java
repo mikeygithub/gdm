@@ -21,6 +21,7 @@ public class DateUtils {
 
 	protected final Log log =LogFactory.getLog(getClass()); 
     public final static String DEFAULT_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
+
     public final static String DEFAULT_TIMES_FORMAT = "yyyyMMddHHmmss";
 
     public final static String DEFAULT_DATE_FORMAT = "yyyy-MM-dd";

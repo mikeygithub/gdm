@@ -1,7 +1,9 @@
 package com.gxwzu.sysVO;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
+import com.gxwzu.core.util.DateUtils;
 import com.gxwzu.core.util.MyTime;
 import com.gxwzu.core.util.ObjectUtil;
 
@@ -51,9 +53,11 @@ public class ListStudent  extends ListUser   {
 		this.stuSchoollength = ObjectUtil.getString(o[6]);
 		try {
 			if(o[7]!=null){
-			this.stuEntrance = (Date) o[7];
+			//this.stuEntrance = (Date) o[7];
+				this.setStuEntrance(Timestamp.valueOf(DateUtils.formatTime(DateUtils.parseDate(o[7].toString()))));
 			}
 		} catch (Exception e) {
+			System.out.println(e.getMessage());
 		}
 		this.stuGrade = ObjectUtil.getString(o[8]);
 		this.deptNumber = ObjectUtil.getString(o[9]);

@@ -3,6 +3,7 @@ package com.gxwzu.system.service.sysStudent.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.gxwzu.core.context.SystemContext;
 import com.gxwzu.system.model.userRole.UserRoleEntity;
 import com.gxwzu.system.service.userRole.UserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,14 +84,15 @@ public class SysStudentServiceImpl extends BaseServiceImpl<SysStudent> implement
 				u.setUserEmail(userHelp.getUserEmail());
 				if(userHelp.getUserTel()!=null)
 				u.setUserTel(userHelp.getUserTel());
-				
 		}
-		u.setUserType("1");  //用户类型 1-学生 2-老师
+		//用户类型 1-学生 2-老师
+		u.setUserType(SystemContext.USER_STUDENT_TYPE);
 		u =  userHelpService.add(u);
 		model.setUserId(u.getId());
 
 		UserRoleEntity userRoleEntity = new UserRoleEntity();
-		userRoleEntity.setRoleId(24);//TODO:暂时写死
+		//TODO:暂时写死
+		userRoleEntity.setRoleId(24);
 		userRoleEntity.setUserHelpId(u.getId());
 
 		userRoleService.save(userRoleEntity);

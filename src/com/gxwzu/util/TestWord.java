@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -19,6 +20,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import com.gxwzu.core.util.DateUtils;
 import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.apache.poi.hwpf.HWPFDocument;
 import org.apache.poi.hwpf.converter.PicturesManager;
@@ -36,15 +38,17 @@ import org.w3c.dom.Document;
   
 public class TestWord {  
     public static void main(String[] args) {  
-        try {  
-            wordToHtml("d:\\123.doc", "d:\\", "123.html");  
-        } catch (TransformerException e) {  
-            e.printStackTrace();  
-        } catch (IOException e) {  
-            e.printStackTrace();  
-        } catch (ParserConfigurationException e) {  
-            e.printStackTrace();  
-        }  
+//        try {
+//            wordToHtml("d:\\123.doc", "d:\\", "123.html");
+//        } catch (TransformerException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } catch (ParserConfigurationException e) {
+//            e.printStackTrace();
+//        }
+
+//        Timestamp.valueOf(DateUtils.formatTime(dateCellValue));
     }  
       
     public static String  wordToHtml(String wordPath,String htmlPath,String newFilename) throws TransformerException, IOException, ParserConfigurationException {      

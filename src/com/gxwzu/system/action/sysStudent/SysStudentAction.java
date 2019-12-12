@@ -127,11 +127,8 @@ public class SysStudentAction extends BaseAction implements ModelDriven<SysStude
 	public String list() {
 		logger.info("学生信息显示列表");
 		try {
-
-			String loginName = (String) getSession().getAttribute(
-					SystemContext.LOGINNAME);
-			String userType = (String) getSession().getAttribute(
-					SystemContext.USERTYPE);
+			String loginName = (String) getSession().getAttribute(SystemContext.LOGINNAME);
+			String userType = (String) getSession().getAttribute(SystemContext.USERTYPE);
 			//查询 当前老师所属专业教研室
 			if ("2".equals(userType)) {
 				teacher = sysTeacherService.findByTeacherNo(loginName);
@@ -173,7 +170,7 @@ public class SysStudentAction extends BaseAction implements ModelDriven<SysStude
 	 */
 	public String add() {
 		try {
-			logger.info("添加班级" + model);
+			logger.info("添加" + model);
 			model = sysStudentService.add(model, userHelp);
 			mark = "1";
 		} catch (Exception e) {
@@ -199,16 +196,19 @@ public class SysStudentAction extends BaseAction implements ModelDriven<SysStude
 	 * @return
 	 */
 	public String openAdd() {
-		logger.info("## 打开添加学生");
 		/************************************ 通过学院查询专业 **************************************************/
 		sysDepartmentList = sysDepartmentService.findAllSysDepartmentList();
+
 		if (sysDepartmentList != null && sysDepartmentList.size() != 0) {
-			sysMajorList = sysMajorService.findByDeptNumber(sysDepartmentList
-					.get(0).getDeptNumber());
+			//查询该学生的学院下的专业
+			if (student.getDeptNumber()!=null) {
+				sysMajorList = sysMajorService.findByDeptNumber(student.getDeptNumber());
+			}
 			/***************************************** 通过专业查询班级 **********************************************************/
 			if (sysMajorList != null && sysMajorList.size() != 0) {
-				sysClassList = sysClassService.findByMajorId(sysMajorList
-						.get(0).getMajorId());
+				if (student.getMajorId()!=null){
+					sysClassList = sysClassService.findByMajorId(student.getMajorId());
+				}
 			}
 		}
 		return SUCCESS;
@@ -224,6 +224,7 @@ public class SysStudentAction extends BaseAction implements ModelDriven<SysStude
 			logger.info("打开学生修改页面");
 			if (thisId != null) {
 				student = sysStudentService.findViewModelById(thisId);
+				//学院 专业 班级
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

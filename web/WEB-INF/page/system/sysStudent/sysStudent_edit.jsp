@@ -125,7 +125,7 @@ $(function(){
      onkeyup: false,   
      submitHandler: function(form){   //表单提交句柄,为一回调函数，带一个参数：form
            form.submit();   //提交表单
-           var index = layer.load(2, {time: 10*1000}); //又换了种风格，并且设定最长等待10秒 
+           var index = layer.load(2, {time: 10*1000}); //又换了种风格，并且设定最长等待10秒
      },   
      rules:{
         "model.stuName":{
@@ -241,7 +241,7 @@ $.ajax({
 		        layer.msg('修改成功');
 		        setTimeout(function(){
 		           parent.location.reload();
-		           layer.close(index);
+		           // layer.close(index);
 		        },1000);
 	     }else if(flag=="0"){
 	         layer.msg('修改失败');
@@ -250,7 +250,7 @@ $.ajax({
 	});
 
 	 layui.use('form', function(){
-		  var form = layui.form();
+		  var form = layui.form;
 		});
 </script>
 <!-- 根据后台传值选中下拉选框，开始 -->
@@ -349,12 +349,9 @@ td {
 									</tr>
 									<tr>
 										<td class="rightText" style="width: 10%;">专业：</td>
-										<td><select class="dfinput" id="majorList"
-											name="model.majorId" onchange="onSelect1(this,1);"
-											listKey="majorId">
+										<td><select class="dfinput" id="majorList" name="model.majorId" onchange="onSelect1(this,1);" listKey="majorId">
 												<s:iterator id="sm" value="sysMajorList">
-													<option value="${majorId}">
-														${majorName }</option>
+													<option value="${majorId}">${majorName }</option>
 												</s:iterator>
 										</select><i
 											class="warn">*</i></td>
@@ -362,14 +359,11 @@ td {
 
 									<tr>
 										<td class="rightText" style="width: 10%;">班级：</td>
-										<td><select class="dfinput" id="classList"
-											listKey="majorId" name="model.classId">
+										<td><select class="dfinput" id="classList" listKey="classId" name="model.classId">
 												<s:iterator id="sm" value="sysClassList">
-													<option value="${student.classId }">
-														${student.className }</option>
+													<option value="${student.classId }">${student.className }</option>
 												</s:iterator>
-										</select><i
-											class="warn">*</i></td>
+										</select><i class="warn">*</i></td>
 									</tr>
 									<tr>
 										<td class="rightText">年级：</td>
@@ -386,7 +380,7 @@ td {
 										<td style="font-size: 16px;padding: 4px;color: #3EAFE0;">
 											<input name="model.stuEntrance" id="stuEntrance"
 											class="dfinput" value="${student.stuEntrance }" type="text"
-											onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd',isShowWeek:true})" />
+												   onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd',isShowWeek:true})" />
 										<i
 											class="warn">*</i>
 										</td>
@@ -448,8 +442,7 @@ td {
 							</table>
 						<li>
 							<div style="text-align: center;">
-								<input name="" id="submit" type="submit" class="scbtn"
-									value="修改" onClick="getData();" />
+								<input type="submit" class="scbtn" value="修改" />
 
 							</div>
 						</li>
