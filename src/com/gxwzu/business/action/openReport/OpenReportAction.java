@@ -253,7 +253,7 @@ public class OpenReportAction extends BaseAction implements ModelDriven<OpenRepo
 				model.setYear(thisYear);
 				model.setTeacherId(aGuide.getTeacherId());
 				model.setStuId(thisStuId);
-				model.setReplyLink("01");//默认 是
+				model.setReplyLink("0");//默认 是
 				model = openReportSerivce.add(model);
 				mark = "1";
 			} else {

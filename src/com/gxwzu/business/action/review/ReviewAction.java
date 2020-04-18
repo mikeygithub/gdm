@@ -48,12 +48,6 @@ import com.gxwzu.system.service.sysStudent.ISysStudentService;
 import com.gxwzu.system.service.sysTeacher.ISysTeacherService;
 import com.opensymphony.xwork2.ModelDriven;
 
-/**
- * 评阅审查
- *
- * @author 何志明
- * @date 2017.7.21
- */
 public class ReviewAction extends BaseAction implements ModelDriven<Review> {
 
     private static final long serialVersionUID = -3343014949806289390L;

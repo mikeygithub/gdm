@@ -104,7 +104,7 @@ td {padding: 4px;font-size: 14px;}
 								
 						<tr >
 							<td  class="rightText" >工作要求：</td>
-							<td ><textarea type="text" class="textareafrom" readonly="readonly"
+							<td><textarea type="text" class="textareafrom" readonly="readonly"
 								id="model.progressWork" name="model.progressWork" > ${model.progressWork }</textarea></td>
 						</tr>	
 						
@@ -115,11 +115,11 @@ td {padding: 4px;font-size: 14px;}
 						</tr>			
 					
 					</table>
-				<li>
-					<div style="text-align: center;">
-						<input name="" id="submit" type="button"  class="scbtn" value="关闭"/>
-					</div>
-				</li>
+<%--				<li>--%>
+<%--					<div style="text-align: center;">--%>
+<%--						<input name="" id="submit" type="button"  class="scbtn" value="关闭"/>--%>
+<%--					</div>--%>
+<%--				</li>--%>
 			</ul>
 		</form>
   </div>
@@ -130,3 +130,8 @@ td {padding: 4px;font-size: 14px;}
 </div>
 </body>
 </html>
+<style type="text/css">
+	.textareafrom{
+		height: 200px;
+	}
+</style>

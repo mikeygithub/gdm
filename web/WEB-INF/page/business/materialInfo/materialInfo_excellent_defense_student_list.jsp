@@ -43,7 +43,9 @@ td {
 			<ul class="layui-tab-title">
 				<li>
 					<a  class="selected" href="<%=path%>/biz/materialInfo_groupDefenseStudentList.action?view=defense_student_list&flag=13&thisReplyType=00" >
-						学生列表(<font style="font-weight: bold;font-size: 14px; "color="blue"></font>)- 答辩组</a>
+						学生列表
+<%--						(<font style="font-weight: bold;font-size: 14px; "color="blue"></font>)--%>
+						- 答辩组</a>
 				</li>
 				<li class="layui-this">
 					<a  class="selected" href="<%=path%>/biz/materialInfo_groupDefenseStudentList.action?view=excellent_defense_student_list&flag=13&thisReplyType=01" >

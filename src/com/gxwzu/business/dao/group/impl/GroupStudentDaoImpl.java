@@ -66,7 +66,7 @@ public class GroupStudentDaoImpl extends BaseDaoImpl<GroupStudent> implements IG
 		params.add(model.getGroupType()); // 筛选答辩组类型
 		
 		if("01".equals(model.getGroupType())){
-			queryString.append("  and model.reply_score_finish>=90  "); //筛选成绩大于90分的学生
+			queryString.append("  and model.reply_score_finish not between 60 and 90 "); //筛选成绩大于90分的学生或者小于60分的
 		}
     	  if(groupAllot!=null){
     		  //与该组答辩方向一致

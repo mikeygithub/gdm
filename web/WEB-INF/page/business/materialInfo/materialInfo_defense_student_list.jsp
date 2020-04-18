@@ -43,11 +43,15 @@ td {
 			<ul class="layui-tab-title">
 				<li  class="layui-this">
 					<a  class="selected" href="<%=path%>/biz/materialInfo_groupDefenseStudentList.action?view=defense_student_list&flag=13&thisReplyType=00" >
-						学生列表(<font style="font-weight: bold;font-size: 14px; "color="blue">${pageResult.total }</font>)- 答辩组</a>
+						学生列表(<font style="font-weight: bold;font-size: 14px; "color="blue">
+						${pageResult.total }
+					</font>)- 答辩组</a>
 				</li>
 				<li >
 					<a  class="selected" href="<%=path%>/biz/materialInfo_groupDefenseStudentList.action?view=excellent_defense_student_list&flag=13&thisReplyType=01" >
-						优秀学生列表(<font style="font-weight: bold;font-size: 14px; "color="blue"></font>)- 大组</a>
+						优秀学生列表
+<%--						(<font style="font-weight: bold;font-size: 14px; "color="blue"></font>)--%>
+						- 大组</a>
 				</li>
 			</ul>
 		</div>

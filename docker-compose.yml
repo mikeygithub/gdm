@@ -1,0 +1,9 @@
+version: '2'
+services:
+  gdm:
+    image: mikeyboom/gdm:latest
+    privileged: true
+    volumes:
+      - /root/GDM/gdm:/usr/local/tomcat/webapps/ROOT
+    ports:
+      - 8008:8008

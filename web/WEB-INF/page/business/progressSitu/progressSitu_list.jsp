@@ -101,8 +101,8 @@ function openAdd(thisId){
 	    	<th>序号</th>
 	    	<th>学生姓名</th>
 	    	<th>时间</th>
-	    	<th>工作要求</th>
-	    	<th>进程记录</th>
+	    	<th colspan="2">工作要求</th>
+	    	<th colspan="2">进程记录</th>
 	    	<th>操作</th>
 	        </tr>
          </thead>
@@ -116,10 +116,10 @@ function openAdd(thisId){
 						  <td align="center">
 				        			${progressTime}
 		               </td>
-					   <td align="center" class="fix-td">
+					   <td align="center" class="fix-td" colspan="2">
 				        			${progressWork}
 		                </td>
-				        <td align="center">
+				        <td align="center" class="fix-td" colspan="2">
 				        			${progressRecord}
 				        </td>
 						

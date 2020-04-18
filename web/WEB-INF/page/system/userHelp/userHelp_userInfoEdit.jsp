@@ -185,7 +185,7 @@ $(function(){
 								<tr>
 									<th>性别：</th>
 									<td class="textContent"  colspan="2">
-										<s:select cssClass="dfinput" list="#{0:'男',1:'女'}" 
+										<s:select cssClass="dfinput" list="#{0:'女',1:'男'}"
         		                           listKey="key" listValue="value"  value="model.userSex"
         		                           id="model.userSex" name="model.userSex"/> 
 										</td>
@@ -214,7 +214,10 @@ $(function(){
 								</tr>
 								<tr style=" ">
 									<th>所属年级：</th>
-									<td class="textContent" colspan="3">${student.stuGrade}</td>
+									<td class="textContent" colspan="3">
+											${student.stuGrade}
+									</td>
+<%--									<td class="textContent" colspan="3">${student.stuGrade}</td>--%>
 											</tr>
 								<tr>
 									<th>所属班级：</th>
@@ -247,7 +250,7 @@ $(function(){
 								<th>所带专业：</th>
 									<td class="textContent"  colspan="2"><s:iterator id="p"
 											value="teacher.teacherMajorList">
-							        			${majorName}
+							        			<span>${majorName + ' '}</span>
 										</s:iterator></td>
 										<td width="auto">
 										<a href="javascript:dialogReload('40%','90%','所带专业','<%=path%>/sys/teacher_openMajorList.action?view=major_list&teacherMajor.teacherId=${teacher.teacherId }', 'true','20%');">
@@ -258,7 +261,8 @@ $(function(){
 								<th>研究方向：</th>
 									<td class="textContent"  colspan="2"><s:iterator id="p"
 											value="teacher.teacherDirectionList">
-							        			${directionsName}
+
+										<span>${directionsName}</span>
 										</s:iterator></td>
 										<td>
 										  <a href="javascript:dialogReload('40%','90%','研究方向','<%=path%>/sys/teacher_openDirectionsList.action?view=directions_list&teacherDirections.teacherId=${teacher.teacherId }', 'true','20%');">

@@ -451,6 +451,7 @@ public class ChatInfoAction extends BaseAction implements ModelDriven<ChatInfo> 
 				ListStudent student = sysStudentService.findByStuNo(loginName);
 				// 指导老师查询自己所带学生相关信息
 				AllotGuide allotGuide = allotGuideService.findByStuIdAndYear(
+						//TODO:NullPointerException
 						student.getStuId(), planYear.getYear());
 				String stu = student.getStuId().toString();
 				

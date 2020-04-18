@@ -18,6 +18,11 @@ public class SysConstant {
 	 * 
 	 */
 	public final static String LOGOUT="loginPage";
+
+	//男
+	public static final String WOMAN = "0";
+	//女
+	public static final String MAN = "1";
 	
 	
 }

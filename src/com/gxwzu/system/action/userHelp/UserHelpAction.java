@@ -357,6 +357,10 @@ public class UserHelpAction extends BaseAction {
                     if (student.getStuAddress()!=null)oldStudent.setStuAddress(student.getStuAddress());
                     //学历
                     if (student.getStuArrangement()!=null)oldStudent.setStuArrangement(student.getStuArrangement());
+                    //学制
+                    if (student.getStuSchoollength()!=null)oldStudent.setStuSchoollength(student.getStuSchoollength());
+                    //年级
+                    if (student.getStuGrade()!=null)oldStudent.setStuGrade(student.getStuGrade());
 
                     sysStudentService.update(oldStudent);
 

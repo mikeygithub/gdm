@@ -331,7 +331,7 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
 				}
 
 				if (limit >= 0) {
-					query.setMaxResults(limit + 1);
+					query.setMaxResults(limit);
 				}
 
 				return query.list();

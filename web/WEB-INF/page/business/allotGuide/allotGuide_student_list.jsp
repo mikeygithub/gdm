@@ -119,7 +119,7 @@
 	        		       placeholder="学生姓名"  >
         		</li>
         		<li class="click">
-	        		<a href="javascript:void();"  onclick="openSearch(this);"><img src="<%=path%>/images/search.png"  />搜索</a>
+	        		<a href="javascript:void(0);"  onclick="openSearch(this);"><img src="<%=path%>/images/search.png"  />搜索</a>
 				</li> 
 				<li class="click"> <a href="javascript:void(0)"  target="rightFrame" onclick="optionAll();"> 
 					  <font color="green">&nbsp;&nbsp;批量选择</font>
@@ -163,8 +163,9 @@
 						<td align="center" width="20%">
 						  <s:if test="allotGuideId==null">
 						 <a href="javascript:void(0)"
-						    	target="rightFrame" onclick="option('${stuId},' ,'${stuName}' );">  
-							      <font color="green"> <i class="layui-icon">&#xe618;</i>可选</font></a>
+<%--						    	target="rightFrame" onclick="option('${stuId},' ,'${stuName}' );">--%>
+							 target="rightFrame" onclick="optionHandler('${stuId},' ,'${stuName}' );">
+							 <font color="green"> <i class="layui-icon">&#xe618;</i>可选</font></a>
 						 </s:if>
 						</td>
 					</tr>
@@ -210,15 +211,46 @@ function optionAll(){
 	        layer.alert('请勾选学生',{icon: 3});
 	    }else{ option(stuIds,stuName);}
 }
+// 执行选取
+function optionHandler(stuId,stuName){
+	$.ajax({
+		type: "post",
+		cache: false,
+		url: '<%=path%>/biz/allotGuide_checkTime.action',
+		dataType : "json",
+		data : {
+			"thisIds" : stuId
+		},success : function(result) {
+			if (result.obj==1) {
+				option(stuId,stuName);
+			}else{
+				layer.msg('未在操作时间段内操作',{icon: 2});
+			}
+		},
+		error : function(result) {
+			layer.msg('操作失败',{icon: 2});
+		}
+	});
+}
 //选择学生
 function option(stuId,stuName){
 	
 var maxStuNum = '${guideCount.maxStuNum}';
-var alreadyStuNum = '${guideCount.alreadyStuNum}';	
+var alreadyStuNum = '${guideCount.alreadyStuNum}';
+
+	//条件过滤
+	//未到分配时间
+	if (false){
+		layer.alert('未在操作时间段内！',{icon: 3});
+		return
+	}
+
+	//未分配指导人数
 	if(maxStuNum==null||maxStuNum==''){
 		layer.alert('您还未分配指导人数,请联系管理员或教研室主任分配！',{icon: 3});
 		return
 	}
+
 	if(maxStuNum!=''&&maxStuNum!=undefined&&alreadyStuNum!=''&&alreadyStuNum!=undefined&&maxStuNum==alreadyStuNum){
 		layer.alert('最多可选:${guideCount.maxStuNum} 位学生， 不能再选其他学生！',{icon: 3});
 	}else {
@@ -233,7 +265,8 @@ var alreadyStuNum = '${guideCount.alreadyStuNum}';
 					data : {
 						"thisIds" : stuId
 					},success : function(result) {
-						layer.close(index); 
+						layer.close(index);
+						console.log('result='+result)
 						if (result.length==0) {
 							layer.alert('选择学生成功',{icon: 1},function(){
 								 location.reload();

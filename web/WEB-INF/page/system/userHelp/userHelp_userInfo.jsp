@@ -255,16 +255,26 @@
                                 </tr>
                                 <tr style=" ">
                                     <th>所属年级：</th>
-                                    <td class="textContent" colspan="3">${student.stuGrade}</td>
+                                    <td colspan="3">
+                                        <s:select cssClass="dfinput" list="#{2017:'2017',2018:'2018',2019:'2019',2020:'2020',2021:'2021',2022:'2022',2023:'2023',2024:'2024',2025:'2025',2026:'2026',2027:'2027',2028:'2028',2029:'2029',2030:'2030'}"
+                                                  listKey="key" listValue="value" value="student.stuGrade"
+                                                  id="student.stuGrade" name="student.stuGrade"/>
+                                    </td>
+<%--                                    <td class="textContent" colspan="3">${student.stuGrade}</td>--%>
                                 </tr>
                                 <tr>
                                     <th>学制：</th>
-                                    <td class="textContent" colspan="3">${student.stuSchoollength }</td>
+                                    <td colspan="3">
+                                        <s:select cssClass="dfinput" list="#{4:'四年',3:'三年',2:'二年',1:'一年'}"
+                                                  listKey="key" listValue="value" value="student.stuSchoollength"
+                                                  id="student.stuSchoollength" name="student.stuSchoollength"/>
+                                    </td>
+<%--                                    <td class="textContent" colspan="3">${student.stuSchoollength }</td>--%>
                                 </tr>
                                 <tr>
                                     <th>学历：</th>
-                                    <td class="textContent" colspan="3">
-                                                <input type="text" value="${student.stuArrangement}" name="student.stuArrangement">
+                                    <td class="textContent" colspan="3"  >
+                                                <input  type="text" value="${student.stuArrangement}" name="student.stuArrangement">
                                     </td>
                                 </tr>
                                 <tr>
@@ -276,7 +286,7 @@
                                 <tr>
                                     <th>家庭住址：</th>
                                     <td class="textContent" colspan="3">
-                                        <input type="text" style="width: 100%; height: 50px" name="student.stuAddress" value="${student.stuAddress}">
+                                        <input class="" type="text" style="width: 100%; height: 50px" name="student.stuAddress" value="${student.stuAddress}">
                                     </td>
                                 </tr>
                             </s:if>

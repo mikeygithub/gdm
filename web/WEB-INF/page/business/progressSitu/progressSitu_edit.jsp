@@ -105,13 +105,13 @@ td {padding: 4px;font-size: 14px;}
 								
 						<tr >
 							<td  class="rightText" >工作要求：</td>
-							<td ><textarea type="text" class="textareafrom"
+							<td ><textarea type="text" class="textareafrom" maxlength="5000"
 								id="model.progressWork" name="model.progressWork" > ${model.progressWork }</textarea></td>
 						</tr>	
 						
 						<tr >
 							<td  class="rightText" >进程记录：</td>
-							<td ><textarea type="text" class="textareafrom"
+							<td ><textarea type="text" class="textareafrom" maxlength="5000"
 								id="model.progressRecord" name="model.progressRecord" >${model.progressRecord } </textarea></td>
 						</tr>			
 					
