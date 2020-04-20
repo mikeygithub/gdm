@@ -22,7 +22,10 @@
 		<span>位置：</span>
 		<ul class="placeul">
 			<li><a href="<%=path%>/sys/login_view.action?view=right" target="rightFrame">首页</a></li>
-			<li><a href="<%=path%>/biz/Group_list.action?view=student_list">移除学生分组</a></li>
+			<li>
+				<a href="<%=path%>/biz/GroupStudent_list.action?view=student_list&flag=08">移除学生分组</a>
+<%--				<a href="<%=path%>/biz/Group_list.action?view=student_list">移除学生分组</a>--%>
+			</li>
 			<li>分组管理</li>
 		</ul>
 	</div>

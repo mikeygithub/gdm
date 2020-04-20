@@ -96,7 +96,7 @@ function openGroup(){
       <div class="place">
         	<ul class="placeul">
 		<li class="click" style="font-size: 12px;">
-				    <span>选择组名：<s:select cssClass="dfinput" list="groupAllotList" headerKey="" headerValue="所有组名"
+				    <span>组名：<s:select cssClass="dfinput" list="groupAllotList" headerKey="" headerValue="所有组名"
 	        		cssStyle="width: 150px;" onchange="$('#form1').submit();"
 	        		listKey="groupId" listValue="groupName"  name="model.groupAllotId" id="allGroupId"/></span>
 				</li>
@@ -184,11 +184,21 @@ function openGroup(){
 						   ${categoryName }
 					    </td>
 					    <td align="center" >
-						   ${staffName} 
+							   <s:if test="staffName!=null&&staffName!=''">
+								   ${staffName}
+							   </s:if>
+							   <s:else>
+								   <font>-</font>
+							   </s:else>
 					    </td>
 					    
 				        <td align="center" >
-						   ${technicalName} 
+							<s:if test="technicalName!=null&&technicalName!=''">
+								${technicalName}
+							</s:if>
+							<s:else>
+								<font>-</font>
+							</s:else>
 					    </td>
 					    <td align="center" >${planYear.year }</td>
 					    <td align="center" >
@@ -201,6 +211,9 @@ function openGroup(){
 						    <c:if test="${type == 1}">(答辩教师)</c:if> 
 						    <c:if test="${type == 2}">(记录员)</c:if> 
 						    </s:if>
+							<s:if test="groupAllotId==null">
+								<font>-</font>
+							</s:if>
 					    </td>
 					   <td align="center" width="20%">
 							 <s:if test="groupAllotId!=null">

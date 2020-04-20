@@ -62,6 +62,10 @@ public class GroupAllotDaoImpl extends BaseDaoImpl<GroupAllot> implements
 			queryString.append(" and model.group_type = ? ");
 			params.add(model.getGroupType());
 		}
+		if (StringUtils.isNotBlank(model.getGroupName())){
+			queryString.append(" and model.group_name like ? ");
+			params.add("%"+model.getGroupName()+"%");
+		}
 		if (model.getYear() != null) {
 			queryString.append(" and model.year = ? ");
 			params.add(model.getYear());
