@@ -85,95 +85,102 @@
         </tr>
         </thead>
         <tbody>
-        <s:iterator id="p" value="pageResult.data" status="pp">
-            <tr id="tr_${teacherId}">
-                <td align="center"><s:property value="#pp.count"/></td>
-                <td align="center">${teacherName}</td>
-                <td align="center"> ${deptName}</td>
-                <td align="center"> ${staffName} </td>
-                <td align="center"> ${technicalName}</td>
-                <td align="center">
-                    <s:if test="userSex==0">女</s:if>
-                    <s:if test="userSex==1">男</s:if></td>
-                <td align="center">
-<%--                        ${userTel}--%>
-                            <s:if test="userTel==null||userTel==''">
-                                <font color="red">未填写</font>
-                            </s:if>
-                            <s:else>
-                                <font color="blue">${userTel}</font>
-                            </s:else>
-                </td>
-                <td align="center">
-                    <s:if test="userTel==null||year==''">
-                        <font color="red">未填写</font>
-                    </s:if>
-                    <s:else>
-                        <font color="blue">${year}</font>
-                    </s:else>
-<%--                        ${year}--%>
-                </td>
-                <td align="center">
-                    <s:iterator id="tml" value="teacherMajorList">
-                        ${majorName} &nbsp;
-                    </s:iterator></td>
-                <td align="center">
-                    <c:if test="${teacherDirectionList==[]}">
-                        <font color="red">未录入</font>
-                    </c:if>
-                    <c:if test="${teacherDirectionList!=[]}">
-                        <s:iterator id="tml" value="teacherDirectionList">
-                            <s:iterator id="sml" value="sysDirectionList">
-                                <s:if test="#tml.directionsId == directionsId">
-                                    ${sml.directionsName} &nbsp;
-                                </s:if>
-                            </s:iterator>
-                        </s:iterator>
-                    </c:if>
-                </td>
-                <td align="center">
-                    <s:if test="maxStuNum==null||maxStuNum==''">
-                        <font color="red">未分配</font>
-                    </s:if>
-                    <s:else>
-                        <font color="blue">${maxStuNum}</font>
-                    </s:else>
-                </td>
-                <td align="center">
-                    <s:if test="alreadyStuNum==null||alreadyStuNum==''">
-                        <font color="red">未分配</font>
-                    </s:if>
-                    <s:else>
-                        <font color="blue">${alreadyStuNum}</font>
-                    </s:else>
-                </td>
-
-                <td align="center" width="20%">
-                    <s:if test="teacher.teacherId==teacherId">
-                        <font color="green"> 已选</font></a>
-                    </s:if>
-                    <s:else>
-                        <s:if test="maxStuNum<=alreadyStuNum">
-                            <s:if test="maxStuNum==null">
-                                <font color="red">未分配人数</font>
-                            </s:if>
-                            <s:else>
-                                <font color="red"> 人数已满</font>
-                            </s:else>
+        <s:if test="pageResult.data!=null&&pageResult.total>0">
+            <s:iterator id="p" value="pageResult.data" status="pp">
+                <tr id="tr_${teacherId}">
+                    <td align="center"><s:property value="#pp.count"/></td>
+                    <td align="center">${teacherName}</td>
+                    <td align="center"> ${deptName}</td>
+                    <td align="center"> ${staffName} </td>
+                    <td align="center"> ${technicalName}</td>
+                    <td align="center">
+                        <s:if test="userSex==0">女</s:if>
+                        <s:if test="userSex==1">男</s:if></td>
+                    <td align="center">
+                            <%--                        ${userTel}--%>
+                        <s:if test="userTel==null||userTel==''">
+                            <font color="red">未填写</font>
                         </s:if>
-                    </s:else>
+                        <s:else>
+                            <font color="blue">${userTel}</font>
+                        </s:else>
+                    </td>
+                    <td align="center">
+                        <s:if test="year==null||year==''">
+                            <font>-</font>
+                        </s:if>
+                        <s:else>
+                            <font color="blue">${year}</font>
+                        </s:else>
+                            <%--                        ${year}--%>
+                    </td>
+                    <td align="center">
+                        <s:iterator id="tml" value="teacherMajorList">
+                            ${majorName} &nbsp;
+                        </s:iterator></td>
+                    <td align="center">
+                        <c:if test="${teacherDirectionList==[]}">
+                            <font color="red">未录入</font>
+                        </c:if>
+                        <c:if test="${teacherDirectionList!=[]}">
+                            <s:iterator id="tml" value="teacherDirectionList">
+                                <s:iterator id="sml" value="sysDirectionList">
+                                    <s:if test="#tml.directionsId == directionsId">
+                                        ${sml.directionsName} &nbsp;
+                                    </s:if>
+                                </s:iterator>
+                            </s:iterator>
+                        </c:if>
+                    </td>
+                    <td align="center">
+                        <s:if test="maxStuNum==null||maxStuNum==''">
+                            <font color="red">未分配</font>
+                        </s:if>
+                        <s:else>
+                            <font color="blue">${maxStuNum}</font>
+                        </s:else>
+                    </td>
+                    <td align="center">
+                        <s:if test="alreadyStuNum==null||alreadyStuNum==''">
+                            <font >-</font>
+                        </s:if>
+                        <s:else>
+                            <font color="blue">${alreadyStuNum}</font>
+                        </s:else>
+                    </td>
 
-                    <s:if test="teacher.teacherId==null&maxStuNum!=null&maxStuNum>alreadyStuNum">
-                        <a href="javascript:void(0)"
-                           target="rightFrame" onclick="optionHandler(this,'${teacherId}' ,'${teacherName}'  ,1);">
-                            <font color="blue"> <i class="layui-icon">&#xe618;</i>可选</font></a>
-                    </s:if>
-                    <s:if test="teacher.teacherId!=teacherId&teacher.teacherId!=null">
-                        <font color="red">不可选 </font>
-                    </s:if>
-                </td>
-            </tr>
-        </s:iterator>
+                    <td align="center" width="20%">
+                        <s:if test="teacher.teacherId==teacherId">
+                            <font color="green"> 已选</font></a>
+                        </s:if>
+                        <s:else>
+                            <s:if test="maxStuNum<=alreadyStuNum">
+                                <s:if test="maxStuNum==null">
+                                    <font color="red">未分配人数</font>
+                                </s:if>
+                                <s:else>
+                                    <font color="red"> 人数已满</font>
+                                </s:else>
+                            </s:if>
+                        </s:else>
+
+                        <s:if test="teacher.teacherId==null&maxStuNum!=null&maxStuNum>alreadyStuNum">
+                            <a href="javascript:void(0)"
+                               target="rightFrame" onclick="optionHandler(this,'${teacherId}' ,'${teacherName}'  ,1);">
+                                <font color="blue"> <i class="layui-icon">&#xe618;</i>可选</font></a>
+                        </s:if>
+                        <s:if test="teacher.teacherId!=teacherId&teacher.teacherId!=null">
+                            <font color="red">不可选 </font>
+                        </s:if>
+                    </td>
+                </tr>
+            </s:iterator>
+        </s:if>
+        <s:else>
+            <tr><td align="center" colspan="13"><font>暂无数据</font></td></tr>
+        </s:else>
+
+
         </tbody>
     </table>
     <%@ include file="/WEB-INF/common/pagination.jsp" %>
@@ -199,6 +206,9 @@
         </tr>
         </thead>
         <tbody>
+        <s:if test="teacher.teacherId==null">
+            <tr><td align="center" colspan="10"><font>未选取</font></td></tr>
+        </s:if>
         <s:if test="teacher.teacherId!=null">
             <tr id="tr_${model.id}">
                 <td align="center">1</td>

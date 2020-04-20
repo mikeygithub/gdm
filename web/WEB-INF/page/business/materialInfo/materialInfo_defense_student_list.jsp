@@ -56,17 +56,19 @@ td {
 			</ul>
 		</div>
 		<div class="rightinfo">
-		  <div class="itab">
-  	        <ul> 
-  	        <s:iterator id="" value="groupAllot.teacherList">
-  	         <li>
-  	       <a <s:if test="model.teacherId==teacherId"> class="selected" </s:if>
-  	        href="<%=path%>/biz/materialInfo_groupDefenseStudentList.action?view=defense_student_list&thisYear=${thisYear }&model.teacherId=${teacherId}&flag=13&thisReplyType=00" >
-			 ${teacherName }<s:if test="type==0">(组长)</s:if><s:if test="type==1">(答辩)</s:if> <s:if test="type==2">(记录员)</s:if>
-			 </a> <li>
-			 </s:iterator>
-				  </ul>
-         </div>
+			<s:if test="groupAllot!=null&&groupAllot.teacherList.size>0">
+				<div class="itab">
+					<ul>
+						<s:iterator id="" value="groupAllot.teacherList">
+						<li>
+							<a <s:if test="model.teacherId==teacherId"> class="selected" </s:if>
+									href="<%=path%>/biz/materialInfo_groupDefenseStudentList.action?view=defense_student_list&thisYear=${thisYear }&model.teacherId=${teacherId}&flag=13&thisReplyType=00" >
+									${teacherName }<s:if test="type==0">(组长)</s:if><s:if test="type==1">(答辩)</s:if> <s:if test="type==2">(记录员)</s:if>
+							</a> <li>
+						</s:iterator>
+					</ul>
+				</div>
+			</s:if>
         <form id="form1" name="form1"  action="<%=path%>/biz/materialInfo_groupDefenseStudentList.action?view=defense_student_list&flag=13&thisReplyType=00" method="post">
         	<div class="place">
 		<ul class="placeul">
@@ -106,59 +108,65 @@ td {
 	        </tr>
          </thead>
          <tbody>
-         <s:iterator id="p" value="pageResult.data" status="pp">
-         <tr id="tr_${taskId }">
-						<td align="center"><s:property value="#pp.count" /></td>
-						  <td align="center">
-				        			${student.deptName}
-		               </td>
-					   <td align="center">
-				        			${student.majorName}
-		                </td>
-				        <td align="center">
-				        			${student.className}
-				        </td>
-				        
-						<td align="center" >${student.stuName}</td>
-				        <%--  <td align="center">
-					       <s:if test="issueInfo.issueId==null">
-					               <font color="red">未录入</font>
-					       </s:if>
-					       <s:else>
-					              <font color="blue">${issueInfo.issueName}</font>
-					       </s:else>
-				        </td>  --%>
-				        <td align="center">
-					       <s:if test="issueInfo.issueId==null">
-					        <a href="javascript:dialog('90%','90%','【<font color=blue >${student.stuName }</font>】 课题信息',
-					        '<%=path%>/biz/issueInfo_openEdit.action?view=add&thisStuId=${student.stuId }&thisYear=${model.year }', 'true','20%');" target="rightFrame" >  
-					       <font color="red">未录入</font></a>
-					       </s:if>
-					       <s:else>
-					        <a href="javascript:dialog('98%','98%','【<font color=blue >${student.stuName }</font>】 课题信息',
-					        '<%=path%>/biz/issueInfo_openEdit.action?view=edit&thisStuId=${student.stuId }&thisId=${issueInfo.issueId }&thisYear=${model.year }', 'true','20%');" target="rightFrame" >  
-					       <font color="blue">${issueInfo.issueName}</font></a>
-					       </s:else>
-				        </td> 
-				        
-						  <td align="center" >
-					        <s:iterator  id="p" value="issueTypeList" status="sp">
-								<s:if test="issueInfo!=null&&issueInfo.issueType!=null&&issueInfo.issueType.contains(\"&\"+issueTypeId+\"&\")">${issueTypeName }&nbsp;</s:if>
-							</s:iterator>
-					     </td>
-				     
-				         <td align="center" >  ${model.year} </td> 
-				         <td align="center"><font color="blue">分配给：</font>
-				         <s:select list="groupAllot.teacherList" cssClass="dfinput" cssStyle="width: 100px;"
-				         listKey="teacherId" listValue="teacherName" value="model.teacherId"
-				         ></s:select>
-				         <a href="javascript:void(0);"
-								onclick="allot(this,${student.id },'${student.stuName}');"  id="${student.stuId}"  title="${student.stuName}"
-								class="layui-btn layui-btn-primary  layui-btn-small"><font
-									color="blue">保存</font> </a>
-				          </td> 
-						</tr>
-			</s:iterator>
+		 <s:if test="pageResult.data!=null&&pageResult.total>0">
+			 <s:iterator id="p" value="pageResult.data" status="pp">
+				 <tr id="tr_${taskId }">
+					 <td align="center"><s:property value="#pp.count" /></td>
+					 <td align="center">
+							 ${student.deptName}
+					 </td>
+					 <td align="center">
+							 ${student.majorName}
+					 </td>
+					 <td align="center">
+							 ${student.className}
+					 </td>
+
+					 <td align="center" >${student.stuName}</td>
+						 <%--  <td align="center">
+                            <s:if test="issueInfo.issueId==null">
+                                    <font color="red">未录入</font>
+                            </s:if>
+                            <s:else>
+                                   <font color="blue">${issueInfo.issueName}</font>
+                            </s:else>
+                         </td>  --%>
+					 <td align="center">
+						 <s:if test="issueInfo.issueId==null">
+							 <a href="javascript:dialog('90%','90%','【<font color=blue >${student.stuName }</font>】 课题信息',
+					        '<%=path%>/biz/issueInfo_openEdit.action?view=add&thisStuId=${student.stuId }&thisYear=${model.year }', 'true','20%');" target="rightFrame" >
+								 <font color="red">未录入</font></a>
+						 </s:if>
+						 <s:else>
+							 <a href="javascript:dialog('98%','98%','【<font color=blue >${student.stuName }</font>】 课题信息',
+					        '<%=path%>/biz/issueInfo_openEdit.action?view=edit&thisStuId=${student.stuId }&thisId=${issueInfo.issueId }&thisYear=${model.year }', 'true','20%');" target="rightFrame" >
+								 <font color="blue">${issueInfo.issueName}</font></a>
+						 </s:else>
+					 </td>
+
+					 <td align="center" >
+						 <s:iterator  id="p" value="issueTypeList" status="sp">
+							 <s:if test="issueInfo!=null&&issueInfo.issueType!=null&&issueInfo.issueType.contains(\"&\"+issueTypeId+\"&\")">${issueTypeName }&nbsp;</s:if>
+						 </s:iterator>
+					 </td>
+
+					 <td align="center" >  ${model.year} </td>
+					 <td align="center"><font color="blue">分配给：</font>
+						 <s:select list="groupAllot.teacherList" cssClass="dfinput" cssStyle="width: 100px;"
+								   listKey="teacherId" listValue="teacherName" value="model.teacherId"
+						 ></s:select>
+						 <a href="javascript:void(0);"
+							onclick="allot(this,${student.id },'${student.stuName}');"  id="${student.stuId}"  title="${student.stuName}"
+							class="layui-btn layui-btn-primary  layui-btn-small"><font
+								 color="blue">保存</font> </a>
+					 </td>
+				 </tr>
+			 </s:iterator>
+		 </s:if>
+		 <s:else>
+			 <tr><td align="center" colspan="10"><font>暂无数据</font></td></tr>
+		 </s:else>
+
 	     </tbody>
       </table>
       <%@ include file="/WEB-INF/common/pagination.jsp"%>

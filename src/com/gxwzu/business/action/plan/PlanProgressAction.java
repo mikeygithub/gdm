@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang.xwork.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -124,10 +125,8 @@ public class PlanProgressAction extends BaseAction implements
 	public String list() {
 		try {
 
-			String loginName = (String) getSession().getAttribute(
-					SystemContext.LOGINNAME);
-			String userType = (String) getSession().getAttribute(
-					SystemContext.USERTYPE);
+			String loginName = (String) getSession().getAttribute(SystemContext.LOGINNAME);
+			String userType = (String) getSession().getAttribute(SystemContext.USERTYPE);
 			//查询 当前老师所属专业教研室
 			if ("2".equals(userType)) {
 				teacher = sysTeacherService.findByTeacherNo(loginName);
@@ -229,10 +228,8 @@ public class PlanProgressAction extends BaseAction implements
 		logger.info(" 时间安排计划");
 		try {
 			PrintWriter out = getResponse().getWriter();
-			String loginName = (String) getSession().getAttribute(
-					SystemContext.LOGINNAME);
-			String userType = (String) getSession().getAttribute(
-					SystemContext.USERTYPE);
+			String loginName = (String) getSession().getAttribute(SystemContext.LOGINNAME);
+			String userType = (String) getSession().getAttribute(SystemContext.USERTYPE);
 			//查询 当前老师所属专业教研室 中的进度计划
 			if ("2".equals(userType)) {
 				teacher = sysTeacherService.findByTeacherNo(loginName);
@@ -243,7 +240,6 @@ public class PlanProgressAction extends BaseAction implements
 				if(model.getMajorId()==null)
 				model.setMajorId(teacher.getStaffroomId());
 			}
-			
 			//查询 当前学生所属专业教研室  进度计划
 			if ("1".equals(userType)) {
 				student = studentService.findByStuNo(loginName);
@@ -254,7 +250,8 @@ public class PlanProgressAction extends BaseAction implements
 				if(model.getMajorId()==null)
 				model.setMajorId(student.getMajorId());
 			}
-			
+			//未完善个人信息不给予查询
+			if (StringUtils.isBlank(model.getDeptNumber()))return;
 			// 时间安排计划列表
 			planProgressList = planProgressSerivce.findByExample(model);
 			out.print(new Gson().toJson(planProgressList));

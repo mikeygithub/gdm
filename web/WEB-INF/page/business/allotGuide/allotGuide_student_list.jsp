@@ -94,27 +94,32 @@
                 </tr>
                 </thead>
                 <tbody>
-                <s:iterator id="p" value="pageResult1.data" status="pp">
-                    <tr id="tr_${stuId}">
-                        <td align="center">
-                            <input value="${allotGuideId}" title="${stuName}" type="checkbox" name="delSelected"/>
-                        </td>
-                        <td align="center"><s:property value="#pp.count"/></td>
-                        <td align="center">${deptName} </td>
-                        <td align="center">${majorName} </td>
-                        <td align="center">${className} </td>
-                        <td align="center">${stuNo}</td>
-                        <td align="center">${stuName}</td>
-                        <td align="center">
-                            <s:if test="userSex==1">男</s:if>
-                            <s:if test="userSex==0">女</s:if></td>
-                        <td align="center">${planYear.year}</td>
-                        <td align="center" width="20%">
-                            <a href="javascript:void(0);" onclick="del('${allotGuideId},','${stuName }');">
-                                <font color="red"> <i class="layui-icon">&#x1006;</i>退选</font></a>
-                        </td>
-                    </tr>
-                </s:iterator>
+                <s:if test="pageResult1.data!=null">
+                    <s:iterator id="p" value="pageResult1.data" status="pp">
+                        <tr id="tr_${stuId}">
+                            <td align="center">
+                                <input value="${allotGuideId}" title="${stuName}" type="checkbox" name="delSelected"/>
+                            </td>
+                            <td align="center"><s:property value="#pp.count"/></td>
+                            <td align="center">${deptName} </td>
+                            <td align="center">${majorName} </td>
+                            <td align="center">${className} </td>
+                            <td align="center">${stuNo}</td>
+                            <td align="center">${stuName}</td>
+                            <td align="center">
+                                <s:if test="userSex==1">男</s:if>
+                                <s:if test="userSex==0">女</s:if></td>
+                            <td align="center">${planYear.year}</td>
+                            <td align="center" width="20%">
+                                <a href="javascript:void(0);" onclick="del('${allotGuideId},','${stuName }');">
+                                    <font color="red"> <i class="layui-icon">&#x1006;</i>退选</font></a>
+                            </td>
+                        </tr>
+                    </s:iterator>
+                </s:if>
+                <s:else>
+                    <tr><td align="center" colspan="10"><font>暂无数据</font></td></tr>
+                </s:else>
                 </tbody>
             </table>
             <%@ include file="/WEB-INF/common/pagination1.jsp" %>

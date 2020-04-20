@@ -61,8 +61,8 @@ public class SysStudentDaoImpl extends BaseDaoImpl<SysStudent> implements ISysSt
                 params.add("%" + model.getStudent().getStuNo() + "%");
             }
             if (StringUtils.isNotEmpty(model.getStudent().getDeptNumber())) {
-                queryString.append(" and model.dept_number =? ");
-                params.add(model.getDeptNumber());
+                queryString.append(" and model.dept_number = ? ");
+                params.add(model.getStudent().getDeptNumber());
             }
             if (model.getStudent().getMajorId() != null) {
                 queryString.append(" and model.major_id =? ");
@@ -76,6 +76,26 @@ public class SysStudentDaoImpl extends BaseDaoImpl<SysStudent> implements ISysSt
                 queryString.append(" and model.stu_id =? ");
                 params.add(model.getStudent().getStuId());
             }
+        }
+        if (StringUtils.isNotEmpty(model.getStuNo())) {
+            queryString.append(" and model.stu_no like ? ");
+            params.add("%" + model.getStuNo() + "%");
+        }
+        if (StringUtils.isNotEmpty(model.getDeptNumber())) {
+            queryString.append(" and model.dept_number =? ");
+            params.add(model.getDeptNumber());
+        }
+        if (model.getMajorId() != null) {
+            queryString.append(" and model.major_id =? ");
+            params.add(model.getMajorId());
+        }
+        if (model.getClassId() != null) {
+            queryString.append(" and model.class_id =? ");
+            params.add(model.getClassId());
+        }
+        if (model.getStuId() != null) {
+            queryString.append(" and model.stu_id =? ");
+            params.add(model.getStuId());
         }
         //指定教师指导的学生
         if (model.getTeacherId() != null) {

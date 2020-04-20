@@ -52,8 +52,7 @@ import com.opensymphony.xwork2.ModelDriven;
  * @author 黎艺侠
  * @date 2017.7.10
  */
-public class AllotGuideAction extends BaseAction implements
-        ModelDriven<AllotGuide> {
+public class AllotGuideAction extends BaseAction implements ModelDriven<AllotGuide> {
 
     private static final long serialVersionUID = -3343014949806289390L;
     protected final Log logger = LogFactory.getLog(getClass());

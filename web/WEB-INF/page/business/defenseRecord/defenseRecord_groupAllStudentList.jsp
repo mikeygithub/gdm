@@ -31,16 +31,16 @@
     <div class="formtitle">
         <span>答辩过程记录</span>
     </div>
-    <ul class="layui-tab-title">
-        <li class="layui-this">
-            <a class="selected" href="<%=path%>/biz/defenseRecord_groupAllStudentList.action?view=groupAllStudentList&flag=12&thisReplyType=00">
-                答辩过程记录录入- 答辩组</a>
-        </li>
-<%--        <li>--%>
-<%--            <a class="selected" href="<%=path%>/biz/defenseRecord_groupAllStudentList.action?view=excellent_groupAllStudentList&flag=12&thisReplyType=01">--%>
-<%--                答辩过程记录录入- 大组</a>--%>
+<%--    <ul class="layui-tab-title">--%>
+<%--        <li class="layui-this">--%>
+<%--            <a class="selected" href="<%=path%>/biz/defenseRecord_groupAllStudentList.action?view=groupAllStudentList&flag=12&thisReplyType=00">--%>
+<%--                答辩过程记录录入- 答辩组</a>--%>
 <%--        </li>--%>
-    </ul>
+<%--&lt;%&ndash;        <li>&ndash;%&gt;--%>
+<%--&lt;%&ndash;            <a class="selected" href="<%=path%>/biz/defenseRecord_groupAllStudentList.action?view=excellent_groupAllStudentList&flag=12&thisReplyType=01">&ndash;%&gt;--%>
+<%--&lt;%&ndash;                答辩过程记录录入- 大组</a>&ndash;%&gt;--%>
+<%--&lt;%&ndash;        </li>&ndash;%&gt;--%>
+<%--    </ul>--%>
 
 
     <form id="form1" name="form1"
@@ -88,59 +88,65 @@
         </tr>
         </thead>
         <tbody>
-        <s:iterator id="p" value="pageResult1.data" status="pp">
-            <tr id="tr_${student.stuId }">
-                <td align="center"><input type="checkbox" name="check_sel"
-                                          value="${student.stuId }" title="${student.stuName}"/></td>
-                <td align="center"><s:property value="#pp.count"/></td>
-                <td align="center">
-                        ${student.deptName}
-                </td>
-                <td align="center">
-                        ${student.majorName}
-                </td>
-                <td align="center">
-                        ${student.className}
-                </td>
+        <s:if test="paveResult1.data!=null">
+            <s:iterator id="p" value="pageResult1.data" status="pp">
+                <tr id="tr_${student.stuId }">
+                    <td align="center"><input type="checkbox" name="check_sel"
+                                              value="${student.stuId }" title="${student.stuName}"/></td>
+                    <td align="center"><s:property value="#pp.count"/></td>
+                    <td align="center">
+                            ${student.deptName}
+                    </td>
+                    <td align="center">
+                            ${student.majorName}
+                    </td>
+                    <td align="center">
+                            ${student.className}
+                    </td>
 
-                <td align="center">${student.stuName}</td>
-                <td align="center">
-                    <s:if test="issueInfo.issueId==null">
-                        <a href="javascript:dialog('100%','100%','【<font color=blue >${student.stuName }</font>】 课题信息',
+                    <td align="center">${student.stuName}</td>
+                    <td align="center">
+                        <s:if test="issueInfo.issueId==null">
+                            <a href="javascript:dialog('100%','100%','【<font color=blue >${student.stuName }</font>】 课题信息',
 					        '<%=path%>/biz/issueInfo_openEdit.action?view=add&thisStuId=${student.stuId }&thisYear=${model.year }', 'true','20%');"
-                           target="rightFrame">
-                            <font color="red">未录入</font></a>
-                    </s:if>
-                    <s:else>
-                        <a href="javascript:dialog('100%','100%','【<font color=blue >${student.stuName }</font>】 课题信息',
+                               target="rightFrame">
+                                <font color="red">未录入</font></a>
+                        </s:if>
+                        <s:else>
+                            <a href="javascript:dialog('100%','100%','【<font color=blue >${student.stuName }</font>】 课题信息',
 					        '<%=path%>/biz/issueInfo_openEdit.action?view=edit&thisStuId=${student.stuId }&thisId=${issueInfo.issueId }&thisYear=${model.year }', 'true','20%');" target="rightFrame" >
-                            <font color="blue">${issueInfo.issueName}</font></a>
-                    </s:else>
-                </td>
-                <td align="center">
-                    <s:iterator id="p" value="issueTypeList" status="sp">
-<%--                        <s:if test="issueInfo.issueType.contains(\"&\"+issueTypeId+\"&\")">${issueTypeName }&nbsp;</s:if>--%>
-                        <s:if test="issueInfo!=null&&issueInfo.issueType!=null&&issueInfo.issueType.contains(\"&\"+issueTypeId+\"&\")">${issueTypeName }&nbsp;</s:if>
-                    </s:iterator>
-                </td>
-                <td align="center"
-                    width="auto">${groupReply.replyScore!=null&&groupReply.replyScore!=""?groupReply.replyScore:'未录入'}</td>
-                <%--<td align="center" width="auto">${groupReply.replyScoreFinish} </td>--%>
+                                <font color="blue">${issueInfo.issueName}</font></a>
+                        </s:else>
+                    </td>
+                    <td align="center">
+                        <s:iterator id="p" value="issueTypeList" status="sp">
+                            <%--                        <s:if test="issueInfo.issueType.contains(\"&\"+issueTypeId+\"&\")">${issueTypeName }&nbsp;</s:if>--%>
+                            <s:if test="issueInfo!=null&&issueInfo.issueType!=null&&issueInfo.issueType.contains(\"&\"+issueTypeId+\"&\")">${issueTypeName }&nbsp;</s:if>
+                        </s:iterator>
+                    </td>
+                    <td align="center"
+                        width="auto">${groupReply.replyScore!=null&&groupReply.replyScore!=""?groupReply.replyScore:'未录入'}</td>
+                        <%--<td align="center" width="auto">${groupReply.replyScoreFinish} </td>--%>
 
-                <td align="center"> ${model.year} </td>
+                    <td align="center"> ${model.year} </td>
 
-                <td align="center" width="10%">
-                    <a href="javascript:dialog('70%','90%','查看答辩记录信息','<%=path%>/biz/defenseRecord_findStudentAllDefenseRecordBy.action?view=list&thisYear=${model.year}&thisStuId=${student.stuId }','true', '5%', '15%');">
-                        <font color="blue"><img src="<%=path%>/images/eye_visible.png" width="10px"/>&nbsp;查看</font>
-                    </a>
-                    &nbsp;&nbsp;&nbsp;
-                        <%--  <a href="<%=path%>/biz/taskBook_outTaskBook.action?thisId=${taskId }">
-                                  <font> <img src="<%=path%>/images/i01.png" width="20px" />导出
-                          </font></a> --%>
-                </td>
-            </tr>
-        </s:iterator>
-        </tbody>
+                    <td align="center" width="10%">
+                        <a href="javascript:dialog('70%','90%','查看答辩记录信息','<%=path%>/biz/defenseRecord_findStudentAllDefenseRecordBy.action?view=list&thisYear=${model.year}&thisStuId=${student.stuId }','true', '5%', '15%');">
+                            <font color="blue"><img src="<%=path%>/images/eye_visible.png" width="10px"/>&nbsp;查看</font>
+                        </a>
+                        &nbsp;&nbsp;&nbsp;
+                            <%--  <a href="<%=path%>/biz/taskBook_outTaskBook.action?thisId=${taskId }">
+                                      <font> <img src="<%=path%>/images/i01.png" width="20px" />导出
+                              </font></a> --%>
+                    </td>
+                </tr>
+            </s:iterator>
+
+        </s:if>
+        <s:else>
+            <tr><td align="center" colspan="11"><font>暂无数据</font></td></tr>
+        </s:else>
+       </tbody>
     </table>
     <%@ include file="/WEB-INF/common/pagination1.jsp" %>
 </div>

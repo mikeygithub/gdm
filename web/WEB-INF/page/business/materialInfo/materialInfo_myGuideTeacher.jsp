@@ -48,12 +48,19 @@ width: 100px;
 		<fieldset class="layui-elem-field">
 			<legend>我的指导老师信息</legend>
 			<div class="layui-field-box">
-				<form action="<%=path%>/biz/GroupAllot_edit.action?view=edit"
-					method="post" name="form1" id="form1">
+				<form action="<%=path%>/biz/GroupAllot_edit.action?view=edit" method="post" name="form1" id="form1">
 					<input type="hidden" name="thisId" value="${groupAllot.groupId }" />
 					<ul>
 						<li>
 							<table class="tablelist">
+								<s:if test="teacher.teacherName==null">
+									<tr>
+										<td rowspan="6">
+											<font>未选取</font>
+										</td>
+									</tr>
+								</s:if>
+								<s:else>
 							      <tr>
 									<th>姓名：</th>
 									<td class="textContent">${teacher.teacherName }</td>
@@ -86,7 +93,7 @@ width: 100px;
 								    <th>联系方式：</th>
 								    <td class="textContent">${teacher.userTel }</td>
 								</tr>
-								
+								</s:else>
 							</table>
 					</ul>
 

@@ -425,6 +425,7 @@ public class MaterialInfoAction extends BaseAction implements ModelDriven<Materi
                 if (model.getStuId() != null) {
                     sysStudent.setStuId(model.getStuId());
                     AllotGuide aGuide = allotGuideService.findByStuIdAndYear(model.getStuId(), model.getYear());
+                    if (aGuide!=null)
                     teacher = sysTeacherService.findModelById(aGuide.getTeacherId());
                     // 老师研究方向
                     teacherDirectionsList = teacherDirectionsService.findByTeacherId(teacher.getTeacherId());

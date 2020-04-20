@@ -51,6 +51,12 @@ width: 100px;
 					<ul>
 						<li>
 							<table class="tablelist">
+								<s:if test="groupAllot.groupId==null">
+									<tr>
+										<td rowspan="7"><font>暂无</font></td>
+									</tr>
+								</s:if>
+								<s:else>
 							     <tr>
 								  <th >所在分组：</th>
 									<td class="textContent">${groupAllot.groupName}</td>
@@ -107,6 +113,7 @@ width: 100px;
 								    <td class="textContent">${groupAllot.classroomName }</td>
 
 								  </tr>
+								</s:else>
 							</table>
 					</ul>
 				</form>

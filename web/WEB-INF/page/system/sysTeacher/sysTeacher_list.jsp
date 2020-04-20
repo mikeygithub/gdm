@@ -131,37 +131,56 @@
         </tr>
         </thead>
         <tbody>
-				<s:iterator id="p" value="pageResult.data" status="pp">
-					<tr id="tr_${teacherId}">
-						<td align="center"><s:property value="#pp.count" /></td>
-						<td align="center" >${teacherNo}</td>
-						<td align="center" >${teacherName}</td>
-						<td align="center" >${deptName} </td>
-						<td align="center" >${categoryName}</td>
-						<td align="center" >${staffName}</td>
-						<td align="center" > ${technicalName}</td>
-						<td align="center" >${dutiesName}</td>
-						<td align="center" >
+		<s:if test="pageResult.data!=null&&pageResult.total>0">
+			<s:iterator id="p" value="pageResult.data" status="pp">
+				<tr id="tr_${teacherId}">
+					<td align="center"><s:property value="#pp.count" /></td>
+					<td align="center" >${teacherNo}</td>
+					<td align="center" >${teacherName}</td>
+					<td align="center" >
+								<s:if test="deptName==null||deptName==''"><font>-</font></s:if><s:else>${deptName}</s:else>
+					</td>
+					<td align="center" >
+								<s:if test="categoryName==null||categoryName==''"><font>-</font></s:if><s:else>${categoryName}</s:else>
+					</td>
+					<td align="center" >
+								<s:if test="staffName==null||staffName==''"><font>-</font></s:if><s:else>${staffName}</s:else>
+					</td>
+					<td align="center" >
+						<s:if test="technicalName==null||technicalName==''"><font>-</font></s:if><s:else>${technicalName}</s:else>
+					</td>
+					<td align="center" >
+						<s:if test="dutiesName==null||dutiesName==''"><font>-</font></s:if><s:else>${dutiesName}</s:else>
+					</td>
+					<td align="center" >
 						<s:if test="userSex==0">男</s:if>
 						<s:if test="userSex==1">女</s:if></td>
-						<td align="center" >${userTel}</td>
-						<td align="center" >${userEmail}</td>
-						<td align="center" width="20%">
-							<a href="javascript:void(0)"
-							target="rightFrame" onclick="del(this,${teacherId},'${teacherName}');"> <font
+					<td align="center" >
+						<s:if test="userTel==null||userTel==''"><font>-</font></s:if><s:else>${userTel}</s:else>
+					</td>
+					<td align="center" >
+								<s:if test="userEmail==null||userEmail==''"><font>-</font></s:if><s:else>${dutiesName}</s:else>
+					</td>
+					<td align="center" width="20%">
+						<a href="javascript:void(0)"
+						   target="rightFrame" onclick="del(this,${teacherId},'${teacherName}');"> <font
 								color="red"> <i class="layui-icon">&#xe640;</i>删除
-							</font>
-							</a>
-								<a 
-							      href="javascript:dialog('40%','70%','修改老师信息','<%=path%>/sys/teacher_openEdit.action?view=edit&thisId=${teacherId }', 'true','20%');">
-							      <font color="blue"> <i class="layui-icon">&#xe642;</i>修改</font></a>&nbsp;&nbsp;
-							      <a href="javascript:dialog('60%','90%','所带专业','<%=path%>/sys/teacher_openMajorList.action?view=major_list&teacherMajor.teacherId=${teacherId }', 'true','20%');">
-							      <font color="green"> <i class="layui-icon">&#xe642;</i>所带专业</font></a>&nbsp;&nbsp;
-							      <a href="javascript:dialog('60%','90%','研究方向','<%=path%>/sys/teacher_openDirectionsList.action?view=directions_list&teacherDirections.teacherId=${teacherId }', 'true','20%');">
-							      <font color="green"> <i class="layui-icon">&#xe642;</i>研究方向</font></a>&nbsp;&nbsp;
-								</td>
-					</tr>
-				</s:iterator>
+						</font>
+						</a>
+						<a
+								href="javascript:dialog('40%','70%','修改老师信息','<%=path%>/sys/teacher_openEdit.action?view=edit&thisId=${teacherId }', 'true','20%');">
+							<font color="blue"> <i class="layui-icon">&#xe642;</i>修改</font></a>&nbsp;&nbsp;
+						<a href="javascript:dialog('60%','90%','所带专业','<%=path%>/sys/teacher_openMajorList.action?view=major_list&teacherMajor.teacherId=${teacherId }', 'true','20%');">
+							<font color="green"> <i class="layui-icon">&#xe642;</i>所带专业</font></a>&nbsp;&nbsp;
+						<a href="javascript:dialog('60%','90%','研究方向','<%=path%>/sys/teacher_openDirectionsList.action?view=directions_list&teacherDirections.teacherId=${teacherId }', 'true','20%');">
+							<font color="green"> <i class="layui-icon">&#xe642;</i>研究方向</font></a>&nbsp;&nbsp;
+					</td>
+				</tr>
+			</s:iterator>
+		</s:if>
+		<s:else>
+			<tr><td align="center" colspan="12"><font>暂无数据</font></td></tr>
+		</s:else>
 				</tbody>
 </table>
 <%@ include file="/WEB-INF/common/pagination.jsp"%>

@@ -61,35 +61,41 @@
 	        </tr>
          </thead>
          <tbody>
-				<s:iterator id="p" value="pageResult.data" status="pp">
-					<tr id="tr_${defenseId }">
-						<td align="center">
-							<s:property value="#pp.count" /></td>
-						 <td align="center">
-				        			${issueName}
-		               </td>
-						<td align="center" >
-				        			${teacherName}
-				        	</td>
-						<td align="center" >${year}</td>
-						<td align="center" width="20%">
+		 <s:if test="paveResult.data!=null">
+			 <s:iterator id="p" value="pageResult.data" status="pp">
+				 <tr id="tr_${defenseId }">
+					 <td align="center">
+						 <s:property value="#pp.count" /></td>
+					 <td align="center">
+							 ${issueName}
+					 </td>
+					 <td align="center" >
+							 ${teacherName}
+					 </td>
+					 <td align="center" >${year}</td>
+					 <td align="center" width="20%">
 						 <a href="javascript:void(0)" target="rightFrame" onclick="del(this,'${defenseId}' );">
-							      <font color="red"> <i class="layui-icon">&#xe618;</i>删除</font>
+							 <font color="red"> <i class="layui-icon">&#xe618;</i>删除</font>
 						 </a>
-							<a href="<%=path%>/biz/defenseRecord_openEdit.action?view=detail&flag=11&thisId=${defenseId }&thisStuId=${thisStuId }&thisYear=${year}">
-								<font color="blue"> <i class="layui-icon">&#xe655;</i>查看</font>
-							</a>
+						 <a href="<%=path%>/biz/defenseRecord_openEdit.action?view=detail&flag=11&thisId=${defenseId }&thisStuId=${thisStuId }&thisYear=${year}">
+							 <font color="blue"> <i class="layui-icon">&#xe655;</i>查看</font>
+						 </a>
 
 						 <a href="<%=path%>/biz/defenseRecord_openEdit.action?view=edit&flag=11&thisId=${defenseId }&thisStuId=${thisStuId }&thisYear=${year}">
-							      <font color="blue"> <i class="layui-icon">&#xe642;</i>修改</font>
+							 <font color="blue"> <i class="layui-icon">&#xe642;</i>修改</font>
 						 </a>
 
 						 <a href="<%=path%>/biz/defenseRecord_outDefenseRecord.action?thisId=${defenseId }">
-									<font> <img src="<%=path%>/images/i01.png" width="20px" />导出</font>
+							 <font> <img src="<%=path%>/images/i01.png" width="20px" />导出</font>
 						 </a>
-						</td>
-					</tr>
-				</s:iterator>
+					 </td>
+				 </tr>
+			 </s:iterator>
+		 </s:if>
+		 <s:else>
+			 <tr><td align="center" colspan="5"><font>暂无数据</font></td></tr>
+		 </s:else>
+
 	     </tbody>
       </table>
 			<div class="layui-form-item"></div>

@@ -107,32 +107,38 @@ function openAdd(thisId){
 	        </tr>
          </thead>
          <tbody>
-         <s:iterator id="p" value="pageResult.data" status="pp">
-         <tr id="tr_${progressId }">
-						<td align="center"><s:property value="#pp.count" /></td>
-					   <td align="center">
-				        			${stuName}
-		               </td> 
-						  <td align="center">
-				        			${progressTime}
-		               </td>
-					   <td align="center" class="fix-td" colspan="2">
-				        			${progressWork}
-		                </td>
-				        <td align="center" class="fix-td" colspan="2">
-				        			${progressRecord}
-				        </td>
-						
-				        <td align="center" width="20%">
-							 <a href="javascript:void(0)"
+		 <s:if test="pageResult.data!=null&&pageReslut.total>0">
+			 <s:iterator id="p" value="pageResult.data" status="pp">
+				 <tr id="tr_${progressId }">
+					 <td align="center"><s:property value="#pp.count" /></td>
+					 <td align="center">
+							 ${stuName}
+					 </td>
+					 <td align="center">
+							 ${progressTime}
+					 </td>
+					 <td align="center" class="fix-td" colspan="2">
+							 ${progressWork}
+					 </td>
+					 <td align="center" class="fix-td" colspan="2">
+							 ${progressRecord}
+					 </td>
+
+					 <td align="center" width="20%">
+						 <a href="javascript:void(0)"
 							target="rightFrame" onclick="del(this,${progressId});"> <font color="red"> <i class="layui-icon">&#xe640;</i>删除</font></a>
-								<a target="_parent" href="javascript:dialog('100%','100%','修改进度情况','<%=path%>/biz/progressSitu_openEdit.action?view=edit&thisId=${progressId }&flag=05', 'true','0');">
-							      <font color="blue"> <i class="layui-icon">&#xe642;</i>修改</font></a>&nbsp;&nbsp;&nbsp;
-							<a target="_parent" href="javascript:dialog('100%','100%','查看进度情况','<%=path%>/biz/progressSitu_openEdit.action?view=detail&thisId=${progressId }&flag=05', 'true','20%');">
-							<font color="blue"> <i class="layui-icon">&#xe655;</i>查看</font></a>&nbsp;&nbsp;&nbsp;
-								</td>
-						</tr>
-			</s:iterator>
+						 <a target="_parent" href="javascript:dialog('100%','100%','修改进度情况','<%=path%>/biz/progressSitu_openEdit.action?view=edit&thisId=${progressId }&flag=05', 'true','0');">
+							 <font color="blue"> <i class="layui-icon">&#xe642;</i>修改</font></a>&nbsp;&nbsp;&nbsp;
+						 <a target="_parent" href="javascript:dialog('100%','100%','查看进度情况','<%=path%>/biz/progressSitu_openEdit.action?view=detail&thisId=${progressId }&flag=05', 'true','20%');">
+							 <font color="blue"> <i class="layui-icon">&#xe655;</i>查看</font></a>&nbsp;&nbsp;&nbsp;
+					 </td>
+				 </tr>
+			 </s:iterator>
+		 </s:if>
+		 <s:else>
+			 <tr><td align="center" colspan="8"><font>暂无数据</font></td></tr>
+		 </s:else>
+
 	     </tbody>
       </table>
 <%@ include file="/WEB-INF/common/pagination.jsp"%>

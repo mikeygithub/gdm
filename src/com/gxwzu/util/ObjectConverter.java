@@ -35,6 +35,7 @@ public class ObjectConverter {
         listStudent.setCategoryId(sysStudent.getCategoryId());
         listStudent.setMajorId(sysStudent.getMajorId());
         listStudent.setUserId(sysStudent.getStuId());
+        listStudent.setClassId(sysStudent.getClassId());
 
         materialInfo.setStudent(listStudent);
 

@@ -59,7 +59,7 @@
          <table class="tablelist" >
     	  <thead>
 	    	<tr>
-	    	<th>序号</th>
+	    	<th rowspan="2">序号</th>
 	    	<th colspan="4">学生信息</th>
 	    	<th colspan="2">课题信息</th>
 	   		<th rowspan="2">论文评阅</th>
@@ -67,7 +67,7 @@
 	   		<th rowspan="2">年度</th>
 	        </tr>
 	        <tr>
-	    	<th>序号</th>
+<%--	    	<th>序号</th>--%>
 	    	<th>学院</th>
 	    	<th>专业</th>
 	    	<th>班级</th>
@@ -77,73 +77,80 @@
 	        </tr>
          </thead>
          <tbody>
-         <s:iterator id="p" value="pageResult.data" status="pp">
-         <tr id="tr_${taskId }">
-						<td align="center"><s:property value="#pp.count" /></td>
-						  <td align="center">
-				        			${student.deptName}
-				        		
-		               </td>
-					   <td align="center">
-				        			${student.majorName}
-		                </td>
-				        <td align="center">
-				        			${student.className}
-				        </td>
-				        
-						<td align="center" >${student.stuName}</td>
-				       <%-- <td align="center">
-					       <s:if test="issueInfo.issueId==null">
-					        <font color="red">未录入</font>
-					       </s:if>
-					       <s:else>
-					        <font color="blue">${issueInfo.issueName}</font>
-					       </s:else>
-				        </td>  --%>
-				        <td align="center">
-					       <s:if test="issueInfo.issueId==null">
-					        <a href="javascript:dialog('100%','100%','【<font color=blue >${student.stuName }</font>】 课题信息',
-					        '<%=path%>/biz/issueInfo_openEdit.action?view=add&thisStuId=${student.stuId }&thisYear=${model.year }', 'true','20%');" target="rightFrame" >  
-					       <font color="red">未录入</font></a>
-					       </s:if>
-					       <s:else>
-					        <a href="javascript:dialog('100%','100%','【<font color=blue >${student.stuName }</font>】 课题信息',
-					        '<%=path%>/biz/issueInfo_openEdit.action?view=edit&thisStuId=${student.stuId }&thisId=${issueInfo.issueId }&thisYear=${model.year }', 'true','20%');" target="rightFrame" >  
-					       <font color="blue">${issueInfo.issueName}</font></a>
-					       </s:else>
-				        </td> 
-						  <td align="center" >
-					           <s:iterator  id="p" value="issueTypeList" status="sp">
-							   <s:if test="issueInfo!=null&&issueInfo.issueType!=null&&issueInfo.issueType.contains(\"&\"+issueTypeId+\"&\")">${issueTypeName }&nbsp;</s:if>
-						        </s:iterator>
-					    </td>
-				<td align="center">
-				       <s:if test="reviewReadId==null">
-				        <a href="javascript:dialog('100%','100%','【<font color=blue >${student.stuName }</font>】 评阅老师评阅信息','
-				          <%=path%>/biz/review_openAdd.action?view=add&thisStuId=${student.stuId }&thisReviewType=01&thisYear=${model.year }&flag=07', 'true','20%');" target="rightFrame" >  
-				       <font color="red">未录入</font></a>
-				       </s:if><s:else>
-				         <a href="javascript:dialog('100%','100%','【<font color=blue >${student.stuName }</font> 】评阅老师评阅信息','
-				          <%=path%>/biz/review_openEdit.action?view=edit&thisId=${reviewReadId }&thisStuId=${student.stuId }&thisReviewType=01&thisYear=${model.year }&flag=07', 'true','20%');" target="rightFrame" >  
-				      <font color="blue">查看</font></a>
-				       </s:else>
-				        </td>   
-				         <td align="center">
-					         <s:if test='(issueInfo.issueId==null || issueInfo.issueId =="") && (paperId == null || paperId =="")' >
-					              <font color="red">课题未录入</font>
-					         </s:if>
-					         <s:elseif test='(issueInfo.issueId!=null && issueInfo.issueId !="") && (paperId == null || paperId =="")' >
-					             <font color="red">论文未录入</font>
-					         </s:elseif>
-					         <s:elseif test='(issueInfo.issueId!=null && issueInfo.issueId !="") && (paperId != null && paperId !="")' >
-					             <a href=" <%=basePath%>/biz/paper_downFile.action?thisId=${paperId}"; id="fileInfoDownLoad"  style="color: blue;">下载</a>
-					         </s:elseif>
-				         </td>
-				         <td align="center">  ${model.year} </td> 
-						</tr>
-			</s:iterator>
+		 <s:if test="pageResult.data!=null&&pageResult.total>0">
+			 <s:iterator id="p" value="pageResult.data" status="pp">
+				 <tr id="tr_${taskId }">
+					 <td align="center"><s:property value="#pp.count" /></td>
+					 <td align="center">
+							 ${student.deptName}
+
+					 </td>
+					 <td align="center">
+							 ${student.majorName}
+					 </td>
+					 <td align="center">
+							 ${student.className}
+					 </td>
+
+					 <td align="center" >${student.stuName}</td>
+						 <%-- <td align="center">
+                             <s:if test="issueInfo.issueId==null">
+                              <font color="red">未录入</font>
+                             </s:if>
+                             <s:else>
+                              <font color="blue">${issueInfo.issueName}</font>
+                             </s:else>
+                          </td>  --%>
+					 <td align="center">
+						 <s:if test="issueInfo.issueId==null">
+							 <a href="javascript:dialog('100%','100%','【<font color=blue >${student.stuName }</font>】 课题信息',
+					        '<%=path%>/biz/issueInfo_openEdit.action?view=add&thisStuId=${student.stuId }&thisYear=${model.year }', 'true','20%');" target="rightFrame" >
+								 <font color="red">未录入</font></a>
+						 </s:if>
+						 <s:else>
+							 <a href="javascript:dialog('100%','100%','【<font color=blue >${student.stuName }</font>】 课题信息',
+					        '<%=path%>/biz/issueInfo_openEdit.action?view=edit&thisStuId=${student.stuId }&thisId=${issueInfo.issueId }&thisYear=${model.year }', 'true','20%');" target="rightFrame" >
+								 <font color="blue">${issueInfo.issueName}</font></a>
+						 </s:else>
+					 </td>
+					 <td align="center" >
+						 <s:iterator  id="p" value="issueTypeList" status="sp">
+							 <s:if test="issueInfo!=null&&issueInfo.issueType!=null&&issueInfo.issueType.contains(\"&\"+issueTypeId+\"&\")">${issueTypeName }&nbsp;</s:if>
+						 </s:iterator>
+					 </td>
+					 <td align="center">
+						 <s:if test="reviewReadId==null">
+							 <a href="javascript:dialog('100%','100%','【<font color=blue >${student.stuName }</font>】 评阅老师评阅信息','
+				          <%=path%>/biz/review_openAdd.action?view=add&thisStuId=${student.stuId }&thisReviewType=01&thisYear=${model.year }&flag=07', 'true','20%');" target="rightFrame" >
+								 <font color="red">未录入</font></a>
+						 </s:if><s:else>
+						 <a href="javascript:dialog('100%','100%','【<font color=blue >${student.stuName }</font> 】评阅老师评阅信息','
+				          <%=path%>/biz/review_openEdit.action?view=edit&thisId=${reviewReadId }&thisStuId=${student.stuId }&thisReviewType=01&thisYear=${model.year }&flag=07', 'true','20%');" target="rightFrame" >
+							 <font color="blue">查看</font></a>
+					 </s:else>
+					 </td>
+					 <td align="center">
+						 <s:if test='(issueInfo.issueId==null || issueInfo.issueId =="") && (paperId == null || paperId =="")' >
+							 <font color="red">课题未录入</font>
+						 </s:if>
+						 <s:elseif test='(issueInfo.issueId!=null && issueInfo.issueId !="") && (paperId == null || paperId =="")' >
+							 <font color="red">论文未录入</font>
+						 </s:elseif>
+						 <s:elseif test='(issueInfo.issueId!=null && issueInfo.issueId !="") && (paperId != null && paperId !="")' >
+							 <a href=" <%=basePath%>/biz/paper_downFile.action?thisId=${paperId}"; id="fileInfoDownLoad"  style="color: blue;">下载</a>
+						 </s:elseif>
+					 </td>
+					 <td align="center">  ${model.year} </td>
+				 </tr>
+			 </s:iterator>
+		 </s:if>
+		 <s:else>
+			 <tr><td align="center" colspan="10"><font>暂无数据</font></td></tr>
+		 </s:else>
+
 	     </tbody>
       </table>
+			<%@ include file="/WEB-INF/common/pagination.jsp"%>
 </div>
 <script type="text/javascript">
 	$('.tablelist tbody tr:odd').addClass('odd');
