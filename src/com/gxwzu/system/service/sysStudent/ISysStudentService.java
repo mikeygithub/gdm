@@ -6,12 +6,13 @@ import com.gxwzu.core.pagination.Result;
 import com.gxwzu.core.service.BaseService;
 import com.gxwzu.sysVO.ListGroupAllotExport;
 import com.gxwzu.sysVO.ListStudent;
+import com.gxwzu.sysVO.MaterialInfo;
 import com.gxwzu.system.model.sysStudent.SysStudent;
 import com.gxwzu.system.model.userHelp.UserHelp;
 
 public interface ISysStudentService extends BaseService<SysStudent> {
 
-	public Result<ListStudent> find(SysStudent model, int page, int row);
+	public Result<ListStudent> find(MaterialInfo model, int page, int row);
 
 	public SysStudent add(SysStudent sysStudent,UserHelp userHelp);
 

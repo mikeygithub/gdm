@@ -101,7 +101,7 @@
         			</li>
         		
         		<li class="click">
-	        		<a href="javascript:void();"  onclick="openSearch(this);"><img src="<%=path%>/images/search.png"  />搜索</a>
+	        		<a href="javascript:void(0);"  onclick="openSearch(this);"><img src="<%=path%>/images/search.png"  />搜索</a>
 				</li>
 				
 					<li class="click">

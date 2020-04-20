@@ -8,11 +8,12 @@ import com.gxwzu.core.pagination.Result;
 import com.gxwzu.sysVO.ListGroupAllotExport;
 import com.gxwzu.sysVO.ListStudent;
 import com.gxwzu.sysVO.ListStudentAllotGuide;
+import com.gxwzu.sysVO.MaterialInfo;
 import com.gxwzu.system.model.sysStudent.SysStudent;
 
 public interface ISysStudentDao extends BaseDao<SysStudent>{
 
-	public Result<Object> find(SysStudent model, int page, int row);
+	public Result<Object> find(MaterialInfo model, int page, int row);
 
 	public SysStudent findById(Integer id);
 

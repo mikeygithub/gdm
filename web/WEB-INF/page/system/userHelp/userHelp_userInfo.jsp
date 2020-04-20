@@ -67,7 +67,17 @@
             var length = value.length;
             var mobile = /^(13\d|14[57]|15[^4,\D]|17[678]|18\d)\d{8}|170[059]\d{7}$/;
             return this.optional(element) || (length == 11 && mobile.test(value));
-        }, "手机号码格式错误");
+        }, "格式错误");
+        //身份证
+        $.validator.addMethod("stuIdCard", function (value, element) {
+            var idCard = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+            return this.optional(element) || (idCard.test(value));
+        }, "格式错误");
+        //qq邮箱
+        $.validator.addMethod("qqemail", function (value, element) {
+            var email = /^\d{5,12}@[qQ][qQ]\.(com|cn)$/;
+            return this.optional(element) || (email.test(value));
+        }, "格式错误");
         //校验密码确认密码
         $.validator.addMethod("equalPad", function (value, element) {
             return this.optional(element) || (value == $("#newPsd").val());
@@ -115,9 +125,18 @@
                     rangelength: [6, 20],
                     equalPad: true
                 },
-                "model.tel": {
+                "model.userTel": {
                     required: true,
                     mobile: true
+                },
+
+                "model.userEmail": {
+                    required: true,
+                    qqemail: true
+                },
+                "stuIdcart":{
+                    require: true,
+                    stuIdCard: true
                 },
 
 
@@ -135,9 +154,16 @@
                     required: "请输入确认密码",
                     rangelength: "长度为6- 20位"
                 },
-                "model.tel": {
-                    required: "请输入联系方式"
+                "model.userTel": {
+                    required: "请输入手机号码"
                 },
+                "model.userEmail": {
+                    required: "请输入QQ邮箱"
+                },
+                "stuIdcart":{
+                    required: "请输入"
+                }
+
             },
             errorPlacement: function (error, element) { //错误信息位置设置方法
                 error.appendTo(element.parent()); //这里的element是录入数据的对象
@@ -152,8 +178,7 @@
     <fieldset class="layui-elem-field">
         <legend>个人信息</legend>
         <div class="layui-field-box">
-            <form action="<%=path%>/sys/userHelp_editUserInfo.action?view=userInfo" target="rightFrame"
-                  method="post" name="form1" id="form1">
+            <form action="<%=path%>/sys/userHelp_editUserInfo.action?view=userInfo" target="rightFrame" method="post" name="form1" id="form1">
                 <input type="hidden" name="model.id" value="${model.id }">
                 <table class="tablelist">
                     <ul>
@@ -161,8 +186,8 @@
                             <tbody>
                             <tr>
                                 <th>姓名：</th>
-                                <td class="textContent" colspan="2">${model.userName }</td>
-                                <th rowspan="4" style="width: 160px">
+                                <td class="textContent" colspan="1">${model.userName }</td>
+                                <th rowspan="4" colspan="2" style="width: 160px">
                                     <div class="layui-upload" id="phone">
                                         <div class="layui-upload-list">
                                             <c:choose>
@@ -185,11 +210,11 @@
                                 <th><s:if test="student.stuId!=null">学号：</s:if>
                                     <s:if test="teacher.teacherId!=null">职工号：</s:if>
                                 </th>
-                                <td class="textContent" colspan="2">${model.loginName }</td>
+                                <td class="textContent" colspan="1">${model.loginName }</td>
                             </tr>
                             <tr>
                                 <th>性别：</th>
-                                <td class="textContent" colspan="2">
+                                <td class="textContent" colspan="1">
                                     <s:select cssClass="dfinput" list="#{0:'女',1:'男'}"
                                               listKey="key" listValue="value" value="model.userSex"
                                               id="model.userSex" name="model.userSex"/>
@@ -197,7 +222,7 @@
                             </tr>
                             <tr>
                                 <th>用户角色：</th>
-                                <td class="textContent" colspan="2"><s:iterator id="re"
+                                <td class="textContent" colspan="1"><s:iterator id="re"
                                                                                 value="model.sysRoles">
                                     ${roleName }
                                 </s:iterator></td>
@@ -213,30 +238,45 @@
 <%--                                            </s:if>--%>
 <%--                                        </s:iterator>--%>
 <%--                                    </td>--%>
-                                    <td class="textContent" colspan="3">
+                                    <td class="textContent" colspan="1">
                                         <s:select cssClass="dfinput" list="sysDepartments"
                                                   value="student.deptNumber"
                                                   listKey="deptNumber" listValue="deptName"
                                                   id="student.deptNumber" name="student.deptNumber"/>
                                     </td>
+                                    <th>学制：</th>
+                                    <td colspan="1">
+                                        <s:select cssClass="dfinput" list="#{4:'四年',3:'三年',2:'二年',1:'一年'}"
+                                                  listKey="key" listValue="value" value="student.stuSchoollength"
+                                                  id="student.stuSchoollength" name="student.stuSchoollength"/>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th>所属专业：</th>
                                     <%--<td class="textContent" colspan="3">${student.majorName}</td>--%>
-                                    <td class="textContent" colspan="3">
+                                    <td class="textContent" colspan="1">
                                         <s:select cssClass="dfinput" list="majors"
                                                   value="student.majorId"
                                                   listKey="majorId" listValue="majorName"
                                                   id="student.majorId" name="student.majorId"/>
                                     </td>
+                                    <th>学历：</th>
+                                    <td class="textContent" colspan="1" >
+                                        <input  type="text" class="dfinput" name="student.stuArrangement" value="${student.stuArrangement}" maxlength="20">
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th>大类：</th>
-                                    <td class="textContent" colspan="3">
+                                    <td class="textContent" colspan="1">
                                         <s:select cssClass="dfinput" list="sysCategorys"
                                                   value="student.categoryId"
                                                   listKey="categoryId" listValue="categoryName"
                                                   id="student.categoryId" name="student.categoryId"/>
+                                    </td>
+
+                                    <th>身份证：</th>
+                                    <td class="textContent" colspan="1">
+                                        <input type="text" class="dfinput" name="student.stuIdcart" id="stuIdcart" value="${student.stuIdcart}" maxlength="18">
                                     </td>
                                 </tr>
                                 <tr>
@@ -246,47 +286,59 @@
 <%--                                            <s:if test="#p.classId == classId">${className}</s:if>--%>
 <%--                                        </s:iterator>--%>
 <%--                                    </td>--%>
-                                    <td class="textContent" colspan="3">
+                                    <td class="textContent" colspan="1">
                                         <s:select cssClass="dfinput" list="classes"
                                                   value="student.classId"
                                                   listKey="classId" listValue="className"
                                                   id="student.classId" name="student.classId"/>
                                     </td>
+                                    <th>手机号码：</th>
+                                    <td class="textContent" colspan="1">
+                                        <input type="text" class="dfinput" placeholder="请输入手机号码"
+                                               maxlength="11"
+                                               value="${model.userTel}"
+                                               name="model.userTel">
+                                    </td>
                                 </tr>
                                 <tr style=" ">
                                     <th>所属年级：</th>
-                                    <td colspan="3">
+                                    <td colspan="1">
                                         <s:select cssClass="dfinput" list="#{2017:'2017',2018:'2018',2019:'2019',2020:'2020',2021:'2021',2022:'2022',2023:'2023',2024:'2024',2025:'2025',2026:'2026',2027:'2027',2028:'2028',2029:'2029',2030:'2030'}"
                                                   listKey="key" listValue="value" value="student.stuGrade"
                                                   id="student.stuGrade" name="student.stuGrade"/>
                                     </td>
+
+                                    <th>QQ邮箱：</th>
+                                    <td class="textContent" colspan="1">
+                                        <input type="text" class="dfinput" placeholder="请输入QQ邮箱" id="model.userEmail" value="${model.userEmail}" name="model.userEmail">
+                                    </td>
 <%--                                    <td class="textContent" colspan="3">${student.stuGrade}</td>--%>
                                 </tr>
-                                <tr>
-                                    <th>学制：</th>
-                                    <td colspan="3">
-                                        <s:select cssClass="dfinput" list="#{4:'四年',3:'三年',2:'二年',1:'一年'}"
-                                                  listKey="key" listValue="value" value="student.stuSchoollength"
-                                                  id="student.stuSchoollength" name="student.stuSchoollength"/>
-                                    </td>
-<%--                                    <td class="textContent" colspan="3">${student.stuSchoollength }</td>--%>
-                                </tr>
-                                <tr>
-                                    <th>学历：</th>
-                                    <td class="textContent" colspan="3"  >
-                                                <input  type="text" value="${student.stuArrangement}" name="student.stuArrangement">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>身份证：</th>
-                                    <td class="textContent" colspan="3">
-                                        <input type="text" style="width: 100%;" name="student.stuIdcart" value="${student.stuIdcart}">
-                                    </td>
-                                </tr>
+<%--                                <tr>--%>
+<%--                                    <th>学制：</th>--%>
+<%--                                    <td colspan="3">--%>
+<%--                                        <s:select cssClass="dfinput" list="#{4:'四年',3:'三年',2:'二年',1:'一年'}"--%>
+<%--                                                  listKey="key" listValue="value" value="student.stuSchoollength"--%>
+<%--                                                  id="student.stuSchoollength" name="student.stuSchoollength"/>--%>
+<%--                                    </td>--%>
+<%--&lt;%&ndash;                                    <td class="textContent" colspan="3">${student.stuSchoollength }</td>&ndash;%&gt;--%>
+<%--                                </tr>--%>
+<%--                                <tr>--%>
+<%--                                    <th>学历：</th>--%>
+<%--                                    <td class="textContent" colspan="3"  >--%>
+<%--                                                <input  type="text" value="${student.stuArrangement}" name="student.stuArrangement">--%>
+<%--                                    </td>--%>
+<%--                                </tr>--%>
+<%--                                <tr>--%>
+<%--                                    <th>身份证：</th>--%>
+<%--                                    <td class="textContent" colspan="3">--%>
+<%--                                        <input type="text" style="width: 100%;" name="student.stuIdcart" value="${student.stuIdcart}" maxlength="18">--%>
+<%--                                    </td>--%>
+<%--                                </tr>--%>
                                 <tr>
                                     <th>家庭住址：</th>
                                     <td class="textContent" colspan="3">
-                                        <input class="" type="text" style="width: 100%; height: 50px" name="student.stuAddress" value="${student.stuAddress}">
+                                        <input class="dfinput" type="text" style="width: 100%; height: 50px" name="student.stuAddress" value="${student.stuAddress}" maxlength="200">
                                     </td>
                                 </tr>
                             </s:if>
@@ -360,7 +412,6 @@
                                             <font color="green"> <i class="layui-icon">&#xe642;</i>修改</font></a>
                                     </td>
                                 </tr>
-                            </s:if>
                             <tr>
                                 <th>手机号码：</th>
                                 <td class="textContent" colspan="3">
@@ -378,13 +429,12 @@
                                 </td>
                             </tr>
 
+                            </s:if>
                             <tr>
                                 <th>是否修改密码：</th>
                                 <td class="textContent" colspan="3">
                                     <div class="layui-form">
-                                        <input type="radio" name="isPsd" value="1"
-                                               title="是"> <input type="radio"
-                                                                 name="isPsd" value="0" title="否" checked>
+                                        <input type="radio" name="isPsd" value="1" title="是"> <input type="radio" name="isPsd" value="0" title="否" checked>
                                     </div>
                                 </td>
                             </tr>

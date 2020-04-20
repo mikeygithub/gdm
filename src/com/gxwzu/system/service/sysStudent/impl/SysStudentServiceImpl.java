@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.gxwzu.core.context.SystemContext;
+import com.gxwzu.sysVO.MaterialInfo;
 import com.gxwzu.system.model.userRole.UserRoleEntity;
 import com.gxwzu.system.service.userRole.UserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +44,7 @@ public class SysStudentServiceImpl extends BaseServiceImpl<SysStudent> implement
 	 * @return
 	 */
 	@Override
-	public Result<ListStudent> find(SysStudent model, int page, int row) {
+	public Result<ListStudent> find(MaterialInfo model, int page, int row) {
 		Result<Object> oldResult = sysStudentDao.find(model, page, row);
 		Result<ListStudent> newResult = new Result<ListStudent>();
 		List<ListStudent> newList = new ArrayList<ListStudent>();

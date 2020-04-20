@@ -131,12 +131,11 @@ public class AllotGuideServiceImpl extends BaseServiceImpl<AllotGuide> implement
 	}
 	
 	@Override
-	public Result<ListStudentAllotGuide> findStudentByDeptAndMajor(ListStudentAllotGuide model, List<Integer> majorIds, int page,
-			int size) {
+	public Result<ListStudentAllotGuide> findStudentByDeptAndMajor(ListStudentAllotGuide model, List<Integer> majorIds,String tabFlag, int page, int size) {
 		Result<ListStudentAllotGuide>  newResult = new Result<ListStudentAllotGuide>();
 		List<ListStudentAllotGuide> newList = new ArrayList<ListStudentAllotGuide>();
 		
-		Result<Object> oldList = allotGuideDao.findStudentByDeptAndMajor(model,majorIds,page,size);
+		Result<Object> oldList = allotGuideDao.findStudentByDeptAndMajor(model,majorIds,tabFlag,page,size);
 	     
 	     if(oldList!=null&&oldList.getData()!=null&&oldList.getData().size()!=0){
 	    
@@ -153,7 +152,6 @@ public class AllotGuideServiceImpl extends BaseServiceImpl<AllotGuide> implement
 		  newResult.setTotalPage(oldList.getTotalPage());
 		 return newResult;
 	}
-
 	@Override
 	public List<AllotGuide> findByExample(AllotGuide model) {
 		return allotGuideDao.findByExample(model);
@@ -175,8 +173,7 @@ public class AllotGuideServiceImpl extends BaseServiceImpl<AllotGuide> implement
 	
 	
 	@Override
-	public List<ListStudentAllotGuide> findStudentsByTeacherIdAndYear(
-			Integer teacherId,Integer year) {
+	public List<ListStudentAllotGuide> findStudentsByTeacherIdAndYear(Integer teacherId,Integer year) {
 		 List<ListStudentAllotGuide> newList =  null;
 		 ListStudentAllotGuide model = new ListStudentAllotGuide();
 			model.setTeacherId(teacherId);

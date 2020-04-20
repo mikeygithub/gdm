@@ -23,6 +23,9 @@ public class SysConstant {
 	public static final String WOMAN = "0";
 	//女
 	public static final String MAN = "1";
-	
-	
+	//已经分配的学生
+	public static final String ALEADLY_ALLOTGUIDE = "00";
+	//未分配的学生
+	public static final String NOT_ALEADLY_ALLOTGUIDE = "01";
+
 }

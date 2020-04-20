@@ -73,11 +73,14 @@ function openAdd(){
 	        	</li>	
 		
         		<li class="click">
-	        		<a href="javascript:void();"  onclick="openSearch(this);"><img src="<%=path%>/images/search.png"  />搜索</a>
+	        		<a href="javascript:void(0)"  onclick="openSearch(this);"><img src="<%=path%>/images/search.png"  />搜索</a>
 				</li>
 					
 				<li class="click">
-	        		<a href="#" onclick="openAdd()"><img src="<%=path%>/images/t01.png"  style="width: 16px;"/>发布公告</a>
+<%--					非教师身份不允许发布公告--%>
+					<s:if test="LoginUser.userType!=1">
+						<a href="#" onclick="openAdd()"><img src="<%=path%>/images/t01.png"  style="width: 16px;"/>发布公告</a>
+					</s:if>
 				</li>
 		</ul>
 		</div>
@@ -118,11 +121,8 @@ function openAdd(){
 								</font>
 								</a>
 							</s:if>
-							<a href="javascript:void(0)"
-							   onclick="openNotice(${noticeId});"> <font
-									color="red"> <i class="layui-icon">&#xe649;</i>详情
-							</font></a>
-<%--							管理员可删除所有通知--%>
+							<a href="javascript:void(0)" onclick="openNotice(${noticeId});"> <font color="red"> <i class="layui-icon">&#xe649;</i>详情</font></a>
+						<%--							管理员可删除所有通知--%>
 							<s:if test="LoginUser.userType=='3'">
 								<a href="javascript:void(0)"
 								   target="rightFrame" onclick="del(this,${noticeId});"> <font

@@ -326,9 +326,10 @@ public class UserHelpAction extends BaseAction {
         try {
             if (null != model && model.getId() != null) {
                 UserHelp userHelp = userHelpService.findById(model.getId());
+                String oldPsd = getRequest().getParameter("oldPsd");
                 String newPsd = getRequest().getParameter("newPsd");
                 String isPsd = getRequest().getParameter("isPsd");
-                if (newPsd != null && isPsd.equals("1")) {
+                if (newPsd != null && userHelp.getPassword().equals(oldPsd) && isPsd.equals("1")) {
                     userHelp.setPassword(newPsd);
                 }
                 //性别

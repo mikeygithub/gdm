@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.gxwzu.core.model.ResponeJson;
+import com.gxwzu.core.util.SysConstant;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -121,6 +122,7 @@ public class AllotGuideAction extends BaseAction implements
     private String teacherName;
     private String stuName;
     private String deptNumber;
+    private String tabFlag;
     private String flag;
 
     /************************** 方法类 **************************************************************************************/
@@ -263,6 +265,7 @@ public class AllotGuideAction extends BaseAction implements
      * @return
      */
     public String allotStudentList() {
+
         /* 登录名称 :查询学院 */
         String loginName = (String) getSession().getAttribute(SystemContext.LOGINNAME);
         /* 用户类型：1-学生 2-老师 */
@@ -309,27 +312,24 @@ public class AllotGuideAction extends BaseAction implements
                     if (allotGuide.getYear() == null) {
                         allotGuide.setYear(planYear.getYear());
                     }
-                    pageResult1 = allotGuideService.findStudentByDeptAndMajor(allotGuide, majorIds, getPage(), getRow());
+                    // 老師可帶人數
+                    guideCount = getTeacherGuideCount(loginName);
+                    //教师id
+                    allotGuide.setTeacherId(teacher.getTeacherId());
+                    //老师所带专业
+                    teacherMajorList = teacherMajorService.findByTeacherId(teacher.getTeacherId());
+                    //查询已经分配
+                    pageResult1 = allotGuideService.findStudentByDeptAndMajor(allotGuide, majorIds,tabFlag, getPage(), getRow());
 
                     footer = PageUtil.pageFooter(pageResult1, getRequest());
 
-                    // 老師可帶人數
-                    guideCount = getTeacherGuideCount(loginName);
-
-                    //老师所带专业
-                    teacherMajorList = teacherMajorService.findByTeacherId(teacher.getTeacherId());
-
                     // 查询已分配学生的信息
-                    allotStudentList = allotGuideService.findStudentsByTeacherIdAndYear(teacher.getTeacherId(),
-                            allotGuide.getYear());
+//                    allotStudentList = allotGuideService.findStudentsByTeacherIdAndYear(teacher.getTeacherId(),allotGuide.getYear());
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
             return SUCCESS;
-//			  }else{
-//				  return SUCCESS;
-//			  }
         } else {
             return SUCCESS;
         }
@@ -465,6 +465,7 @@ public class AllotGuideAction extends BaseAction implements
                         allotGuideService.del(Integer.parseInt(stuId));
                     } catch (Exception e) {
                         failList.add(stuId);
+                        e.printStackTrace();
                     }
                 }
             } else {
@@ -704,4 +705,13 @@ public class AllotGuideAction extends BaseAction implements
         this.userHelpList = userHelpList;
     }
 
+    @Override
+    public String getTabFlag() {
+        return tabFlag;
+    }
+
+    @Override
+    public void setTabFlag(String tabFlag) {
+        this.tabFlag = tabFlag;
+    }
 }

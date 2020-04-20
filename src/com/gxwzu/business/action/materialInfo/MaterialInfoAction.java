@@ -14,10 +14,12 @@ import com.gxwzu.business.service.progressSitu.IProgressSituSerivce;
 import com.gxwzu.business.service.replyScore.IReplyScoreSerivce;
 import com.gxwzu.business.service.review.IReviewSerivce;
 import com.gxwzu.business.service.taskBook.ITaskBookSerivce;
+import com.gxwzu.core.util.SysConstant;
 import com.gxwzu.core.util.WordUtils;
 import com.gxwzu.sysVO.*;
 import com.gxwzu.system.service.sysTechnical.ISysTechnicalService;
 import com.gxwzu.util.ExportDocUtil;
+import org.apache.commons.lang.xwork.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts2.ServletActionContext;
@@ -126,7 +128,6 @@ public class MaterialInfoAction extends BaseAction implements ModelDriven<Materi
     private IReplyScoreSerivce iReplyScoreSerivce;//评语及成绩
 
 
-
     /*********************** 实体 ***************************/
     private PlanYear planYear; // 年度计划实体
     private AllotGuide allotGuide; // 指导分配实体
@@ -156,6 +157,7 @@ public class MaterialInfoAction extends BaseAction implements ModelDriven<Materi
     private Integer thisType;// 页面功能跳转类别
     private Integer thisYear;
     private Integer stuId;
+    private String stuName;
     private Integer fileTypeSize = 0; //默认文件类型个数 0
     private String flag;
     private String thisReplyType; // 类型：答辩类型： 00答辩小组 01系答辩委员会
@@ -177,18 +179,15 @@ public class MaterialInfoAction extends BaseAction implements ModelDriven<Materi
      * @return
      */
     public String list() {
-
-        String type = (String) getSession()
-                .getAttribute(SystemContext.USERTYPE);
-
-        String loginName = (String) getSession().getAttribute(
-                SystemContext.LOGINNAME);
+        String type = (String) getSession().getAttribute(SystemContext.USERTYPE);
+        String loginName = (String) getSession().getAttribute(SystemContext.LOGINNAME);
         try {
             // 老师查询学生课题信息
             if (type.equals("2")) {
                 teacher = sysTeacherService.findByTeacherNo(loginName);
                 model.setDeptNumber(teacher.getDeptNumber()); // 学院
                 model.setCategoryId(teacher.getCategoryId()); // 大类
+                model.setTeacherId(teacher.getTeacherId());
             }
             // 设置年度
             if (thisYear != null) {
@@ -196,6 +195,12 @@ public class MaterialInfoAction extends BaseAction implements ModelDriven<Materi
             } else {
                 planYear = planYearSerivce.findPlanYear();
                 model.setYear(planYear.getYear());
+            }
+            //搜索
+            if (StringUtils.isNotBlank(stuName)){
+                ListStudent listStudent = model.getStudent()==null?new ListStudent():model.getStudent();
+                listStudent.setStuName(stuName);
+                model.setStudent(listStudent);
             }
             pageResult = materialInfoSerivce.find(model, getPage(), getRow());
             footer = PageUtil.pageFooter(pageResult, getRequest());
@@ -214,11 +219,9 @@ public class MaterialInfoAction extends BaseAction implements ModelDriven<Materi
      */
     public String guideStudentList() {
         logger.info("指导老师查询自己所带学生相关材料信息");
-        String type = (String) getSession()
-                .getAttribute(SystemContext.USERTYPE);
+        String type = (String) getSession().getAttribute(SystemContext.USERTYPE);
 
-        String loginName = (String) getSession().getAttribute(
-                SystemContext.LOGINNAME);
+        String loginName = (String) getSession().getAttribute(SystemContext.LOGINNAME);
         try {
             // 老师查询学生课题信息
             if (type.equals("2")) {
@@ -232,7 +235,6 @@ public class MaterialInfoAction extends BaseAction implements ModelDriven<Materi
                 }
                 //课题类型
                 issueTypeList = sysIssueTypeService.findAll(SysIssueType.class);
-
                 //指导老师查询自己所带学生相关材料信息
                 guideStudentList = materialInfoSerivce.findGuideStudent(teacher.getTeacherId(), model.getYear());
 
@@ -295,12 +297,12 @@ public class MaterialInfoAction extends BaseAction implements ModelDriven<Materi
                             }
                         }
                         //老师查询所在组的学生信息
-                        if (SystemContext.REPLY_TYPE_SMALL_GROUP.equals(thisReplyType)){//答辩组
-                            pageResult = materialInfoSerivce.findGroupStudent(groupAllotId,thisReplyType, model.getYear(), getPage(), getRow());
-                        }else if (SystemContext.REPLY_TYPE_BIG_GROUP.equals(thisReplyType)){//大组
-                            pageResult = materialInfoSerivce.findGroupStudent(groupAllotId,thisReplyType, model.getYear(), getPage(), getRow());
-                        }else {//默认答辩组
-                            pageResult = materialInfoSerivce.findGroupStudent(groupAllotId,thisReplyType, model.getYear(), getPage(), getRow());
+                        if (SystemContext.REPLY_TYPE_SMALL_GROUP.equals(thisReplyType)) {//答辩组
+                            pageResult = materialInfoSerivce.findGroupStudent(groupAllotId, thisReplyType, model.getYear(), getPage(), getRow());
+                        } else if (SystemContext.REPLY_TYPE_BIG_GROUP.equals(thisReplyType)) {//大组
+                            pageResult = materialInfoSerivce.findGroupStudent(groupAllotId, thisReplyType, model.getYear(), getPage(), getRow());
+                        } else {//默认答辩组
+                            pageResult = materialInfoSerivce.findGroupStudent(groupAllotId, thisReplyType, model.getYear(), getPage(), getRow());
                         }
                         footer = PageUtil.pageFooter(pageResult, getRequest());
                         //指导老师查询自己所在教研室进度计划信息
@@ -372,7 +374,8 @@ public class MaterialInfoAction extends BaseAction implements ModelDriven<Materi
                         }
                         groupAllot = groupAllotService.findViewModelById(gTeacher.getGroupAllotId());
 
-                        if ("00".equals(groupAllot.getFirstDefense()))groupStudentService.updateAutoAllotTeacher(groupAllot);
+                        if ("00".equals(groupAllot.getFirstDefense()))
+                            groupStudentService.updateAutoAllotTeacher(groupAllot);
                         //老师查询所在组的学生信息
                         pageResult = materialInfoSerivce.findGroupDefenseStudent(gTeacher.getGroupAllotId(), gTeacher.getTeacherId(), model.getYear(), getPage(), getRow());
                         footer = PageUtil.pageFooter(pageResult, getRequest());
@@ -495,7 +498,7 @@ public class MaterialInfoAction extends BaseAction implements ModelDriven<Materi
 
             String[] stuIds = thisIds.split(",");//需导出学生id数组
 
-            List<Map<String,String>> maps = new ArrayList<>();
+            List<Map<String, String>> maps = new ArrayList<>();
 
             for (int i = 0; i < stuIds.length; i++) {
 
@@ -503,16 +506,16 @@ public class MaterialInfoAction extends BaseAction implements ModelDriven<Materi
                 //初始化map
                 Map<String, String> map = ExportDocUtil.initMapMsg();
                 //数据填充
-                ExportDocUtil.putData(doc,map);
+                ExportDocUtil.putData(doc, map);
 
                 maps.add(map);//add
             }
 
-        WordUtils.exportWordByBatch(maps, getTempletePath(),getZipPath());
+            WordUtils.exportWordByBatch(maps, getTempletePath(), getZipPath());
 
-    }catch (Exception e){
-        e.printStackTrace();
-    }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         fileName = "学生毕业设计过程文档.zip";
 
         return OUT;
@@ -553,13 +556,13 @@ public class MaterialInfoAction extends BaseAction implements ModelDriven<Materi
         studentProcessDocVO.setDefenseRecordVOS(iDefenseRecordService.findByExample(new DefenseRecord().setStuId(id).setYear(year)));
         //答辩成绩及评语表// 00答辩小组
         studentProcessDocVO.setGroupReply(iReplyScoreSerivce.findByStuIdAndReplyTypeAndYear(id, "00", year));
-        ListGroupStudent gStudent = groupStudentService.findByStuIdAndYearAndType(id, year,"00");
+        ListGroupStudent gStudent = groupStudentService.findByStuIdAndYearAndType(id, year, "00");
         if (gStudent != null) {
             studentProcessDocVO.setDefenceGroup(groupAllotService.findViewModelById(gStudent.getGroupAllotId()));
         }
         //01系答辩委员会
         studentProcessDocVO.setDeptReply(iReplyScoreSerivce.findByStuIdAndReplyTypeAndYear(id, "01", year));
-        ListGroupStudent gCommitee = groupStudentService.findByStuIdAndYearAndType(id, year,"01");//系答辩委员会
+        ListGroupStudent gCommitee = groupStudentService.findByStuIdAndYearAndType(id, year, "01");//系答辩委员会
         if (gCommitee != null) {
             studentProcessDocVO.setCommiteeGroup(groupAllotService.findViewModelById(gCommitee.getGroupAllotId()));
         }
@@ -831,5 +834,13 @@ public class MaterialInfoAction extends BaseAction implements ModelDriven<Materi
 
     public void setZipPath(String zipPath) {
         this.zipPath = zipPath;
+    }
+
+    public String getStuName() {
+        return stuName;
+    }
+
+    public void setStuName(String stuName) {
+        this.stuName = stuName;
     }
 }

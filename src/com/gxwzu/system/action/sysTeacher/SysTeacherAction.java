@@ -469,6 +469,10 @@ public class SysTeacherAction extends BaseAction implements ModelDriven<SysTeach
 	 */
 	public String addTeacherByExcel() {
 
+		List<SysDepartment> allSysDepartmentList = sysDepartmentService.findAllSysDepartmentList();//学院
+		List<SysMajor> allSysMajorList = sysMajorService.findAllSysMajorList();//教研室
+		List<SysTechnical> allSysTechnicalList = sysTechnicalService.findAllSysTechnicalList();//职称
+
 		logger.info("导入教师信息" + model.getTeacherName());
 
 		mark = "1";
@@ -481,12 +485,14 @@ public class SysTeacherAction extends BaseAction implements ModelDriven<SysTeach
 								excelFile.get(i)));
 						Sheet sheet = workbook.getSheetAt(0);
 						System.out.println("当前列数：" + sheet.getLastRowNum());
+
 						Row firstRow = sheet.getRow(0);
 						Iterator<Cell> iterator = firstRow.iterator();
 						List<String> cellNames = new ArrayList<String>();
 						while (iterator.hasNext()) {
 							cellNames.add(iterator.next().getStringCellValue());
 						}
+
 						// sheet.getLastRowNum() 当前列数
 						for (int j = 1; j <= sheet.getLastRowNum(); j++) {
 							Row row = sheet.getRow(j);
@@ -507,12 +513,13 @@ public class SysTeacherAction extends BaseAction implements ModelDriven<SysTeach
 							}
 							// 院系
 							if (row.getCell(3) != null) {
-								row.getCell(3).setCellType(
-										Cell.CELL_TYPE_STRING);
-								sysDepartment = sysDepartmentService
-										.findSysDepartmentByDeptName(row
-												.getCell(3)
-												.getStringCellValue());
+								row.getCell(3).setCellType(Cell.CELL_TYPE_STRING);
+//								sysDepartment = sysDepartmentService.findSysDepartmentByDeptName(row.getCell(3).getStringCellValue());
+								for (SysDepartment tmp:allSysDepartmentList){
+									if (tmp.getDeptName().equals(row.getCell(3).getStringCellValue())){
+										sysDepartment = tmp;break;
+									}
+								}
 								if (sysDepartment != null)
 									model.setDeptNumber(sysDepartment
 											.getDeptNumber());
@@ -521,9 +528,16 @@ public class SysTeacherAction extends BaseAction implements ModelDriven<SysTeach
 							if (row.getCell(4) != null) {
 								row.getCell(4).setCellType(Cell.CELL_TYPE_STRING);
 
-                                sM.setMajorName(row.getCell(4).getStringCellValue());
-                                List<SysMajor> byExample = sysMajorService.findByExample(sM);
-                                if (byExample!=null&&byExample.size()>0)this.sysMajor=byExample.get(0);
+//                                sM.setMajorName(row.getCell(4).getStringCellValue());
+//                                List<SysMajor> byExample = sysMajorService.findByExample(sM);
+//                                if (byExample!=null&&byExample.size()>0)this.sysMajor=byExample.get(0);
+
+                                for(SysMajor tmp:allSysMajorList){
+                                	if (tmp.getMajorName().equals(row.getCell(4).getStringCellValue())){
+                                		sysMajor = tmp;break;
+									}
+								}
+
 								if (this.sysMajor != null){
 									model.setStaffroomId(this.sysMajor.getMajorId());//教研室
 									model.setCategoryId(this.sysMajor.getCategoryId());//大类
@@ -535,7 +549,12 @@ public class SysTeacherAction extends BaseAction implements ModelDriven<SysTeach
 							// 教师职称
 							if (row.getCell(5) != null) {
 								row.getCell(3).setCellType(Cell.CELL_TYPE_STRING);
-								sysTechnical = sysTechnicalService.findByName(row.getCell(5).getStringCellValue());
+//								sysTechnical = sysTechnicalService.findByName(row.getCell(5).getStringCellValue());
+								for (SysTechnical tmp:allSysTechnicalList){
+									if (tmp.equals(row.getCell(5).getStringCellValue())){
+										sysTechnical = tmp;break;
+									}
+								}
 								if (sysTechnical != null)
 									model.setTechnicalId(sysTechnical
 											.getTechnicalId());
@@ -584,7 +603,7 @@ public class SysTeacherAction extends BaseAction implements ModelDriven<SysTeach
 									exitList = new ArrayList<SysTeacher>();
 								}
 								exitList.add(model);
-							} else {
+							} else if (model.getTeacherNo()!=null&&!("".equals(model.getTeacherNo()))&&model.getTeacherName()!=null&&!("".equals(model.getTeacherName()))){
 								sysTeacherService.add(model, userHelp);
 							}
 						}

@@ -20,16 +20,9 @@ public interface IAllotGuideDao extends BaseDao<AllotGuide>{
 
 	AllotGuide findByStuId(Integer stuId);
 	
-	
-	/**
-	 * 通过model和专业查找學生
-	 * @author 
-     * @date 2017.7.15
-	 */
-	public Result<Object> findStudentByDeptAndMajor(ListStudentAllotGuide model, List<Integer> majorIds, int page, int size);
+	public Result<Object> findStudentByDeptAndMajor(ListStudentAllotGuide model, List<Integer> majorIds,String tabFlag, int page, int size);
 
 	public List<Object> findStudentsByExample(ListStudentAllotGuide model);
 
-	Result<Object> findTeacherList(ListTeacherGuideCount guideCount,
-			List<Integer> majorIds, int page, int row);
+	Result<Object> findTeacherList(ListTeacherGuideCount guideCount,List<Integer> majorIds, int page, int row);
 }

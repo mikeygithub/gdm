@@ -95,8 +95,24 @@
                 <td align="center">
                     <s:if test="userSex==0">女</s:if>
                     <s:if test="userSex==1">男</s:if></td>
-                <td align="center">${userTel}</td>
-                <td align="center">${year}</td>
+                <td align="center">
+<%--                        ${userTel}--%>
+                            <s:if test="userTel==null||userTel==''">
+                                <font color="red">未填写</font>
+                            </s:if>
+                            <s:else>
+                                <font color="blue">${userTel}</font>
+                            </s:else>
+                </td>
+                <td align="center">
+                    <s:if test="userTel==null||year==''">
+                        <font color="red">未填写</font>
+                    </s:if>
+                    <s:else>
+                        <font color="blue">${year}</font>
+                    </s:else>
+<%--                        ${year}--%>
+                </td>
                 <td align="center">
                     <s:iterator id="tml" value="teacherMajorList">
                         ${majorName} &nbsp;
@@ -115,25 +131,39 @@
                         </s:iterator>
                     </c:if>
                 </td>
-                <td align="center"><font color="blue"> ${maxStuNum}</font></td>
-                <td align="center">${alreadyStuNum}</td>
+                <td align="center">
+                    <s:if test="maxStuNum==null||maxStuNum==''">
+                        <font color="red">未分配</font>
+                    </s:if>
+                    <s:else>
+                        <font color="blue">${maxStuNum}</font>
+                    </s:else>
+                </td>
+                <td align="center">
+                    <s:if test="alreadyStuNum==null||alreadyStuNum==''">
+                        <font color="red">未分配</font>
+                    </s:if>
+                    <s:else>
+                        <font color="blue">${alreadyStuNum}</font>
+                    </s:else>
+                </td>
 
                 <td align="center" width="20%">
                     <s:if test="teacher.teacherId==teacherId">
                         <font color="green"> 已选</font></a>
                     </s:if>
                     <s:else>
-                        <s:if test="maxStuNum==alreadyStuNum">
+                        <s:if test="maxStuNum<=alreadyStuNum">
                             <s:if test="maxStuNum==null">
                                 <font color="red">未分配人数</font>
                             </s:if>
                             <s:else>
-                                <font color="blue"> 人数已满</font>
+                                <font color="red"> 人数已满</font>
                             </s:else>
                         </s:if>
                     </s:else>
 
-                    <s:if test="teacher.teacherId==null&maxStuNum!=null">
+                    <s:if test="teacher.teacherId==null&maxStuNum!=null&maxStuNum>alreadyStuNum">
                         <a href="javascript:void(0)"
                            target="rightFrame" onclick="optionHandler(this,'${teacherId}' ,'${teacherName}'  ,1);">
                             <font color="blue"> <i class="layui-icon">&#xe618;</i>可选</font></a>
@@ -183,7 +213,7 @@
                 <td align="center">${model.opTime}</td>
                 <td align="center">${model.year}</td>
                 <td align="center" width="20%">
-                    <a href="javascript:void(0);" onclick="optionHandler(this,'${model.id},',2);">
+                    <a href="javascript:void(0)" onclick="optionHandler(this,'${model.id},',2,2);">
                         <font color="red"> <i class="layui-icon">&#x1006;</i>退选</font></a>&nbsp;&nbsp;&nbsp;
                 </td>
             </tr>
@@ -205,8 +235,7 @@
                     //选择
                     if (flag == 1) {
                         option(name, teacherId, reacherName);
-                    }
-                    if (flag == 2) {
+                    }else if (flag == 2) {
                         del(name,teacherId);
                     }
                 } else {

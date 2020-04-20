@@ -140,9 +140,11 @@
         <!--公告信息 satrt-->
         <div class="dflist">
             <div class="listtitle">
-                <a href="javascript:void(0);" onclick="openNoticeList()" class="more1">更多</a><img
-                    src="<%=path%>/images/i09.png"
-                    style="width:40px"/>&nbsp;公告信息
+                <a href="javascript:dialog('100%','100%','通知列表','<%=path%>/sys/notice_list.action?view=list', 'true','0');" class="more1">更多</a><img src="<%=path%>/images/i09.png" style="width:40px" />&nbsp;公告信息
+
+<%--                <a href="javascript:void(0);" onclick="openNoticeList()" class="more1">更多</a>--%>
+
+<%--                <img src="<%=path%>/images/i09.png" style="width:40px"/>&nbsp;公告信息--%>
             </div>
             <ul class="newlist" id="sysNotice">
 

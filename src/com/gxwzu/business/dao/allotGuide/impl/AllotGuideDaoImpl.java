@@ -3,6 +3,7 @@ package com.gxwzu.business.dao.allotGuide.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.gxwzu.core.util.SysConstant;
 import org.apache.commons.lang.xwork.StringUtils;
 import org.springframework.stereotype.Repository;
 
@@ -114,8 +115,7 @@ public class AllotGuideDaoImpl extends BaseDaoImpl<AllotGuide> implements IAllot
 	}
 	
 	@Override
-	public Result<Object> findStudentByDeptAndMajor(ListStudentAllotGuide model,
-			List<Integer> majorIds, int page, int size) {
+	public Result<Object> findStudentByDeptAndMajor(ListStudentAllotGuide model, List<Integer> majorIds,String tabFlag, int page, int size) {
 		List<Object> params = new ArrayList<Object>();
 		StringBuffer queryString = new StringBuffer("SELECT * FROM (")
 				.append("SELECT ")
@@ -136,7 +136,13 @@ public class AllotGuideDaoImpl extends BaseDaoImpl<AllotGuide> implements IAllot
 		int start = (page - 1) * size;
 		int limit = size;
 		params.add(model.getYear()); //通过年度筛选
-		queryString.append(" and ISNULL(model.teacher_id) ");//筛选 未分配指导老师的学生
+		if (SysConstant.NOT_ALEADLY_ALLOTGUIDE.equals(tabFlag)) {
+			queryString.append(" and ISNULL(model.teacher_id) ");//筛选 未分配指导老师的学生
+		}
+		if (SysConstant.ALEADLY_ALLOTGUIDE.equals(tabFlag)){
+			queryString.append(" and model.teacher_id = ?");//已经分配指导老师的学生
+			params.add(model.getTeacherId());
+		}
 	
 		if (model.getStuId()!=null) {
 			queryString.append(" and model.stu_id=?");
@@ -160,8 +166,7 @@ public class AllotGuideDaoImpl extends BaseDaoImpl<AllotGuide> implements IAllot
 		queryString.append("ORDER BY stu_id DESC");
 		System.out.println(queryString.toString());
 		System.out.println(majorIds);
-		return super.findBySQL(queryString.toString(), params.toArray(), start,
-				limit);
+		return super.findBySQL(queryString.toString(), params.toArray(), start,limit);
 	}
 
 	@Override
