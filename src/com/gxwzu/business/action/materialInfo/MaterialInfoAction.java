@@ -414,7 +414,7 @@ public class MaterialInfoAction extends BaseAction implements ModelDriven<Materi
                 model.setYear(thisYear);
             } else {
                 planYear = planYearSerivce.findPlanYear();
-                model.setYear(planYear.getYear());
+                if (planYear!=null) model.setYear(planYear.getYear());
             }
             thisYear = model.getYear();
             if (type.equals("1")) {

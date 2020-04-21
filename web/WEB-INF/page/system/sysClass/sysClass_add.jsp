@@ -59,6 +59,25 @@ $.ajax({
         rules:{
             "model.className":{
             	required:true,
+				remote: {//TODO:远程校验证
+					type: "post",
+					url: "<%=path %>/sys/classes_checkClassName.action",
+					data: {
+						"model.className": function () {
+							return $("input[name='model.className']").val();
+						}
+					},
+					dataType: "html",
+					dataFilter: function (data, type) {
+						var tag = document.getElementsByTagName("i");
+						tag[0].style.display = "none";
+						if (data == "true") {
+							return true;
+						} else {
+							return false;
+						}
+					}
+				},
             	rangelength:[2,20]
             },
 			"model.majorId":{
@@ -68,7 +87,8 @@ $.ajax({
         messages:{
         	 "model.className":{
 	            	required:"请输入班级名称",
-	            	rangelength:"长度为2到 20个字或字母"
+	            	rangelength:"长度为2到 20个字或字母",
+				 	remote:"班级已经存在"
 	            },
 			 "model.majorId":{
 				required:"请选择专业"
@@ -141,8 +161,7 @@ td {padding: 4px;font-size: 14px;}
 						</tr> -->
 						<tr >
 							<td  class="rightText" >班级名称：</td>
-							<td ><input type="text" class="dfinput"
-								id="model.className" name="model.className" > <i class="warn">*</i></td>
+							<td ><input type="text" class="dfinput" id="model.className" name="model.className" > <i class="warn">*</i></td>
 						</tr>
 					
 					</table>

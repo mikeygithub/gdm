@@ -78,9 +78,9 @@
 <div class="rightinfo">
     <div class="formbody">
         <div id="usual1" class="usual">
-            <%@ include file="/WEB-INF/page/business/materialInfo/select_info_tab.jsp" %>
-            <form id="form1" name="form1"
-                  action="<%=path%>/biz/progressSitu_list.action?view=list&page=${pageResult1.page}" method="post">
+<%--            <%@ include file="/WEB-INF/page/business/materialInfo/select_info_tab.jsp" %>--%>
+            <form id="form1" name="form1" action="<%=path%>/biz/progressSitu_list.action?view=list&page=${pageResult1.page}" method="post">
+                <div>
                 <ul class="placeul">
                     <li><span>院系：</span>${deptName }</li>
                     <li>当前年度：${thisYear }
@@ -90,6 +90,7 @@
                         <a href="#" onclick="openAdd()"><img src="<%=path%>/images/t01.png" style="width: 16px;"/>添加</a>
                     </li>
                 </ul>
+                </div>
                 <div class="formtitle" style="float:right;">
                     <ul>
                         <li class="line">

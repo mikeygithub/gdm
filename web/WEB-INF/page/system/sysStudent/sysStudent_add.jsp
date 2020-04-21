@@ -452,12 +452,12 @@ td {
 										</td>
 									</tr>
 
-									<tr>
-										<td class="rightText" style="width: 10%;">年龄：</td>
-										<td><input type="text" class="dfinput"
-											id="userHelp.userAge" name="userHelp.userAge"
-											value="${student.userAge}"></td>
-									</tr>
+<%--									<tr>--%>
+<%--										<td class="rightText" style="width: 10%;">年龄：</td>--%>
+<%--										<td><input type="text" class="dfinput"--%>
+<%--											id="userHelp.userAge" name="userHelp.userAge"--%>
+<%--											value="${student.userAge}"></td>--%>
+<%--									</tr>--%>
 								</tbody>
 							</table>
 						<li>

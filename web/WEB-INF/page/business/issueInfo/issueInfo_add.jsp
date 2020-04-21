@@ -115,7 +115,7 @@ table{margin:0 auto;}
 
     <div class="formbody">
       <div id="usual1" class="usual"> 
-       <%@ include file="/WEB-INF/page/business/materialInfo/select_tab.jsp"%>
+<%--       <%@ include file="/WEB-INF/page/business/materialInfo/select_tab.jsp"%>--%>
     <div id="tab1" class="tabson">
 
 	<div class="rightinfo" style="text-align: center;">

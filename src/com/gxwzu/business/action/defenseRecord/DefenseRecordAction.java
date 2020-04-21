@@ -169,7 +169,7 @@ public class DefenseRecordAction extends BaseAction implements ModelDriven<Defen
 				student = sysStudentService.findByStuNo(loginName);
 				planProgress=planProgressSerivce.findByStudMajoId(student.getMajorId(),flag);
 				thisStuId = student.getStuId();
-				thisYear = planProgress.getYear();
+				if(planProgress!=null)thisYear=planProgress.getYear();
 				}
 
 			//查询 当前老师所属专业教研室 中的进度计划
@@ -179,7 +179,7 @@ public class DefenseRecordAction extends BaseAction implements ModelDriven<Defen
 			}
 
 			Timestamp d = new Timestamp(System.currentTimeMillis());
-			if (d.after(planProgress.getStartTime())) {
+			if (planProgress!=null&&d.after(planProgress.getStartTime())) {
 				try {
 					if (thisStuId != null && thisYear != null) {
 
@@ -374,7 +374,7 @@ public class DefenseRecordAction extends BaseAction implements ModelDriven<Defen
 					 planProgress=planProgressSerivce.findByTeacStaffroomId(lTeacher.getStaffroomId(),flag); 
 				}
 				Timestamp d = new Timestamp(System.currentTimeMillis()); 
-				if(d.after(planProgress.getStartTime())){
+				if(planProgress!=null&&d.after(planProgress.getStartTime())){
 					logger.info("当前时间大于年度时间");
 					try {
 						if (thisStuId!= null
@@ -394,7 +394,7 @@ public class DefenseRecordAction extends BaseAction implements ModelDriven<Defen
 					}
 					return SUCCESS;
 				}else{
-					return "view";
+					return SUCCESS;
 				}
 		}else{
 			return null;
@@ -428,8 +428,8 @@ public class DefenseRecordAction extends BaseAction implements ModelDriven<Defen
 				mark = "0";
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
 			mark = "0";
+			e.printStackTrace();
 		}
 		return list();
 	}

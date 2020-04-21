@@ -199,7 +199,7 @@ public class TaskBookAction extends BaseAction implements ModelDriven<TaskBook> 
 					 planProgress=planProgressSerivce.findByTeacStaffroomId(lTeacher.getStaffroomId(),flag); 
 				}
 				Timestamp d = new Timestamp(System.currentTimeMillis()); 
-				if(d.after(planProgress.getStartTime())){
+				if(planProgress!=null&&d.after(planProgress.getStartTime())){
 					try {
 						if (thisStuId != null && thisYear != null) {
 						// 查询学生信息
@@ -216,7 +216,7 @@ public class TaskBookAction extends BaseAction implements ModelDriven<TaskBook> 
 					}
 					return SUCCESS;
 				}else{
-				    return "view";
+				    return SUCCESS;
 				}
 	    }else{
 	    	return SUCCESS;

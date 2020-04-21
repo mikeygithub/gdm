@@ -107,7 +107,7 @@
 <div class="rightinfo">
     <div class="formbody">
         <div id="usual1" class="usual">
-            <%@ include file="/WEB-INF/page/business/materialInfo/select_info_tab.jsp" %>
+<%--            <%@ include file="/WEB-INF/page/business/materialInfo/select_info_tab.jsp" %>--%>
             <div id="tab2" class="tabson">
                 <form id="form1" name="form1"
                       action="<%=path%>/biz/materialInfo_info.action?view=info&page=${pageResult.page}" method="post">

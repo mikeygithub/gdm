@@ -291,12 +291,12 @@ td {
 										id="userHelp.userEmail" name="userHelp.userEmail"
 										value="${teacher.userEmail}"></td>
 											</tr>
-						<tr >
-									<td class="rightText" style="width: 10%;">年龄：</td>
-									<td><input type="text" class="dfinput"
-										id="userHelp.userAge" name="userHelp.userAge"
-										value="${teacher.userAge}"></td>
-								</tr>
+<%--						<tr >--%>
+<%--									<td class="rightText" style="width: 10%;">年龄：</td>--%>
+<%--									<td><input type="text" class="dfinput"--%>
+<%--										id="userHelp.userAge" name="userHelp.userAge"--%>
+<%--										value="${teacher.userAge}"></td>--%>
+<%--								</tr>--%>
 								</tbody>
 							</table>
 						<li>

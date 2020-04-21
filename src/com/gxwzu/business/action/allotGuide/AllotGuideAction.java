@@ -227,7 +227,7 @@ public class AllotGuideAction extends BaseAction implements ModelDriven<AllotGui
 
                         if (teacherName != null) guideCount.setTeacherName(teacherName);
                         guideCount.setDeptNumber(student.getDeptNumber());
-                        if (allotGuide.getYear() == null)
+                        if (allotGuide.getYear() == null&&planYear!=null)
                             guideCount.setYear(planYear.getYear());
                         // 分页查询可分配老师信息
                         pageResult = allotGuideService.findTeacherList(guideCount, majorIds, getPage(), getRow());

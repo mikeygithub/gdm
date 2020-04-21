@@ -25,7 +25,7 @@
 		<div class="rightinfo">
 		  <div class="formbody">
           <div id="usual1" class="usual"> 
-             <%@ include file="/WEB-INF/page/business/materialInfo/select_info_tab.jsp"%>
+<%--             <%@ include file="/WEB-INF/page/business/materialInfo/select_info_tab.jsp"%>--%>
 <div class="layui-tab layui-tab-card" lay-filter="tabFile">
  <ul class="layui-tab-title" >
 <%--	 <li>所有文件</li>--%>

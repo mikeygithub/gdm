@@ -77,17 +77,17 @@
         	<div class="place">
 		<ul class="placeul" style="font-size: 12px">
 		   <li class="click" >
-	        	<span>学院：<s:select cssClass="dfinput" list="departmentList"  	headerKey="" headerValue="所选学院"
+	        	<span>学院：<s:select cssClass="dfinput" list="departmentList"  	headerKey="" headerValue="所有学院"
         		 cssStyle="width: auto;" onchange="$('#form1').submit();"  value="model.deptNumber"
         		 listKey="deptNumber" listValue="deptName"  id="deptNumber" name="model.deptNumber"/>	</span>		
 	        		 </li>
 	         <li class="click" >
-	        	<span>大类：<s:select cssClass="dfinput" list="categoryList" 	headerKey="" headerValue="所选大类"
+	        	<span>大类：<s:select cssClass="dfinput" list="categoryList" 	headerKey="" headerValue="所有大类"
         		 cssStyle="width: auto;" onchange="$('#form1').submit();"  value="model.categoryId"
         		 listKey="categoryId" listValue="categoryName"  id="categoryId" name="model.categoryId"/>	</span>		
 	        		 </li>			 
 	         <li class="click" >
-	        	<span>教研室：<s:select cssClass="dfinput" list="sysMajorList" 	headerKey="" headerValue="所选教研室"
+	        	<span>教研室：<s:select cssClass="dfinput" list="sysMajorList" 	headerKey="" headerValue="所有教研室"
         		 cssStyle="width: auto;" onchange="$('#form1').submit();"  value="model.staffroomId"
         		 listKey="majorId" listValue="staffName"  id="majorId" name="model.staffroomId"/>	</span>		
 	        		 </li>		

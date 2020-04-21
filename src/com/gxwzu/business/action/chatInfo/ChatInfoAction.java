@@ -347,7 +347,7 @@ public class ChatInfoAction extends BaseAction implements ModelDriven<ChatInfo> 
 				thisId = student.getStuId();
 				// 指导老师查询自己所带学生相关信息
 				AllotGuide allotGuide = allotGuideService.findByStuIdAndYear(
-						student.getStuId(), planYear.getYear());
+						student.getStuId(), planYear!=null&&planYear.getYear()!=null?planYear.getYear():null);
 			
 				if (allotGuide != null && allotGuide.getTeacherId() != null) {
 					ListTeacher teacher = sysTeacherService
@@ -450,9 +450,8 @@ public class ChatInfoAction extends BaseAction implements ModelDriven<ChatInfo> 
 			} else if (type.equals("1")) {
 				ListStudent student = sysStudentService.findByStuNo(loginName);
 				// 指导老师查询自己所带学生相关信息
-				AllotGuide allotGuide = allotGuideService.findByStuIdAndYear(
-						//TODO:NullPointerException
-						student.getStuId(), planYear.getYear());
+				AllotGuide allotGuide = allotGuideService.findByStuIdAndYear(student.getStuId(), planYear!=null&&planYear.getYear()!=null?planYear.getYear():null);
+
 				String stu = student.getStuId().toString();
 				
 				if (allotGuide != null && allotGuide.getTeacherId() != null) {

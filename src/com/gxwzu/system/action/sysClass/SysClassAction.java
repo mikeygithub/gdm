@@ -266,6 +266,26 @@ public class SysClassAction extends BaseAction implements ModelDriven<SysClass>{
 		}
 	}
 
+	/**
+	 * 检查班级是否已经存在
+	 * @throws Exception
+	 */
+	public void checkClassName() throws Exception {
+		logger.info("检查班级是否存在");
+		try {
+			boolean idTrue = true;
+			PrintWriter out = getResponse().getWriter();
+			SysClass sysClassByClassName = sysClassService.findSysClassByClassName(model.getClassName());
+			if (null != sysClassByClassName && sysClassByClassName.getClassName()!="") {// 不可用
+				idTrue = false;
+			}
+			out.print(idTrue);
+			out.flush();
+			out.close();
+		} catch (Exception e) {
+			logger.info("检查班级出错");
+		}
+	}
 	/********************************getter/setter方法*******************************/
 
 

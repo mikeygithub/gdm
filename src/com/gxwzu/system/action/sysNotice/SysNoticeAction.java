@@ -214,10 +214,9 @@ public class SysNoticeAction extends BaseAction implements ModelDriven<SysNotice
 					model.setMajorId(-2);
 				}
 				planYear = planYearSerivce.findPlanYear();
-				if(model.getYear() ==null){
+				if(model.getYear() ==null&&planYear!=null){
 					model.setYear(planYear.getYear());
-				
-				}	
+				}
 				
 				List<UserHelp> userList = userHelpService.findByLoginName(loginName);
 				model.setUserId(userList.get(0).getId());
