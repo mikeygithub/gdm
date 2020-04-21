@@ -34,10 +34,14 @@
 	        focusInvalid: false, //当为false时，验证无效时，没有焦点响应  
 	        onkeyup: false,   
 	        submitHandler: function(form){   //表单提交句柄,为一回调函数，带一个参数：form
-	        	if(confirm("是否要保存信息？")){
-		              form.submit();   //提交表单
-		              var index = layer.load(2, {time: 10*1000}); //又换了种风格，并且设定最长等待10秒 
-		        	}
+	        	// if(confirm("是否要保存信息？")){
+		        //       form.submit();   //提交表单
+		        //       var index = layer.load(2, {time: 10*1000}); //又换了种风格，并且设定最长等待10秒
+		        // 	}
+				layer.confirm('您确定保存吗？ ', {icon: 3, title: '提示'}, function (index) {
+					form.submit();   //提交表单
+					var index = layer.load(2, {time: 10*1000}); //又换了种风格，并且设定最长等待10秒
+				})
 	        },   
 	        rules:{},
 	        messages:{},
@@ -142,8 +146,7 @@ td {padding: 4px;font-size: 14px;font-size: 14px;border: 1px  solid #C1DAD7;}
 					</li>
 						<li>
 					<div style="text-align: center;">
-								<input name="" id="submit" type="submit" class="scbtn"
-									value="保存" onClick="getData();" />
+								<input name="" type="submit" class="scbtn" value="保存" onClick="getData();" />
 					</div>
 				</li>
 			</ul>

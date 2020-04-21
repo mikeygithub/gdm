@@ -61,7 +61,7 @@
 	        </tr>
          </thead>
          <tbody>
-		 <s:if test="paveResult.data!=null">
+		 <s:if test="pageResult.data!=null">
 			 <s:iterator id="p" value="pageResult.data" status="pp">
 				 <tr id="tr_${defenseId }">
 					 <td align="center">

@@ -107,7 +107,7 @@ function openAdd(thisId){
 	        </tr>
          </thead>
          <tbody>
-		 <s:if test="pageResult.data!=null&&pageReslut.total>0">
+		 <s:if test="pageResult.data!=null&&pageResult.total>0">
 			 <s:iterator id="p" value="pageResult.data" status="pp">
 				 <tr id="tr_${progressId }">
 					 <td align="center"><s:property value="#pp.count" /></td>

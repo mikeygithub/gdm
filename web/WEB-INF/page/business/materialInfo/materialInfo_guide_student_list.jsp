@@ -226,7 +226,7 @@
                             <font color="red">未录入</font></a>
                     </s:if><s:else>
                     <a href="javascript:dialog('100%','100%','【<font color=blue >${student.stuName }</font>】 答辩记录信息','
-				          <%=path%>/biz/defenseRecord_openEdit.action?view=edit&thisId=${defenseId }&thisStuId=${student.stuId }&thisYear=${model.year }&flag=11', 'true','20%');"
+				          <%=path%>/biz/defenseRecord_list.action?view=list&thisId=${defenseId }&thisStuId=${student.stuId }&thisYear=${model.year }&flag=11', 'true','20%');"
                        target="rightFrame">
                         <font color="blue">查看</font></a>
                 </s:else></s:else>

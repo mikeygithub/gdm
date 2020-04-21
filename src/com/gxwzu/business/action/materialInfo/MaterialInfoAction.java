@@ -202,6 +202,8 @@ public class MaterialInfoAction extends BaseAction implements ModelDriven<Materi
                 listStudent.setStuName(stuName);
                 model.setStudent(listStudent);
             }
+            //课题类型
+            issueTypeList = sysIssueTypeService.findAll(SysIssueType.class);
             pageResult = materialInfoSerivce.find(model, getPage(), getRow());
             footer = PageUtil.pageFooter(pageResult, getRequest());
 
