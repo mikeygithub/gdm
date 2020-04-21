@@ -59,7 +59,7 @@ $.ajax({
         rules:{
             "model.className":{
             	required:true,
-				remote: {//TODO:远程校验证
+				remote: {
 					type: "post",
 					url: "<%=path %>/sys/classes_checkClassName.action",
 					data: {

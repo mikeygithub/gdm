@@ -541,7 +541,6 @@ public class ReplyScoreAction extends BaseAction implements ModelDriven<ReplySco
             //type是判断学生老师的字段
 
             if (replyScore != null) {
-                //TODO:NullPoint bug
                 replyScore.setReplyType(type);
             } else {
                 logger.info("毕业设计成绩列表为空");

@@ -29,7 +29,7 @@ CREATE TABLE `allot_guide` (
   `opTime` datetime DEFAULT NULL COMMENT '分配时间',
   `year` int(11) DEFAULT NULL COMMENT '年度',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=145 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -87,7 +87,7 @@ CREATE TABLE `chat_info` (
   `chat_type` varchar(255) DEFAULT NULL COMMENT '交流，1-私聊  0-群聊',
   `cont_type` varchar(255) DEFAULT NULL COMMENT '消息类型，0-文字消息  1-图片消息  2-文件消息',
   PRIMARY KEY (`chat_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -113,7 +113,7 @@ CREATE TABLE `defense_record` (
   `teacher_id` int(11) DEFAULT NULL COMMENT '指导老师Id',
   `year` int(11) DEFAULT NULL,
   PRIMARY KEY (`defense_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -142,7 +142,7 @@ CREATE TABLE `group_allot` (
   `first_defense` varchar(255) DEFAULT NULL COMMENT '是否是第一次分配评阅：00-是 01-否',
   `year` int(11) DEFAULT NULL COMMENT '年度',
   PRIMARY KEY (`group_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -167,7 +167,7 @@ CREATE TABLE `group_defense_direction` (
   `major_id` int(11) DEFAULT NULL COMMENT '专业教研室Id',
   `year` int(11) DEFAULT NULL COMMENT '年度',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -195,7 +195,7 @@ CREATE TABLE `group_student` (
   `opTime` datetime DEFAULT NULL,
   `year` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=67 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -222,7 +222,7 @@ CREATE TABLE `group_teacher` (
   `year` int(11) DEFAULT NULL COMMENT '年度',
   `type` varchar(255) DEFAULT NULL COMMENT '0-组长 1-答辩老师 2-记录员',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -248,7 +248,7 @@ CREATE TABLE `guide_count` (
   `guide_teachId` int(11) DEFAULT NULL COMMENT '指导老师id',
   `year` int(11) DEFAULT NULL COMMENT '年度',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -276,7 +276,7 @@ CREATE TABLE `issue_info` (
   `opTime` datetime DEFAULT NULL COMMENT '分配时间',
   `is_pass` int(11) DEFAULT '0',
   PRIMARY KEY (`issue_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -306,7 +306,7 @@ CREATE TABLE `open_report` (
   `year` int(11) DEFAULT NULL COMMENT '年度',
   `reply_link` varchar(255) DEFAULT NULL COMMENT '是否通过答辩环节：00-未审批 01-是 02否',
   PRIMARY KEY (`report_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -336,7 +336,7 @@ CREATE TABLE `plan_progress` (
   `progress_item_no` varchar(255) DEFAULT NULL COMMENT '阶段编号',
   `progress_start` int(11) DEFAULT NULL COMMENT '进程开始',
   PRIMARY KEY (`progress_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=199 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -361,7 +361,7 @@ CREATE TABLE `plan_year` (
   `opTime` datetime DEFAULT NULL COMMENT '录入时间',
   `year` int(11) DEFAULT NULL COMMENT '年度',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -414,7 +414,7 @@ CREATE TABLE `progress_situ` (
   `progress_record` varchar(5000) DEFAULT NULL COMMENT '进程记录',
   `year` int(11) DEFAULT NULL COMMENT '年度',
   PRIMARY KEY (`progress_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -476,7 +476,7 @@ CREATE TABLE `reply_score` (
   `year` int(11) DEFAULT NULL COMMENT '年度',
   `reply_type` varchar(255) DEFAULT NULL COMMENT '答辩类型： 00答辩小组 01系答辩委员会',
   PRIMARY KEY (`reply_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -506,7 +506,7 @@ CREATE TABLE `review` (
   `year` int(11) DEFAULT NULL COMMENT '年度',
   `opTime` datetime DEFAULT NULL COMMENT '分配时间',
   PRIMARY KEY (`review_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -535,7 +535,7 @@ CREATE TABLE `review_score` (
   `year` int(11) DEFAULT NULL COMMENT '年度',
   `opTime` datetime DEFAULT NULL COMMENT '分配时间',
   PRIMARY KEY (`review_score_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=211 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -648,7 +648,7 @@ CREATE TABLE `student_paper` (
   `file_type` varchar(255) DEFAULT NULL COMMENT '文件类型（1-论文 2-查重报告 3-承诺书）',
   `opTime` datetime DEFAULT NULL COMMENT '分配时间',
   PRIMARY KEY (`paper_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -681,7 +681,7 @@ CREATE TABLE `sys_category` (
 
 LOCK TABLES `sys_category` WRITE;
 /*!40000 ALTER TABLE `sys_category` DISABLE KEYS */;
-INSERT INTO `sys_category` VALUES (3,'计算机类','201700202'),(4,'物联网类','201700202'),(5,'数字媒体类','201700202'),(6,'电子类','201700202'),(7,'数学类','201700202'),(8,'软件类','201700202'),(9,'行政','201700202'),(10,'计算机基础','201700202');
+INSERT INTO `sys_category` VALUES (3,'计算机类','201700202'),(4,'物联网类','201700202'),(5,'数字媒体类','201700202'),(6,'电子类','201700201'),(7,'数学类','201700202'),(8,'软件类','201700202'),(9,'行政','201700202'),(10,'计算机基础','201700202');
 /*!40000 ALTER TABLE `sys_category` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -699,7 +699,7 @@ CREATE TABLE `sys_class` (
   `dept_number` varchar(255) DEFAULT NULL COMMENT '学院编号',
   `major_id` int(11) DEFAULT NULL COMMENT '专业Id',
   PRIMARY KEY (`class_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=94 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -708,7 +708,7 @@ CREATE TABLE `sys_class` (
 
 LOCK TABLES `sys_class` WRITE;
 /*!40000 ALTER TABLE `sys_class` DISABLE KEYS */;
-INSERT INTO `sys_class` VALUES (23,NULL,'14软件工程2班','201700202',4),(25,NULL,'14软件工程中升本','201700202',4),(26,NULL,'15软件工程1班','201700202',4),(27,NULL,'15软件工程2班','201700202',4),(28,NULL,'15软件工程3班','201700202',4),(29,NULL,'15软件工程4班','201700202',4),(30,NULL,'15软件工程中升本1班','201700202',4),(31,NULL,'15软件工程中升本2班','201700202',4),(32,NULL,'16软件工程1班','201700202',4),(33,NULL,'16软件工程2班','201700202',4),(34,NULL,'16软件工程3班','201700202',4),(35,NULL,'16软件工程4班','201700202',4),(36,NULL,'16软件工程中升本1班','201700202',4),(37,NULL,'16软件工程中升本2班','201700202',4),(38,NULL,'17软件工程1班','201700202',5),(39,NULL,'17软件工程2班','201700202',4),(40,NULL,'17软件工程3班','201700202',4),(41,NULL,'17软件工程4班','201700202',4),(42,NULL,'17软件工程5班','201700202',4),(43,NULL,'17软件工程6班','201700202',4),(44,NULL,'17软件工程中升本1班','201700202',4),(45,NULL,'17软件工程中升本2班','201700202',4);
+INSERT INTO `sys_class` VALUES (23,NULL,'14软件工程班','201700202',4),(25,NULL,'14软件工程中升本','201700202',4),(26,NULL,'15软件工程1班','201700202',4),(27,NULL,'15软件工程2班','201700202',4),(28,NULL,'15软件工程3班','201700202',4),(29,NULL,'15软件工程4班','201700202',4),(30,NULL,'15软件工程中升本班','201700202',4),(32,NULL,'16软件工程1班','201700202',4),(33,NULL,'16软件工程2班','201700202',4),(34,NULL,'16软件工程3班','201700202',4),(35,NULL,'16软件工程4班','201700202',4),(36,NULL,'16软件工程中升本1班','201700202',4),(37,NULL,'16软件工程中升本2班','201700202',4),(38,NULL,'17软件工程1班','201700202',5),(39,NULL,'17软件工程2班','201700202',4),(40,NULL,'17软件工程3班','201700202',4),(41,NULL,'17软件工程4班','201700202',4),(42,NULL,'17软件工程5班','201700202',4),(43,NULL,'17软件工程6班','201700202',4),(46,NULL,'19数据科学与大数据技术1','201700202',14),(47,NULL,'19数据科学与大数据技术２','201700202',14),(48,NULL,'14信息与计算科学','201700202',11),(49,NULL,'15数学与应用数学','201700202',12),(50,NULL,'15物联网工程','201700202',5),(51,NULL,'14物联网工程','201700202',5),(52,NULL,'15数字媒体技术','201700202',12),(53,NULL,'14数字媒体技术','201700202',12),(54,NULL,'15计算机科学与技术','201700202',6),(55,NULL,'14计算机科学与技术','201700202',6),(56,NULL,'19物联网工程专升本','201700202',5),(58,NULL,'17计算机应用技术班','201700202',6),(60,NULL,'17数学与应用数学班','201700202',9),(61,NULL,'17信息与计算科学班','201700202',11),(62,NULL,'17物联网工程班','201700202',5),(63,NULL,'17软件工程中职升本班','201700202',4),(64,NULL,'17数字媒体技术班','201700202',12),(65,NULL,'17计算机科学与技术','201700202',6),(66,NULL,'18计算机应用技术','201700202',15),(67,NULL,'18信息与计算科学','201700202',11),(68,NULL,'18数学与应用数学','201700202',9),(69,NULL,'18物联网工程','201700202',5),(70,NULL,'18数字媒体技术2','201700202',12),(71,NULL,'18数字媒体技术1','201700202',12),(72,NULL,'18计算机科学与技术','201700202',6),(73,NULL,'18软件工程6','201700202',4),(74,NULL,'18软件工程5','201700202',4),(75,NULL,'18软件工程4','201700202',4),(76,NULL,'18软件工程3','201700202',4),(77,NULL,'18软件工程2','201700202',4),(78,NULL,'18软件工程1','201700202',4),(79,NULL,'19数学与应用数学','201700202',9),(80,NULL,'19物联网工程','201700202',5),(81,NULL,'19数据科学与大数据技术2','201700202',14),(82,NULL,'19数据科学与大数据技术1','201700202',14),(83,NULL,'19数字媒体技术2','201700202',12),(84,NULL,'19数字媒体技术1','201700202',12),(85,NULL,'19计算机科学与技术2','201700202',6),(86,NULL,'19计算机科学与技术1','201700202',6),(87,NULL,'19软件工程2','201700202',4),(88,NULL,'19软件工程1','201700202',4),(89,NULL,'16信息与计算科学','201700202',11),(90,NULL,'16数学与应用数学','201700202',9),(91,NULL,'16物联网工程','201700202',5),(92,NULL,'16数字媒体技术','201700202',12),(93,NULL,'16计算机科学与技术','201700202',6);
 /*!40000 ALTER TABLE `sys_class` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -782,7 +782,7 @@ CREATE TABLE `sys_directions` (
 
 LOCK TABLES `sys_directions` WRITE;
 /*!40000 ALTER TABLE `sys_directions` DISABLE KEYS */;
-INSERT INTO `sys_directions` VALUES (1,'软件开发'),(2,'AR技术'),(3,'网络安全'),(4,'UI设计'),(5,'软件测试'),(6,'区块链技术');
+INSERT INTO `sys_directions` VALUES (1,'软件开发'),(2,'AR技术'),(3,'网络安全'),(4,'UI设计'),(5,'软件测试');
 /*!40000 ALTER TABLE `sys_directions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -905,7 +905,7 @@ CREATE TABLE `sys_major` (
   `major_name` varchar(250) DEFAULT NULL COMMENT '专业名称',
   `staff_name` varchar(250) DEFAULT NULL COMMENT '教研室名称',
   PRIMARY KEY (`major_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -914,7 +914,7 @@ CREATE TABLE `sys_major` (
 
 LOCK TABLES `sys_major` WRITE;
 /*!40000 ALTER TABLE `sys_major` DISABLE KEYS */;
-INSERT INTO `sys_major` VALUES (4,'000','201700202',8,'软件工程','软件工程专业教研室'),(5,'001','201700202',4,'物联网工程','物联网工程专业教研室'),(6,'002','201700202',3,'计算机科学与技术','计算机科学与技术专业教研室'),(9,'005','201700202',7,'数学与应用数学','数学与应用数学专业教研室'),(10,'006','201700202',6,'电子科学与技术','电子科学与技术专业教研室'),(11,'007','201700202',10,'信息与计算科学','信息与计算科学专业教研室'),(12,'008','201700202',10,'数字媒体应用技术','数字媒体应用技术实验室'),(13,'009','201700202',10,'计算机基础','计算机基础教研室');
+INSERT INTO `sys_major` VALUES (4,'000','201700202',8,'软件工程','软件工程专业教研室'),(5,'001','201700202',4,'物联网工程','物联网工程专业教研室'),(6,'002','201700202',3,'计算机科学与技术','计算机科学与技术专业教研室'),(9,'005','201700202',7,'数学与应用数学','数学与应用数学专业教研室'),(10,'006','201700201',6,'电子科学与技术','电子科学与技术专业教研室'),(11,'007','201700202',10,'信息与计算科学','信息与计算科学专业教研室'),(12,'008','201700202',10,'数字媒体技术','数字媒体技术实验室'),(14,'','201700202',3,'数据科学与大数据技术','数据科学与大数据技术'),(15,NULL,'201700202',3,'计算机应用技术','计算机应用技术教研室');
 /*!40000 ALTER TABLE `sys_major` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -963,7 +963,7 @@ CREATE TABLE `sys_notice` (
   `year` int(11) DEFAULT NULL COMMENT '年度',
   `major_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`notice_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -972,6 +972,7 @@ CREATE TABLE `sys_notice` (
 
 LOCK TABLES `sys_notice` WRITE;
 /*!40000 ALTER TABLE `sys_notice` DISABLE KEYS */;
+INSERT INTO `sys_notice` VALUES (1,'关于系统使用通知','用户登入系统后，请第一时间完成个人信息修改，方可使用。','2020-04-21 12:53:46',1,NULL,NULL,NULL,NULL,-2);
 /*!40000 ALTER TABLE `sys_notice` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1077,7 +1078,7 @@ CREATE TABLE `sys_student` (
   `class_id` int(11) DEFAULT NULL COMMENT '班级编号',
   `user_id` int(11) DEFAULT NULL COMMENT '用户编号',
   PRIMARY KEY (`stu_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16019 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=543 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1107,7 +1108,7 @@ CREATE TABLE `sys_teacher` (
   `duties_no` varchar(255) DEFAULT NULL COMMENT '职务编号:',
   `user_id` int(11) DEFAULT NULL COMMENT '用户Id',
   PRIMARY KEY (`teacher_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=744 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=254 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1116,7 +1117,7 @@ CREATE TABLE `sys_teacher` (
 
 LOCK TABLES `sys_teacher` WRITE;
 /*!40000 ALTER TABLE `sys_teacher` DISABLE KEYS */;
-INSERT INTO `sys_teacher` VALUES (201,'admin','admin','201700201',NULL,NULL,213,'24',1);
+INSERT INTO `sys_teacher` VALUES (1,'admin','admin','201700201',NULL,NULL,213,'24',1);
 /*!40000 ALTER TABLE `sys_teacher` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1161,7 +1162,7 @@ CREATE TABLE `task_book` (
   `teacher_id` int(11) DEFAULT NULL COMMENT '指导老师Id',
   `year` int(11) DEFAULT NULL COMMENT '年度',
   PRIMARY KEY (`task_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1186,7 +1187,7 @@ CREATE TABLE `teacher_directions` (
   `teacher_id` int(11) DEFAULT NULL COMMENT '老师ID',
   `year` int(11) DEFAULT NULL COMMENT '年度',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1211,7 +1212,7 @@ CREATE TABLE `teacher_major` (
   `major_id` int(11) DEFAULT NULL,
   `year` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1277,7 +1278,7 @@ CREATE TABLE `user_hlep` (
   `userEmail` varchar(255) DEFAULT NULL COMMENT '用户邮箱',
   `userImg` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17343 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=596 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1306,7 +1307,7 @@ CREATE TABLE `user_role` (
   KEY `FK143BF46A6F1ACE7F` (`roleId`),
   CONSTRAINT `FK143BF46A6F1ACE7F` FOREIGN KEY (`roleId`) REFERENCES `sys_role` (`id`),
   CONSTRAINT `FK143BF46AE75981AB` FOREIGN KEY (`userHelpId`) REFERENCES `user_hlep` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16919 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=596 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1328,4 +1329,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-04-21  0:09:51
+-- Dump completed on 2020-04-21 14:44:46

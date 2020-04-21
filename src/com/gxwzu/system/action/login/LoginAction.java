@@ -115,7 +115,6 @@ public class LoginAction extends BaseAction {
     /**
      * 登陆
      *
-     * @return TODO：废弃
      * @throws Exception
      * @log：1.创建方法（mengyiwen）
      */

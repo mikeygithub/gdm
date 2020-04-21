@@ -35,7 +35,7 @@
 			<div class="formtitle">
 				<span>答辩组学生信息  
 				<a href="javascript:void(0)"  target="rightFrame" onclick="allOption()"> 
-					  <img src="<%=path%>/images/t01.png"  style="width: 16px;"/><font color="green">&nbsp;&nbsp;一键删除</font>
+					  <img src="<%=path%>/images/t01.png"  style="width: 16px;"/><font color="green">&nbsp;&nbsp;一键移除</font>
 				   </a></span>
 			</div>
 		</form>

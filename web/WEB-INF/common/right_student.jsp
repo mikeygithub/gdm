@@ -119,7 +119,6 @@
                         <div class="layui-timeline-content layui-text">
                             <h3 class="layui-timeline-title" id="gradscore">等级</h3>
                             <%--								<div class="layui-timeline-title"></div>--%>
-                            <!--TODO: wait fix-->
                             <s:if test="studentScore!=null">
                                 <div class="layui-btn  layui-btn-mini layui-btn-radius  layui-btn-dangere"><s:property value="studentScore.grade"></s:property></div>
                             </s:if>

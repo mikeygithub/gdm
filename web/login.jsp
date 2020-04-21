@@ -62,7 +62,7 @@
 			,btn: ['好了好了,我知道了']
 			,btnAlign: 'c'
 			,moveType: 1 //拖拽模式，0或者1
-			,content: '<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">忘记密码请联系管理员,that\'s all,告辞！<br></div>'
+			,content: '<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">忘记密码请联系管理员！<br></div>'
 			,success: function(layero){
 			}
 		});
@@ -84,7 +84,7 @@ request.setAttribute("", "hagl");
 		<ul>
 			<li><a href="<%=path%>">回首页</a></li>
 			<li><a href="#" onclick="layer.alert('帮助？不存在的！')">帮助</a></li>
-			<li><a href="#" onclick="layer.alert('没有关于,告辞！')">关于</a></li>
+			<li><a href="#" onclick="layer.alert('没有关于，就这样吧！')">关于</a></li>
 		</ul>
 	</div>
 	<div class="loginbody">
@@ -108,7 +108,7 @@ request.setAttribute("", "hagl");
 				<h3></h3>
 		</div>
 	</div>
-	<div class="loginbm">版权所有 2019 <a href="http://www.gxuwz.edu.cn/">梧州学院软件开发中心</a>
+	<div class="loginbm">版权所有 2020 <a href="http://www.gxuwz.edu.cn/">梧州学院软件开发中心</a>
 	</div>
 <script>
 	$(function(){

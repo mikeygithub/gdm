@@ -42,7 +42,7 @@
         <li >
             <a href="<%=path%>/biz/allotGuide_allotStudentList.action?view=student_list&flag=01&tabFlag=00">
                 已选学生/最多可选
-<%--                (${guideCount.alreadyStuNum }/<font style="font-weight: bold;font-size: 14px; " color="blue">${guideCount.maxStuNum }</font>)--%>
+                (${guideCount.alreadyStuNum }/<font style="font-weight: bold;font-size: 14px; " color="blue">${guideCount.maxStuNum }</font>)
             </a>
         </li>
         <li  class="layui-this">可选学生(<font style="font-weight: bold;font-size: 14px; " color="blue">${pageResult1.total }</font>)
@@ -153,6 +153,8 @@
 
         //选择学生
         function optionAll() {
+            var maxStuNum = '${guideCount.maxStuNum}';
+            var alreadyStuNum = '${guideCount.alreadyStuNum}';
             var stuIds = "";
             var stuName = "<br><font color='blue'> ";
             $("input[name='selected']").each(function (index, content) {
@@ -161,9 +163,12 @@
                     stuName = stuName + (index + 1) + "." + $(this).attr('title') + "<br>";
                 }
             });
+            //容错
             stuName = stuName + "</font>";
             if (stuIds == "") {
                 layer.alert('请勾选学生', {icon: 3});
+            } else if (Number(stuIds.split(',').length)+Number(alreadyStuNum)>Number(maxStuNum)){
+                layer.alert('最多可选:${guideCount.maxStuNum} 位学生！', {icon: 3});
             } else {
                 option(stuIds, stuName);
             }
@@ -202,7 +207,7 @@
                 layer.alert('您还未分配指导人数,请联系管理员或教研室主任分配！', {icon: 3});
                 return
             }
-
+            //容错
             if (maxStuNum != undefined && alreadyStuNum != '' && alreadyStuNum != undefined && maxStuNum <= alreadyStuNum) {
                 layer.alert('最多可选:${guideCount.maxStuNum} 位学生， 不能再选其他学生！', {icon: 3});
             } else {
@@ -218,7 +223,6 @@
                             "thisIds": stuId
                         }, success: function (result) {
                             layer.close(index);
-                            console.log('result=' + result)
                             if (result.length == 0) {
                                 layer.alert('选择学生成功', {icon: 1}, function () {
                                     location.reload();

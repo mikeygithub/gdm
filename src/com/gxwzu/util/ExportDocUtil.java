@@ -156,7 +156,7 @@ public class ExportDocUtil {
         map.put("mR", doc.getListStudent()!=null?doc.getListStudent().getMajorName():"");
         map.put("tN", doc.getSysTeacher()!=null?doc.getSysTeacher().getTeacherName():"");
         map.put("sN", doc.getListStudent()!=null?doc.getListStudent().getStuName():"");
-        map.put("tL", doc.getListReviewReadGuide()!=null&&doc.getListReviewReadGuide().getTotalScore()!=null?doc.getListReviewReadGuide().getTotalScore().toString():"");//TODO:非空处理
+        map.put("tL", doc.getListReviewReadGuide()!=null&&doc.getListReviewReadGuide().getTotalScore()!=null?doc.getListReviewReadGuide().getTotalScore().toString():"");
         if (doc.getListReviewReadGuide()!=null){
         List<ReviewScore> list = doc.getListReviewReadGuide().getReviewScoreList();
         for (int j = 0; j < list.size(); j++) {

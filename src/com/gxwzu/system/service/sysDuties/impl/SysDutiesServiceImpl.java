@@ -67,7 +67,6 @@ public class SysDutiesServiceImpl extends BaseServiceImpl<SysDuties>implements I
 	}*/
 	@Override
 	public List<SysDuties> findAllSysDutiesList() {
-		// TODO Auto-generated method stub
 		return SysDutiesDao.findAllSysDutiesList(null);
 	}
 

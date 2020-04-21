@@ -140,21 +140,20 @@ public class AllotGuideDaoImpl extends BaseDaoImpl<AllotGuide> implements IAllot
 			queryString.append(" and ISNULL(model.teacher_id) ");//筛选 未分配指导老师的学生
 		}
 		if (SysConstant.ALEADLY_ALLOTGUIDE.equals(tabFlag)){
-			queryString.append(" and model.teacher_id = ?");//已经分配指导老师的学生
+			queryString.append(" and model.teacher_id = ? ");//已经分配指导老师的学生
 			params.add(model.getTeacherId());
 		}
 	
 		if (model.getStuId()!=null) {
-			queryString.append(" and model.stu_id=?");
+			queryString.append(" and model.stu_id=? ");
 			params.add(model.getStuId());
 		}
 		if (StringUtils.isNotEmpty(model.getDeptNumber())) {
-			queryString.append(" and model.dept_number=?");
+			queryString.append(" and model.dept_number=? ");
 			params.add(model.getDeptNumber());
 		}
-		System.out.println(model.getMajorId()+"***********");
 		if (model.getMajorId()!=null) {
-			queryString.append(" and model.major_id =? ");
+			queryString.append(" and model.major_id = ? ");
 			params.add(model.getMajorId());
 		}
 		
@@ -164,8 +163,9 @@ public class AllotGuideDaoImpl extends BaseDaoImpl<AllotGuide> implements IAllot
 		}
 	
 		queryString.append("ORDER BY stu_id DESC");
+
 		System.out.println(queryString.toString());
-		System.out.println(majorIds);
+
 		return super.findBySQL(queryString.toString(), params.toArray(), start,limit);
 	}
 
@@ -189,11 +189,11 @@ public class AllotGuideDaoImpl extends BaseDaoImpl<AllotGuide> implements IAllot
 		params.add(model.getYear());
 		
 		if (model.getStuId()!=null) {
-			queryString.append(" and model.stu_id=?");
+			queryString.append(" and model.stu_id=? ");
 			params.add(model.getStuId());
 		}
 		if (model.getTeacherId()!=null) {
-			queryString.append(" and model.teacher_id=?");
+			queryString.append(" and model.teacher_id=? ");
 			params.add(model.getTeacherId());
 		}
 		if (model.getYear()!=null) {
@@ -201,7 +201,7 @@ public class AllotGuideDaoImpl extends BaseDaoImpl<AllotGuide> implements IAllot
 			params.add(model.getYear());
 		}
 		
-		queryString.append(" ORDER BY stu_id DESC");
+		queryString.append(" ORDER BY stu_id DESC" );
 		return  super.query(queryString.toString(), params.toArray());
 	}
 

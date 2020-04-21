@@ -103,8 +103,6 @@
              <s:if test="progressItemNo==00"><s:set name=""></s:set></s:if>
              <s:if test="progressItemNo==00"><s:set name=""></s:set></s:if> --%>
         <%--		</s:iterator>--%>
-        <%--TODO:分页s--%>
-        <%--         <s:iterator id="p" value="guideStudentList" status="pp">--%>
         <s:iterator id="p" value="pageResult.data" status="pp">
             <tr id="tr_${taskId }">
                 <td align="center">
@@ -236,7 +234,6 @@
                 <td align="center"> ${model.year} </td>
             </tr>
         </s:iterator>
-        <%--TODO:分页e--%>
         </tbody>
     </table>
 

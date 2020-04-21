@@ -65,7 +65,7 @@
             layer.open({
                 type: 2,
                 area: ['100%', '100%'],
-                fix: false, //不固定
+                // fix: false, //不固定
                 title: '【<font color=\'blue\'>' + groupName + '</font>】组学生信息',
                 maxmin: true,
                 content: '<%=path%>/biz/GroupStudent_detailList.action?view=detail_list&thisId=' + thisId

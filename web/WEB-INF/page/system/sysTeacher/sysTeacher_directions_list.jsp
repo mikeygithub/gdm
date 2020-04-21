@@ -36,7 +36,7 @@ function openAdd(){
 
 	layer.open({
     	type: 2,
-    	area: ['80%', '35%'],
+    	area: ['50%', '35%'],
     	fix: false, //不固定
 		title:'添加用户',
     	maxmin: true,
@@ -73,11 +73,11 @@ function openAdd(){
 						<tr id="tr_${id}">
 							<td align="center"><s:property value="#pp.count" /></td>
 							<td align="center" >
-								<s:iterator id="dp" value="sysDirectionsList">
-								   <s:if test="#p.directionsId==directionsId">
+<%--								<s:iterator id="dp" value="teacherDirectionsList">--%>
+<%--								   <s:if test="#p.directionsId==directionsId">--%>
 								     ${directionsName} 
-								   </s:if>
-								</s:iterator>
+<%--								   </s:if>--%>
+<%--								</s:iterator>--%>
 							</td>
 							<td align="center" width="20%">
 								<a href="javascript:void(0)"
@@ -86,7 +86,7 @@ function openAdd(){
 									,{thisId:${id}},'您确定删除${directionsName}该研究方向？');"
 									>
 									<font
-										color="red"> <i class="layui-icon">&#xe640;</i>删除
+										color="red"> <i class="layui-icon">&#xe640;</i>移除
 									</font>
 								</a>
 							</td>
@@ -109,7 +109,7 @@ function openAdd(){
 			       		  placeholder="研究方向"  >
 			       	</li>
 		       		<li class="click">
-		        		<a href="javascript:void();"  onclick="openSearch(this);"><img src="<%=path%>/images/search.png"  />搜索</a>
+		        		<a href="javascript:void(0);"  onclick="openSearch(this);"><img src="<%=path%>/images/search.png"  />搜索</a>
 					</li>
 					<li class="click">
 		        		<a href="#" onclick="openAdd()"><img src="<%=path%>/images/t01.png"  style="width: 16px;"/>添加</a>
@@ -126,7 +126,8 @@ function openAdd(){
 		        </tr>
 	        </thead>
             <tbody>
-				<s:iterator id="p" value="sysDirectionsList" status="pp">
+<%--				<s:iterator id="p" value="sysDirectionsList" status="pp">--%>
+					<s:iterator id="p" value="pageResult2.data" status="pp">
 					<tr id="tr_${directionsId}">
 						<td align="center"><s:property value="#pp.count" /></td>
 						<td align="center" >${directionsName}</td>
@@ -151,6 +152,8 @@ function openAdd(){
 			  </s:iterator>
 		 </tbody>
 </table>
+
+		<%@ include file="/WEB-INF/common/pagination2.jsp"%>
 </div>
 
 <script type="text/javascript">

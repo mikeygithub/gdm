@@ -401,10 +401,10 @@ public class SysStudentAction extends BaseAction implements ModelDriven<SysStude
                                             Cell.CELL_TYPE_STRING);
                                     if ("男".equals(row.getCell(7)
                                             .getStringCellValue())) {
-                                        userHelp.setUserSex("0");
+                                        userHelp.setUserSex("1");
                                     } else if ("女".equals(row.getCell(7)
                                             .getStringCellValue())) {
-                                        userHelp.setUserSex("1");
+                                        userHelp.setUserSex("0");
                                     }
                                 }
 

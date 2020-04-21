@@ -113,6 +113,7 @@ public class SysTeacherAction extends BaseAction implements ModelDriven<SysTeach
 	/*********************** 声明参数 ******************************/
 	private Result<ListTeacher> pageResult;// 分页
 	private Result<SysMajor> pageResult1;// 专业分页
+	private Result<SysDirections> pageResult2;// 研究方向分页
 	private List<SysDepartment> departmentList = new ArrayList<SysDepartment>();
 	private List<SysTechnical> sysTechnicalList = new ArrayList<SysTechnical>();
 	private List<SysDuties> sysDutiesList = new ArrayList<SysDuties>();
@@ -312,15 +313,16 @@ public class SysTeacherAction extends BaseAction implements ModelDriven<SysTeach
 	public String openDirectionsList() {
 		logger.info("打开研究方向页面");
 		try {
-			if (sysDirections == null)
-				sysDirections = new SysDirections();
-			if (teacherDirections != null
-					&& teacherDirections.getTeacherId() != null) {
+			if (sysDirections == null) sysDirections = new SysDirections();
+			if (teacherDirections != null && teacherDirections.getTeacherId() != null) {
 				/******************* 通过老师id查询老师研究方向 **********************/
 				teacherDirectionsList = teacherDirectionsService.findByExample(teacherDirections);
 				/******************* 查询所有研究方向 **********************/
-				sysDirectionsList = sysDirectionsService
-						.findByExample(sysDirections);
+//				sysDirectionsList = sysDirectionsService.findByExample(sysDirections);
+				//TODO:待完善分页
+				pageResult2 = sysDirectionsService.find(sysDirections, getPage(), getRow());
+
+				footer = PageUtil.pageFooter(pageResult2, getRequest());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -341,8 +343,7 @@ public class SysTeacherAction extends BaseAction implements ModelDriven<SysTeach
 					+ teacherMajor.getTeacherId());
 			PrintWriter out = getResponse().getWriter();
 
-			if (teacherMajor != null && teacherMajor.getMajorId() != null
-					&& teacherMajor.getTeacherId() != null) {
+			if (teacherMajor != null && teacherMajor.getMajorId() != null && teacherMajor.getTeacherId() != null) {
 
 				planYear = planYearSerivce.findPlanYear();
 				teacherMajor.setYear(planYear.getYear());
@@ -541,7 +542,7 @@ public class SysTeacherAction extends BaseAction implements ModelDriven<SysTeach
 								if (this.sysMajor != null){
 									model.setStaffroomId(this.sysMajor.getMajorId());//教研室
 									model.setCategoryId(this.sysMajor.getCategoryId());//大类
-								}else {//TODO:duck , later fix
+								}else {
 									logger.warn("查找教研室失败,查找条件："+row.getCell(4));
 									logger.warn("Message:"+sM);
 								}
@@ -565,10 +566,10 @@ public class SysTeacherAction extends BaseAction implements ModelDriven<SysTeach
 										Cell.CELL_TYPE_STRING);
 								if ("男".equals(row.getCell(6)
 										.getStringCellValue())) {
-									userHelp.setUserSex("0");
+									userHelp.setUserSex("1");
 								} else if ("女".equals(row.getCell(6)
 										.getStringCellValue())) {
-									userHelp.setUserSex("1");
+									userHelp.setUserSex("0");
 								}else {
 									userHelp.setUserSex("0");
 								}
@@ -893,4 +894,11 @@ public class SysTeacherAction extends BaseAction implements ModelDriven<SysTeach
 		this.sysDutiesList = sysDutiesList;
 	}
 
+	public Result<SysDirections> getPageResult2() {
+		return pageResult2;
+	}
+
+	public void setPageResult2(Result<SysDirections> pageResult2) {
+		this.pageResult2 = pageResult2;
+	}
 }

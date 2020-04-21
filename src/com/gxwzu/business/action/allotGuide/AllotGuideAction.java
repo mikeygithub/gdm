@@ -9,6 +9,7 @@ import java.util.List;
 
 import com.gxwzu.core.model.ResponeJson;
 import com.gxwzu.core.util.SysConstant;
+import org.apache.commons.lang.xwork.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -304,9 +305,15 @@ public class AllotGuideAction extends BaseAction implements ModelDriven<AllotGui
                     if (stuName != null) {
                         allotGuide.setStuName(stuName);
                     }
-                    if (teacher.getStaffroomId() != null) {
-                        allotGuide.setMajorId(teacher.getStaffroomId());
+                    //教师查询已经选取
+//                    if (teacher.getStaffroomId() != null && !tabFlag.equals("01")) {
+//                        allotGuide.setMajorId(teacher.getStaffroomId());
+//                    }
+                    //查询未选取
+                    if (majorId!=null){
+                        allotGuide.setMajorId(majorId);
                     }
+
 
                     if (allotGuide.getYear() == null) {
                         allotGuide.setYear(planYear.getYear());
@@ -317,7 +324,7 @@ public class AllotGuideAction extends BaseAction implements ModelDriven<AllotGui
                     allotGuide.setTeacherId(teacher.getTeacherId());
                     //老师所带专业
                     teacherMajorList = teacherMajorService.findByTeacherId(teacher.getTeacherId());
-                    //查询已经分配
+                    //查询
                     pageResult1 = allotGuideService.findStudentByDeptAndMajor(allotGuide, majorIds,tabFlag, getPage(), getRow());
 
                     footer = PageUtil.pageFooter(pageResult1, getRequest());

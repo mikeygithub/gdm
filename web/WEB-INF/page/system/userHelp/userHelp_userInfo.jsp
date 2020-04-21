@@ -342,7 +342,6 @@
                                     </td>
                                 </tr>
                             </s:if>
-                            <%--TODO:教师信息--%>
                             <s:if test="teacher.teacherId!=null">
                                 <tr>
                                     <th>所属教研室：</th>
@@ -397,7 +396,7 @@
                                     ${majorName}
                                 </s:iterator></td>
                                 <td width="auto">
-                                    <a href="javascript:dialogReload('50%','90%','所带专业','<%=path%>/sys/teacher_openMajorList.action?view=major_list&teacherMajor.teacherId=${teacher.teacherId }', 'true','20%');">
+                                    <a href="javascript:dialogReload('100%','100%','所带专业','<%=path%>/sys/teacher_openMajorList.action?view=major_list&teacherMajor.teacherId=${teacher.teacherId }', 'true','0%');">
                                         <font color="green"> <i class="layui-icon">&#xe642;</i>修改</font></a>
                                 </td>
                                 </tr>
@@ -408,7 +407,7 @@
                                         ${directionsName}
                                     </s:iterator></td>
                                     <td>
-                                        <a href="javascript:dialogReload('50%','90%','研究方向','<%=path%>/sys/teacher_openDirectionsList.action?view=directions_list&teacherDirections.teacherId=${teacher.teacherId }', 'true','20%');">
+                                        <a href="javascript:dialogReload('100%','100%','研究方向','<%=path%>/sys/teacher_openDirectionsList.action?view=directions_list&teacherDirections.teacherId=${teacher.teacherId }', 'true','0%');">
                                             <font color="green"> <i class="layui-icon">&#xe642;</i>修改</font></a>
                                     </td>
                                 </tr>

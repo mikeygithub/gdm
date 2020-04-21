@@ -39,7 +39,8 @@
 
 <div class="layui-tab">
     <ul class="layui-tab-title">
-        <li class="layui-this">已选学生/最多可选(${guideCount.alreadyStuNum }/<font style="font-weight: bold;font-size: 14px; " color="blue">${guideCount.maxStuNum }</font>)
+        <li class="layui-this">已选学生/最多可选
+            (${guideCount.alreadyStuNum }/<font style="font-weight: bold;font-size: 14px; " color="blue">${guideCount.maxStuNum }</font>)</font>
         </li>
         <li>
             <a href="<%=path%>/biz/allotGuide_allotStudentList.action?view=student_list_late&flag=01&tabFlag=01">可选学生
