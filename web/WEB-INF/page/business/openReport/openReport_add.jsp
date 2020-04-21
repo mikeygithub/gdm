@@ -36,6 +36,20 @@
                     //     layer.close(index)
                         form.submit();
                     // });
+                    // layer.open({
+                    //     title:'系统提示'
+                    //     ,content: '您确认保存吗？'
+                    //     ,offset: ['40%', '40%']
+                    //     ,btn: ['确定', '取消']
+                    //     ,shadeClose: true
+                    //     ,yes: function(index, layero){
+                    //         form.submit();
+                    //     }
+                    //     ,btn2: function(index, layero){
+                    //     }
+                    //     ,cancel: function(){
+                    //     }
+                    // });
                 },
                 rules: {},
                 messages: {},
@@ -51,7 +65,7 @@
                 if (flag == "1") {
                     layer.msg('保存成功', {icon: 1});
                     setTimeout(function () {
-                    }, 500);
+                    }, 1000);
                 } else if (flag == "0") {
                     layer.msg('保存失败', {icon: 2});
                 }

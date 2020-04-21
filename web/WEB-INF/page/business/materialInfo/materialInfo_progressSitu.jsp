@@ -118,7 +118,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <s:if test="pageResult1.data!=null&&pageResult.total>0">
+                <s:if test="pageResult1.data!=null&&pageResult1.total>0">
                     <s:iterator id="p" value="pageResult1.data" status="pp">
                         <tr id="tr_${progressId }">
                             <td align="center"><s:property value="#pp.count"/></td>
@@ -131,7 +131,7 @@
                             <td align="center" class="fix-td">
                                     ${progressWork}
                             </td>
-                            <td align="center">
+                            <td align="center" class="fix-td">
                                     ${progressRecord}
                             </td>
 

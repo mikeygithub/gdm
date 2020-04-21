@@ -207,9 +207,10 @@ public class ProgressSituAction extends BaseAction implements ModelDriven<Progre
 				if(flag!=null&&"05".equals(flag)){
 						if ("1".equals(usertype)) {
 							LStudent = sysStudentService.findByStuNo(loginName);		
-					        planProgress=planProgressSerivce.findByStudMajoId(student.getMajorId(),flag);  
+					        planProgress=planProgressSerivce.findByStudMajoId(LStudent.getMajorId(),flag);
+//							planProgress=planProgressSerivce.findByStudMajoId(student.getMajorId(),flag);
 						}
-						//查询 当前老师所属专业教研室 中的进度计划
+					//查询 当前老师所属专业教研室 中的进度计划
 						if ("2".equals(usertype)) {
 							 lTeacher = sysTeacherService.findByTeacherNo(loginName);
 							 planProgress=planProgressSerivce.findByTeacStaffroomId(lTeacher.getStaffroomId(),flag); 
@@ -252,8 +253,8 @@ public class ProgressSituAction extends BaseAction implements ModelDriven<Progre
 		//查询 当前学生所属专业教研室  进度计划
 				if(flag!=null&&"05".equals(flag)){
 						if ("1".equals(usertype)) {
-							LStudent = sysStudentService.findByStuNo(loginName);		
-					        planProgress=planProgressSerivce.findByStudMajoId(student.getMajorId(),flag);  
+							LStudent = sysStudentService.findByStuNo(loginName);
+					        planProgress=planProgressSerivce.findByStudMajoId(LStudent.getMajorId(),flag);
 						}
 						//查询 当前老师所属专业教研室 中的进度计划
 						if ("2".equals(usertype)) {
