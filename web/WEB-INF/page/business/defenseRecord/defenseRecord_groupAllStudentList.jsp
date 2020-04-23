@@ -88,7 +88,7 @@
         </tr>
         </thead>
         <tbody>
-        <s:if test="paveResult1.data!=null">
+        <s:if test="pageResult1.data!=null&&pageResult1.data">
             <s:iterator id="p" value="pageResult1.data" status="pp">
                 <tr id="tr_${student.stuId }">
                     <td align="center"><input type="checkbox" name="check_sel"

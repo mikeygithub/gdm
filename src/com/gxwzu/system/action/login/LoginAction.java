@@ -96,6 +96,7 @@ public class LoginAction extends BaseAction {
             user.setLoginName(name);
             List<UserHelp> listAdmin = userHelpService.findByExample(user);
             if (listAdmin.size() > 0) {
+                logger.info("用户登录："+name);
                 UserHelp userHelp = listAdmin.get(0);
                 // 用户id
                 getSession().setAttribute(SystemContext.USERID, userHelp.getId());
@@ -110,45 +111,6 @@ public class LoginAction extends BaseAction {
             }
         }
         return SUCCESS;
-    }
-
-    /**
-     * 登陆
-     *
-     * @throws Exception
-     * @log：1.创建方法（mengyiwen）
-     */
-    @Deprecated()
-    public String login() throws Exception {
-
-        try {
-            String LoginName = getParameters("LoginName");
-            String Password = getParameters("Password");
-            if (null != LoginName && !"".equals(LoginName) && null != Password && !"".equals(Password)) {
-                UserHelp user = new UserHelp();
-                user.setLoginName(LoginName);
-                user.setPassword(Password);
-                List<UserHelp> listAdmin = userHelpService.findByExample(user);
-
-                if (!listAdmin.isEmpty()) {// 登录成功
-                    UserHelp userHelp = listAdmin.get(0);
-                    getSession().setAttribute("HQ_USERID", userHelp.getId()); // 用户id
-                    getSession().setAttribute("HQ_USERNAME", userHelp.getUserName()); // 用户姓名
-                    getSession().setAttribute("HQ_USERTEL", userHelp.getUserTel());// 用户电话号码
-                    getSession().setAttribute("HQ_USERTYPE", userHelp.getUserType());// 用户类型
-                    getSession().setAttribute(SysConstant.GRANT, SysConstant.GRANT);
-                    return SUCCESS;
-                } else {
-                    return errorHint(LoginName, Password, "账号或密码错误");
-                }
-            } else {
-                return errorHint(LoginName, Password, "用户名或密码不能为空");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return VIEW;
-
     }
 
     /**

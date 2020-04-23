@@ -51,7 +51,7 @@
                     fix: false, //不固定
                     title: '填写进展情况',
                     maxmin: true,
-                    content: ' <%=path%>/biz/progressSitu_list.action?view=list&thisStuId=${studentModel.stuId }&thisId=${progressId }&thisYear=${model.year }&tabFlag=03&flag=05'
+                    content: ' <%=path%>/biz/progressSitu_list.action?view=list&thisStuId=${studentModel.stuId }&thisId=${progressId }&thisYear=${model.year }&tabFlag=03&flag=07'
                 });
             }
             <%-- 	if(mark=='paper'){

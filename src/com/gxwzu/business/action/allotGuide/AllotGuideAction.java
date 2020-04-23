@@ -196,24 +196,24 @@ public class AllotGuideAction extends BaseAction implements ModelDriven<AllotGui
         //查询 当前学生所属专业教研室  进度计划
         if (flag != null && "01".equals(flag)) {
             try {
-                if ("1".equals(userType) || "3".equals(userType)) {
+                if (SystemContext.USER_STUDENT_TYPE.equals(userType) || SystemContext.USER_ADMIN_TYPE.equals(userType)) {
                     student = sysStudentService.findByStuNo(loginName);
                     planProgress = planProgressSerivce.findByStudMajoId(student.getMajorId(), flag);
                 }
                 //查询 当前老师所属专业教研室 中的进度计划
-                if ("2".equals(userType) || "3".equals(userType)) {
+                if (SystemContext.USER_TEACHER_TYPE.equals(userType) || SystemContext.USER_ADMIN_TYPE.equals(userType)) {
                     teacher = sysTeacherService.findByTeacherNo(loginName);
                     planProgress = planProgressSerivce.findByTeacStaffroomId(teacher.getStaffroomId(), flag);
                 }
                 Timestamp d = new Timestamp(System.currentTimeMillis());
-//				if (planProgress != null && planProgress.getStartTime() != null && d.after(planProgress.getStartTime())) {
+
                 logger.info("查询分配老師列表");
                 try {
                     /* 专业编号 */
                     List<Integer> majorIds = new ArrayList<Integer>();
                     // 查询安排计划中的年度
                     planYear = planYearSerivce.findPlanYear();
-                    if (userType.equals("1")) {
+                    if (SystemContext.USER_STUDENT_TYPE.equals(userType)) {
                         student = sysStudentService.findByStuNo(loginName);
                         // 默认筛选学生所在专业的专业老师
                         if (majorId == null) {
@@ -236,10 +236,8 @@ public class AllotGuideAction extends BaseAction implements ModelDriven<AllotGui
                         // 老师所带专业信息
                         teacherMajorList = teacherMajorService.findByMajorId(student.getMajorId());
                         // 查询指导老师信息
-                        model = allotGuideService.findByStuIdAndYear(
-                                student.getStuId(), allotGuide.getYear());
-                        if (model != null)
-                            teacher = sysTeacherService.findModelById(model.getTeacherId());
+                        model = allotGuideService.findByStuIdAndYear(student.getStuId(), allotGuide.getYear());
+                        if (model != null) teacher = sysTeacherService.findModelById(model.getTeacherId());
                     }
                     // 页面显示专业下拉框信息
                     sysMajorList = sysMajorService.findAllSysMajorList();
@@ -248,8 +246,6 @@ public class AllotGuideAction extends BaseAction implements ModelDriven<AllotGui
                     e.printStackTrace();
                 }
                 return SUCCESS;
-//				}
-//				return SUCCESS;
             } catch (Exception e) {
                 e.printStackTrace();
                 return SUCCESS;
@@ -392,6 +388,7 @@ public class AllotGuideAction extends BaseAction implements ModelDriven<AllotGui
                             model.setYear(planYear.getYear());
                             model.setStuId(Integer.parseInt(stuId));
                             model.setTeacherId(model.getTeacherId());
+                            model.setOpTime(new Date());
                             allotGuideService.add(model);
                         } catch (Exception e) {
                             failList.add(stuId);

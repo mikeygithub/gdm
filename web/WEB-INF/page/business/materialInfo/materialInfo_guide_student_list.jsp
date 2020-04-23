@@ -103,137 +103,143 @@
              <s:if test="progressItemNo==00"><s:set name=""></s:set></s:if>
              <s:if test="progressItemNo==00"><s:set name=""></s:set></s:if> --%>
         <%--		</s:iterator>--%>
-        <s:iterator id="p" value="pageResult.data" status="pp">
-            <tr id="tr_${taskId }">
-                <td align="center">
-                    <s:if test="groupAllotId==null">
-                        <input value="${student.stuId }" title="${student.stuName }" type="checkbox" name="selected"/>
-                    </s:if>
-                    <s:else>
-                        <font color="red"> <i class="layui-icon">&#xe618;</i></font>
-                    </s:else>
-                </td>
-                <td align="center"><s:property value="#pp.count"/></td>
-                <td align="center">
-                        ${student.deptName}
-                </td>
-                <td align="center">
-                        ${student.majorName}
-                </td>
-                <td align="center">
-                        ${student.className}
-                </td>
+        <s:if test="pageResult.data!=null&&pageResult.total>0">
+            <s:iterator id="p" value="pageResult.data" status="pp">
+                <tr id="tr_${taskId }">
+                    <td align="center">
+                        <s:if test="groupAllotId==null">
+                            <input value="${student.stuId }" title="${student.stuName }" type="checkbox" name="selected"/>
+                        </s:if>
+                        <s:else>
+                            <font color="red"> <i class="layui-icon">&#xe618;</i></font>
+                        </s:else>
+                    </td>
+                    <td align="center"><s:property value="#pp.count"/></td>
+                    <td align="center">
+                            ${student.deptName}
+                    </td>
+                    <td align="center">
+                            ${student.majorName}
+                    </td>
+                    <td align="center">
+                            ${student.className}
+                    </td>
 
-                <td align="center">${student.stuName}</td>
-                <td align="center">
-                    <s:if test="issueInfo.issueId==null">
-                        <a href="javascript:dialog('100%','100%','【<font color=blue >${student.stuName }</font>】 课题信息',
+                    <td align="center">${student.stuName}</td>
+                    <td align="center">
+                        <s:if test="issueInfo.issueId==null">
+                            <a href="javascript:dialog('100%','100%','【<font color=blue >${student.stuName }</font>】 课题信息',
 					        '<%=path%>/biz/issueInfo_openEdit.action?view=add&thisStuId=${student.stuId }&thisYear=${model.year }', 'true','20%');"
-                           target="rightFrame">
-                            <font color="red">未录入</font></a>
-                    </s:if>
-                    <s:else>
-                        <a href="javascript:dialog('100%','100%','【<font color=blue >${student.stuName }</font>】 课题信息',
+                               target="rightFrame">
+                                <font color="red">未录入</font></a>
+                        </s:if>
+                        <s:else>
+                            <a href="javascript:dialog('100%','100%','【<font color=blue >${student.stuName }</font>】 课题信息',
 					        '<%=path%>/biz/issueInfo_openEdit.action?view=edit&thisStuId=${student.stuId }&thisId=${issueInfo.issueId }&thisYear=${model.year }', 'true','20%');"
-                           target="rightFrame">
-                            <font color="blue">${issueInfo.issueName}</font></a>
-                    </s:else>
-                </td>
-                <td align="center">
-                    <s:if test="issueInfo.issueType==''||issueInfo.issueType==null">
-                        <font color="red">未录入</font>
-                    </s:if>
-                    <s:else>
-                        <s:iterator id="p" value="issueTypeList" status="sp">
-                            <s:if test="issueInfo.issueType!=null&&issueInfo!=null&&issueInfo.issueType.contains(\"&\"+issueTypeId+\"&\")">${issueTypeName }&nbsp;</s:if>
-                        </s:iterator>
-                    </s:else>
-                </td>
+                               target="rightFrame">
+                                <font color="blue">${issueInfo.issueName}</font></a>
+                        </s:else>
+                    </td>
+                    <td align="center">
+                        <s:if test="issueInfo.issueType==''||issueInfo.issueType==null">
+                            <font color="red">未录入</font>
+                        </s:if>
+                        <s:else>
+                            <s:iterator id="p" value="issueTypeList" status="sp">
+                                <s:if test="issueInfo.issueType!=null&&issueInfo!=null&&issueInfo.issueType.contains(\"&\"+issueTypeId+\"&\")">${issueTypeName }&nbsp;</s:if>
+                            </s:iterator>
+                        </s:else>
+                    </td>
 
-                <td align="center">
-                    <s:if test="taskId==null">
-                        <a href="javascript:dialog('100%','100%','【<font color=blue >${student.stuName }</font> 】任务书信息','
+                    <td align="center">
+                        <s:if test="taskId==null">
+                            <a href="javascript:dialog('100%','100%','【<font color=blue >${student.stuName }</font> 】任务书信息','
 				          <%=path%>/biz/taskBook_openAdd.action?view=add&thisStuId=${student.stuId }&thisYear=${model.year }&tabFlag=01&flag=03', 'true','20%');"
-                           target="rightFrame">
-                            <font color="red">未录入</font></a>
-                    </s:if><s:else>
-                    <a href="javascript:dialog('100%','100%','【<font color=blue >${student.stuName }</font>】 任务书信息','
+                               target="rightFrame">
+                                <font color="red">未录入</font></a>
+                        </s:if><s:else>
+                        <a href="javascript:dialog('100%','100%','【<font color=blue >${student.stuName }</font>】 任务书信息','
 				          <%=path%>/biz/taskBook_openEdit.action?view=edit&thisStuId=${student.stuId }&thisId=${taskId }&thisYear=${model.year }&tabFlag=01&flag=03', 'true','20%');"
-                       target="rightFrame">
-                        <font color="blue">查看</font></a></s:else>
-                </td>
+                           target="rightFrame">
+                            <font color="blue">查看</font></a></s:else>
+                    </td>
 
-                <td align="center">
-                    <s:if test="reportId==null">
-                        <a href="javascript:dialog('100%','100%','【<font color=blue >${student.stuName }</font>】 开题报告信息','
+                    <td align="center">
+                        <s:if test="reportId==null">
+                            <a href="javascript:dialog('100%','100%','【<font color=blue >${student.stuName }</font>】 开题报告信息','
 				          <%=path%>/biz/openReport_openAdd.action?view=add&thisStuId=${student.stuId }&thisYear=${model.year }&tabFlag=02&flag=04','true','20%');"
-                           target="rightFrame">
-                            <font color="red">未录入</font></a>
-                    </s:if><s:else>
-                    <a href="javascript:dialog('100%','100%','【<font color=blue >${student.stuName }</font>】 开题报告信息','
+                               target="rightFrame">
+                                <font color="red">未录入</font></a>
+                        </s:if><s:else>
+                        <a href="javascript:dialog('100%','100%','【<font color=blue >${student.stuName }</font>】 开题报告信息','
 				          <%=path%>/biz/openReport_openEdit.action?view=edit&thisStuId=${student.stuId }&thisId=${reportId }&thisYear=${model.year }&tabFlag=02&flag=04','true','20%');"
-                       target="rightFrame">
-                        <font color="blue">查看</font></a></s:else>
-                </td>
+                           target="rightFrame">
+                            <font color="blue">查看</font></a></s:else>
+                    </td>
 
 
-                <td align="center">
-                    <s:if test="reportId==null">-</s:if><s:else>
-                    <a href="javascript:dialog('100%','100%','【<font color=blue >${student.stuName }</font>】 进度情况信息','
+                    <td align="center">
+                        <s:if test="reportId==null">-</s:if><s:else>
+                        <a href="javascript:dialog('100%','100%','【<font color=blue >${student.stuName }</font>】 进度情况信息','
 				          <%=path%>/biz/progressSitu_list.action?view=list&thisStuId=${student.stuId }&thisId=${progressId }&thisYear=${model.year }&tabFlag=03&flag=05', 'true','20%');"
-                       target="rightFrame">
-                        <s:if test="progressId==null"><font color="red">未录入</font>
-                        </s:if><s:else><font color="blue">查看</font></s:else></a>
-                </s:else>
-                </td>
+                           target="rightFrame">
+                            <s:if test="progressId==null"><font color="red">未录入</font>
+                            </s:if><s:else><font color="blue">查看</font></s:else></a>
+                    </s:else>
+                    </td>
 
-                <td align="center">
-                    <s:if test="progressId==null">-</s:if><s:else>
-                    <s:if test="reviewGuideId==null">
-                        <a href="javascript:dialog('100%','100%','【<font color=blue >${student.stuName }</font>】 指导老师评阅信息','
+                    <td align="center">
+                        <s:if test="progressId==null">-</s:if><s:else>
+                        <s:if test="reviewGuideId==null">
+                            <a href="javascript:dialog('100%','100%','【<font color=blue >${student.stuName }</font>】 指导老师评阅信息','
 				          <%=path%>/biz/review_openAdd.action?view=add&thisStuId=${student.stuId }&thisReviewType=00&thisYear=${model.year }&flag=07', 'true','20%');"
-                           target="rightFrame">
-                            <font color="red">未录入</font></a>
-                    </s:if><s:else>
-                    <a href="javascript:dialog('100%','100%','【<font color=blue >${student.stuName }</font> 】指导老师评阅信息','
+                               target="rightFrame">
+                                <font color="red">未录入</font></a>
+                        </s:if><s:else>
+                        <a href="javascript:dialog('100%','100%','【<font color=blue >${student.stuName }</font> 】指导老师评阅信息','
 				          <%=path%>/biz/review_openEdit.action?view=edit&thisId=${reviewGuideId }&thisStuId=${student.stuId }&thisReviewType=00&thisYear=${model.year }&flag=07', 'true','20%');"
-                       target="rightFrame">
-                        <font color="blue">查看</font></a>
-                </s:else></s:else>
-                </td>
+                           target="rightFrame">
+                            <font color="blue">查看</font></a>
+                    </s:else></s:else>
+                    </td>
 
-                <td align="center">
-                    <s:if test="progressId==null">-</s:if><s:else>
-                    <s:if test="reviewCheckId==null">
-                        <a href="javascript:dialog('100%','100%','【<font color=blue >${student.stuName }</font>】 规范审查信息','
+                    <td align="center">
+                        <s:if test="progressId==null">-</s:if><s:else>
+                        <s:if test="reviewCheckId==null">
+                            <a href="javascript:dialog('100%','100%','【<font color=blue >${student.stuName }</font>】 规范审查信息','
 				          <%=path%>/biz/review_openAdd.action?view=add&thisStuId=${student.stuId }&thisReviewType=02&thisYear=${model.year }&flag=07', 'true','20%');"
-                           target="rightFrame">
-                            <font color="red">未录入</font></a>
-                    </s:if><s:else>
-                    <a href="javascript:dialog('100%','100%','【<font color=blue >${student.stuName }</font>】 规范审查信息','
+                               target="rightFrame">
+                                <font color="red">未录入</font></a>
+                        </s:if><s:else>
+                        <a href="javascript:dialog('100%','100%','【<font color=blue >${student.stuName }</font>】 规范审查信息','
 				          <%=path%>/biz/review_openEdit.action?view=edit&thisId=${reviewCheckId }&thisStuId=${student.stuId }&thisReviewType=02&thisYear=${model.year }&flag=07', 'true','20%');"
-                       target="rightFrame">
-                        <font color="blue">查看</font></a>
-                </s:else></s:else>
-                </td>
-
-                <td align="center">
-                    <s:if test="reviewCheckId==null|reviewGuideId==null">-</s:if><s:else>
-                    <s:if test="defenseId==null">
-                        <a href="javascript:dialog('100%','100%','【<font color=blue >${student.stuName }</font>】 答辩记录信息','
-				          <%=path%>/biz/defenseRecord_openAdd.action?view=add&thisStuId=${student.stuId}&thisYear=${model.year }&flag=11', 'true','20%');"
                            target="rightFrame">
-                            <font color="red">未录入</font></a>
-                    </s:if><s:else>
-                    <a href="javascript:dialog('100%','100%','【<font color=blue >${student.stuName }</font>】 答辩记录信息','
+                            <font color="blue">查看</font></a>
+                    </s:else></s:else>
+                    </td>
+
+                    <td align="center">
+                        <s:if test="reviewCheckId==null|reviewGuideId==null">-</s:if><s:else>
+                        <s:if test="defenseId==null">
+                            <a href="javascript:dialog('100%','100%','【<font color=blue >${student.stuName }</font>】 答辩记录信息','
+				          <%=path%>/biz/defenseRecord_openAdd.action?view=add&thisStuId=${student.stuId}&thisYear=${model.year }&flag=11', 'true','20%');"
+                               target="rightFrame">
+                                <font color="red">未录入</font></a>
+                        </s:if><s:else>
+                        <a href="javascript:dialog('100%','100%','【<font color=blue >${student.stuName }</font>】 答辩记录信息','
 				          <%=path%>/biz/defenseRecord_list.action?view=list&thisId=${defenseId }&thisStuId=${student.stuId }&thisYear=${model.year }&flag=11', 'true','20%');"
-                       target="rightFrame">
-                        <font color="blue">查看</font></a>
-                </s:else></s:else>
-                </td>
-                <td align="center"> ${model.year} </td>
-            </tr>
-        </s:iterator>
+                           target="rightFrame">
+                            <font color="blue">查看</font></a>
+                    </s:else></s:else>
+                    </td>
+                    <td align="center"> ${model.year} </td>
+                </tr>
+            </s:iterator>
+        </s:if>
+        <s:else>
+            <tr><td align="center" colspan="15"><font>暂无数据</font></td></tr>
+        </s:else>
+
         </tbody>
     </table>
 

@@ -57,7 +57,7 @@
 					  
 					<div id="sendcloseall" class="layim-chat-footer" style="height: 30%;">
 						<div class="layui-unselect layim-chat-tool" >
-							<span class="layui-icon layim-tool-image" title="上传图片" style="magin-left:-100px">
+							<span class="layui-icon layim-tool-image" title="上传图片" style="magin-left:-100px;display: inline-flex">
 							      <button type="button" name="file" id="file"/>
 							</span>
 							<span class="layui-icon layim-tool-image" title="发送文件"  >
@@ -86,7 +86,7 @@
 	</div>
 	
 </body>
-<script src="<%=basePath %>/js/viewer.min.js"></script>
+<script src="<%=basePath %>/js/business/chatInfo/viewer.js"></script>
 <script>
 var viewer = new Viewer(document.getElementById('imgFile'), {
 	url: 'data-original'
@@ -196,7 +196,7 @@ $(function(){
 		      var chatType = ${chatType}; 
 			  var content = $("#chattext").val();
 			  if(content==undefined||content.length==0){
-			    alert("发送内容不能为空！");
+			    layer.msg("发送内容不能为空！");
 			    return;
 			  }else{
 			   $.post('<%=path%>/biz/chatInfo_addChat.action?chatType='+chatType

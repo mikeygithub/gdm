@@ -40,11 +40,10 @@
 
     <form id="form1" action="<%= basePath%>/sys/notice_add.action?view=add" method="post" enctype="multipart/form-data">
         <ul class="forminfo">
-            <li><label>公告人：<%=session.getAttribute(SystemContext.USERNAME) %>
-            </label></li>
+            <li></li>
             <br/>
-            <li><label>公告标题：</label><input name="model.noticeName" type="text" class="dfinput"/><i>标题不能超过30个字符</i></li>
-            <li><label>公告内容：</label><textarea name="model.noticeContent" cols="" rows="" class="textinput"></textarea>
+            <li></li>
+            <li>
             </li>
             <%--
             <li>
@@ -53,8 +52,28 @@
                                             <span id="msgPortrait" class="msgRed"></span></li>
             </li>
             --%>
-            <li><label>&nbsp;</label><input name="" type="submit" class="btn" value="发布公告"/></li>
+            <li><label>&nbsp;</label></li>
         </ul>
+        <table>
+            <tr>
+                <td align="right"><label>发布人：
+                </label></td>
+                <td><%=session.getAttribute(SystemContext.USERNAME) %></td>
+            </tr>
+            <tr>
+                <td align="right"><label>公告标题：</label></td>
+<%--                <td><input name="model.noticeName" maxlength="255" type="text" class="dfinput" /></td>--%>
+                <td><textarea name="model.noticeName" maxlength="255" class="textinput" ></textarea></td>
+            </tr>
+            <tr>
+                <td align="right"><label>公告内容：</label></td>
+                <td><textarea name="model.noticeContent" cols="" rows="" class="textinput"></textarea></td>
+            </tr>
+            <tr style="margin-top: 10px">
+                <td></td>
+                <td><input name="" type="submit" class="btn" value="发布公告"/></td>
+            </tr>
+        </table>
 
     </form>
 </div>
@@ -67,7 +86,7 @@
             focusInvalid: false, //当为false时，验证无效时，没有焦点响应
             onkeyup: false,
             submitHandler: function (form) {   //表单提交句柄,为一回调函数，带一个参数：form
-                layer.confirm('您确定要保存 '+$("input[name='model.noticeName']").val()+' 吗?', {icon: 1, title:'提示'}, function(){
+                layer.confirm('您确定要发布 '+$("input[name='model.noticeName']").val()+' 吗?', {icon: 1, title:'提示'}, function(){
                     var index = layer.load(1);
                     layer.close(index)
                     form.submit();

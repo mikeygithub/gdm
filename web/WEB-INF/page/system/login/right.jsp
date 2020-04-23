@@ -289,8 +289,8 @@
                     var noticelist_li = $('<li class="noli"></li>');
 
                     var noticeName = con.noticeName
-                    if (noticeName.length>12){//通知名称超出用...代替
-                        noticeName = noticeName.substring(0,12)+"......"
+                    if (noticeName.length>8){//通知名称超出用...代替
+                        noticeName = noticeName.substring(0,12)+"..."
                     }
 
                     var noticelist_a = $('<a id="noa" href="javascript:dialog(\'100%\',\'100%\',\'通知详情\',\'<%=path%>/sys/notice_openNotice.action?view=detail&model.noticeId='+con.noticeId+'\', \'true\',\'0\');">&nbsp;&nbsp;' + noticeName + '</a>');

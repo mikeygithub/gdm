@@ -27,4 +27,20 @@ public interface IReplyScoreSerivce extends BaseService<ReplyScore> {
 
 	public ReplyScore findExcellentStudntBySudentReplyType(int replyScoreFinish, String replyType);
 
+	/**
+	 * 获取等级
+	 * @param guideScore
+	 * @param checkScore
+	 * @param readScore
+	 */
+	public String getGrade(float guideScore,float checkScore,float readScore,float replyScore);
+
+	/**
+	 * 更新最终成绩
+	 * @param thisStuId
+	 * @param thisYear
+	 * @return
+	 */
+	public ReplyScore updateReplyScore(Integer thisStuId,Integer thisYear);
+
 }

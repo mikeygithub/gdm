@@ -204,14 +204,13 @@ public class ProgressSituAction extends BaseAction implements ModelDriven<Progre
 		String loginName = (String)getSession().getAttribute(SystemContext.LOGINNAME);
 		String usertype = (String)getSession().getAttribute(SystemContext.USERTYPE);
 		//查询 当前学生所属专业教研室  进度计划
-				if(flag!=null&&"05".equals(flag)){
-						if ("1".equals(usertype)) {
+				if(flag!=null&&SystemContext.PROGRESS_ITEM_PROGRESSSITU.equals(flag)){//TODO:待定修改０７:进度计划
+						if (SystemContext.USER_STUDENT_TYPE.equals(usertype)) {
 							LStudent = sysStudentService.findByStuNo(loginName);		
 					        planProgress=planProgressSerivce.findByStudMajoId(LStudent.getMajorId(),flag);
-//							planProgress=planProgressSerivce.findByStudMajoId(student.getMajorId(),flag);
 						}
 					//查询 当前老师所属专业教研室 中的进度计划
-						if ("2".equals(usertype)) {
+						if (SystemContext.USER_TEACHER_TYPE.equals(usertype)) {
 							 lTeacher = sysTeacherService.findByTeacherNo(loginName);
 							 planProgress=planProgressSerivce.findByTeacStaffroomId(lTeacher.getStaffroomId(),flag); 
 						}
@@ -234,6 +233,7 @@ public class ProgressSituAction extends BaseAction implements ModelDriven<Progre
 							return SUCCESS;
 						}else{
 							//TODO：待处理未到时间填写提示
+							logger.info("未到填写进度计划时间");
 						    return SUCCESS;
 						}
 			    }else{

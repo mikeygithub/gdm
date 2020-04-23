@@ -29,7 +29,7 @@ function openAdd(thisId){
     	fix: false, //不固定
 		title:'添加进度情况',
     	maxmin: true,
-    	content: '<%=path%>/biz/progressSitu_openAdd.action?view=add&thisStuId=${thisStuId}&thisYear=${thisYear}&flag=05'
+    	content: '<%=path%>/biz/progressSitu_openAdd.action?view=add&thisStuId=${thisStuId}&thisYear=${thisYear}&flag=07'
 	});
 	
 }

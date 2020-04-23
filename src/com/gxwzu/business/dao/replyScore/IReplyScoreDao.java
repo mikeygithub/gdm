@@ -21,4 +21,6 @@ public interface IReplyScoreDao extends BaseDao<ReplyScore> {
 	public void updateByStuId(Integer stuId,String replyLink, int replyScoreFinish, String grade, float replyScore,String replyType);
 
 	public ReplyScore findExcellentStudntBySudentReplyType(int replyScoreFinish, String replyType);
+
+	ReplyScore findByStuIdAndYear(Integer thisStuId, Integer thisYear);
 }

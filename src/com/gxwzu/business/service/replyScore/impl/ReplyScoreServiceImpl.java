@@ -206,6 +206,67 @@ public class ReplyScoreServiceImpl extends BaseServiceImpl<ReplyScore> implement
 		return replyScoreDao.findExcellentStudntBySudentReplyType(replyScoreFinish,replyType);
 	}
 
+	/**
+	 * 获取等级
+	 * @param guideScore
+	 * @param checkScore
+	 * @param readScore
+	 * @return
+	 */
+	@Override
+	public String getGrade(float guideScore, float checkScore, float readScore,float replyScore) {
+
+		int replyScoreFinish = (int) (readScore + checkScore + guideScore + replyScore);
+		if (replyScoreFinish < 60) {
+			return "不及格";
+		} else if (replyScoreFinish >= 60 && replyScoreFinish < 69) {
+			return "及格";
+		} else if (replyScoreFinish >= 70 && replyScoreFinish < 79) {
+			return "中";
+		} else if (replyScoreFinish >= 80 && replyScoreFinish < 90) {
+			return "良";
+		} else if (replyScoreFinish >= 90) {
+			return "优";
+		}
+		return "未完成评分";
+	}
+
+	/**
+	 * 更新最终成绩
+	 * @param thisStuId
+	 * @param thisYear
+	 * @return TODO:未测试
+	 */
+	@Override
+	public ReplyScore updateReplyScore(Integer thisStuId,Integer thisYear) {
+		float guideScore = 0;
+		float checkScore = 0;
+		float readScore = 0;
+		// 评阅审查表类型：00 指导老师评阅 01评阅人评阅 02指导老师审查
+		// 指导老师评阅评分 90分×45%=40.5
+		ListReview reviewGuide = reviewSerivce.findByStuIdAndReviewTypeAndYear(thisStuId, "00", thisYear);
+		// 指导评阅审查评分 93分×10%= 9.3
+		ListReview reviewCheck = reviewSerivce.findByStuIdAndReviewTypeAndYear(thisStuId, "02", thisYear);
+		// 评阅老师评阅评分 88分×20%= 17.6
+		ListReview reviewRead = reviewSerivce.findByStuIdAndReviewTypeAndYear(thisStuId, "01", thisYear);
+		//查询答辩分数
+		ReplyScore replyScore = replyScoreDao.findByStuIdAndYear(thisStuId,thisYear);
+
+		if (reviewGuide != null&&reviewCheck!=null&&reviewRead!=null&&replyScore!=null) {
+			guideScore = (float) (reviewGuide.getTotalScore() * 0.45);
+			checkScore = (float) (reviewCheck.getTotalScore() * 0.1);
+			readScore = (float) (reviewRead.getTotalScore() * 0.2);
+			//更新最终成绩
+			int replyScoreFinish = (int) (readScore + checkScore + guideScore + replyScore.getReplyScore());
+			//更新等级
+			replyScore.setGrade(getGrade(guideScore,checkScore,readScore,replyScore.getReplyScore()));
+			//更新
+			update(replyScore);
+		}
+
+		return replyScore;
+
+	}
 
 
 }

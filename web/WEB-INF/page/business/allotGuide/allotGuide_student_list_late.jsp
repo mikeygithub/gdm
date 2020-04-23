@@ -39,19 +39,23 @@
 
 <div class="layui-tab">
     <ul class="layui-tab-title">
-        <li >
+        <li>
             <a href="<%=path%>/biz/allotGuide_allotStudentList.action?view=student_list&flag=01&tabFlag=00">
                 已选学生/最多可选
-                (${guideCount.alreadyStuNum }/<font style="font-weight: bold;font-size: 14px; " color="blue">${guideCount.maxStuNum }</font>)
+                (${guideCount.alreadyStuNum }/<font style="font-weight: bold;font-size: 14px; "
+                                                    color="blue">${guideCount.maxStuNum }</font>)
             </a>
         </li>
-        <li  class="layui-this">可选学生(<font style="font-weight: bold;font-size: 14px; " color="blue">${pageResult1.total }</font>)
+        <li class="layui-this">可选学生(<font style="font-weight: bold;font-size: 14px; "
+                                          color="blue">${pageResult1.total }</font>)
         </li>
     </ul>
     <div class="layui-tab-content">
         <div class="layui-tab-item layui-show">
             <div class="rightinfo">
-                <form id="form1" name="form1" action="<%=path%>/biz/allotGuide_allotStudentList.action?view=student_list_late&page=${pageResult1.page}&tabFlag=01&flag=01" method="post">
+                <form id="form1" name="form1"
+                      action="<%=path%>/biz/allotGuide_allotStudentList.action?view=student_list_late&page=${pageResult1.page}&tabFlag=01&flag=01"
+                      method="post">
                     <div class="place">
                         <ul class="placeul">
                             <li><span>院系：</span>${teacher.deptName }</li>
@@ -121,7 +125,9 @@
                         </s:iterator>
                     </s:if>
                     <s:else>
-                        <tr><td align="center" colspan="10"><font>暂无数据</font></td></tr>
+                        <tr>
+                            <td align="center" colspan="10"><font>暂无数据</font></td>
+                        </tr>
                     </s:else>
 
                     </tbody>
@@ -131,146 +137,149 @@
 
         </div>
     </div>
-    </div>
-    <script>
-        layui.use('element', function () {
-            var element = layui.element;
+</div>
+<script>
+    layui.use('element', function () {
+        var element = layui.element;
+    });
+</script>
+<script type="text/javascript">
+    function selectAll() {
+        var checklist = document.getElementsByName("selected");
+        if (document.getElementById("controlAll").checked) {
+            for (var i = 0; i < checklist.length; i++) {
+                checklist[i].checked = 1;
+            }
+        } else {
+            for (var j = 0; j < checklist.length; j++) {
+                checklist[j].checked = 0;
+            }
+        }
+    }
+
+    //选择学生
+    function optionAll() {
+        var maxStuNum = '${guideCount.maxStuNum}';
+        var alreadyStuNum = '${guideCount.alreadyStuNum}';
+        var stuIds = "";
+        var stuName = "<br><font color='blue'> ";
+        $("input[name='selected']").each(function (index, content) {
+            if (this.checked == true) {
+                stuIds = stuIds + $(this).val() + ",";
+                stuName = stuName + (index + 1) + "." + $(this).attr('title') + "<br>";
+            }
         });
-    </script>
-    <script type="text/javascript">
-        function selectAll() {
-            var checklist = document.getElementsByName("selected");
-            if (document.getElementById("controlAll").checked) {
-                for (var i = 0; i < checklist.length; i++) {
-                    checklist[i].checked = 1;
-                }
-            } else {
-                for (var j = 0; j < checklist.length; j++) {
-                    checklist[j].checked = 0;
-                }
-            }
+        //容错
+        stuName = stuName + "</font>";
+        if (stuIds == "") {
+            layer.alert('请勾选学生', {icon: 3});
+        } else if (maxStuNum == null || maxStuNum == '') {
+            layer.alert('您还未分配指导人数,请联系管理员或教研室主任分配！', {icon: 3});
+            return
+        } else if (Number(stuIds.split(',').length) + Number(alreadyStuNum) > Number(maxStuNum)) {
+            layer.alert('最多可选:${guideCount.maxStuNum} 位学生！', {icon: 3});
+        } else {
+            option(stuIds, stuName);
         }
+    }
 
-        //选择学生
-        function optionAll() {
-            var maxStuNum = '${guideCount.maxStuNum}';
-            var alreadyStuNum = '${guideCount.alreadyStuNum}';
-            var stuIds = "";
-            var stuName = "<br><font color='blue'> ";
-            $("input[name='selected']").each(function (index, content) {
-                if (this.checked == true) {
-                    stuIds = stuIds + $(this).val() + ",";
-                    stuName = stuName + (index + 1) + "." + $(this).attr('title') + "<br>";
+    // 执行选取
+    function optionHandler(stuId, stuName) {
+        $.ajax({
+            type: "post",
+            cache: false,
+            url: '<%=path%>/biz/allotGuide_checkTime.action',
+            dataType: "json",
+            data: {
+                "thisIds": stuId
+            }, success: function (result) {
+                if (result.obj == 1) {
+                    option(stuId, stuName);
+                } else {
+                    layer.msg('未在操作时间段内操作', {icon: 2});
                 }
-            });
-            //容错
-            stuName = stuName + "</font>";
-            if (stuIds == "") {
-                layer.alert('请勾选学生', {icon: 3});
-            } else if (Number(stuIds.split(',').length)+Number(alreadyStuNum)>Number(maxStuNum)){
-                layer.alert('最多可选:${guideCount.maxStuNum} 位学生！', {icon: 3});
-            } else {
-                option(stuIds, stuName);
+            },
+            error: function (result) {
+                layer.msg('操作失败', {icon: 2});
             }
+        });
+    }
+
+    //选择学生
+    function option(stuId, stuName) {
+
+        var maxStuNum = '${guideCount.maxStuNum}';
+        var alreadyStuNum = '${guideCount.alreadyStuNum}';
+
+        //未分配指导人数
+        if (maxStuNum == null || maxStuNum == '') {
+            layer.alert('您还未分配指导人数,请联系管理员或教研室主任分配！', {icon: 3});
+            return
         }
-
-        // 执行选取
-        function optionHandler(stuId, stuName) {
-            $.ajax({
-                type: "post",
-                cache: false,
-                url: '<%=path%>/biz/allotGuide_checkTime.action',
-                dataType: "json",
-                data: {
-                    "thisIds": stuId
-                }, success: function (result) {
-                    if (result.obj == 1) {
-                        option(stuId, stuName);
-                    } else {
-                        layer.msg('未在操作时间段内操作', {icon: 2});
-                    }
-                },
-                error: function (result) {
-                    layer.msg('操作失败', {icon: 2});
-                }
-            });
-        }
-
-        //选择学生
-        function option(stuId, stuName) {
-
-            var maxStuNum = '${guideCount.maxStuNum}';
-            var alreadyStuNum = '${guideCount.alreadyStuNum}';
-
-            //未分配指导人数
-            if (maxStuNum == null || maxStuNum == '') {
-                layer.alert('您还未分配指导人数,请联系管理员或教研室主任分配！', {icon: 3});
-                return
-            }
-            //容错
-            if (maxStuNum != undefined && alreadyStuNum != '' && alreadyStuNum != undefined && maxStuNum <= alreadyStuNum) {
-                layer.alert('最多可选:${guideCount.maxStuNum} 位学生， 不能再选其他学生！', {icon: 3});
-            } else {
-                layer.confirm('您确定选择 以下学生吗?<br>' + stuName + ' ', {icon: 3, title: '提示'}, function (index) {
-                    layer.close(index);
-                    var index = layer.load(1);
-                    $.ajax({
-                        type: "post",
-                        cache: false,
-                        url: '<%=path%>/biz/allotGuide_addStudent.action',
-                        dataType: "json",
-                        data: {
-                            "thisIds": stuId
-                        }, success: function (result) {
-                            layer.close(index);
-                            if (result.length == 0) {
-                                layer.alert('选择学生成功', {icon: 1}, function () {
-                                    location.reload();
-                                });
-                            } else {
-                                layer.msg('选择学生失败', {icon: 2});
-                            }
-                        },
-                        error: function (result) {
-                            layer.close(index);
+        //容错
+        if (maxStuNum != undefined && alreadyStuNum != '' && alreadyStuNum != undefined && maxStuNum <= alreadyStuNum) {
+            layer.alert('最多可选:${guideCount.maxStuNum} 位学生， 不能再选其他学生！', {icon: 3});
+        } else {
+            layer.confirm('您确定选择 以下学生吗?<br>' + stuName + ' ', {icon: 3, title: '提示'}, function (index) {
+                layer.close(index);
+                var index = layer.load(1);
+                $.ajax({
+                    type: "post",
+                    cache: false,
+                    url: '<%=path%>/biz/allotGuide_addStudent.action',
+                    dataType: "json",
+                    data: {
+                        "thisIds": stuId
+                    }, success: function (result) {
+                        layer.close(index);
+                        if (result.length == 0) {
+                            layer.alert('选择学生成功', {icon: 1}, function () {
+                                location.reload();
+                            });
+                        } else {
                             layer.msg('选择学生失败', {icon: 2});
                         }
-                    });
+                    },
+                    error: function (result) {
+                        layer.close(index);
+                        layer.msg('选择学生失败', {icon: 2});
+                    }
                 });
-            }
-        }
-
-        function selectAllDel() {
-            var checklist = document.getElementsByName("delSelected");
-            if (document.getElementById("controlAllDel").checked) {
-                for (var i = 0; i < checklist.length; i++) {
-                    checklist[i].checked = 1;
-                }
-            } else {
-                for (var j = 0; j < checklist.length; j++) {
-                    checklist[j].checked = 0;
-                }
-            }
-        }
-
-        //选择学生
-        function optionAllDel() {
-            var stuIds = "";
-            var stuName = "<br><font color='blue'> ";
-            $("input[name='delSelected']").each(function (index, content) {
-                if (this.checked == true) {
-                    stuIds = stuIds + $(this).val() + ",";
-                    stuName = stuName + (index + 1) + "." + $(this).attr('title') + "<br>";
-                }
             });
-            stuName = stuName + "</font>";
-            if (stuIds == "") {
-                layer.alert('请勾选学生', {icon: 3});
-            } else {
-                del(stuIds, stuName);
-            }
-
         }
-    </script>
+    }
+
+    function selectAllDel() {
+        var checklist = document.getElementsByName("delSelected");
+        if (document.getElementById("controlAllDel").checked) {
+            for (var i = 0; i < checklist.length; i++) {
+                checklist[i].checked = 1;
+            }
+        } else {
+            for (var j = 0; j < checklist.length; j++) {
+                checklist[j].checked = 0;
+            }
+        }
+    }
+
+    //选择学生
+    function optionAllDel() {
+        var stuIds = "";
+        var stuName = "<br><font color='blue'> ";
+        $("input[name='delSelected']").each(function (index, content) {
+            if (this.checked == true) {
+                stuIds = stuIds + $(this).val() + ",";
+                stuName = stuName + (index + 1) + "." + $(this).attr('title') + "<br>";
+            }
+        });
+        stuName = stuName + "</font>";
+        if (stuIds == "") {
+            layer.alert('请勾选学生', {icon: 3});
+        } else {
+            del(stuIds, stuName);
+        }
+
+    }
+</script>
 </body>
 </html>

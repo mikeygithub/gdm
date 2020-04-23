@@ -121,7 +121,9 @@ function openAdd(){
 								</font>
 								</a>
 							</s:if>
-							<a href="javascript:void(0)" onclick="openNotice(${noticeId});"> <font color="red"> <i class="layui-icon">&#xe649;</i>详情</font></a>
+							<a href="javascript:dialog('100%','100%','通知详情','<%=path%>/sys/notice_openNotice.action?view=detail&model.noticeId=${noticeId}', 'true','0%','0%');"> <i class="layui-icon">&#xe649;</i>详情</a>
+
+<!--							<a href="javascript:void(0)" onclick="openNotice(${noticeId});"> <font color="red"> <i class="layui-icon">&#xe649;</i>详情</font></a>-->
 						<%--							管理员可删除所有通知--%>
 							<s:if test="LoginUser.userType=='3'">
 								<a href="javascript:void(0)"

@@ -107,4 +107,12 @@ public class ReplyScoreDaoImpl extends BaseDaoImpl<ReplyScore>implements IReplyS
 	
 	}
 
+	@Override
+	public ReplyScore findByStuIdAndYear(Integer thisStuId, Integer thisYear) {
+		ReplyScore replyScore = new ReplyScore();
+		replyScore.setStuId(thisStuId);
+		replyScore.setYear(thisYear);
+		return this.find(replyScore,1,1).getData().get(0);
+	}
+
 }

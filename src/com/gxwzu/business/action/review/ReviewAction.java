@@ -48,6 +48,9 @@ import com.gxwzu.system.service.sysStudent.ISysStudentService;
 import com.gxwzu.system.service.sysTeacher.ISysTeacherService;
 import com.opensymphony.xwork2.ModelDriven;
 
+/**
+ * 评阅
+ */
 public class ReviewAction extends BaseAction implements ModelDriven<Review> {
 
     private static final long serialVersionUID = -3343014949806289390L;
@@ -348,7 +351,7 @@ public class ReviewAction extends BaseAction implements ModelDriven<Review> {
         /************************** 查询教研室信息 *********************************************/
         //查询 当前学生所属专业教研室  进度计划
         if (flag != null && "07".equals(flag)) {
-            if ("1".equals(type)) {
+            if (SystemContext.USER_STUDENT_TYPE.equals(type)) {
                 student = sysStudentService.findByStuNo(loginName);
                 planProgress = planProgressSerivce.findByStudMajoId(student.getMajorId(), flag);
             }
@@ -415,14 +418,14 @@ public class ReviewAction extends BaseAction implements ModelDriven<Review> {
                     }
                 }
                 review = reviewSerivce.findViewModelById(thisId);
-
-                mark = "1";
+                //TODO:如果最终成绩已经存在修改最终成绩
+                mark = SystemContext.RESULT_SUCCESS;
             } else {
-                mark = "0";
+                mark = SystemContext.RESULT_FAIL;
             }
         } catch (Exception e) {
             e.printStackTrace();
-            mark = "0";
+            mark = SystemContext.RESULT_FAIL;
         }
         return list();
     }

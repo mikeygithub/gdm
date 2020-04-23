@@ -129,10 +129,8 @@ public class SysNoticeAction extends BaseAction implements ModelDriven<SysNotice
 	public String list() {
 		logger.info("角色管理列表");
 		try {
-			String loginName = (String) getSession().getAttribute(
-					SystemContext.LOGINNAME);
-			String userType = (String) getSession().getAttribute(
-					SystemContext.USERTYPE);
+			String loginName = (String) getSession().getAttribute(SystemContext.LOGINNAME);
+			String userType = (String) getSession().getAttribute(SystemContext.USERTYPE);
 			
 			userHelpList = userHelpService.findAll(UserHelp.class);
 			
@@ -140,10 +138,12 @@ public class SysNoticeAction extends BaseAction implements ModelDriven<SysNotice
 		    
 			model.setUserId(userHelp.get(0).getId());
 			LoginUser = userHelp.get(0);//当前登入的用户
+
 			logger.info("当前登入的用户"+userHelp);
-//			pageResult = sysNoticeService.find(model, getPage(), getRow());
+
 			pageResult = sysNoticeService.find(new SysNotice(), getPage(), getRow());
 			footer = PageUtil.pageFooter(pageResult, getRequest());
+
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -165,7 +165,7 @@ public class SysNoticeAction extends BaseAction implements ModelDriven<SysNotice
 
 			//查询部门
 			if (model.getDeptNumber()!=null) {
-				sysDepartment = departmentService.findById(model.getDeptNumber());
+				sysDepartment = departmentService.findSysDepartmentByDeptNumber(model.getDeptNumber().toString());
 			}else if (-2==model.getMajorId()){
 				sysDepartment.setDeptName("管理员");
 			}
@@ -266,10 +266,10 @@ public class SysNoticeAction extends BaseAction implements ModelDriven<SysNotice
 			String loginName = (String) getSession().getAttribute(SystemContext.LOGINNAME);
 			String userType = (String) getSession().getAttribute(SystemContext.USERTYPE);
 			//查询 当前老师所属专业教研室
-			if ("1".equals(userType)) {
+			if (SystemContext.USER_STUDENT_TYPE.equals(userType)) {
 				student = sysStudentService.findByStuNo(loginName);		
 				model.setMajorId(student.getMajorId());
-			}else if ("2".equals(userType)) {
+			}else if (SystemContext.USER_TEACHER_TYPE.equals(userType)) {
 				teacher = sysTeacherService.findByTeacherNo(loginName);
 				model.setMajorId(teacher.getStaffroomId());
 			}

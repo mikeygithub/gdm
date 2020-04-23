@@ -156,11 +156,6 @@ public class ReplyScoreAction extends BaseAction implements ModelDriven<ReplySco
             /* 用户类型：1-学生 2-老师 */
             String type = (String) getSession().getAttribute(SystemContext.USERTYPE);
 
-//			pageResult = replyScoreSerivce.find(model, getPage(), getRow());
-//			logger.info("pageResult : "+pageResult);
-//			footer = PageUtil.pageFooter(pageResult, getRequest());
-
-            /////////////////////////////////////////////////////////////
             if (flag != null && "12".equals(flag)) {
                 // 查询 当前老师所属专业教研室 中的进度计划
                 if ("2".equals(type)) {
@@ -172,7 +167,7 @@ public class ReplyScoreAction extends BaseAction implements ModelDriven<ReplySco
                 if (planProgress != null && planProgress.getStartTime() != null && d.after(planProgress.getStartTime())) {
                     logger.info("老师查询所在组已分配评阅的学生信息");
                     // 老师查询学生课题信息
-                    if (type.equals("2")) {
+                    if (SystemContext.USER_TEACHER_TYPE.equals(type)) {
                         teacherVO = sysTeacherService.findByTeacherNo(loginName);
                         // 设置年度
                         if (thisYear != null) {
@@ -200,9 +195,6 @@ public class ReplyScoreAction extends BaseAction implements ModelDriven<ReplySco
                         //老师查询所在组的学生信息
                         pageResult1 = materialInfoSerivce.findGroupStudent(groupAllotId, thisReplyType, model.getYear(), getPage(), getRow());
 
-
-                        logger.info("pageResult1=>" + pageResult1);
-
                         footer = PageUtil.pageFooter(pageResult1, getRequest());
                         //指导老师查询自己所在教研室进度计划信息
                         if (teacher.getStaffroomId() == null) {
@@ -220,7 +212,6 @@ public class ReplyScoreAction extends BaseAction implements ModelDriven<ReplySco
             } else {
                 return SUCCESS;
             }
-            /////////////////////////////////////////////////////////////
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -238,11 +229,10 @@ public class ReplyScoreAction extends BaseAction implements ModelDriven<ReplySco
         String loginName = (String) getSession().getAttribute(SystemContext.LOGINNAME);
         String type = (String) getSession().getAttribute(SystemContext.USERTYPE);
 
-        if (type.equals("1")) {
+        if (SystemContext.USER_STUDENT_TYPE.equals(type)) {
             ListStudent s = sysStudentService.findByStuNo(loginName);
             model.setStuId(s.getStuId());
         }
-
 
         /************************** 查询学生信息 *********************************************/
         return openAdd();
@@ -289,25 +279,12 @@ public class ReplyScoreAction extends BaseAction implements ModelDriven<ReplySco
                     readScore = (float) (reviewRead.getTotalScore() * 0.2);
                 }
                 //优”（90分以上）；“良”（80～89）；“中”（70～79）；“及格”（60～69）；“不及格”（60以下）
-                if (replyScore != null && checkScore != null && guideScore != null && replyScore != null) {
+                if (replyScore != null && checkScore != null && guideScore != null) {
                     logger.info(readScore + "," + checkScore + "," + guideScore + "," + replyScore);
                     int replyScoreFinish = (int) (readScore + checkScore + guideScore + replyScore);
                     model.setReplyScoreFinish(replyScoreFinish);
                     logger.info("最终成绩：" + replyScoreFinish);
-                    if (replyScoreFinish < 60) {
-                        model.setGrade("不及格");
-                    } else if (replyScoreFinish < 60) {
-                        model.setGrade("不及格");
-                    } else if (replyScoreFinish >= 60 && replyScoreFinish < 69) {
-                        model.setGrade("及格");
-                    } else if (replyScoreFinish >= 70 && replyScoreFinish < 79) {
-                        model.setGrade("中");
-                    } else if (replyScoreFinish >= 80 && replyScoreFinish < 90) {
-                        model.setGrade("良");
-                    } else if (replyScoreFinish >= 90) {
-                        model.setGrade("优");
-                    }
-                    logger.info("Grade " + model.getGrade());
+                    model.setGrade(replyScoreSerivce.getGrade(guideScore,checkScore,readScore,replyScore));
                 }
                 if (replyScoreList != null) {
                     logger.info("更新" + model);
@@ -331,7 +308,7 @@ public class ReplyScoreAction extends BaseAction implements ModelDriven<ReplySco
             }
         } catch (Exception e) {
             e.printStackTrace();
-            mark = "0";
+            mark = SystemContext.RESULT_FAIL;
         }
         mark = "1";
         isSuccess = true;
@@ -417,6 +394,7 @@ public class ReplyScoreAction extends BaseAction implements ModelDriven<ReplySco
                 }
                 model.setStuId(thisStuId);
                 model.setYear(thisYear);
+                //TODO:待完善
                 replyScore = replyScoreSerivce.find(model, 1, 1).getData().get(0);
             }
         } catch (Exception e) {
@@ -442,13 +420,13 @@ public class ReplyScoreAction extends BaseAction implements ModelDriven<ReplySco
                 rScore.setReplyLink(model.getReplyLink());
                 replyScoreSerivce.update(rScore); // 更改信息
                 replyScore = replyScoreSerivce.findViewModelById(thisId);
-                mark = "1";
+                mark = SystemContext.RESULT_SUCCESS;
             } else {
-                mark = "0";
+                mark = SystemContext.RESULT_FAIL;
             }
         } catch (Exception e) {
             e.printStackTrace();
-            mark = "0";
+            mark = SystemContext.RESULT_FAIL;
         }
         return openEdit();
     }
@@ -553,6 +531,9 @@ public class ReplyScoreAction extends BaseAction implements ModelDriven<ReplySco
             e.printStackTrace();
         }
     }
+
+
+
 
     /********************************************** getter and setter方法 ************************************************************************/
 

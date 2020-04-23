@@ -20,6 +20,10 @@ import org.springframework.security.crypto.password.StandardPasswordEncoder;
  */
 public final class SystemContext {
 
+	//执行成功标识
+	public static final String RESULT_SUCCESS = "1";
+	public static final String RESULT_FAIL = "0";
+	//日志
 	protected final Log logger = LogFactory.getLog(getClass());
 
 	/*配置软件版本信息*/
@@ -59,7 +63,23 @@ public final class SystemContext {
 	public static  String hostName = ""; //本机计算机名称
 	public static  String osName = System.getProperties().getProperty("os.name");  //系统名称
 	public static  String javaVersion =   System.getProperties().getProperty("java.version");//Java的运行环境版本
-	
+	//进度计划类型
+	public static final String  PROGRESS_ITEM_PLAN = "00";//安排计划
+	public static final String  PROGRESS_ITEM_GUIDE = "01";//指导分配
+	public static final String  PROGRESS_ITEM_ISSUEINFO = "02";//选题情况
+	public static final String  PROGRESS_ITEM_GROUP = "04";//分组情况
+	public static final String  PROGRESS_ITEM_TASKBOOK = "03";//任务书
+	public static final String  PROGRESS_ITEM_OPENREPORT = "06";//开题报告
+	public static final String  PROGRESS_ITEM_PROGRESSSITU = "07";//进展情况
+	public static final String  PROGRESS_ITEM_PAPER = "06";//论文上交
+	public static final String  PROGRESS_ITEM_GUIDE_TEACHER_CHECK = "08";//指导老师规范审查评阅信息
+	public static final String  PROGRESS_ITEM_READ_TEACHER_CHECK = "05";//评阅老师论文评阅
+	public static final String  PROGRESS_ITEM_PAPCER_TALK = "10";//论文答辩
+	public static final String  PROGRESS_ITEM_TALK = "11";//答辩记录
+	public static final String  PROGRESS_ITEM_SCORCE = "12";//成绩及评阅
+	public static final String  PROGRESS_ITEM_INPUT_SCORCE = "13";//答辩组（成绩录入/评阅分配/评阅信息）
+	public static final String  PROGRESS_ITEM_BEST_PAPER = "14";//论文推优
+
 	;
 	/**
 	 * 获取用户头像的路径
