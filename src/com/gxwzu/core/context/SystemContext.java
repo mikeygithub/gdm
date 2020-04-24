@@ -23,7 +23,10 @@ public final class SystemContext {
 	//执行成功标识
 	public static final String RESULT_SUCCESS = "1";
 	public static final String RESULT_FAIL = "0";
-	//日志
+	//聊天类型
+	public static final String CHAT_PRIVATE_TYPE = "1";
+	public static final String CHAT_GROUP = "0";
+    //日志
 	protected final Log logger = LogFactory.getLog(getClass());
 
 	/*配置软件版本信息*/

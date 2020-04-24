@@ -29,9 +29,7 @@ public class ChatInfo implements java.io.Serializable {
 	}
 
 	/** full constructor */
-	public ChatInfo(Integer senderId, String senderName, String senderContent,
-			Integer answerId, String answerName, String readType, Integer year,
-			Timestamp sendTime, String chatType, String contType) {
+	public ChatInfo(Integer senderId, String senderName, String senderContent,Integer answerId, String answerName, String readType, Integer year,Timestamp sendTime, String chatType, String contType) {
 		this.senderId = senderId;
 		this.senderName = senderName;
 		this.senderContent = senderContent;

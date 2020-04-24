@@ -156,9 +156,7 @@
 
 
 <!--我的聊天室 -->
-<div id="myChat"
-     style="width: 260px;height: 520px;position: absolute;bottom: 0; right: 3px;box-shadow: 1px 1px 50px rgba(0,0,0,.3);">
-
+<div id="myChat" style="width: 260px;height: 520px;position: absolute;bottom: 0; right: 3px;box-shadow: 1px 1px 50px rgba(0,0,0,.3);">
     <div class="layui-layer layui-layer-page layui-box layui-layim"
          id="layui-layer1" type="page" times="1" showtime="0" contype="string"
          style="z-index: 19891015; width: 260px; height: 520px; position:absolute;right: 3px;top:0; background-image: url(http://res.layui.com/layui/dist/css/modules/layim/skin/3.jpg);">

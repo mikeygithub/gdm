@@ -141,12 +141,9 @@ public class ChatInfoAction extends BaseAction implements ModelDriven<ChatInfo> 
 	 * @return
 	 */
 	public String openChat() {
-		logger.info("打开角色添加页面");
 		try {
-			String loginName = (String) getSession().getAttribute(
-					SystemContext.LOGINNAME);
-			String type = (String) getSession().getAttribute(
-					SystemContext.USERTYPE);
+			String loginName = (String) getSession().getAttribute(SystemContext.LOGINNAME);
+			String type = (String) getSession().getAttribute(SystemContext.USERTYPE);
 			// 查询安排计划年度
 			planYear = planYearSerivce.findPlanYear();
 			
@@ -274,7 +271,6 @@ public class ChatInfoAction extends BaseAction implements ModelDriven<ChatInfo> 
 	 * @return
 	 */
 	public String openGroupChat() {
-		logger.info("打开角色添加页面");
 		try {
 
 		} catch (Exception e) {
@@ -378,8 +374,7 @@ public class ChatInfoAction extends BaseAction implements ModelDriven<ChatInfo> 
 						guideStudentList.get(i).setCategoryId(size);
 					}
 					
-					chatInfoPrivateList = 
-							chatInfoSerivce.findByAnswerId(student.getStuId(),allotGuide.getTeacherId(),"1","1");
+					chatInfoPrivateList = chatInfoSerivce.findByAnswerId(student.getStuId(),allotGuide.getTeacherId(),"1","1");
 					teaPrivateChat = chatInfoPrivateList.size();
 					//TechnicalId为老师发送给学生的未阅读条数（私聊）
 					teacher.setTechnicalId(teaPrivateChat);
@@ -601,10 +596,8 @@ public class ChatInfoAction extends BaseAction implements ModelDriven<ChatInfo> 
 	public void addChat() throws Exception {
 		ResponeJson rJson = new ResponeJson();
 		ChatFile cFile = (ChatFile) ActionContext.getContext().getSession().get("cFile"); 
-		String loginName = (String) getSession().getAttribute(
-				SystemContext.LOGINNAME);
-		String type = (String) getSession()
-				.getAttribute(SystemContext.USERTYPE);
+		String loginName = (String) getSession().getAttribute(SystemContext.LOGINNAME);
+		String type = (String) getSession().getAttribute(SystemContext.USERTYPE);
 		// 查询安排计划年度
 		planYear = planYearSerivce.findPlanYear();
 		PrintWriter out = getResponse().getWriter();
