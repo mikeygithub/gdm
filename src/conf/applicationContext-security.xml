@@ -11,7 +11,7 @@
     <!--<global-method-security pre-post-annotations="enabled"  />-->
       <!-- http,那些资源不需要验证 -->
 	<http pattern="/default.html" security="none" />
-	<http pattern="/error.html" security="none" />
+	<http pattern="/error/error.html" security="none" />
 	<http pattern="/login.jsp" security="none" />
 	<http pattern="/attached/**/**" security="none" />
 	<http pattern="/apk/**" security="none" />

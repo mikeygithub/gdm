@@ -6256,11 +6256,11 @@ $.fn.jqFilter = function( arg ) {
 		};
 		this.hideError = function() {
 			$("th.ui-state-error", this).html("");
-			$("tr.error", this).hide();
+			$("error", this).hide();
 		};
 		this.showError = function() {
 			$("th.ui-state-error", this).html(this.p.errmsg);
-			$("tr.error", this).show();
+			$("error", this).show();
 		};
 		this.toUserFriendlyString = function() {
 			return this.getStringForGroup(p.filter);
