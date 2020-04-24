@@ -27,12 +27,17 @@
         function openChat(thisId, type, chatType) {
             layer.open({
                 type: 2,
-                area: ['45%', '84%'],
+                area: ['60%', '84%'],
                 offset: '100px',
-                fix: false, //不固定
+                // fix: false, //不固定
                 title: false,
                 maxmin: true,
-                content: '<%=path%>/biz/chatInfo_openChat.action?view=client&thisId=' + thisId + '&thisType=' + type + '&chatType=' + chatType
+                scrollbar: false,
+                content: '<%=path%>/biz/chatInfo_openChat.action?view=client&thisId=' + thisId + '&thisType=' + type + '&chatType=' + chatType,
+                success: function(layero){
+                layero.find('.layui-layer-min').remove(); //去掉最小化按钮
+                layero.find('.layui-layer-max').remove(); //去掉最大化按钮
+            }
             });
 
         }

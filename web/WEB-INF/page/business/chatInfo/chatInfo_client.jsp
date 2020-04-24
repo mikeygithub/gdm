@@ -32,7 +32,7 @@
 <body>
 	<div  class="layui-layer layui-layer-page layui-box layui-layim-chat layer-anim" id="layui-layer100006" type="page" times="100006" showtime="0" contype="string" style="z-index: 19991020; width: 100%; top: 0; left: 0; min-width: 100px; 
 	      min-height: 420px;bottom:0; background-image: url(http://127.0.0.1:8080/gdm/third/layui/css/modules/layim/skin/3.jpg);">
-	  <div class="layui-layer-title" style="cursor: move;/* z-index: -2; *//* visibility: hidden; */">&#8203;</div>
+	  <div class="layui-layer-title" style="cursor: move;z-index: -2; visibility: hidden;">&#8203;</div>
 		<div id="layui-layim-chat" class="layui-layer-content" style="right: 0;bottom: 0; left: 0;position: absolute;top: 0;z-index: -4;">
 			<div class="layim-chat-box" style="height: 100%;">
 				<div   class="layim-chat layim-chat-friend layui-show" style="position: absolute;bottom: 0;top: 0; left: 0;right: 0;">
