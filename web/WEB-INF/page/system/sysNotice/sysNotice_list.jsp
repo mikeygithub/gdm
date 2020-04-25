@@ -175,7 +175,7 @@ function del(name,id,noticeName){
 		}
 
 function openNotice(noticeId) {
-	layer.open({
+	parent.layer.open({
 		type: 2,
 		area: ['99%', '99%'],
 		offset: '10px',

@@ -29,7 +29,7 @@
                                 <div class="layui-btn  layui-btn-mini layui-btn-radius  layui-btn-danger">未通过</div>
                             </s:if>
                             <s:if test="openReport==null">
-                            <div class="layui-btn  layui-btn-mini layui-btn-radius  layui-btn-warm">未填写</div>
+                                <div class="layui-btn  layui-btn-mini layui-btn-radius  layui-btn-warm">未填写</div>
                             </s:if>
                         </div>
                     </li>
@@ -54,7 +54,8 @@
                         <div class="layui-timeline-content layui-text">
                             <h3 class="layui-timeline-title" id="gradscore">指导教师评阅打分</h3>
                             <s:if test="teacherReview!=null&&teacherReview.replyLink == '01'">
-                                <div class="layui-btn  layui-btn-mini layui-btn-radius layui-btn-dangere"><span>已通过,得分：</span>
+                                <div class="layui-btn  layui-btn-mini layui-btn-radius layui-btn-dangere">
+                                    <span>已通过,得分：</span>
                                     <div>
                                         <s:property value="teacherReview.totalScore"></s:property>
                                     </div>
@@ -80,7 +81,8 @@
                                 </div>
                             </s:if>
                             <s:if test="reviewerReview!=null&&reviewerReview.replyLink== 00">
-                                <div class="layui-btn  layui-btn-mini layui-btn-radius  layui-btn-danger">未通过,得分：<s:property value="reviewerReview.totalScore"></s:property></div>
+                                <div class="layui-btn  layui-btn-mini layui-btn-radius  layui-btn-danger">
+                                    未通过,得分：<s:property value="reviewerReview.totalScore"></s:property></div>
                             </s:if>
                             <s:if test="reviewerReview==null">
                                 <div class="layui-btn  layui-btn-mini layui-btn-radius  layui-btn-warm">未审查</div>
@@ -93,7 +95,8 @@
                         <div class="layui-timeline-content layui-text">
                             <h3 class="layui-timeline-title" id="gradscore">答辩成绩</h3>
                             <s:if test="studentScore!=null">
-                                <div class="layui-btn  layui-btn-mini layui-btn-radius  layui-btn-dangere"><s:property value="studentScore.replyScore"></s:property></div>
+                                <div class="layui-btn  layui-btn-mini layui-btn-radius  layui-btn-dangere"><s:property
+                                        value="studentScore.replyScore"></s:property></div>
                             </s:if>
                             <s:if test="studentScore==null">
                                 <div class="layui-btn  layui-btn-mini layui-btn-radius  layui-btn-warm">未评分</div>
@@ -106,7 +109,8 @@
                         <div class="layui-timeline-content layui-text">
                             <h3 class="layui-timeline-title" id="gradscore">最终成绩</h3>
                             <s:if test="studentScore!=null">
-                                <div class="layui-btn  layui-btn-mini layui-btn-radius  layui-btn-dangere"><s:property value="studentScore.replyScoreFinish"></s:property></div>
+                                <div class="layui-btn  layui-btn-mini layui-btn-radius  layui-btn-dangere"><s:property
+                                        value="studentScore.replyScoreFinish"></s:property></div>
                             </s:if>
                             <s:if test="studentScore==null">
                                 <div class="layui-btn  layui-btn-mini layui-btn-radius  layui-btn-warm">未评分</div>
@@ -120,7 +124,8 @@
                             <h3 class="layui-timeline-title" id="gradscore">等级</h3>
                             <%--								<div class="layui-timeline-title"></div>--%>
                             <s:if test="studentScore!=null">
-                                <div class="layui-btn  layui-btn-mini layui-btn-radius  layui-btn-dangere"><s:property value="studentScore.grade"></s:property></div>
+                                <div class="layui-btn  layui-btn-mini layui-btn-radius  layui-btn-dangere"><s:property
+                                        value="studentScore.grade"></s:property></div>
                             </s:if>
                             <s:if test="studentScore==null">
                                 <div class="layui-btn  layui-btn-mini layui-btn-radius  layui-btn-warm">未评分</div>
@@ -139,11 +144,12 @@
         <!--公告信息 satrt-->
         <div class="dflist">
             <div class="listtitle">
-                <a href="javascript:dialog('100%','100%','通知列表','<%=path%>/sys/notice_list.action?view=list', 'true','0');" class="more1">更多</a><img src="<%=path%>/images/i09.png" style="width:40px" />&nbsp;公告信息
+<%--                <a href="javascript:dialog('100%','100%','通知列表','<%=path%>/sys/notice_list.action?view=list', 'true','0');" class="more1">更多</a><img src="<%=path%>/images/i09.png" style="width:40px"/>&nbsp;公告信息--%>
+                <a href="<%=path%>/sys/notice_list.action?view=list" class="more1">更多</a><img src="<%=path%>/images/i09.png" style="width:40px"/>&nbsp;公告信息
 
-<%--                <a href="javascript:void(0);" onclick="openNoticeList()" class="more1">更多</a>--%>
+                <%--                <a href="javascript:void(0);" onclick="openNoticeList()" class="more1">更多</a>--%>
 
-<%--                <img src="<%=path%>/images/i09.png" style="width:40px"/>&nbsp;公告信息--%>
+                <%--                <img src="<%=path%>/images/i09.png" style="width:40px"/>&nbsp;公告信息--%>
             </div>
             <ul class="newlist" id="sysNotice">
 
@@ -156,7 +162,8 @@
 
 
 <!--我的聊天室 -->
-<div id="myChat" style="width: 260px;height: 520px;position: absolute;bottom: 0; right: 3px;box-shadow: 1px 1px 50px rgba(0,0,0,.3);">
+<div id="myChat"
+     style="width: 260px;height: 520px;position: absolute;bottom: 0; right: 3px;box-shadow: 1px 1px 50px rgba(0,0,0,.3);">
     <div class="layui-layer layui-layer-page layui-box layui-layim"
          id="layui-layer1" type="page" times="1" showtime="0" contype="string"
          style="z-index: 19891015; width: 260px; height: 520px; position:absolute;right: 3px;top:0; background-image: url(http://res.layui.com/layui/dist/css/modules/layim/skin/3.jpg);">
@@ -171,8 +178,7 @@
                                   lay-type="show"></span>
                         <ul class="layui-anim layim-menu-box">
                             <li class="layim-this" layim-event="status" lay-type="online">
-                                <i class="layui-icon"></i><cite
-                                    class="layui-icon layim-status-online"></cite>在线
+                                <i class="layui-icon"></i><cite class="layui-icon layim-status-online"></cite>在线
                             </li>
                             <li layim-event="status" lay-type="hide"><i
                                     class="layui-icon"></i><cite
@@ -180,7 +186,7 @@
                             </li>
                         </ul>
                     </div>
-<%--                    <input class="layui-layim-remark" placeholder="编辑签名" value="在深邃的编码世界，做一枚轻盈的纸飞机">--%>
+                    <%--                    <input class="layui-layim-remark" placeholder="编辑签名" value="在深邃的编码世界，做一枚轻盈的纸飞机">--%>
                 </div>
 
                 <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
