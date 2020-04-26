@@ -14,8 +14,7 @@ http://www.springframework.org/schema/context/spring-context-3.0.xsd
             </list>
         </property>
     </bean>
-<!--    聊天-->
-<!--    <bean id="chatWebsocketServer" class="com.gxwzu.business.action.chatInfo.ChatWebsocketServer" init-method="init"   destroy-method="destroy" lazy-init="true">-->
-<!--        <property name="port" value="8081"/>-->
-<!--    </bean>-->
+    <!-- 自动扫描(配置) -->
+    <context:component-scan base-package="com.gxwzu.config"/>
+
 </beans>

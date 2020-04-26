@@ -189,7 +189,7 @@
             anim: 2,
             offset: "rb",
             resize: !1,
-            content: '<img src="' + (j.mine.avatar.substring(1) || layui.cache.dir + "css/pc/layim/skin/logo.jpg") + '"><span>' + (i || j.base.title || "聊天面板") + "</span>",
+            content: '<img src="' + (j.mine.avatar || layui.cache.dir + "css/pc/layim/skin/logo.jpg") + '"><span>' + (i || j.base.title || "聊天面板") + "</span>",
             move: "#layui-layim-close img",
             success: function (i, a) {
                 b = i, j.base.right && i.css("margin-left", "-" + j.base.right), i.on("click", function () {

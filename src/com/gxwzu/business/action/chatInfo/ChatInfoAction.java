@@ -766,8 +766,7 @@ public class ChatInfoAction extends BaseAction implements ModelDriven<ChatInfo> 
    		InputStream inputStream = null;
    		try {
    		    //取得绝对路径
-   			String path = ServletActionContext.getServletContext()
-					.getRealPath(savePath); // 文件的绝对路径
+   			String path = ServletActionContext.getServletContext().getRealPath(savePath); // 文件的绝对路径
    	        //下载的文件名
 	   	    byte[] bytes = name.getBytes();
 	   	    
@@ -791,7 +790,7 @@ public class ChatInfoAction extends BaseAction implements ModelDriven<ChatInfo> 
 				
 			}
 		} catch (Exception e) {
-			
+			e.printStackTrace();
 		}finally{
 				//关闭流、释放资源
 			if(null != ouputStream){
@@ -827,6 +826,23 @@ public class ChatInfoAction extends BaseAction implements ModelDriven<ChatInfo> 
 		planYear = planYearSerivce.findPlanYear();
 		//查询获取好友列表
 		R r = chatInfoSerivce.loadChatFriend(planYear, loginName);
+		out.print(new Gson().toJson(r));
+		out.flush();
+		out.close();
+	}
+
+	/**
+	 * 获取群员列表
+	 */
+	public void loadGroupMembers() throws Exception{
+		//获取输出流
+		PrintWriter out = getResponse().getWriter();
+		//判断用户角色
+		String loginName = (String) getSession().getAttribute(SystemContext.LOGINNAME);
+		//当前年度
+		planYear = planYearSerivce.findPlanYear();
+		//查询获取好友列表
+		R r = chatInfoSerivce.loadGroupMembers(planYear, loginName);
 		out.print(new Gson().toJson(r));
 		out.flush();
 		out.close();

@@ -53,7 +53,6 @@ public class ListStudent  extends ListUser   {
 		this.stuSchoollength = ObjectUtil.getString(o[6]);
 		try {
 			if(o[7]!=null){
-			//this.stuEntrance = (Date) o[7];
 				this.setStuEntrance(Timestamp.valueOf(DateUtils.formatTime(DateUtils.parseDate(o[7].toString()))));
 			}
 		} catch (Exception e) {
@@ -79,6 +78,8 @@ public class ListStudent  extends ListUser   {
 		this.categoryName =  ObjectUtil.getString(o[21]);
 		this.majorName = ObjectUtil.getString(o[22]);
 		this.className = ObjectUtil.getString(o[23]);
+
+		this.sign = ObjectUtil.getString(o[24]);
 	}
 
 	public String getDeptName() {

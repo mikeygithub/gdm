@@ -63,5 +63,19 @@ public interface IChatInfoService extends BaseService<ChatInfo> {
 	 */
 	Integer findChatCountByTeacherIdOrStudentId(Integer userId);
 
+	/**
+	 * 加载聊天面板好友
+	 * @param planYear
+	 * @param loginName
+	 * @return
+	 */
 	R loadChatFriend(PlanYear planYear, String loginName);
+
+	/**
+	 * 获取群员列表
+	 * @param planYear
+	 * @param loginName
+	 * @return
+	 */
+	R loadGroupMembers(PlanYear planYear, String loginName);
 }

@@ -140,7 +140,7 @@ public class SysStudentDaoImpl extends BaseDaoImpl<SysStudent> implements ISysSt
         StringBuffer queryString = new StringBuffer("SELECT * FROM (")
                 .append("SELECT ")
                 .append(" st.*,up.userSex,up.userAge,up.userEmail,up.userTel,up.userImg,up.userType, ")
-                .append(" sdt.dept_name,scy.category_name,smr.major_name,scs.class_name ")
+                .append(" sdt.dept_name,scy.category_name,smr.major_name,scs.class_name,up.sign ")
                 .append(" FROM sys_student st ")
                 .append(" INNER JOIN user_hlep up ON st.user_id = up.id ")
                 .append(" LEFT JOIN sys_department sdt ON st.dept_number = sdt.dept_number ")
@@ -156,8 +156,7 @@ public class SysStudentDaoImpl extends BaseDaoImpl<SysStudent> implements ISysSt
             if (StringUtils.isNotEmpty(stuNo)) {
                 queryString.append("and model.stu_no=?");
                 params.add(stuNo);
-                List<Object> list = super.query(queryString.toString(),
-                        params.toArray());
+                List<Object> list = super.query(queryString.toString(), params.toArray());
                 if (list != null && list.size() != 0) {
                     Object[] o = (Object[]) list.get(0);
                     student = new ListStudent(o);

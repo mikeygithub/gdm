@@ -199,16 +199,19 @@ public class ChatInfoServiceImpl extends BaseServiceImpl<ChatInfo> implements IC
 
         if (SystemContext.USER_STUDENT_TYPE.equals(userHelp.getUserType())) {//学生
             student = iSysStudentService.findByStuNo(loginName);
-            AllotGuide allotGuide = iAllotGuideService.findByStuIdAndYear(student.getStuId(), planYear.getYear());
-            teacher = iSysTeacherService.findModelById(allotGuide.getTeacherId());
-            //学生列表
-            guideStudentList = iMaterialInfoSerivce.findGuideStudent(allotGuide.getTeacherId(), planYear.getYear());
-            //自己信息
-            mine = new ChatUserInfoVo(student);
-            //教师列表
             ChatGroupInfoVo teacherGroup = new ChatGroupInfoVo();
             teacherGroup.setGroupname("指导老师");
-            teacherGroup.add(new ChatUserInfoVo(teacher));
+
+            AllotGuide allotGuide = iAllotGuideService.findByStuIdAndYear(student.getStuId(), planYear.getYear());
+            if (allotGuide!=null) {//过滤未分配的
+                teacher = iSysTeacherService.findModelById(allotGuide.getTeacherId());
+                //学生列表
+                guideStudentList = iMaterialInfoSerivce.findGuideStudent(allotGuide.getTeacherId(), planYear.getYear());
+                //教师列表
+                teacherGroup.add(new ChatUserInfoVo(teacher));
+            }
+            //自己信息
+            mine = new ChatUserInfoVo(student);
             friend.add(teacherGroup);
         }
 
@@ -232,21 +235,64 @@ public class ChatInfoServiceImpl extends BaseServiceImpl<ChatInfo> implements IC
 
         //群聊
         ChatGroupInfoVo chatGroupInfoVo = new ChatGroupInfoVo();
-        chatGroupInfoVo.setId(teacher.getUserId());//根据指导老师的id来命名群id
         chatGroupInfoVo.setGroupname("毕业设计交流群");
         chatGroupInfoVo.setAvatar(SystemContext.DEFAULT_GROUP_AVATAR);
-        chatGroupInfoVo.setOwner(new ChatUserInfoVo(teacher));
+        if (teacher!=null){
+            chatGroupInfoVo.setOwner(new ChatUserInfoVo(teacher));
+            chatGroupInfoVo.setId(teacher.getUserId());//根据指导老师的id来命名群id
+            ArrayList<ChatGroupInfoVo> groupList = new ArrayList<>();
+            groupList.add(chatGroupInfoVo);
+         r.add("group", groupList);//群聊列表
+        }
 
-        ArrayList<ChatGroupInfoVo> groupList = new ArrayList<>();
-        groupList.add(chatGroupInfoVo);
 
         //学生列表
         studentGroup.setGroupname("学生分组");
         friend.add(studentGroup);
 
         r.add("mine", mine)//自己信息
-         .add("friend", friend)//好友列表
-         .add("group", groupList);//群聊列表
+         .add("friend", friend);//好友列表
+
+        return r;
+    }
+
+    @Override
+    public R loadGroupMembers(PlanYear planYear, String loginName) {
+
+        R r = new R();
+
+        UserHelp userHelp = iUserHelpService.findByLoginName(loginName).get(0);
+
+        ListStudent student = null;
+
+        ListTeacher teacher = null;
+
+        List<MaterialInfo> guideStudentList = new ArrayList<>();
+
+        if (SystemContext.USER_STUDENT_TYPE.equals(userHelp.getUserType())) {//学生
+            student = iSysStudentService.findByStuNo(loginName);
+            AllotGuide allotGuide = iAllotGuideService.findByStuIdAndYear(student.getStuId(), planYear.getYear());
+            teacher = iSysTeacherService.findModelById(allotGuide.getTeacherId());
+            //学生列表
+            guideStudentList = iMaterialInfoSerivce.findGuideStudent(allotGuide.getTeacherId(), planYear.getYear());
+        }
+
+        if (SystemContext.USER_TEACHER_TYPE.equals(userHelp.getUserType())) {//教师
+            teacher = iSysTeacherService.findByTeacherNo(loginName);
+            // 指导老师查询自己所带学生相关信息
+            guideStudentList = iMaterialInfoSerivce.findGuideStudent(teacher.getTeacherId(), planYear.getYear());
+
+        }
+        ChatGroupInfoVo studentGroup = new ChatGroupInfoVo();
+
+        for (MaterialInfo tmp:guideStudentList){
+            if (!tmp.getStudent().getStuNo().equals(student.getStuNo())) {//移除自己
+                studentGroup.add(new ChatUserInfoVo(tmp.getStudent()));
+            }
+        }
+        r.add("owner", new ChatUserInfoVo(teacher))//自己信息
+                .add("members", guideStudentList.size()+1)//好友列表
+                .add("list", studentGroup.getList());//群聊列表
 
         return r;
     }

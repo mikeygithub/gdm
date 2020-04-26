@@ -66,7 +66,7 @@ public class ChatGroupInfoVo {
     }
 
     public ChatGroupInfoVo add(ChatUserInfoVo chatUserInfoVo){
-        this.list.add(chatUserInfoVo);
+        list.add(chatUserInfoVo);
         return this;
     }
 }

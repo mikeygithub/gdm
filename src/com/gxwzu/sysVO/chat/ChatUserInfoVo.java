@@ -47,7 +47,9 @@ public class ChatUserInfoVo {
         this.id = teacher.getUserId();
         this.username = teacher.getTeacherName();
         this.sign = teacher.getSign();
-        this.avatar = teacher.getUserImg().substring(1);
+        this.avatar = SystemContext.DEFAULT_PERSON_AVATAR;
+        if (StringUtils.isNotBlank(teacher.getUserImg()))this.avatar = teacher.getUserImg().substring(1);
+
     }
 
     public ChatUserInfoVo(int id, String username, String status, String sign, String avatar) {

@@ -468,47 +468,29 @@
 
         //基础配置
         layim.config({
-
             //初始化接口
             init: {
-                url: '<%=path%>//biz/chatInfo_loadChatFriend.action'
+                url: '<%=path%>/biz/chatInfo_loadChatFriend.action'
                 ,data: {}
             }
-
-            //或采用以下方式初始化接口
-            /*
-            ,init: {
-              mine: {
-                "username": "LayIM体验者" //我的昵称
-                ,"id": "100000123" //我的ID
-                ,"status": "online" //在线状态 online：在线、hide：隐身
-                ,"remark": "在深邃的编码世界，做一枚轻盈的纸飞机" //我的签名
-                ,"avatar": "a.jpg" //我的头像
-              }
-              ,friend: []
-              ,group: []
-            }
-            */
-
-
             //查看群员接口
             ,members: {
-                url: '/gdm_war_exploded/third/layui/json/getMembers.json'
-                ,data: {}
+                url: '<%=path%>/biz/chatInfo_loadGroupMembers.action'
+                ,data: {
+                    // id: 1//群号id
+                }
             }
-
             //上传图片接口
             ,uploadImage: {
-                url: '/upload/image' //（返回的数据格式见下文）
+                url: '<%=path%>/biz/chatInfo_uploadChartFile.action?savePath=attached/chatFile' //（返回的数据格式见下文）
                 ,type: '' //默认post
             }
 
             //上传文件接口
             ,uploadFile: {
-                url: '/upload/file' //（返回的数据格式见下文）
+                url: '<%=path%>/biz/chatInfo_uploadChartFile.action?savePath=attached/chatFile' //（返回的数据格式见下文）
                 ,type: '' //默认post
             }
-
             //扩展工具栏
             ,tool: [{
                 alias: 'code'
@@ -557,7 +539,10 @@
 
         //监听签名修改
         layim.on('sign', function(value){
-            //console.log(value);
+            console.log(value);
+            $.post('<%=path%>/sys/userHelp_updateSign.action?model.sign='+value, function (res) {
+                console.log(res)
+            });
         });
 
         //监听自定义工具栏点击，以添加代码为例
@@ -659,7 +644,7 @@
         //监听聊天窗口的切换
         layim.on('chatChange', function(res){
             var type = res.data.type;
-            console.log(res.data.id)
+            // console.log(res.data.id)
             if(type === 'friend'){
                 //模拟标注好友状态
                 //layim.setChatStatus('<span style="color:#FF5722;">在线</span>');

@@ -35,31 +35,31 @@
 <!--</div>-->
 
 <textarea title="消息模版" id="LAY_tpl" style="display:none;">
-<!--{{# layui.each(d.data, function(index, item){-->
-<!--  if(item.from){ }}-->
-<!--    <li data-uid="{{ item.from }}" data-fromGroup="{{ item.from_group }}">-->
-<!--      <a href="../../../../../../u/%7b%7b%20item.from%20%7d%7d/index.html" target="_blank">-->
-<!--        <img src="%7b%7b%20item.user.html" class="layui-circle layim-msgbox-avatar">-->
-<!--      </a>-->
-<!--      <p class="layim-msgbox-user">-->
-<!--        <a href="../../../../../../u/%7b%7b%20item.from%20%7d%7d/index.html" target="_blank">{{ item.user.username||'' }}</a>-->
-<!--        <span>{{ item.time }}</span>-->
-<!--      </p>-->
-<!--      <p class="layim-msgbox-content">-->
-<!--        {{ item.content }} -->
-<!--        <span>{{ item.remark ? '附言: '+item.remark : '' }}</span>-->
-<!--      </p>-->
-<!--      <p class="layim-msgbox-btn">-->
-<!--        <button class="layui-btn layui-btn-small" data-type="agree">同意</button>-->
-<!--        <button class="layui-btn layui-btn-small layui-btn-primary" data-type="refuse">拒绝</button>-->
-<!--      </p>-->
-<!--    </li>-->
-<!--  {{# } else { }}-->
-<!--    <li class="layim-msgbox-system">-->
-<!--      <p><em>系统：</em>{{ item.content }}<span>{{ item.time }}</span></p>-->
-<!--    </li>-->
-<!--  {{# }-->
-<!--}); }}-->
+{{# layui.each(d.data, function(index, item){
+  if(item.from){ }}
+    <li data-uid="{{ item.from }}" data-fromGroup="{{ item.from_group }}">
+      <a href="../../../../../../u/%7b%7b%20item.from%20%7d%7d/index.html" target="_blank">
+        <img src="%7b%7b%20item.user.html" class="layui-circle layim-msgbox-avatar">
+      </a>
+      <p class="layim-msgbox-user">
+        <a href="../../../../../../u/%7b%7b%20item.from%20%7d%7d/index.html" target="_blank">{{ item.user.username||'' }}</a>
+        <span>{{ item.time }}</span>
+      </p>
+      <p class="layim-msgbox-content">
+        {{ item.content }}
+        <span>{{ item.remark ? '附言: '+item.remark : '' }}</span>
+      </p>
+      <p class="layim-msgbox-btn">
+        <button class="layui-btn layui-btn-small" data-type="agree">同意</button>
+        <button class="layui-btn layui-btn-small layui-btn-primary" data-type="refuse">拒绝</button>
+      </p>
+    </li>
+  {{# } else { }}
+    <li class="layim-msgbox-system">
+      <p><em>系统：</em>{{ item.content }}<span>{{ item.time }}</span></p>
+    </li>
+  {{# }
+}); }}
 </textarea>
 
 <!-- 

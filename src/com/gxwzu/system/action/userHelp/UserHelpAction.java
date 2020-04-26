@@ -22,6 +22,7 @@ import com.gxwzu.system.service.sysDepartment.ISysDepartmentService;
 import com.gxwzu.system.service.sysDuties.ISysDutiesService;
 import com.gxwzu.system.service.sysMajor.ISysMajorService;
 import com.gxwzu.system.service.sysTechnical.ISysTechnicalService;
+import com.gxwzu.util.R;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.xwork.StringUtils;
 import org.apache.commons.logging.Log;
@@ -134,7 +135,6 @@ public class UserHelpAction extends BaseAction {
      * @return
      */
     public String list() {
-        logger.info("拿到值了吗 ？");
         try {
             UserHelp userHelp = new UserHelp();
 
@@ -144,11 +144,6 @@ public class UserHelpAction extends BaseAction {
             if (model.getUserType() == null) {
                 model.setUserType("3"); // 0.所有后勤用户，1.学生用户2.办公用户,3.管理员
             }
-            /*
-             * if(model.getUserType()==null){ model.setUserType("2");
-             * //0.所有后勤用户，1.学生用户2.办公用户,3.管理员 model
-             * =sysTeacherService.findById(teacher.getStaffroomId()) }
-             */
 
             roles = sysRoleService.findAll(SysRole.class);
             pageResult = userHelpService.find(model, getPage(), getRow());
@@ -262,12 +257,9 @@ public class UserHelpAction extends BaseAction {
     public String openEditUserInfo() {
         logger.info("打开用户个人修改信息页面");
         try {
-            Integer thisId = (Integer) getSession().getAttribute(
-                    SystemContext.USERID);
-            String userNo = (String) getSession().getAttribute(
-                    SystemContext.LOGINNAME);
-            String userType = (String) getSession().getAttribute(
-                    SystemContext.USERTYPE);
+            Integer thisId = (Integer) getSession().getAttribute(SystemContext.USERID);
+            String userNo = (String) getSession().getAttribute(SystemContext.LOGINNAME);
+            String userType = (String) getSession().getAttribute(SystemContext.USERTYPE);
 
             model = userHelpService.findById(thisId);
             getRequest().setAttribute("userSign",
@@ -467,7 +459,7 @@ public class UserHelpAction extends BaseAction {
      *
      * @return
      */
-    public String checkName() throws Exception {
+    public void checkName() throws Exception {
         logger.info("检查用户是否存在");
         try {
             boolean idTrue = true;
@@ -483,7 +475,6 @@ public class UserHelpAction extends BaseAction {
         } catch (Exception e) {
             logger.info("检查用户出错");
         }
-        return null;
     }
 
     /**
@@ -491,14 +482,13 @@ public class UserHelpAction extends BaseAction {
      *
      * @return
      */
-    public String checkPassword() throws Exception {
+    public void checkPassword() throws Exception {
         logger.info("检查密码是否匹配");
         try {
             boolean idTrue = true;
             PrintWriter out = getResponse().getWriter();
             if (getRequest().getParameter("oldPsd") != null) {
-                Integer uid = (Integer) getSession().getAttribute(
-                        SystemContext.USERID);
+                Integer uid = (Integer) getSession().getAttribute(SystemContext.USERID);
                 UserHelp userHelp = userHelpService.findById(uid);
                 userHelp.setPassword(getRequest().getParameter("oldPsd"));
 
@@ -516,7 +506,6 @@ public class UserHelpAction extends BaseAction {
             e.printStackTrace();
             logger.info("检查用户出错");
         }
-        return null;
     }
 
     /**
@@ -537,6 +526,25 @@ public class UserHelpAction extends BaseAction {
             set.add(sysRoleService.findById(Integer.parseInt(roleId)));
         }
         return set;
+    }
+    /**
+     * 修改签名
+     */
+    public void updateSign() throws Exception{
+
+        PrintWriter out = getResponse().getWriter();
+
+        Integer thisId = (Integer) getSession().getAttribute(SystemContext.USERID);
+
+        UserHelp userHelp = userHelpService.findById(thisId);
+
+        userHelp.setSign(model.getSign());
+
+        userHelpService.update(userHelp);
+
+        out.print(new R().ok());
+        out.flush();
+        out.close();
     }
 
     /*********************** setter/getter方法 ***************************/

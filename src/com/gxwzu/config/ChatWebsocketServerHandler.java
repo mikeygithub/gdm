@@ -1,21 +1,17 @@
-//package com.gxwzu.business.action.chatInfo;
+//package com.gxwzu.config;
 //
 //import com.gxwzu.business.model.chatInfo.ChatInfo;
 //import com.gxwzu.business.service.chatInfo.IChatInfoService;
 //import com.gxwzu.core.context.SystemContext;
 //import io.netty.channel.Channel;
-//import io.netty.channel.ChannelHandler;
 //import io.netty.channel.ChannelHandlerContext;
 //import io.netty.channel.SimpleChannelInboundHandler;
 //import io.netty.channel.group.ChannelGroup;
 //import io.netty.channel.group.DefaultChannelGroup;
-//import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
-//import io.netty.util.concurrent.EventExecutorGroup;
 //import io.netty.util.concurrent.GlobalEventExecutor;
 //import org.slf4j.Logger;
 //import org.slf4j.LoggerFactory;
 //import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.stereotype.Component;
 //
 //import java.net.SocketAddress;
 //
