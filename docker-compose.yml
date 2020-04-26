@@ -6,4 +6,4 @@ services:
     volumes:
       - /root/GDM/gdm:/usr/local/tomcat/webapps/ROOT
     ports:
-      - 8008:8008
+      - 8008:8080

@@ -293,7 +293,7 @@ function(i) {
             anim: 2,
             offset: "rb",
             resize: !1,
-            content: '<img src="' + (j.mine.avatar || layui.cache.dir + "css/pc/layim/skin/logo.jpg") + '"><span>' + (i || j.base.title || "我的LayIM") + "</span>",
+            content: '<img src="' + (j.mine.avatar || layui.cache.dir + "css/pc/layim/skin/logo.jpg") + '"><span>' + (i || j.base.title || "聊天面板") + "</span>",
             move: "#layui-layim-close img",
             success: function(i, a) {
                 b = i,
@@ -942,8 +942,8 @@ function(i) {
             })
         },
         about: function() {
-            t.alert("版本： " + a + '<br>版权所有：<a href="http://layim.layui.com" target="_blank">layim.layui.com</a>', {
-                title: "关于 LayIM",
+            t.alert("版本：1.0", {
+                title: "ABOUT",
                 shade: !1
             })
         },

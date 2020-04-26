@@ -216,14 +216,16 @@ table .formTable {
 .maintj{text-align:center;width: 100%}
 
 .newlist{padding-left:14px; padding-top:15px;}
-.newlist li{line-height:25px; background:url(../images/list.gif) no-repeat 0px 8px; text-indent:11px;}
+.newlist li{line-height:25px; background:url(../images/notice.png) no-repeat 0px 5px; text-indent:11px;padding-right: 5px;}
 
 .newlist i{width:80px; display:block; float:left; font-style:normal;}
 .newlist b{font-weight:normal; color:#7b7b7b; padding-left:10px;}
 
 .leftinfos{height:auto;}
-.infoleft{border:#d3dbde solid 1px; float:left;height:auto;}
-.inforight{border:#d3dbde solid 1px; float:right;height:auto; }
+.infoleft{border:#d3dbde solid 1px; float:left;height:auto;width: 30%!important;margin: 0px 1.5%;}
+.infomiddel{border:#d3dbde solid 1px;float:left;height:auto; width: 30%!important;margin: 0px 1.5%;}
+.inforight{border:#d3dbde solid 1px;float:left;height:auto; width: 30%!important;margin: 0px 1.5%;}
+.format-main{height: 85%;overflow-x: hidden;overflow-y: scroll}
 .tooli{padding:30px 20px;}
 .tooli li{float:left;padding-left:15px; padding-right:15px;margin-bottom:20px;}
 .tooli li span{text-align:center;}

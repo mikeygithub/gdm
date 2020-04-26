@@ -189,7 +189,7 @@
             anim: 2,
             offset: "rb",
             resize: !1,
-            content: '<img src="' + (j.mine.avatar || layui.cache.dir + "css/pc/layim/skin/logo.jpg") + '"><span>' + (i || j.base.title || "我的LayIM") + "</span>",
+            content: '<img src="' + (j.mine.avatar || layui.cache.dir + "css/pc/layim/skin/logo.jpg") + '"><span>' + (i || j.base.title || "聊天面板") + "</span>",
             move: "#layui-layim-close img",
             success: function (i, a) {
                 b = i, j.base.right && i.css("margin-left", "-" + j.base.right), i.on("click", function () {
@@ -582,8 +582,8 @@
                 content: n(m).render({skin: j.base.skin})
             })
         }, about: function () {
-            t.alert("版本： " + a + '<br>版权所有：<a href="http://layim.layui.com" target="_blank">layim.layui.com</a>', {
-                title: "关于 LayIM",
+            t.alert("版权所有版本： 1.0", {
+                title: "关于在线聊天",
                 shade: !1
             })
         }, setSkin: function (i) {
