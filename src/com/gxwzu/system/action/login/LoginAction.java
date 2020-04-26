@@ -7,7 +7,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import com.gxwzu.business.model.openReport.OpenReport;
-import com.gxwzu.business.service.chatInfo.IChatInfoSerivce;
+import com.gxwzu.business.service.chatInfo.IChatInfoService;
 import com.gxwzu.business.service.openReport.IOpenReportSerivce;
 import com.gxwzu.business.service.replyScore.IReplyScoreSerivce;
 import com.gxwzu.business.service.review.IReviewSerivce;
@@ -69,7 +69,7 @@ public class LoginAction extends BaseAction {
     @Autowired
     private IReplyScoreSerivce iReplyScoreSerivce;//成绩
     @Autowired
-    private IChatInfoSerivce iChatInfoSerivce;//聊天
+    private IChatInfoService iChatInfoService;//聊天
 
     /*********************** 参数列表 ******************************/
     private List<SysMenu> menuList = new ArrayList<SysMenu>(); //左侧菜单
@@ -160,12 +160,12 @@ public class LoginAction extends BaseAction {
                 studentScore = iReplyScoreSerivce.findByStuIdAndReplyTypeAndYear(student.getStuId(),SystemContext.REPLY_TYPE_SMALL_GROUP,2019);
                 logger.info("studentScore:"+studentScore);
                 //未读聊天记录
-                chatCount = iChatInfoSerivce.findChatCountByTeacherIdOrStudentId(student.getStuId());
+                chatCount = iChatInfoService.findChatCountByTeacherIdOrStudentId(student.getStuId());
                 logger.info("chatCount:"+chatCount);
             }else if (currentUserType.equals(SystemContext.USER_TEACHER_TYPE)){//教师
                 SysTeacher teacher = iSysTeacherService.findTeacherByUserId((Integer) currentUserId);
                 //未读聊天记录
-                chatCount = iChatInfoSerivce.findChatCountByTeacherIdOrStudentId(teacher.getTeacherId());
+                chatCount = iChatInfoService.findChatCountByTeacherIdOrStudentId(teacher.getTeacherId());
                 logger.info("chatCount:"+chatCount);
             }
             return VIEW;

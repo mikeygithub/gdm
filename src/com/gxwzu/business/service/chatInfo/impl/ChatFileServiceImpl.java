@@ -7,12 +7,12 @@ import org.springframework.stereotype.Service;
 
 import com.gxwzu.business.dao.chatInfo.IChatFileDao;
 import com.gxwzu.business.model.chatInfo.ChatFile;
-import com.gxwzu.business.service.chatInfo.IChatFileSerivce;
+import com.gxwzu.business.service.chatInfo.IChatFileService;
 import com.gxwzu.core.dao.BaseDao;
 import com.gxwzu.core.service.impl.BaseServiceImpl;
 
 @Service("chatFileService")
-public class ChatFileServiceImpl extends BaseServiceImpl<ChatFile> implements IChatFileSerivce{
+public class ChatFileServiceImpl extends BaseServiceImpl<ChatFile> implements IChatFileService {
     @Autowired
     private IChatFileDao chatFileDao;
     

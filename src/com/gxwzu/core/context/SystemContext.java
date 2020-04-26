@@ -26,6 +26,10 @@ public final class SystemContext {
 	//聊天类型
 	public static final String CHAT_PRIVATE_TYPE = "1";
 	public static final String CHAT_GROUP = "0";
+	//默认群头像
+	public static final String DEFAULT_GROUP_AVATAR = "images/group_head.png";
+	//默认个人头像
+	public static final String DEFAULT_PERSON_AVATAR = "images/photo.jpg";
     //日志
 	protected final Log logger = LogFactory.getLog(getClass());
 

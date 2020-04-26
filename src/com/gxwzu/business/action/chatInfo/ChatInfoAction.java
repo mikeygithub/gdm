@@ -13,6 +13,9 @@ import java.util.List;
 
 import javax.servlet.ServletOutputStream;
 
+import com.gxwzu.system.model.userHelp.UserHelp;
+import com.gxwzu.system.service.userHelp.IUserHelpService;
+import com.gxwzu.util.R;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -25,8 +28,8 @@ import com.gxwzu.business.model.chatInfo.ChatFile;
 import com.gxwzu.business.model.chatInfo.ChatInfo;
 import com.gxwzu.business.model.paln.PlanYear;
 import com.gxwzu.business.service.allotGuide.IAllotGuideService;
-import com.gxwzu.business.service.chatInfo.IChatFileSerivce;
-import com.gxwzu.business.service.chatInfo.IChatInfoSerivce;
+import com.gxwzu.business.service.chatInfo.IChatFileService;
+import com.gxwzu.business.service.chatInfo.IChatInfoService;
 import com.gxwzu.business.service.materialInfo.IMaterialInfoSerivce;
 import com.gxwzu.business.service.plan.IPlanYearSerivce;
 import com.gxwzu.core.context.SystemContext;
@@ -74,7 +77,7 @@ public class ChatInfoAction extends BaseAction implements ModelDriven<ChatInfo> 
 
 	/*********************** Service接口注入 ***************************/
 	@Autowired
-	private IChatInfoSerivce chatInfoSerivce; // 年度计划接口
+	private IChatInfoService chatInfoSerivce; // 年度计划接口
 	@Autowired
 	private IPlanYearSerivce planYearSerivce; // 年度计划接口
 	@Autowired
@@ -86,7 +89,7 @@ public class ChatInfoAction extends BaseAction implements ModelDriven<ChatInfo> 
 	@Autowired
 	private IMaterialInfoSerivce materialInfoSerivce; // 学生相关材料接口
 	@Autowired
-	private IChatFileSerivce chatFileSerivce; // 聊天文件接口
+	private IChatFileService chatFileSerivce; // 聊天文件接口
 
 	/*********************** 实体 ***************************/
 	private PlanYear planYear; // 年度计划实体
@@ -291,10 +294,9 @@ public class ChatInfoAction extends BaseAction implements ModelDriven<ChatInfo> 
 
 			ResponeJson rJson = new ResponeJson();
 			List<Object> list = new ArrayList<Object>();
-			String loginName = (String) getSession().getAttribute(
-					SystemContext.LOGINNAME);
-			String type = (String) getSession().getAttribute(
-					SystemContext.USERTYPE);
+
+			String loginName = (String) getSession().getAttribute(SystemContext.LOGINNAME);
+			String type = (String) getSession().getAttribute(SystemContext.USERTYPE);
 			
 			List<ChatInfo> chatInfoPrivateList = null;
 			List<ChatInfo> chatInfoGroupList = null;
@@ -302,23 +304,19 @@ public class ChatInfoAction extends BaseAction implements ModelDriven<ChatInfo> 
 			// 查询安排计划年度
 			planYear = planYearSerivce.findPlanYear();
 			if (type.equals("2")) {
-				ListTeacher teacher = sysTeacherService
-						.findByTeacherNo(loginName);
+				ListTeacher teacher = sysTeacherService.findByTeacherNo(loginName);
 				thisId = teacher.getTeacherId();
 				// 指导老师查询自己所带学生相关信息
-				guideStudentList = materialInfoSerivce.findGuideStudent(
-						teacher.getTeacherId(), planYear.getYear());
+				guideStudentList = materialInfoSerivce.findGuideStudent(teacher.getTeacherId(), planYear.getYear());
 				for (int i = 0; i < guideStudentList.size(); i++) {
 					String s = guideStudentList.get(i).getStudent().getStuId().toString();
 					
-					chatInfoPrivateList = 
-							chatInfoSerivce.findByAnswerId(teacher.getTeacherId(),guideStudentList.get(i).getStudent().getStuId(),"1","1");
+					chatInfoPrivateList = chatInfoSerivce.findByAnswerId(teacher.getTeacherId(),guideStudentList.get(i).getStudent().getStuId(),"1","1");
 				
 					//classId为未阅读条数（私聊）
 					guideStudentList.get(i).setClassId(chatInfoPrivateList.size());
 					//CategoryId为未阅读条数（群聊）
-					 chatInfoGroupList = 
-							chatInfoSerivce.findByAnswerId(1,guideStudentList.get(i).getStudent().getStuId(),"0","");
+					 chatInfoGroupList = chatInfoSerivce.findByAnswerId(1,guideStudentList.get(i).getStudent().getStuId(),"0","");
 					int size = chatInfoGroupList.size();
 					for (int j = 0; j < chatInfoGroupList.size(); j++) {
 						if(!chatInfoGroupList.get(j).getReadType().contains(s)){
@@ -342,8 +340,7 @@ public class ChatInfoAction extends BaseAction implements ModelDriven<ChatInfo> 
 				ListStudent student = sysStudentService.findByStuNo(loginName);
 				thisId = student.getStuId();
 				// 指导老师查询自己所带学生相关信息
-				AllotGuide allotGuide = allotGuideService.findByStuIdAndYear(
-						student.getStuId(), planYear!=null&&planYear.getYear()!=null?planYear.getYear():null);
+				AllotGuide allotGuide = allotGuideService.findByStuIdAndYear(student.getStuId(), planYear!=null&&planYear.getYear()!=null?planYear.getYear():null);
 			
 				if (allotGuide != null && allotGuide.getTeacherId() != null) {
 					ListTeacher teacher = sysTeacherService
@@ -716,14 +713,9 @@ public class ChatInfoAction extends BaseAction implements ModelDriven<ChatInfo> 
 		out.flush();
 		out.close();
 	}
-
 	/**
 	 * 上传文件
-	 * 
-	 * @param request
 	 * @return
-	 * @throws IllegalStateException
-	 * @throws IOException
 	 */
 	public String upload() {
 		String filePath = null;
@@ -764,11 +756,8 @@ public class ChatInfoAction extends BaseAction implements ModelDriven<ChatInfo> 
 	
 	/**
 	 * 下载单个文件
-	 * @param request
 	 * @return
-	 * @throws UnsupportedEncodingException 
-	 * @throws IllegalStateException
-	 * @throws IOException
+	 * @throws UnsupportedEncodingException
 	 */
    	public String downLoad() throws UnsupportedEncodingException{
    		savePath = java.net.URLDecoder.decode(savePath,"UTF-8");
@@ -785,7 +774,7 @@ public class ChatInfoAction extends BaseAction implements ModelDriven<ChatInfo> 
 	   	    String fileName = new String(bytes,"ISO-8859-1");
 	   	    File file = new File(path);
    			if(!file.exists()){
-			    System.out.println("文件不存在！！！！！！！！！！！！！！！");
+			    System.out.println("文件不存在");
 		    }
    			response = getResponse();
 			response.reset();
@@ -822,6 +811,26 @@ public class ChatInfoAction extends BaseAction implements ModelDriven<ChatInfo> 
 		}
 		return null;		
    	}
+
+
+   	////////////////////////////////////////////重构聊天//////////////////////////////////////////
+
+	/**
+	 * 加载聊天面板好友
+	 */
+	public void loadChatFriend() throws Exception{
+		//获取输出流
+		PrintWriter out = getResponse().getWriter();
+		//判断用户角色
+		String loginName = (String) getSession().getAttribute(SystemContext.LOGINNAME);
+		//当前年度
+		planYear = planYearSerivce.findPlanYear();
+		//查询获取好友列表
+		R r = chatInfoSerivce.loadChatFriend(planYear, loginName);
+		out.print(new Gson().toJson(r));
+		out.flush();
+		out.close();
+	}
 
 	/********************************************** getter and setter方法 ************************************************************************/
 

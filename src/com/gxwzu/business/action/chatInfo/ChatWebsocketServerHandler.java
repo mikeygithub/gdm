@@ -1,7 +1,7 @@
 //package com.gxwzu.business.action.chatInfo;
 //
 //import com.gxwzu.business.model.chatInfo.ChatInfo;
-//import com.gxwzu.business.service.chatInfo.IChatInfoSerivce;
+//import com.gxwzu.business.service.chatInfo.IChatInfoService;
 //import com.gxwzu.core.context.SystemContext;
 //import io.netty.channel.Channel;
 //import io.netty.channel.ChannelHandler;
@@ -31,7 +31,7 @@
 //public class ChatWebsocketServerHandler extends SimpleChannelInboundHandler<ChatInfo>  {
 //
 //    @Autowired
-//    private IChatInfoSerivce iChatInfoSerivce;
+//    private IChatInfoService iChatInfoSerivce;
 //
 //    private final static Logger log = LoggerFactory.getLogger(ChatWebsocketServerHandler.class);
 //

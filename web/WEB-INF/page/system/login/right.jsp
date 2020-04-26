@@ -23,8 +23,8 @@
     <script type="text/javascript" src="<%=path%>/datePicket/WdatePicker.js"></script>
     <script type="text/javascript" src="<%=path%>/js/business/replyScore/replyScore.js"></script>
 <%--    聊天--%>
-    <link rel="stylesheet" href="<%=path%>/third/layui/layim/layui/css/layui.css">
-    <script type="text/javascript" src="<%=path%>/third/layui/layim/layui/layui.js"></script>
+    <link rel="stylesheet" href="<%=path%>/third/layui/css/layui.css">
+    <script type="text/javascript" src="<%=path%>/third/layui/layui.js"></script>
     <script type="text/javascript">
         /*打开聊天框  */
         function openChat(thisId, type, chatType) {
@@ -471,7 +471,7 @@
 
             //初始化接口
             init: {
-                url: '<%=path%>/third/layui/json/getList.json'
+                url: '<%=path%>//biz/chatInfo_loadChatFriend.action'
                 ,data: {}
             }
 
@@ -531,7 +531,7 @@
 
             ,msgbox: layui.cache.dir + 'css/modules/layim/html/msgbox.html' //消息盒子页面地址，若不开启，剔除该项即可
             ,find: layui.cache.dir + 'css/modules/layim/html/find.html' //发现页面地址，若不开启，剔除该项即可
-            ,chatLog: layui.cache.dir + 'css/modules/layim/html/chatLog.html' //聊天记录页面地址，若不开启，剔除该项即可
+            ,chatLog: layui.cache.dir + 'css/modules/layim/html/chatlog.html' //聊天记录页面地址，若不开启，剔除该项即可
 
         });
 
@@ -580,21 +580,21 @@
             layim.msgbox(5); //模拟消息盒子有新消息，实际使用时，一般是动态获得
 
             //添加好友（如果检测到该socket）
-            layim.addList({
-                type: 'group'
-                ,avatar: "http://tva3.sinaimg.cn/crop.64.106.361.361.50/7181dbb3jw8evfbtem8edj20ci0dpq3a.jpg"
-                ,groupname: 'Angular开发'
-                ,id: "12333333"
-                ,members: 0
-            });
-            layim.addList({
-                type: 'friend'
-                ,avatar: "http://tp2.sinaimg.cn/2386568184/180/40050524279/0"
-                ,username: '冲田杏梨'
-                ,groupid: 2
-                ,id: "1233333312121212"
-                ,remark: "本人冲田杏梨将结束AV女优的工作"
-            });
+            // layim.addList({
+            //     type: 'group'
+            //     ,avatar: "http://tva3.sinaimg.cn/crop.64.106.361.361.50/7181dbb3jw8evfbtem8edj20ci0dpq3a.jpg"
+            //     ,groupname: 'Angular开发'
+            //     ,id: "12333333"
+            //     ,members: 0
+            // });
+            // layim.addList({
+            //     type: 'friend'
+            //     ,avatar: "http://tp2.sinaimg.cn/2386568184/180/40050524279/0"
+            //     ,username: '冲田杏梨'
+            //     ,groupid: 2
+            //     ,id: "1233333312121212"
+            //     ,remark: "本人冲田杏梨将结束AV女优的工作"
+            // });
 
             setTimeout(function(){
                 //接受消息（如果检测到该socket）
