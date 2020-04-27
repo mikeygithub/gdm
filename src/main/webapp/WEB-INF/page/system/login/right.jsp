@@ -482,13 +482,13 @@
             }
             //上传图片接口
             ,uploadImage: {
-                url: '<%=path%>/biz/chatInfo_uploadChartFile.action?savePath=attached/chatFile' //（返回的数据格式见下文）
+                url: '<%=path%>/biz/chatInfo_uploadChatFile.action?savePath=attached/chatFile' //（返回的数据格式见下文）
                 ,type: '' //默认post
             }
 
             //上传文件接口
             ,uploadFile: {
-                url: '<%=path%>/biz/chatInfo_uploadChartFile.action?savePath=attached/chatFile' //（返回的数据格式见下文）
+                url: '<%=path%>/biz/chatInfo_uploadChatFile.action?savePath=attached/chatFile' //（返回的数据格式见下文）
                 ,type: '' //默认post
             }
             //扩展工具栏

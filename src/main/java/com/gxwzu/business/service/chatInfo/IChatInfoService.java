@@ -1,5 +1,6 @@
 package com.gxwzu.business.service.chatInfo;
 
+import java.io.File;
 import java.util.List;
 
 import com.gxwzu.business.model.chatInfo.ChatInfo;
@@ -78,4 +79,11 @@ public interface IChatInfoService extends BaseService<ChatInfo> {
 	 * @return
 	 */
 	R loadGroupMembers(PlanYear planYear, String loginName);
+
+    /**
+     * 上传文件
+     * @param upload
+     * @return
+     */
+    R uploadChatFile(File upload,String uploadFileName);
 }

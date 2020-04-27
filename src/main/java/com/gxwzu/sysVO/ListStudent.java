@@ -79,7 +79,7 @@ public class ListStudent  extends ListUser   {
 		this.majorName = ObjectUtil.getString(o[22]);
 		this.className = ObjectUtil.getString(o[23]);
 
-		this.sign = ObjectUtil.getString(o[24]);
+		if (o.length>25)this.sign = ObjectUtil.getString(o[24]);
 	}
 
 	public String getDeptName() {

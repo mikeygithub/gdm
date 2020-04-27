@@ -30,17 +30,13 @@ public final class SystemContext {
 	public static final String DEFAULT_GROUP_AVATAR = "images/group_head.png";
 	//默认个人头像
 	public static final String DEFAULT_PERSON_AVATAR = "images/photo.jpg";
+	//聊天图片默认保存路径
+	public static final String DEFAULT_CHAT_IMG_SAVE_PATH = "";
     //日志
 	protected final Log logger = LogFactory.getLog(getClass());
 
 	/*配置软件版本信息*/
-	public static final String AREACODE="apk";
 	public static final String PROJECTNAME="毕业设计管理及过程监管云平台";
-	public static final String PROJECT_VERSION="V1.0";
-	public static final Integer DEFUALT_PAGE_SIZE=12;//默认分页数,Result有一个BUG，
-	public static final Integer DEFUALT_PAGE_NUM=1;//默认分页码
-	public static final String ACTION_CONTENT_TYPE="application/json;charset=utf-8";//默认传输编码，注意utf-8
-	public static final int TIME_INTERVAL_MSG = 900;//单位，秒。2次发送短信的时间间隔不能少于900秒
 
 	/* 配置系统session信息 */
 	public static final String SPRING_SECURITY_CONTEXT = "SPRING_SECURITY_CONTEXT"; //安全认证用户信息

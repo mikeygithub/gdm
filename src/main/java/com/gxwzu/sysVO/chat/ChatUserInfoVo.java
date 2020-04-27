@@ -32,7 +32,8 @@ public class ChatUserInfoVo {
         this.id = userHelp.getId();
         this.username = userHelp.getUserName();
         this.sign = userHelp.getSign();
-        this.avatar = userHelp.getUserImg();
+        this.avatar = SystemContext.DEFAULT_PERSON_AVATAR;
+        if (StringUtils.isNotBlank(userHelp.getUserImg()))this.avatar = userHelp.getUserImg();
 
     }
 

@@ -24,20 +24,39 @@ public class R implements Serializable {
 
     private Map data = new HashMap();
 
-    public R ok(){
-        code = 200;
-        r = new R();
+    public static R ok(){
+        R r = new R();
+        r.code = 200;
         return r;
     }
 
-    public R error(){
-        r = new R();
-        code = 500;
+    public static R ok(int code){
+        R r = new R();
+        r.code = code;
         return r;
     }
 
-    public R error(int code,String msg){
-        r = new R();
+    public static R ok(int code,String msg){
+        R r = new R();
+        r.code = 200;
+        r.msg = msg;
+        return r;
+    }
+
+    public static R error(){
+        R r = new R();
+        r.code = 500;
+        return r;
+    }
+
+    public static R error(int code){
+        R r = new R();
+        r.code = code;
+        return r;
+    }
+
+    public static R error(int code,String msg){
+        R r = new R();
         r.msg = msg;
         r.code = code;
         return r;

@@ -1,4 +1,4 @@
-# Graduation project management system
+# GRADUATION PROJECT SYSTEM
 #**毕业设计管理系统**
 ###### 介绍
 毕业设计管理系统，结合学校实际情况开发，提供教师和学生在整个毕业设计管理流程中使用，其主要包括

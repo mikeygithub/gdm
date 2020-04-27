@@ -723,19 +723,16 @@ public class ChatInfoAction extends BaseAction implements ModelDriven<ChatInfo> 
 		logger.info("文件： "+upload);
 		if (upload != null) {
 			
-			String targetFileName = uploadFileName.substring(uploadFileName
-					.lastIndexOf(".")); // 文件后缀
+			String targetFileName = uploadFileName.substring(uploadFileName.lastIndexOf(".")); // 文件后缀
 			logger.info("后缀： "+targetFileName);
 			// 得到文件后缀判断文件类型
-			String name = uploadFileName.substring(0,
-					uploadFileName.lastIndexOf(".")); // 文件名
+			String name = uploadFileName.substring(0, uploadFileName.lastIndexOf(".")); // 文件名
 			logger.info("名： "+name);
 
 			// 文件名组装：UUID.后缀
 			targetFileName = UidUtils.UID() + "_" + name + targetFileName; // 上传的文件
 			// 1-保存附件；
-			String targetDirectory = ServletActionContext.getServletContext()
-					.getRealPath(savePath); // 文件的绝对路径
+			String targetDirectory = ServletActionContext.getServletContext().getRealPath(savePath); // 文件的绝对路径
 
 			File target = new File(targetDirectory, targetFileName);
 
@@ -848,6 +845,13 @@ public class ChatInfoAction extends BaseAction implements ModelDriven<ChatInfo> 
 		out.close();
 	}
 
+	/**
+	 * 上传聊天文件
+	 * @Return
+	 */
+	public void uploadChatFile() {
+		R r = chatInfoSerivce.uploadChatFile(upload,uploadFileName);
+	}
 	/********************************************** getter and setter方法 ************************************************************************/
 
 	public PlanYear getPlanYear() {
