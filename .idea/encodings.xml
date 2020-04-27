@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
-    <file url="file://$PROJECT_DIR$/web/templete/templeteTaskBook.mht" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/web/third/layer-v2.4/¸üÐÂÈÕÖ¾.txt" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/datePicket/¿ª·¢°ü/skin/default/datepicker.css" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/templete/templeteTaskBook.mht" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/third/layer-v2.4/¸üÐÂÈÕÖ¾.txt" charset="GBK" />
   </component>
 </project>

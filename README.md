@@ -40,7 +40,7 @@ docker-compose -f docker-compose.yml -d
 
 部署地址：[gdm](http://47.106.210.183:8888/gdm/)
 
-用户手册：[operation instruction](./web/attached/doc/operation%20instruction.wps)  
+用户手册：[operation instruction](src/main/webapp/attached/doc/operation%20instruction.wps)  
 
 业务流程：`管理员登录录入数据->各个用户登入完善信息->管理员给予各个教研室主任角色->教研室主任登入安排时间进度->设置各个教师所带人数->答辩分组-记录信息`　　
 

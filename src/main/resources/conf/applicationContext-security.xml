@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<beans:beans xmlns="http://www.springframework.org/schema/security"  
+    xmlns:beans="http://www.springframework.org/schema/beans"  
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd  
+                        http://www.springframework.org/schema/security 
+                        http://www.springframework.org/schema/security/spring-security-3.1.xsd">  
+        
+      <!-- 后台权限控制 @PreAuthorize -->                  
+    <!--<global-method-security pre-post-annotations="enabled"  />-->
+      <!-- http,那些资源不需要验证 -->
+	<http pattern="/default.html" security="none" />
+	<http pattern="/error/error.html" security="none" />
+	<http pattern="/login.jsp" security="none" />
+	<http pattern="/attached/doc" security="none" />
+	<http pattern="/apk/**" security="none" />
+	<http pattern="/css" security="none" />
+	<http pattern="/datePicket/¿ª·¢°ü/lang" security="none" />
+	<http pattern="/error/errorTimeOut.jsp" security="none" />
+	<http pattern="/images" security="none" />
+	<http pattern="/js" security="none" />
+	<http pattern="/notice/**" security="none" />
+	<http pattern="/OvestepUpload/**" security="none" />
+	<http pattern="/templete" security="none" />
+	<http pattern="/third/layui/css/modules/layim/mobile" security="none" />
+	<http pattern="/upload/**" security="none" /> 
+
+	
+	
+     <!-- 未登录的切入点 -->
+     <http use-expressions="true"
+           entry-point-ref="authenticationProcessingFilterEntryPoint"
+           access-denied-page="/error/error403.jsp"
+           access-decision-manager-ref="accessDecisionManager">
+
+        <!-- 实现免登陆验证 -->
+       <!--   <remember-me />
+        <session-management invalid-session-url="/error.html">
+            <concurrency-control max-sessions="10" error-if-maximum-exceeded="true" />
+        </session-management>   -->
+
+
+
+     <logout logout-url="/Userlogin_logout.action" logout-success-url="/login.jsp" invalidate-session="true"/>
+         <custom-filter ref="loginFilter" position="FORM_LOGIN_FILTER" />
+         <custom-filter ref="myFilter" before="FILTER_SECURITY_INTERCEPTOR"/>
+    </http>
+
+<!--   去除默认的前缀   start -->
+   <beans:bean id="accessDecisionManager" class="org.springframework.security.access.vote.AffirmativeBased">
+    <beans:constructor-arg name="decisionVoters">
+        <beans:list>
+            <beans:ref bean="roleVoter"/>
+            <beans:ref bean="authenticatedVoter"/>
+        </beans:list>
+    </beans:constructor-arg>
+    <beans:property name="messageSource" ref="messageSource"></beans:property>
+</beans:bean>
+
+<beans:bean id="roleVoter" class="org.springframework.security.access.vote.RoleVoter">
+<!--   自定义前缀 -->
+    <beans:property name="rolePrefix" value="">  </beans:property>
+</beans:bean>
+<!--   投票器 -->
+<beans:bean id="authenticatedVoter" class="org.springframework.security.access.vote.AuthenticatedVoter" />
+   <!--   去除默认的前缀   end -->
+
+
+
+      <!-- 登录验证器 -->
+    <beans:bean id="loginFilter"  class="com.gxwzu.core.security.MyUsernamePasswordAuthenticationFilter">
+        <!-- 处理登录的action -->
+        <beans:property name="filterProcessesUrl" value="/Userlogin_login.action"></beans:property>
+                <!-- 验证成功后的处理-->
+        <beans:property name="authenticationSuccessHandler" ref="loginLogAuthenticationSuccessHandler"></beans:property>
+                <!-- 验证失败后的处理-->
+        <beans:property name="authenticationFailureHandler" ref="simpleUrlAuthenticationFailureHandler"></beans:property>
+        <beans:property name="authenticationManager" ref="authenticationManager"></beans:property>
+    </beans:bean>
+
+    <beans:bean id="loginLogAuthenticationSuccessHandler"
+        class="org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler">
+        <beans:property name="defaultTargetUrl" value="/Userlogin.action"></beans:property>
+    </beans:bean>
+
+    <beans:bean id="simpleUrlAuthenticationFailureHandler"
+        class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">
+        <!-- 可以配置相应的跳转方式。属性forwardToDestination为true采用forward false为sendRedirect -->
+        <beans:property name="defaultFailureUrl"   value="/login.jsp"></beans:property>
+    </beans:bean>
+
+
+     <!-- 认证过滤器 -->
+   <beans:bean id="myFilter" class="com.gxwzu.core.security.MyFilterSecurityInterceptor">
+       <!-- 用户是否拥有所请求资源的权限 -->
+        <beans:property name="accessDecisionManager" ref="myAccessDecisionManager" /><!-- 资源访问决策 -->
+           <!-- 用户拥有的权限 -->
+        <beans:property name="authenticationManager" ref="authenticationManager" /><!-- 登陆的认证 -->
+        <!-- 资源与权限对应关系 -->
+        <beans:property name="securityMetadataSource" ref="invocationSecurityMetadataSourceService" /><!-- 资源和权限列表 -->
+    </beans:bean>
+
+
+       <!-- 资源访问决策 -->
+    <beans:bean name="myAccessDecisionManager" class="com.gxwzu.core.security.MyAccessDecisionManager"/>
+     <!-- 资源和权限列表 -->
+    <beans:bean name="invocationSecurityMetadataSourceService" class="com.gxwzu.system.service.security.impl.InvocationSecurityMetadataSourceServiceImpl"/>
+
+    <!-- 登陆的认证 erase-credentials不清除密码-->
+    <authentication-manager alias="authenticationManager"   >
+    <authentication-provider ref="authenticationProvider" > </authentication-provider>
+    </authentication-manager>
+   <!-- 实现了UserDetailsService的Bean -->
+<beans:bean id="authenticationProvider" class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
+    <beans:property name="userDetailsService" ref="securityUserDetailsService" />
+    <beans:property name="hideUserNotFoundExceptions" value="false" />
+</beans:bean>
+     <!-- 对密码进行MD5编码 -->
+   <!--  <beans:bean class="org.springframework.security.authentication.encoding.Md5PasswordEncoder" id="passwordEncoder"/>
+     -->
+      <!-- 未登录的切入点 -->
+    <beans:bean id="authenticationProcessingFilterEntryPoint" class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
+        <beans:property name="loginFormUrl" value="/login.jsp"></beans:property>
+    </beans:bean>
+
+
+ </beans:beans>  
