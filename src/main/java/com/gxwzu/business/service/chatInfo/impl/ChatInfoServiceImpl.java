@@ -2,9 +2,13 @@ package com.gxwzu.business.service.chatInfo.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
+import com.alibaba.fastjson.JSONObject;
 import com.gxwzu.business.model.allotGuide.AllotGuide;
 import com.gxwzu.business.model.paln.PlanYear;
 import com.gxwzu.business.service.allotGuide.IAllotGuideService;
@@ -18,8 +22,12 @@ import com.gxwzu.system.model.userHelp.UserHelp;
 import com.gxwzu.system.service.sysStudent.ISysStudentService;
 import com.gxwzu.system.service.sysTeacher.ISysTeacherService;
 import com.gxwzu.system.service.userHelp.IUserHelpService;
+import com.gxwzu.util.Constant;
 import com.gxwzu.util.ExportDocUtil;
 import com.gxwzu.util.R;
+import com.gxwzu.websocket.ChatType;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -385,5 +393,173 @@ public class ChatInfoServiceImpl extends BaseServiceImpl<ChatInfo> implements IC
             return R.ok();
         }
     }
+
+    /**
+     * 用户上线测试
+     * @param param
+     * @param ctx
+     */
+    @Override
+    public void register(JSONObject param, ChannelHandlerContext ctx) {
+
+        String userId = (String)param.get("userId");
+        //将当前用户加入在线Map
+        Constant.onlineUserMap.put(userId, ctx);
+        //回复上线成功通知
+        sendMessage(ctx, R.ok().add("type", ChatType.REGISTER).toString());
+        //
+        log.info(MessageFormat.format("userId为 {0} 的用户登记到在线用户表，当前在线人数为：{1}", userId, Constant.onlineUserMap.size()));
+        //
+        System.out.println(MessageFormat.format("userId为 {0} 的用户登记到在线用户表，当前在线人数为：{1}", userId, Constant.onlineUserMap.size()));
+    }
+
+    /**
+     * 私聊
+     * @param param
+     * @param ctx
+     */
+    @Override
+    public void singleSend(JSONObject param, ChannelHandlerContext ctx) {
+        String fromUserId = (String)param.get("fromUserId");
+        String toUserId = (String)param.get("toUserId");
+        String content = (String)param.get("content");
+        ChannelHandlerContext toUserCtx = Constant.onlineUserMap.get(toUserId);
+//        if (toUserCtx == null) {
+//            String responseJson = new ResponseJson()
+//                    .error(MessageFormat.format("userId为 {0} 的用户没有登录！", toUserId))
+//                    .toString();
+//            sendMessage(ctx, responseJson);
+//        } else {
+//            String responseJson = new ResponseJson().success()
+//                    .setData("fromUserId", fromUserId)
+//                    .setData("content", content)
+//                    .setData("type", ChatType.SINGLE_SENDING)
+//                    .toString();
+//            sendMessage(toUserCtx, responseJson);
+//        }
+    }
+
+    /**
+     * 群聊
+     * @param param
+     * @param ctx
+     */
+    @Override
+    public void groupSend(JSONObject param, ChannelHandlerContext ctx) {
+
+        String fromUserId = (String)param.get("fromUserId");
+        String toGroupId = (String)param.get("toGroupId");
+        String content = (String)param.get("content");
+
+//        GroupInfo groupInfo = groupDao.getByGroupId(toGroupId);
+//        if (groupInfo == null) {
+//            String responseJson = new ResponseJson().error("该群id不存在").toString();
+//            sendMessage(ctx, responseJson);
+//        } else {
+//            String responseJson = new ResponseJson().success()
+//                    .setData("fromUserId", fromUserId)
+//                    .setData("content", content)
+//                    .setData("toGroupId", toGroupId)
+//                    .setData("type", ChatType.GROUP_SENDING)
+//                    .toString();
+//            groupInfo.getMembers().stream()
+//                    .forEach(member -> {
+//                        ChannelHandlerContext toCtx = Constant.onlineUserMap.get(member.getUserId());
+//                        if (toCtx != null && !member.getUserId().equals(fromUserId)) {
+//                            sendMessage(toCtx, responseJson);
+//                        }
+//                    });
+//        }
+    }
+
+    @Override
+    public void remove(ChannelHandlerContext ctx) {
+        Iterator<Map.Entry<String, ChannelHandlerContext>> iterator =
+                Constant.onlineUserMap.entrySet().iterator();
+        while(iterator.hasNext()) {
+            Map.Entry<String, ChannelHandlerContext> entry = iterator.next();
+            if (entry.getValue() == ctx) {
+                log.info("正在移除握手实例...");
+                Constant.webSocketHandshakerMap.remove(ctx.channel().id().asLongText());
+                log.info(MessageFormat.format("已移除握手实例，当前握手实例总数为：{0}", Constant.webSocketHandshakerMap.size()));
+                iterator.remove();
+                log.info(MessageFormat.format("userId为 {0} 的用户已退出聊天，当前在线人数为：{1}", entry.getKey(), Constant.onlineUserMap.size()));
+                break;
+            }
+        }
+    }
+
+    @Override
+    public void FileMsgSingleSend(JSONObject param, ChannelHandlerContext ctx) {
+        String fromUserId = (String)param.get("fromUserId");
+        String toUserId = (String)param.get("toUserId");
+        String originalFilename = (String)param.get("originalFilename");
+        String fileSize = (String)param.get("fileSize");
+        String fileUrl = (String)param.get("fileUrl");
+        ChannelHandlerContext toUserCtx = Constant.onlineUserMap.get(toUserId);
+//        if (toUserCtx == null) {
+//            String responseJson = new ResponseJson()
+//                    .error(MessageFormat.format("userId为 {0} 的用户没有登录！", toUserId))
+//                    .toString();
+//            sendMessage(ctx, responseJson);
+//        } else {
+//            String responseJson = new ResponseJson().success()
+//                    .setData("fromUserId", fromUserId)
+//                    .setData("originalFilename", originalFilename)
+//                    .setData("fileSize", fileSize)
+//                    .setData("fileUrl", fileUrl)
+//                    .setData("type", ChatType.FILE_MSG_SINGLE_SENDING)
+//                    .toString();
+//            sendMessage(toUserCtx, responseJson);
+//        }
+    }
+
+    /**
+     * 传输文件
+     * @param param
+     * @param ctx
+     */
+    @Override
+    public void FileMsgGroupSend(JSONObject param, ChannelHandlerContext ctx) {
+        String fromUserId = (String)param.get("fromUserId");
+        String toGroupId = (String)param.get("toGroupId");
+        String originalFilename = (String)param.get("originalFilename");
+        String fileSize = (String)param.get("fileSize");
+        String fileUrl = (String)param.get("fileUrl");
+//        GroupInfo groupInfo = groupDao.getByGroupId(toGroupId);
+//        if (groupInfo == null) {
+//            String responseJson = new ResponseJson().error("该群id不存在").toString();
+//            sendMessage(ctx, responseJson);
+//        } else {
+//            String responseJson = new ResponseJson().success()
+//                    .setData("fromUserId", fromUserId)
+//                    .setData("toGroupId", toGroupId)
+//                    .setData("originalFilename", originalFilename)
+//                    .setData("fileSize", fileSize)
+//                    .setData("fileUrl", fileUrl)
+//                    .setData("type", ChatType.FILE_MSG_GROUP_SENDING)
+//                    .toString();
+//            groupInfo.getMembers().stream()
+//                    .forEach(member -> {
+//                        ChannelHandlerContext toCtx = Constant.onlineUserMap.get(member.getUserId());
+//                        if (toCtx != null && !member.getUserId().equals(fromUserId)) {
+//                            sendMessage(toCtx, responseJson);
+//                        }
+//                    });
+//        }
+    }
+
+    @Override
+    public void typeError(ChannelHandlerContext ctx) {
+//        String responseJson = new ResponseJson().error("该类型不存在！").toString();
+//        sendMessage(ctx, responseJson);
+    }
+
+
+
+    private void sendMessage(ChannelHandlerContext ctx, String message) {
+        ctx.channel().writeAndFlush(new TextWebSocketFrame(message));
+    }
+
 
 }

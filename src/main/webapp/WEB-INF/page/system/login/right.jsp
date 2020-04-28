@@ -451,6 +451,61 @@
         alert('请部署到localhost上查看该演示');
     }
 
+    if(!window.WebSocket){
+        window.WebSocket = window.MozWebSocket;
+    }
+    if(window.WebSocket){
+        socket = new WebSocket("ws://localhost:3333");
+        socket.onmessage = function(event){
+            var json = JSON.parse(event.data);
+            console.log(json)
+            if (json.status == 200) {
+                var type = json.data.type;
+                console.log("收到一条新信息，类型为：" + type);
+                switch(type) {
+                    case "REGISTER":
+                        layer.msg("上线成功");
+                        break;
+                    case "SINGLE_SENDING":
+                        ws.singleReceive(json.data);
+                        break;
+                    case "GROUP_SENDING":
+                        ws.groupReceive(json.data);
+                        break;
+                    case "FILE_MSG_SINGLE_SENDING":
+                        ws.fileMsgSingleRecieve(json.data);
+                        break;
+                    case "FILE_MSG_GROUP_SENDING":
+                        ws.fileMsgGroupRecieve(json.data);
+                        break;
+                    default:
+                        console.log("不正确的类型！");
+                }
+            } else {
+                alert(json.msg);
+                console.log(json.msg);
+            }
+        };
+
+        // 连接成功1秒后，将用户信息注册到服务器在线用户表
+        socket.onopen = setTimeout(function(event){
+            if (socket.readyState == WebSocket.OPEN) {
+                var data = {
+                    "userId" : "REGISTER",
+                    "type" : "REGISTER"
+                };
+                socket.send(JSON.stringify(data));
+            } else {
+                alert("Websocket连接没有开启！");
+            }
+        }, 1000)
+
+        socket.onclose = function(event){
+            console.log("WebSocket已关闭");
+        };
+    } else {
+        layer.error("您的浏览器不支持WebSocket,无法使用聊天功能!");
+    }
     layui.use('layim', function(layim){
 
         //演示自动回复
@@ -600,6 +655,8 @@
                 });*/
 
             }, 3000);
+
+
         });
 
         //监听发送消息

@@ -3,6 +3,7 @@ package com.gxwzu.business.service.chatInfo;
 import java.io.File;
 import java.util.List;
 
+import com.alibaba.fastjson.JSONObject;
 import com.gxwzu.business.model.chatInfo.ChatInfo;
 import com.gxwzu.business.model.paln.PlanYear;
 import com.gxwzu.core.service.BaseService;
@@ -10,6 +11,7 @@ import com.gxwzu.sysVO.ListChatInfo;
 import com.gxwzu.sysVO.ListStudentAllotGuide;
 import com.gxwzu.system.model.userHelp.UserHelp;
 import com.gxwzu.util.R;
+import io.netty.channel.ChannelHandlerContext;
 
 public interface IChatInfoService extends BaseService<ChatInfo> {
 
@@ -64,6 +66,7 @@ public interface IChatInfoService extends BaseService<ChatInfo> {
 	 */
 	Integer findChatCountByTeacherIdOrStudentId(Integer userId);
 
+	/////////////////////////////////////////////////////////////////////////////重构////////////////////////////////////////////////////////////////////////////////////
 	/**
 	 * 加载聊天面板好友
 	 * @param planYear
@@ -86,4 +89,18 @@ public interface IChatInfoService extends BaseService<ChatInfo> {
      * @return
      */
     R uploadChatFile(File upload,String uploadFileName);
+
+	void register(JSONObject param, ChannelHandlerContext ctx);
+
+	void singleSend(JSONObject param, ChannelHandlerContext ctx);
+
+	void groupSend(JSONObject param, ChannelHandlerContext ctx);
+
+	void remove(ChannelHandlerContext ctx);
+
+	void FileMsgSingleSend(JSONObject param, ChannelHandlerContext ctx);
+
+	void FileMsgGroupSend(JSONObject param, ChannelHandlerContext ctx);
+
+	void typeError(ChannelHandlerContext ctx);
 }
