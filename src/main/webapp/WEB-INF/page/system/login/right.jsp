@@ -136,29 +136,29 @@
 </c:choose>
 </body>
 
-<!--显示或隐藏聊天框  -->
-<script type="text/javascript">
+<%--<!--显示或隐藏聊天框  -->--%>
+<%--<script type="text/javascript">--%>
 
-    /*点击右下角按钮，聊天室显示 */
-    $("#chatbottom").click(function () {
-        $("#myChat").show();
-    });
-    /*点击打叉，聊天室隐藏 */
-    $("#chatclose").click(function () {
-        $("#myChat").hide();
-        $("#chatframe").hide();
-    });
+<%--    /*点击右下角按钮，聊天室显示 */--%>
+<%--    $("#chatbottom").click(function () {--%>
+<%--        $("#myChat").show();--%>
+<%--    });--%>
+<%--    /*点击打叉，聊天室隐藏 */--%>
+<%--    $("#chatclose").click(function () {--%>
+<%--        $("#myChat").hide();--%>
+<%--        $("#chatframe").hide();--%>
+<%--    });--%>
 
-    layui.use('element', function () {
-        var element = layui.element;
-        var active = {
-            tabChange: function () {
-                //切换到指定Tab项
-                element.tabChange('demochat', 'layid'); //切换群聊私聊
-            }
-        };
-    });
-</script>
+<%--    layui.use('element', function () {--%>
+<%--        var element = layui.element;--%>
+<%--        var active = {--%>
+<%--            tabChange: function () {--%>
+<%--                //切换到指定Tab项--%>
+<%--                element.tabChange('demochat', 'layid'); //切换群聊私聊--%>
+<%--            }--%>
+<%--        };--%>
+<%--    });--%>
+<%--</script>--%>
 
 <script type="text/javascript">
     //传入从数据库中取出的日期类型数据
@@ -228,8 +228,8 @@
         loadPlanProgress();
         loadScore();
         loadNotice();
-        loadChatInfo();
-        loadGroupChat();
+        // loadChatInfo();
+        // loadGroupChat();
 
         /* 时间安排 */
         function loadPlanProgress() {
@@ -321,88 +321,88 @@
         }
 
 
-        /*群聊条数  */
-        function loadGroupChat() {
-            $.post('<%=path%>/biz/chatInfo_loadGroupChat.action', function (res) {
-                var result = eval('(' + res + ')');
-                if (!result.success) {
-                    return;
-                } else {
-                    var chatinfolist = $('#groupChatIl');//
-                    var chatinfolist_img = $('<img src=\"<%=path%>/images/charqun.jpg\">');
-                    var chatinfolist_span1 = $('<span>交流群</span>');
-                    if (result.obj[0] > 0) {
-                        var chatinfolist_span2 = $('<span class=\"layui-badge\">' + result.obj[0] + '</span>');
-                        chatinfolist_span2.appendTo(chatinfolist);
-                    } else {
-                        // var chatinfolist_span2 = $('<font color="#5FB878" class=\"layui-btn  layui-btn-mini layui-btn-radius layui-btn-primary\"><b>' + result.obj[0] + '</b></font>');
-                        // var chatinfolist_span2 = $('<font color="#5FB878" class=\"layui-btn  layui-btn-mini layui-btn-radius layui-btn-primary\"><b>' + result.obj[0] + '</b></font>');
-                    }
-                    chatinfolist_img.appendTo(chatinfolist);
-                    chatinfolist_span1.appendTo(chatinfolist);
+        <%--/*群聊条数  */--%>
+        <%--function loadGroupChat() {--%>
+        <%--    $.post('<%=path%>/biz/chatInfo_loadGroupChat.action', function (res) {--%>
+        <%--        var result = eval('(' + res + ')');--%>
+        <%--        if (!result.success) {--%>
+        <%--            return;--%>
+        <%--        } else {--%>
+        <%--            var chatinfolist = $('#groupChatIl');//--%>
+        <%--            var chatinfolist_img = $('<img src=\"<%=path%>/images/charqun.jpg\">');--%>
+        <%--            var chatinfolist_span1 = $('<span>交流群</span>');--%>
+        <%--            if (result.obj[0] > 0) {--%>
+        <%--                var chatinfolist_span2 = $('<span class=\"layui-badge\">' + result.obj[0] + '</span>');--%>
+        <%--                chatinfolist_span2.appendTo(chatinfolist);--%>
+        <%--            } else {--%>
+        <%--                // var chatinfolist_span2 = $('<font color="#5FB878" class=\"layui-btn  layui-btn-mini layui-btn-radius layui-btn-primary\"><b>' + result.obj[0] + '</b></font>');--%>
+        <%--                // var chatinfolist_span2 = $('<font color="#5FB878" class=\"layui-btn  layui-btn-mini layui-btn-radius layui-btn-primary\"><b>' + result.obj[0] + '</b></font>');--%>
+        <%--            }--%>
+        <%--            chatinfolist_img.appendTo(chatinfolist);--%>
+        <%--            chatinfolist_span1.appendTo(chatinfolist);--%>
 
-                }
+        <%--        }--%>
 
-            });
-        }
+        <%--    });--%>
+        <%--}--%>
 
-        /* 交流互动 */
-        function loadChatInfo() {
-            $.post('<%=path%>/biz/chatInfo_loadChatInfoList.action', function (res) {
-                var result = eval('(' + res + ')');
-                if (!result.success) {
-                    return;
-                } else {
-                    var thisId = result.obj[2];
-                    var userType = result.obj[3];
-                    if (userType == 2) {
-                        $.each(result.obj[0], function (index, con) {
-                            setChatinfoItem(con.student.stuId, 1, con.student.stuName, con.student.userImg, con.student.majorName, con.classId, con.categoryId, 0);
-                        });
-                    } else {
-                        var teacher = result.obj[1];
-                        if (teacher==null)return;
-                        setChatinfoItem(teacher.teacherId, 2, teacher.teacherName, teacher.userImg, teacher.staffName, 0, 0, teacher.technicalId);
-                        $.each(result.obj[0], function (index, con) {
-                            if (con.student.stuId != thisId) {
-                                // console.log(con.student.majorName);
-                                setChatinfoItem(con.student.stuId, 1, con.student.stuName, con.student.userImg, con.student.majorName, con.classId, con.categoryId, 0);
-                            }
-                        });
-                    }
-                }
-            });
-        }
+        <%--/* 交流互动 */--%>
+        <%--function loadChatInfo() {--%>
+        <%--    $.post('<%=path%>/biz/chatInfo_loadChatInfoList.action', function (res) {--%>
+        <%--        var result = eval('(' + res + ')');--%>
+        <%--        if (!result.success) {--%>
+        <%--            return;--%>
+        <%--        } else {--%>
+        <%--            var thisId = result.obj[2];--%>
+        <%--            var userType = result.obj[3];--%>
+        <%--            if (userType == 2) {--%>
+        <%--                $.each(result.obj[0], function (index, con) {--%>
+        <%--                    setChatinfoItem(con.student.stuId, 1, con.student.stuName, con.student.userImg, con.student.majorName, con.classId, con.categoryId, 0);--%>
+        <%--                });--%>
+        <%--            } else {--%>
+        <%--                var teacher = result.obj[1];--%>
+        <%--                if (teacher==null)return;--%>
+        <%--                setChatinfoItem(teacher.teacherId, 2, teacher.teacherName, teacher.userImg, teacher.staffName, 0, 0, teacher.technicalId);--%>
+        <%--                $.each(result.obj[0], function (index, con) {--%>
+        <%--                    if (con.student.stuId != thisId) {--%>
+        <%--                        // console.log(con.student.majorName);--%>
+        <%--                        setChatinfoItem(con.student.stuId, 1, con.student.stuName, con.student.userImg, con.student.majorName, con.classId, con.categoryId, 0);--%>
+        <%--                    }--%>
+        <%--                });--%>
+        <%--            }--%>
+        <%--        }--%>
+        <%--    });--%>
+        <%--}--%>
 
-        function setChatinfoItem(thisId, type, name, icon, contents, classId, categoryId, technicalId) {
-            var chatinfolist = $('#openpeoul');//src='+icon+'
-            var chatinfolist_img = $('<img src="<%=path%>/images/qq.jpg" />');
-            if (type == 1) {
-                if (classId > 0) {
-                    var chatinfolist_span = $('<span>' + name + '</span><span class="layui-badge">' + classId + '</span>');
-                } else {
-                    // var chatinfolist_span = $('<span>' + name + '</span><font color="#5FB878" class=\"layui-btn  layui-btn-mini layui-btn-radius layui-btn-primary\"><b>' + classId + '</b></font>');
-                    var chatinfolist_span = $('<span>' + name + '</span>');
-                }
-            } else {
-                if (classId > 0) {
-                    var chatinfolist_span = $('<span>' + name + '</span><span class="layui-badge">' + technicalId + '</span>');//有消息
-                } else {
-                    // var chatinfolist_span = $('<span>' + name + '</span><font color="#5FB878" class=\"layui-btn  layui-btn-mini layui-btn-radius layui-btn-primary\"><b>' + technicalId + '</b></font>');//无消息
-                    var chatinfolist_span = $('<span>' + name + '</span>');//无消息
-                }
-            }
-            var chatinfolist_p = $('<p>' + contents + '</p>');
-            var chatinfolist_span2 = $('<span class="layim-msg-status">new</span>');
-            var chatType = '1';//私聊标志（0-群聊，1-私聊）
-            var chatinfolist_li = $('<li onclick="openChat(' + thisId + ',' + type + ',' + chatType + ')" layim-event="chat" data-type="friend" data-index="0" class="layim-friend100001"></li>');
-            var chatinfolist_ul = $('#openpeolist');
-            chatinfolist_img.appendTo(chatinfolist_li);
-            chatinfolist_span.appendTo(chatinfolist_li);
-            chatinfolist_p.appendTo(chatinfolist_li);
-            chatinfolist_span2.appendTo(chatinfolist_li);
-            chatinfolist_li.appendTo(chatinfolist_ul);
-        }
+        <%--function setChatinfoItem(thisId, type, name, icon, contents, classId, categoryId, technicalId) {--%>
+        <%--    var chatinfolist = $('#openpeoul');//src='+icon+'--%>
+        <%--    var chatinfolist_img = $('<img src="<%=path%>/images/qq.jpg" />');--%>
+        <%--    if (type == 1) {--%>
+        <%--        if (classId > 0) {--%>
+        <%--            var chatinfolist_span = $('<span>' + name + '</span><span class="layui-badge">' + classId + '</span>');--%>
+        <%--        } else {--%>
+        <%--            // var chatinfolist_span = $('<span>' + name + '</span><font color="#5FB878" class=\"layui-btn  layui-btn-mini layui-btn-radius layui-btn-primary\"><b>' + classId + '</b></font>');--%>
+        <%--            var chatinfolist_span = $('<span>' + name + '</span>');--%>
+        <%--        }--%>
+        <%--    } else {--%>
+        <%--        if (classId > 0) {--%>
+        <%--            var chatinfolist_span = $('<span>' + name + '</span><span class="layui-badge">' + technicalId + '</span>');//有消息--%>
+        <%--        } else {--%>
+        <%--            // var chatinfolist_span = $('<span>' + name + '</span><font color="#5FB878" class=\"layui-btn  layui-btn-mini layui-btn-radius layui-btn-primary\"><b>' + technicalId + '</b></font>');//无消息--%>
+        <%--            var chatinfolist_span = $('<span>' + name + '</span>');//无消息--%>
+        <%--        }--%>
+        <%--    }--%>
+        <%--    var chatinfolist_p = $('<p>' + contents + '</p>');--%>
+        <%--    var chatinfolist_span2 = $('<span class="layim-msg-status">new</span>');--%>
+        <%--    var chatType = '1';//私聊标志（0-群聊，1-私聊）--%>
+        <%--    var chatinfolist_li = $('<li onclick="openChat(' + thisId + ',' + type + ',' + chatType + ')" layim-event="chat" data-type="friend" data-index="0" class="layim-friend100001"></li>');--%>
+        <%--    var chatinfolist_ul = $('#openpeolist');--%>
+        <%--    chatinfolist_img.appendTo(chatinfolist_li);--%>
+        <%--    chatinfolist_span.appendTo(chatinfolist_li);--%>
+        <%--    chatinfolist_p.appendTo(chatinfolist_li);--%>
+        <%--    chatinfolist_span2.appendTo(chatinfolist_li);--%>
+        <%--    chatinfolist_li.appendTo(chatinfolist_ul);--%>
+        <%--}--%>
     });
 </script>
 
@@ -451,61 +451,7 @@
         alert('请部署到localhost上查看该演示');
     }
 
-    if(!window.WebSocket){
-        window.WebSocket = window.MozWebSocket;
-    }
-    if(window.WebSocket){
-        socket = new WebSocket("ws://localhost:3333");
-        socket.onmessage = function(event){
-            var json = JSON.parse(event.data);
-            console.log(json)
-            if (json.status == 200) {
-                var type = json.data.type;
-                console.log("收到一条新信息，类型为：" + type);
-                switch(type) {
-                    case "REGISTER":
-                        layer.msg("上线成功");
-                        break;
-                    case "SINGLE_SENDING":
-                        ws.singleReceive(json.data);
-                        break;
-                    case "GROUP_SENDING":
-                        ws.groupReceive(json.data);
-                        break;
-                    case "FILE_MSG_SINGLE_SENDING":
-                        ws.fileMsgSingleRecieve(json.data);
-                        break;
-                    case "FILE_MSG_GROUP_SENDING":
-                        ws.fileMsgGroupRecieve(json.data);
-                        break;
-                    default:
-                        console.log("不正确的类型！");
-                }
-            } else {
-                alert(json.msg);
-                console.log(json.msg);
-            }
-        };
 
-        // 连接成功1秒后，将用户信息注册到服务器在线用户表
-        socket.onopen = setTimeout(function(event){
-            if (socket.readyState == WebSocket.OPEN) {
-                var data = {
-                    "userId" : "REGISTER",
-                    "type" : "REGISTER"
-                };
-                socket.send(JSON.stringify(data));
-            } else {
-                alert("Websocket连接没有开启！");
-            }
-        }, 1000)
-
-        socket.onclose = function(event){
-            console.log("WebSocket已关闭");
-        };
-    } else {
-        layer.error("您的浏览器不支持WebSocket,无法使用聊天功能!");
-    }
     layui.use('layim', function(layim){
 
         //演示自动回复
@@ -615,9 +561,99 @@
         //监听layim建立就绪
         layim.on('ready', function(res){
 
+            if(!window.WebSocket){
+                window.WebSocket = window.MozWebSocket;
+            }
+            if(window.WebSocket){
+                var socket = new WebSocket("ws://localhost:3333");
+                // 接收到服务器发回消息
+                socket.onmessage = function(event){
+                    var json = JSON.parse(event.data);
+                    console.log('接收服务器数据：'+json)
+                    if (json.code == 200) {
+                        var type = json.data.type;
+                        console.log("收到一条新信息，类型为：" + type);
+                        switch(type) {
+                            case "REGISTER":
+                                //初始化消息列表
+                                ws.initMessagePage(json);
+                                break;
+                            case "SINGLE_SENDING":
+                                ws.singleReceive(json.data);
+                                break;
+                            case "GROUP_SENDING":
+                                ws.groupReceive(json.data);
+                                break;
+                            case "FILE_MSG_SINGLE_SENDING":
+                                ws.fileMsgSingleRecieve(json.data);
+                                break;
+                            case "FILE_MSG_GROUP_SENDING":
+                                ws.fileMsgGroupRecieve(json.data);
+                                break;
+                            default:
+                                console.log("不正确的类型！");
+                        }
+                    } else {
+                        layer.msg(json.msg);
+                        console.log(json.msg);
+                    }
+                };
+                // 连接成功1秒后，将用户信息注册到服务器在线用户表
+                socket.onopen = setTimeout(function(event){
+                    if (socket.readyState == WebSocket.OPEN) {
+                        var data = {
+                            "userId" : "REGISTER",
+                            "type" : "REGISTER",
+                            "username": "<%=session.getAttribute(SystemContext.LOGINNAME) %>"
+                        };
+                        socket.send(JSON.stringify(data));
+                    } else {
+                        alert("Websocket连接没有开启！");
+                    }
+                }, 1000)
+                // 关闭连接
+                socket.onclose = function(event){
+                    console.log("WebSocket已关闭");
+                };
+            } else {
+                layer.error("您的浏览器不支持WebSocket,无法使用聊天功能!");
+            }
+
+
+            var ws = {
+                register: function () {
+                    if (!window.WebSocket) {
+                        return;
+                    }
+                    if (socket.readyState == WebSocket.OPEN) {
+                        var data = {
+                            "userId": userId,
+                            "type": "REGISTER"
+                        };
+                        socket.send(JSON.stringify(data));
+                    } else {
+                        alert("Websocket连接没有开启！");
+                    }
+                },
+                initMessagePage: function (json) {
+                    json.data.data.forEach(function(value,index,array){
+                        layim.getMessage({
+                            username: value.senderName //消息来源用户名
+                            ,avatar: value.avatar //消息来源用户头像
+                            ,id: value.senderId //消息的来源ID（如果是私聊，则是用户id，如果是群聊，则是群组id）
+                            ,type: "friend" //聊天窗口来源类型，从发送消息传递的to里面获取
+                            ,content: value.senderContent //消息内容
+                            ,cid: 0 //消息id，可不传。除非你要对消息进行一些操作（如撤回）
+                            ,mine: false //是否我发送的消息，如果为true，则会显示在右方
+                            ,fromid: value.senderId //消息的发送者id（比如群组中的某个消息发送者），可用于自动解决浏览器多窗口时的一些问题
+                            ,timestamp: value.sendTime //服务端时间戳毫秒数。注意：如果你返回的是标准的 unix 时间戳，记得要 *1000
+                        });
+                    })
+                }
+            }
             //console.log(res.mine);
 
-            layim.msgbox(5); //模拟消息盒子有新消息，实际使用时，一般是动态获得
+            // layim.msgbox(5); //模拟消息盒子有新消息，实际使用时，一般是动态获得
 
             //添加好友（如果检测到该socket）
             // layim.addList({
@@ -636,15 +672,15 @@
             //     ,remark: "本人冲田杏梨将结束AV女优的工作"
             // });
 
-            setTimeout(function(){
-                //接受消息（如果检测到该socket）
-                layim.getMessage({
-                    username: "Hi"
-                    ,avatar: "http://qzapp.qlogo.cn/qzapp/100280987/56ADC83E78CEC046F8DF2C5D0DD63CDE/100"
-                    ,id: "10000111"
-                    ,type: "friend"
-                    ,content: "临时："+ new Date().getTime()
-                });
+            // setTimeout(function(){
+            //     //接受消息（如果检测到该socket）
+            //     layim.getMessage({
+            //         username: "Hi"
+            //         ,avatar: "http://qzapp.qlogo.cn/qzapp/100280987/56ADC83E78CEC046F8DF2C5D0DD63CDE/100"
+            //         ,id: "10000111"
+            //         ,type: "friend"
+            //         ,content: "临时："+ new Date().getTime()
+            //     });
 
                 /*layim.getMessage({
                   username: "贤心"
@@ -654,7 +690,7 @@
                   ,content: "嗨，你好！欢迎体验LayIM。演示标记："+ new Date().getTime()
                 });*/
 
-            }, 3000);
+            // }, 3000);
 
 
         });
@@ -715,7 +751,8 @@
                 });
             }
         });
-
+        // layim.setFriendStatus(11111, 'online'); //设置指定好友在线，即头像取消置灰
+        // layim.setFriendStatus(11111, 'offline'); //设置指定好友在线，即头像置灰
 
 
     });

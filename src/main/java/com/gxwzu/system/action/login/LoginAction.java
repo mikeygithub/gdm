@@ -7,8 +7,10 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import com.gxwzu.business.model.openReport.OpenReport;
+import com.gxwzu.business.model.paln.PlanYear;
 import com.gxwzu.business.service.chatInfo.IChatInfoService;
 import com.gxwzu.business.service.openReport.IOpenReportSerivce;
+import com.gxwzu.business.service.plan.IPlanYearSerivce;
 import com.gxwzu.business.service.replyScore.IReplyScoreSerivce;
 import com.gxwzu.business.service.review.IReviewSerivce;
 import com.gxwzu.sysVO.ListReplyScore;
@@ -68,8 +70,10 @@ public class LoginAction extends BaseAction {
     private IReviewSerivce iReviewSerivce;//评阅：评阅审查表类型：00 指导老师评阅 01评阅人评阅 02指导老师审查
     @Autowired
     private IReplyScoreSerivce iReplyScoreSerivce;//成绩
+//    @Autowired
+//    private IChatInfoService iChatInfoService;//聊天
     @Autowired
-    private IChatInfoService iChatInfoService;//聊天
+    private IPlanYearSerivce iPlanYearSerivce;
 
     /*********************** 参数列表 ******************************/
     private List<SysMenu> menuList = new ArrayList<SysMenu>(); //左侧菜单
@@ -139,35 +143,37 @@ public class LoginAction extends BaseAction {
 
         Object currentUserId = getSession().getAttribute(SystemContext.USERID);
         Object currentUserType = getSession().getAttribute(SystemContext.USERTYPE);
+        PlanYear planYear = iPlanYearSerivce.findPlanYear();
 
         if (null != currentUserId) {
             if ("left".equals(view))menuList = sysMenuService.findByExample(new SysMenu());
             //学生
             if (currentUserType.equals(SystemContext.USER_STUDENT_TYPE)) {
                 SysStudent student = iSysStudentService.findByUserId((Integer) currentUserId);
-                //开题报告:TODO:待修复年度
-                openReport = iOpenReportSerivce.findByStuIdAndYear(student.getStuId(), null);
+                //开题报告:
+                openReport = iOpenReportSerivce.findByStuIdAndYear(student.getStuId(), planYear.getYear());
                 //规范审查
-                normativeReview = iReviewSerivce.findByStuIdAndReviewTypeAndYear(student.getStuId(), SystemContext.REVIEW_TYPE_CHECK, 2019);
+                normativeReview = iReviewSerivce.findByStuIdAndReviewTypeAndYear(student.getStuId(), SystemContext.REVIEW_TYPE_CHECK, planYear.getYear());
                 logger.info("normativeReview:"+normativeReview);
                 //指导教师评阅打分
-                teacherReview = iReviewSerivce.findByStuIdAndReviewTypeAndYear(student.getStuId(),SystemContext.REVIEW_TYPE_TEACHER,2019);
+                teacherReview = iReviewSerivce.findByStuIdAndReviewTypeAndYear(student.getStuId(),SystemContext.REVIEW_TYPE_TEACHER,planYear.getYear());
                 logger.info("teacherReview:"+teacherReview);
                 //评阅人评阅打分
-                reviewerReview = iReviewSerivce.findByStuIdAndReviewTypeAndYear(student.getStuId(),SystemContext.REVIEW_TYPE_REVIEWER,2019);
+                reviewerReview = iReviewSerivce.findByStuIdAndReviewTypeAndYear(student.getStuId(),SystemContext.REVIEW_TYPE_REVIEWER,planYear.getYear());
                 logger.info("reviewReview:"+reviewerReview);
                 //答辩成绩//最终成绩//等级
-                studentScore = iReplyScoreSerivce.findByStuIdAndReplyTypeAndYear(student.getStuId(),SystemContext.REPLY_TYPE_SMALL_GROUP,2019);
+                studentScore = iReplyScoreSerivce.findByStuIdAndReplyTypeAndYear(student.getStuId(),SystemContext.REPLY_TYPE_SMALL_GROUP,planYear.getYear());
                 logger.info("studentScore:"+studentScore);
                 //未读聊天记录
-                chatCount = iChatInfoService.findChatCountByTeacherIdOrStudentId(student.getStuId());
-                logger.info("chatCount:"+chatCount);
-            }else if (currentUserType.equals(SystemContext.USER_TEACHER_TYPE)){//教师
-                SysTeacher teacher = iSysTeacherService.findTeacherByUserId((Integer) currentUserId);
-                //未读聊天记录
-                chatCount = iChatInfoService.findChatCountByTeacherIdOrStudentId(teacher.getTeacherId());
-                logger.info("chatCount:"+chatCount);
+//                chatCount = iChatInfoService.findChatCountByTeacherIdOrStudentId(student.getStuId());
+//                logger.info("chatCount:"+chatCount);
             }
+//            else if (currentUserType.equals(SystemContext.USER_TEACHER_TYPE)){//教师
+//                SysTeacher teacher = iSysTeacherService.findTeacherByUserId((Integer) currentUserId);
+                //未读聊天记录
+//                chatCount = iChatInfoService.findChatCountByTeacherIdOrStudentId(teacher.getTeacherId());
+//                logger.info("chatCount:"+chatCount);
+//            }
             return VIEW;
         } else {
             return ERROR;

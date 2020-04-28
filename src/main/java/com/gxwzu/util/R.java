@@ -1,5 +1,7 @@
 package com.gxwzu.util;
 
+import com.alibaba.fastjson.JSONObject;
+
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
@@ -67,4 +69,41 @@ public class R implements Serializable {
         return this;
     }
 
+    @Override
+    public String toString() {
+        System.out.println(JSONObject.toJSON(this));
+        return JSONObject.toJSONString(this);
+    }
+
+    public R getR() {
+        return r;
+    }
+
+    public void setR(R r) {
+        this.r = r;
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
+    }
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
+    }
+
+    public Map getData() {
+        return data;
+    }
+
+    public void setData(Map data) {
+        this.data = data;
+    }
 }

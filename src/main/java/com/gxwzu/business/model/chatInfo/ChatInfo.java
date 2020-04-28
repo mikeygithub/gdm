@@ -22,6 +22,8 @@ public class ChatInfo implements java.io.Serializable {
 	private String chatType;
 	private String contType;
 
+	private String avatar;//头像
+
 	// Constructors
 
 	/** default constructor */
@@ -132,4 +134,11 @@ public class ChatInfo implements java.io.Serializable {
 		this.contType = contType;
 	}
 
+	public String getAvatar() {
+		return avatar;
+	}
+
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
+	}
 }
