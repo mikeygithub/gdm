@@ -21,8 +21,6 @@ public enum ChatType {
 
     public static void main(String[] args) {
         System.out.println(ChatType.REGISTER);
-        ChatInfo chatInfo = new ChatInfo();
-        chatInfo.setReadType("2");
-        System.out.println(JSON.toJSON(chatInfo, SerializeConfig.globalInstance));
+        System.out.println(ChatType.GROUP_SENDING);
     }
 }

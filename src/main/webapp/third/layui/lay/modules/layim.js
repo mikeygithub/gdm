@@ -582,7 +582,7 @@
                 content: n(m).render({skin: j.base.skin})
             })
         }, about: function () {
-            t.alert("版权所有版本： 1.0", {
+            t.alert("版本： 1.0", {
                 title: "关于在线聊天",
                 shade: !1
             })

@@ -448,9 +448,6 @@
         });
     }
 
-    //TODO:聊天
-
-
     if (!/^http(s*):\/\//.test(location.href)) {
         alert('请部署到localhost上查看该演示');
     }
@@ -561,6 +558,7 @@
                 insert('[pre class=layui-code]' + text + '[/pre]'); //将内容插入到编辑器
             });
         });
+
         var socket
         //监听layim建立就绪
         layim.on('ready', function (res) {
@@ -569,11 +567,11 @@
                 window.WebSocket = window.MozWebSocket;
             }
             if (window.WebSocket) {
+                <%--socket = new WebSocket("<%=application.getAttribute("websocket_address")%>");--%>
                 socket = new WebSocket("ws://localhost:3333");
                 // 接收到服务器发回消息
                 socket.onmessage = function (event) {
                     var json = JSON.parse(event.data);
-                    console.log('接收服务器数据：' + json)
                     if (json.code == 200) {
                         var type = json.data.type;
                         console.log("收到一条新信息，类型为：" + type);
@@ -583,10 +581,10 @@
                                 ws.initMessagePage(json);
                                 break;
                             case "SINGLE_SENDING":
-                                ws.singleReceive(json.data);
+                                ws.singleReceive(json);
                                 break;
                             case "GROUP_SENDING":
-                                ws.groupReceive(json.data);
+                                ws.groupReceive(json);
                                 break;
                             case "FILE_MSG_SINGLE_SENDING":
                                 ws.fileMsgSingleRecieve(json.data);
@@ -639,6 +637,7 @@
                         alert("Websocket连接没有开启！");
                     }
                 },
+                //初始化聊天面板
                 initMessagePage: function (json) {
                     //私聊消息
                     json.data.data.forEach(function (value, index, array) {
@@ -656,10 +655,11 @@
                     })
                     //群聊消息
                     json.data.group.forEach(function (value, index, array) {
+                        // console.log(value)
                         layim.getMessage({
                             username: value.senderName //消息来源用户名
                             , avatar: value.avatar //消息来源用户头像
-                            , id: value.senderId //消息的来源ID（如果是私聊，则是用户id，如果是群聊，则是群组id）
+                            , id: value.answerId //消息的来源ID（如果是私聊，则是用户id，如果是群聊，则是群组id）
                             , type: "group" //聊天窗口来源类型，从发送消息传递的to里面获取
                             , content: value.senderContent //消息内容
                             , cid: 0 //消息id，可不传。除非你要对消息进行一些操作（如撤回）
@@ -668,6 +668,52 @@
                             , timestamp: value.sendTime //服务端时间戳毫秒数。注意：如果你返回的是标准的 unix 时间戳，记得要 *1000
                         });
                     })
+                },
+                //接收私聊消息
+                singleReceive: function (res) {
+                    //私聊消息
+                    layim.getMessage({
+                        username: res.data.data.senderName //消息来源用户名
+                        , avatar: res.data.data.avatar //消息来源用户头像
+                        , id: res.data.data.senderId //消息的来源ID（如果是私聊，则是用户id，如果是群聊，则是群组id）
+                        , type: "friend" //聊天窗口来源类型，从发送消息传递的to里面获取
+                        , content: res.data.data.senderContent //消息内容
+                        , cid: 0 //消息id，可不传。除非你要对消息进行一些操作（如撤回）
+                        , mine: false //是否我发送的消息，如果为true，则会显示在右方
+                        , fromid: res.data.data.senderId //消息的发送者id（比如群组中的某个消息发送者），可用于自动解决浏览器多窗口时的一些问题
+                        , timestamp: res.data.data.sendTime //服务端时间戳毫秒数。注意：如果你返回的是标准的 unix 时间戳，记得要 *1000
+                    });
+                    //TODO:调用已读接口
+                    data = {
+                        "type": "READ_CHAT",
+                        "answer-id": "<%=session.getAttribute(SystemContext.USERID) %>",
+                        "chat-type": "SINGLE_CHAT",
+                        "send-id": res.data.data.senderId
+                    };
+                    socket.send(JSON.stringify(data))
+                },
+                //接收群聊消息
+                groupReceive: function (res) {
+                    console.log('group chat message:'+JSON.stringify(res))
+                    layim.getMessage({
+                        username: res.data.data.senderName //消息来源用户名
+                        , avatar: res.data.data.avatar //消息来源用户头像
+                        , id: res.data.data.answerId //消息的来源ID（如果是私聊，则是用户id，如果是群聊，则是群组id）
+                        , type: "group" //聊天窗口来源类型，从发送消息传递的to里面获取
+                        , content: res.data.data.senderContent //消息内容
+                        , cid: 0 //消息id，可不传。除非你要对消息进行一些操作（如撤回）
+                        , mine: false //是否我发送的消息，如果为true，则会显示在右方
+                        , fromid: res.data.data.senderId //消息的发送者id（比如群组中的某个消息发送者），可用于自动解决浏览器多窗口时的一些问题
+                        , timestamp: res.data.data.sendTime //服务端时间戳毫秒数。注意：如果你返回的是标准的 unix 时间戳，记得要 *1000
+                    });
+                    //TODO:调用已读接口
+                    data = {
+                        "type": "READ_CHAT",
+                        "answer-id": "<%=session.getAttribute(SystemContext.USERID) %>",
+                        "chat-type": "GROUP_CHAT",
+                        "group-id": res.data.id
+                    };
+                    socket.send(JSON.stringify(data))
                 }
             }
             //console.log(res.mine);
@@ -716,37 +762,44 @@
 
         //监听发送消息
         layim.on('sendMessage', function (data) {
-            var To = data.to;
-            console.log('监听发送消息：' + JSON.stringify(data));
 
-            var sendData
-            if (To.type === 'friend') {//私聊
-                sendData = {
-                    "type": "SINGLE_SENDING",//发送消息类型
-                    "send_id": data.mine.id.toString(),//发送者id
-                    "send_name": data.mine.username,//发送者名称
-                    "chat_content":data.mine.content,//消息内容
-                    "answer_id":data.to.id.toString(),//接收者id
-                    "answer_name":data.to.username,//接收者姓名
-                    "chat_type":"0",//消息类型:０私聊，１群聊
-                    "content_type":"0"//消息内容，文件，图片，文本
+            //TODO:判断是否已经离线
+            // if (socket.readyState == WebSocket.OPEN) {
+
+                var To = data.to;
+                console.log('监听发送消息：' + JSON.stringify(data.to));
+
+                var sendData
+                if (To.type === 'friend') {//私聊
+                    sendData = {
+                        "type": "SINGLE_SENDING",//发送消息类型
+                        "send_id": data.mine.id.toString(),//发送者id
+                        "send_name": data.mine.username,//发送者名称
+                        "chat_content": data.mine.content,//消息内容
+                        "answer_id": data.to.id.toString(),//接收者id
+                        "answer_name": data.to.username,//接收者姓名
+                        "chat_type": "0",//消息类型:０私聊，１群聊
+                        "content_type": "0"//消息内容，文件，图片，文本
+                    }
                 }
-            }
-            if (To.type === 'group') {//群聊
-                sendData = {
-                    "type": "GROUP_SENDING",//发送消息类型
-                    "send_id": data.mine.id.toString(),//发送者id
-                    "send_name": data.mine.username,//发送者名称
-                    "chat_content":data.mine.content,//消息内容
-                    "answer_id":data.to.id.toString(),//接收者id
-                    "answer_name":data.to.username,//接收者姓名
-                    "chat_type":"1",//消息类型:０私聊，１群聊
-                    "content_type":"0"//消息内容，文件，图片，文本
+                if (To.type === 'group') {//群聊
+                    sendData = {
+                        "type": "GROUP_SENDING",//发送消息类型
+                        "send_id": data.mine.id.toString(),//发送者id
+                        "send_name": data.mine.username,//发送者名称
+                        "chat_content": data.mine.content,//消息内容
+                        "answer_id": data.to.id.toString(),//接收者id
+                        "answer_name": data.to.username,//接收者姓名
+                        "chat_type": "1",//消息类型:０私聊，１群聊
+                        "content_type": "0"//消息内容，文件，图片，文本
+                    }
                 }
-            }
 
-            socket.send(JSON.stringify(sendData));
-
+                socket.send(JSON.stringify(sendData));
+            // }else {
+            //     layer.msg('你已经断开连接，请刷新重新连接')
+            //     return
+            // }
             // if(To.type === 'friend'){
             //     layim.setChatStatus('<span style="color:#FF5722;">对方正在输入。。。</span>');
             // }
@@ -784,7 +837,7 @@
         //监听聊天窗口的切换
         layim.on('chatChange', function (res) {
             var type = res.data.type;
-            console.log(res)
+            console.log('监听聊天窗口的切换' + JSON.stringify(res))
             //一旦打开聊天面板就标记为已读
             var data
 
@@ -800,12 +853,12 @@
 
             } else if (type === 'group') {
                 //模拟系统消息
-                layim.getMessage({
-                    system: true
-                    , id: res.data.id
-                    , type: "group"
-                    , content: "<%=session.getAttribute(SystemContext.USERID) %>" + '加入群聊'
-                });
+                <%--layim.getMessage({--%>
+                <%--    system: true--%>
+                <%--    , id: res.data.id--%>
+                <%--    , type: "group"--%>
+                <%--    , content: "<%=session.getAttribute(SystemContext.USERNAME) %>" + '加入群聊'--%>
+                <%--});--%>
                 data = {
                     "type": "READ_CHAT",
                     "answer-id": "<%=session.getAttribute(SystemContext.USERID) %>",

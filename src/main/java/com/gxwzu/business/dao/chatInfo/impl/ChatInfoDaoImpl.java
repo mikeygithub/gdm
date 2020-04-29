@@ -269,9 +269,10 @@ public class ChatInfoDaoImpl extends BaseDaoImpl<ChatInfo> implements IChatInfoD
             if (receives.contains(answerId)){
 
                 v.setAnswerName(receives.replace(answerId,""));
+
+                this.update(v);
             }
 
-            this.update(v);
         }
     }
 

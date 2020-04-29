@@ -29,6 +29,7 @@ import com.gxwzu.websocket.ChatType;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.xwork.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts2.ServletActionContext;
@@ -287,7 +288,7 @@ public class ChatInfoServiceImpl extends BaseServiceImpl<ChatInfo> implements IC
 
         if (teacher != null) {
             chatGroupInfoVo.setOwner(new ChatUserInfoVo(teacher));
-            chatGroupInfoVo.setId(teacher.getUserId()+1);//根据指导老师的id+1来命名群id
+            chatGroupInfoVo.setId(teacher.getUserId() + 1);//根据指导老师的id+1来命名群id
             groupList.add(chatGroupInfoVo);
             r.add("group", groupList);//群聊列表
         }
@@ -350,7 +351,7 @@ public class ChatInfoServiceImpl extends BaseServiceImpl<ChatInfo> implements IC
                 studentGroup.add(new ChatUserInfoVo(tmp.getStudent()));
             }
         }
-        r.add("members", studentGroup.getList().size() + 1)//好友列表
+        r.add("members", studentGroup.getList().size() + 1)//好友列表学生+1老师
                 .add("list", studentGroup.getList());//群聊列表
 
         return r;
@@ -415,7 +416,7 @@ public class ChatInfoServiceImpl extends BaseServiceImpl<ChatInfo> implements IC
         //查询群聊未读消息
         List<ChatInfo> groupChatMessage = chatInfoDao.findNewGroupChatMessage(userHelp);
         //回复上线成功通知
-        sendMessage(ctx, R.ok().add("type", ChatType.REGISTER).add("data", newChatMessageList).add("group",groupChatMessage).toString());
+        sendMessage(ctx, R.ok().add("type", ChatType.REGISTER).add("data", newChatMessageList).add("group", groupChatMessage).toString());
         //
         log.info(MessageFormat.format("用户名为 {0} 的用户登记到在线用户表，当前在线人数为：{1}", username, Constant.onlineUserMap.size()));
         //
@@ -433,9 +434,12 @@ public class ChatInfoServiceImpl extends BaseServiceImpl<ChatInfo> implements IC
         //获取数据
         ChatInfo chatInfo = analysisChatInfo(param);
         //发送给接收方
-        ChannelHandlerContext toUserCtx = Constant.onlineUserMap.get(chatInfo.getAnswerId());
+        ChannelHandlerContext toUserCtx = Constant.onlineUserMap.get(chatInfo.getAnswerId().toString());
+        //处理头像
+        String sendUserImg = iUserHelpService.findById(chatInfo.getSenderId()).getUserImg();
+        chatInfo.setAvatar(StringUtils.isNotBlank(sendUserImg) ? sendUserImg : SystemContext.DEFAULT_PERSON_AVATAR);
         if (toUserCtx != null) {
-            sendMessage(toUserCtx, R.ok().add("type",ChatType.SINGLE_SENDING).add("chatInfo",chatInfo).toString());
+            sendMessage(toUserCtx, R.ok().add("type", ChatType.SINGLE_SENDING).add("data", chatInfo).toString());
         }
         //保存到数据库
         chatInfoDao.save(chatInfo);
@@ -461,20 +465,30 @@ public class ChatInfoServiceImpl extends BaseServiceImpl<ChatInfo> implements IC
         //拼接接收者id
         String allAnswerId = "";
 
-        for (MaterialInfo tmp:guideStudent){
-            allAnswerId+=tmp.getStudent().getUserId()+",";
-            ChannelHandlerContext toUserCtx = Constant.onlineUserMap.get(chatInfo.getAnswerId());
-            if (toUserCtx != null) {
-                sendMessage(toUserCtx, R.ok().add("type",ChatType.SINGLE_SENDING).add("chatInfo",chatInfo).toString());
+        for (MaterialInfo tmp : guideStudent) {
+            allAnswerId += tmp.getStudent().getUserId() + ",";
+            if (chatInfo.getSenderId().intValue()!=tmp.getStudent().getUserId().intValue()) {//not send self
+                ChannelHandlerContext toUserCtx = Constant.onlineUserMap.get(tmp.getStudent().getUserId().toString());
+                if (toUserCtx != null) {
+                    sendMessage(toUserCtx, R.ok().add("type", ChatType.GROUP_SENDING).add("data", chatInfo).toString());
+                }
             }
-
         }
+        //send to teacher (if sender not is teacher)
+        ChannelHandlerContext toUserCtx = Constant.onlineUserMap.get(String.valueOf(chatInfo.getAnswerId() - 1));
+        if (toUserCtx != null && chatInfo.getSenderId().intValue()!= teacher.getUserId().intValue()) {
+            sendMessage(toUserCtx, R.ok().add("type", ChatType.GROUP_SENDING).add("data", chatInfo).toString());
+           allAnswerId +=  teacher.getUserId();
+        }
+
+        //移除自己
+        allAnswerId = allAnswerId.replace(chatInfo.getSenderId().toString(), "");
         //保存到数据库
         chatInfo.setAnswerName(allAnswerId);
         chatInfoDao.save(chatInfo);
     }
 
-    private ChatInfo analysisChatInfo(JSONObject param){
+    private ChatInfo analysisChatInfo(JSONObject param) {
         String send_id = (String) param.get("send_id");
         String send_name = (String) param.get("send_name");
         String chat_content = (String) param.get("chat_content");
@@ -585,10 +599,10 @@ public class ChatInfoServiceImpl extends BaseServiceImpl<ChatInfo> implements IC
         String answerId = param.getString("answer-id");
         switch (chatType) {
             case "GROUP_CHAT"://处理群聊消息设置为已读
-                chatInfoDao.updateReadGroupChatStatus(groupId,answerId);
+                chatInfoDao.updateReadGroupChatStatus(groupId, answerId);
                 break;
             case "SINGLE_CHAT"://处理私聊消息为已读
-                chatInfoDao.updateReadSingleChatStatus(sendId,answerId);
+                chatInfoDao.updateReadSingleChatStatus(sendId, answerId);
                 break;
             default:
                 log.info("聊天类型错误");
