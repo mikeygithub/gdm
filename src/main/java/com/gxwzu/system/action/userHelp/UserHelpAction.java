@@ -532,6 +532,8 @@ public class UserHelpAction extends BaseAction {
      */
     public void updateSign() throws Exception{
 
+        logger.info("修改签名："+model.getSign());
+
         PrintWriter out = getResponse().getWriter();
 
         Integer thisId = (Integer) getSession().getAttribute(SystemContext.USERID);

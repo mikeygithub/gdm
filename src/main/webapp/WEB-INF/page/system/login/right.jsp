@@ -10,42 +10,21 @@
     <link rel="stylesheet" href="<%=path%>/third/layui/css/layui.css" type="text/css"/>
     <link rel="stylesheet" href="<%=basePath %>/third/layui/css/layui.css" type="text/css">
     <link rel="stylesheet" href="<%=basePath %>/third/layer/skin/layer.css" id="layui_layer_skinlayercss">
-    <link id="layuicss-skinlayimcss" rel="stylesheet"
-          href="<%=basePath %>/third/layui/css/modules/layim/layim.css?v=3.60Pro" media="all">
-    <link id="layuicss-skinlayercss" rel="stylesheet"
-          href="<%=basePath %>/third/layui/css/modules/layer/default/layer.css?v=3.0.3303" media="all">
+<%--    <link id="layuicss-skinlayimcss" rel="stylesheet" href="<%=basePath %>/third/layui/css/modules/layim/layim.css?v=3.60Pro" media="all">--%>
+    <link id="layuicss-skinlayercss" rel="stylesheet" href="<%=basePath %>/third/layui/css/modules/layer/default/layer.css?v=3.0.3303" media="all">
 
     <script type="text/javascript" src="<%=path%>/third/jquery-1.8.3.min.js"></script>
     <script type="text/javascript" src="<%=path%>/third/jquery.validate.js"></script>
     <script type="text/javascript" src="<%=path%>/third/layer/layer.js"></script>
-    <script type="text/javascript" src="<%=path%>/third/layui/layui.js"></script>
-    <script type="text/javascript" src="<%=path%>/third/layui/lay/modules/layim.js"></script>
+<%--    <script type="text/javascript" src="<%=path%>/third/layui/layui.js"></script>--%>
+<%--    <script type="text/javascript" src="<%=path%>/third/layui/lay/modules/layim.js"></script>--%>
     <script type="text/javascript" src="<%=path%>/js/core/dialog/dialog.js"></script>
     <script type="text/javascript" src="<%=path%>/js/core/dialog/enable.js"></script>
     <script type="text/javascript" src="<%=path%>/datePicket/WdatePicker.js"></script>
-    <script type="text/javascript" src="<%=path%>/js/business/replyScore/replyScore.js"></script>
     <%--    聊天--%>
-    <link rel="stylesheet" href="<%=path%>/third/layui/css/layui.css">
+<%--    <link rel="stylesheet" href="<%=path%>/third/layui/css/layui.css">--%>
     <script type="text/javascript" src="<%=path%>/third/layui/layui.js"></script>
     <script type="text/javascript">
-        /*打开聊天框  */
-        function openChat(thisId, type, chatType) {
-            layer.open({
-                type: 2,
-                area: ['60%', '84%'],
-                offset: '100px',
-                // fix: false, //不固定
-                title: false,
-                maxmin: true,
-                scrollbar: false,
-                content: '<%=path%>/biz/chatInfo_openChat.action?view=client&thisId=' + thisId + '&thisType=' + type + '&chatType=' + chatType,
-                success: function (layero) {
-                    layero.find('.layui-layer-min').remove(); //去掉最小化按钮
-                    layero.find('.layui-layer-max').remove(); //去掉最大化按钮
-                }
-            });
-
-        }
 
         /*打开公告通知页面  */
         function openNotice(noticeId) {
@@ -105,16 +84,6 @@
             cursor: pointer;
             color: red;
         }
-
-        /*body .layui-layim, body .layui-layim-chat {*/
-        /*    border: 1px solid #D9D9D9;*/
-        /*    border-color: rgba(0,0,0,.05);*/
-        /*    background-repeat: no-repeat;*/
-        /*    background-color: #F6F6F6;*/
-        /*    color: #333;*/
-        /*    font-family: \5FAE\8F6F\96C5\9ED1;*/
-        /*    top: 40%!important;*/
-        /*}*/
     </style>
 </head>
 <body>
@@ -138,30 +107,6 @@
     </c:when>
 </c:choose>
 </body>
-
-<%--<!--显示或隐藏聊天框  -->--%>
-<%--<script type="text/javascript">--%>
-
-<%--    /*点击右下角按钮，聊天室显示 */--%>
-<%--    $("#chatbottom").click(function () {--%>
-<%--        $("#myChat").show();--%>
-<%--    });--%>
-<%--    /*点击打叉，聊天室隐藏 */--%>
-<%--    $("#chatclose").click(function () {--%>
-<%--        $("#myChat").hide();--%>
-<%--        $("#chatframe").hide();--%>
-<%--    });--%>
-
-<%--    layui.use('element', function () {--%>
-<%--        var element = layui.element;--%>
-<%--        var active = {--%>
-<%--            tabChange: function () {--%>
-<%--                //切换到指定Tab项--%>
-<%--                element.tabChange('demochat', 'layid'); //切换群聊私聊--%>
-<%--            }--%>
-<%--        };--%>
-<%--    });--%>
-<%--</script>--%>
 
 <script type="text/javascript">
     //传入从数据库中取出的日期类型数据
@@ -263,7 +208,15 @@
         function loadScore() {
             $.post('<%=path%>/biz/replyScore_loadReplyScoreList.action', function (res) {
                 if (res === null) return;
-                var scoreMenu = getReplyScore();
+                var scoreMenu =[
+                    '开题报告',
+                    '规范审查',
+                    '指导教师评阅打分',
+                    '评阅人评阅打分',
+                    '答辩成绩',
+                    '最终成绩',
+                    '等级'
+                ];
                 var scorelist = $('#gradscore');
                 var result = eval('(' + res + ')');
                 if (result.replyType == 1) {
@@ -452,21 +405,7 @@
         alert('请部署到localhost上查看该演示');
     }
 
-
     layui.use('layim', function (layim) {
-
-        //演示自动回复
-        var autoReplay = [
-            '您好，我现在有事不在，一会再和您联系。',
-            '你没发错吧？face[微笑] ',
-            '洗澡中，请勿打扰，偷窥请购票，个体四十，团体八折，订票电话：一般人我不告诉他！face[哈哈] ',
-            '你好，我是主人的美女秘书，有什么事就跟我说吧，等他回来我会转告他的。face[心] face[心] face[心] ',
-            'face[威武] face[威武] face[威武] face[威武] ',
-            '<（@￣︶￣@）>',
-            '你要和我说话？你真的要和我说话？你确定自己想说吗？你一定非说不可吗？那你说吧，这是自动回复。',
-            'face[黑线]  你慢慢说，别急……',
-            '(*^__^*) face[嘻嘻] ，是贤心吗？'
-        ];
 
         //基础配置
         layim.config({
@@ -484,13 +423,13 @@
             }
             //上传图片接口
             , uploadImage: {
-                url: '<%=path%>/biz/chatInfo_uploadChatFile.action?savePath=attached/chatFile' //（返回的数据格式见下文）
+                url: '<%=path%>/biz/chatInfo_uploadChatFile.action' //（返回的数据格式见下文）
                 , type: '' //默认post
             }
 
             //上传文件接口
             , uploadFile: {
-                url: '<%=path%>/biz/chatInfo_uploadChatFile.action?savePath=attached/chatFile' //（返回的数据格式见下文）
+                url: '<%=path%>/biz/chatInfo_uploadChatFile.action' //（返回的数据格式见下文）
                 , type: '' //默认post
             }
             //扩展工具栏
@@ -610,7 +549,7 @@
                         };
                         socket.send(JSON.stringify(data));
                     } else {
-                        alert("Websocket连接没有开启！");
+                        layer.alert("Websocket连接没有开启！");
                     }
                 }, 1000)
                 // 关闭连接
@@ -634,11 +573,12 @@
                         };
                         socket.send(JSON.stringify(data));
                     } else {
-                        alert("Websocket连接没有开启！");
+                        layer.alert("Websocket连接没有开启！");
                     }
                 },
                 //初始化聊天面板
                 initMessagePage: function (json) {
+                    console.log('init:'+JSON.stringify(json))
                     //私聊消息
                     json.data.data.forEach(function (value, index, array) {
                         layim.getMessage({
@@ -683,8 +623,8 @@
                         , fromid: res.data.data.senderId //消息的发送者id（比如群组中的某个消息发送者），可用于自动解决浏览器多窗口时的一些问题
                         , timestamp: res.data.data.sendTime //服务端时间戳毫秒数。注意：如果你返回的是标准的 unix 时间戳，记得要 *1000
                     });
-                    //TODO:调用已读接口
-                    data = {
+                    //调用已读接口
+                    var data = {
                         "type": "READ_CHAT",
                         "answer-id": "<%=session.getAttribute(SystemContext.USERID) %>",
                         "chat-type": "SINGLE_CHAT",
@@ -697,7 +637,7 @@
                     console.log('group chat message:'+JSON.stringify(res))
                     layim.getMessage({
                         username: res.data.data.senderName //消息来源用户名
-                        , avatar: res.data.data.avatar //消息来源用户头像
+                        , avatar: res.data.avatar //消息来源用户头像
                         , id: res.data.data.answerId //消息的来源ID（如果是私聊，则是用户id，如果是群聊，则是群组id）
                         , type: "group" //聊天窗口来源类型，从发送消息传递的to里面获取
                         , content: res.data.data.senderContent //消息内容
@@ -706,12 +646,12 @@
                         , fromid: res.data.data.senderId //消息的发送者id（比如群组中的某个消息发送者），可用于自动解决浏览器多窗口时的一些问题
                         , timestamp: res.data.data.sendTime //服务端时间戳毫秒数。注意：如果你返回的是标准的 unix 时间戳，记得要 *1000
                     });
-                    //TODO:调用已读接口
-                    data = {
+                    //调用已读接口
+                    var data = {
                         "type": "READ_CHAT",
                         "answer-id": "<%=session.getAttribute(SystemContext.USERID) %>",
                         "chat-type": "GROUP_CHAT",
-                        "group-id": res.data.id
+                        "group-id": res.data.data.answerId
                     };
                     socket.send(JSON.stringify(data))
                 }
@@ -767,6 +707,7 @@
             // if (socket.readyState == WebSocket.OPEN) {
 
                 var To = data.to;
+
                 console.log('监听发送消息：' + JSON.stringify(data.to));
 
                 var sendData
@@ -837,7 +778,7 @@
         //监听聊天窗口的切换
         layim.on('chatChange', function (res) {
             var type = res.data.type;
-            console.log('监听聊天窗口的切换' + JSON.stringify(res))
+            // console.log('监听聊天窗口的切换' + JSON.stringify(res))
             //一旦打开聊天面板就标记为已读
             var data
 
@@ -866,6 +807,7 @@
                     "group-id": res.data.id
                 };
             }
+            // layer.alert(JSON.stringify(data))
             socket.send(JSON.stringify(data));
         });
         // layim.setFriendStatus(11111, 'online'); //设置指定好友在线，即头像取消置灰

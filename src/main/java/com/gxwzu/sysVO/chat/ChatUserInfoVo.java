@@ -44,6 +44,7 @@ public class ChatUserInfoVo {
         this.avatar = SystemContext.DEFAULT_PERSON_AVATAR;
         if (StringUtils.isNotBlank(listStudent.getUserImg()))this.avatar = listStudent.getUserImg().substring(1);
     }
+
     public ChatUserInfoVo(ListTeacher teacher) {
         this.id = teacher.getUserId();
         this.username = teacher.getTeacherName();

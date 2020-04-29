@@ -176,7 +176,7 @@ public class AllotGuideDaoImpl extends BaseDaoImpl<AllotGuide> implements IAllot
 				.append("SELECT ")
 				.append(" st.*,up.userSex,up.userAge,up.userEmail,up.userTel,userImg,up.userType, ")
 				.append(" sdt.dept_name,scy.category_name,smr.major_name,scs.class_name,")
-				.append(" age.id,age.teacher_id ,str.teacher_name,age.`year` ")
+				.append(" age.id,age.teacher_id ,str.teacher_name,age.`year`,up.sign ")
 				.append(" FROM sys_student st ")
 				.append(" INNER JOIN user_hlep up ON st.user_id = up.id ")
 				.append(" LEFT JOIN sys_department sdt ON st.dept_number = sdt.dept_number ")

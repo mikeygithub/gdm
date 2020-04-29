@@ -60,10 +60,10 @@ public class ChatInfoDaoImpl extends BaseDaoImpl<ChatInfo> implements IChatInfoD
         //查询群聊
         if (null != model.getAnswerName() && StringUtils.isNotBlank(model.getAnswerName())) {
             queryString = queryString + " and answer_name like ? ";
-            params.add("%" + model.getAnswerName() + "%");
+            params.add("%" + model.getAnswerName() + ",%");
         }
 
-        queryString = queryString + " ORDER BY model.sendTime DESC";
+        queryString = queryString + " ORDER BY model.sendTime ASC";
 
         return (Result<ChatInfo>) super.find(queryString, params.toArray(), null, start, limit);
     }

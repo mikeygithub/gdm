@@ -112,6 +112,7 @@ public class ChatInfoAction extends BaseAction implements ModelDriven<ChatInfo> 
 	private String savePath; // 保存路径
 
 	private File upload;// 上传的文件
+    private File file;//上传文件
 	private String uploadFileName; // 上传文件名
 	private String uploadContentType; // 上传文件类型
 	private int code = 0; //判断是否上传成功 0-不成功，1-上传成功
@@ -848,9 +849,13 @@ public class ChatInfoAction extends BaseAction implements ModelDriven<ChatInfo> 
 	/**
 	 * 上传聊天文件
 	 * @Return
-	 */
-	public void uploadChatFile() {
-		R r = chatInfoSerivce.uploadChatFile(upload,uploadFileName);
+     */
+	public void uploadChatFile() throws Exception{
+        //获取输出流
+        PrintWriter out = getResponse().getWriter();
+        out.print(new Gson().toJson(chatInfoSerivce.uploadChatFile(upload,uploadFileName)));
+        out.flush();
+        out.close();
 	}
 
 
@@ -1002,5 +1007,11 @@ public class ChatInfoAction extends BaseAction implements ModelDriven<ChatInfo> 
 		this.teaPrivateChat = teaPrivateChat;
 	}
 
+    public File getFile() {
+        return file;
+    }
 
+    public void setFile(File file) {
+        this.file = file;
+    }
 }

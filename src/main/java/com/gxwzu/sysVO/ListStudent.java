@@ -51,13 +51,9 @@ public class ListStudent  extends ListUser   {
 		this.stuAddress = ObjectUtil.getString(o[4]);
 		this.stuArrangement = ObjectUtil.getString(o[5]);
 		this.stuSchoollength = ObjectUtil.getString(o[6]);
-		try {
-			if(o[7]!=null){
-				this.setStuEntrance(Timestamp.valueOf(DateUtils.formatTime(DateUtils.parseDate(o[7].toString()))));
-			}
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
+
+		if(o[7]!=null)this.setStuEntrance(Timestamp.valueOf(DateUtils.formatTime(DateUtils.parseDate(o[7].toString()))));
+
 		this.stuGrade = ObjectUtil.getString(o[8]);
 		this.deptNumber = ObjectUtil.getString(o[9]);
 		this.categoryId = ObjectUtil.getInteger(o[10]);
@@ -79,7 +75,8 @@ public class ListStudent  extends ListUser   {
 		this.majorName = ObjectUtil.getString(o[22]);
 		this.className = ObjectUtil.getString(o[23]);
 
-		if (o.length>=25)this.sign = ObjectUtil.getString(o[24]);
+		if (o.length==25)this.sign = ObjectUtil.getString(o[24]);
+		if (o.length==29)this.sign = ObjectUtil.getString(o[28]);
 	}
 
 	public String getDeptName() {

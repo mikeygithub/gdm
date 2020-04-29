@@ -159,7 +159,7 @@ public class SysTeacherServiceImpl extends BaseServiceImpl<SysTeacher>
 	 * 
 	 * @author 何金燕
 	 * @date 2017.7.15
-	 * @param teacherId
+	 * @param teacherNo
 	 */
 	@Override
 	public ListTeacher findByTeacherNo(String teacherNo) {

@@ -67,6 +67,22 @@
 			}
 		});
 	}
+	function help() {
+		layer.open({
+			type: 1
+			,title: '系统提示'
+			,closeBtn: false
+			,area: '300px;'
+			,shade: 0.5
+			,id: 'LAY_layuipro' //设定一个id，防止重复弹出
+			,btn: ['好了好了,我知道了']
+			,btnAlign: 'c'
+			,moveType: 1 //拖拽模式，0或者1
+			,content: '<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;"><a style="color: #fff;" href="<%=path%>/db/operation instruction.wps">操作手册：点击下载</a><br></div>'
+			,success: function(layero){
+			}
+		});
+	}
 </script>
 <%
 request.setAttribute("", "hagl");
@@ -83,7 +99,7 @@ request.setAttribute("", "hagl");
 		<span>欢迎使用<%=SystemContext.PROJECTNAME%></span>
 		<ul>
 			<li><a href="<%=path%>">回首页</a></li>
-			<li><a href="#" onclick="layer.alert('帮助？不存在的！')">帮助</a></li>
+			<li><a href="#" onclick="help()">帮助</a></li>
 			<li><a href="#" onclick="layer.alert('没有关于，就这样吧！')">关于</a></li>
 		</ul>
 	</div>

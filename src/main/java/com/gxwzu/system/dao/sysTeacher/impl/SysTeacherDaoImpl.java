@@ -89,7 +89,7 @@ public class SysTeacherDaoImpl extends BaseDaoImpl<SysTeacher> implements
 		StringBuffer queryString = new StringBuffer("SELECT * FROM (")
 		.append("SELECT ")
 		.append(" st.*,up.userSex,up.userAge,up.userEmail,up.userTel,up.userImg,up.userType, ")
-		.append(" sdt.dept_name,scy.category_name,smr.staff_name,stl.technical_name,sds.duties_name")
+		.append(" sdt.dept_name,scy.category_name,smr.staff_name,stl.technical_name,sds.duties_name,up.sign")
 		.append(" FROM sys_teacher st ")
 		.append(" INNER JOIN user_hlep up ON st.user_id = up.id ")
 		.append(" LEFT JOIN sys_department sdt ON st.dept_number = sdt.dept_number ")

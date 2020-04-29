@@ -282,7 +282,7 @@ public class ChatInfoServiceImpl extends BaseServiceImpl<ChatInfo> implements IC
 
         for (MaterialInfo tmp : guideStudentList) {
             if (!tmp.getStudent().getStuNo().equals(student.getStuNo())) {//移除自己
-                studentGroup.add(new ChatUserInfoVo(tmp.getStudent()));
+               studentGroup.add(new ChatUserInfoVo(tmp.getStudent()));
             }
         }
 
@@ -325,14 +325,17 @@ public class ChatInfoServiceImpl extends BaseServiceImpl<ChatInfo> implements IC
             teacher = iSysTeacherService.findModelById(allotGuide.getTeacherId());
             //学生列表
             guideStudentList = iMaterialInfoSerivce.findGuideStudent(allotGuide.getTeacherId(), planYear.getYear());
+            //教师信息
+            r.add("owner", new ChatUserInfoVo(teacher));
+            //添加教师到群聊成员列表
+            studentGroup.add(new ChatUserInfoVo(teacher));
 
-            r.add("owner", new ChatUserInfoVo(teacher));//教师信息
         } else if (SystemContext.USER_TEACHER_TYPE.equals(userHelp.getUserType())) {//教师
             teacher = iSysTeacherService.findByTeacherNo(loginName);
             // 指导老师查询自己所带学生相关信息
             guideStudentList = iMaterialInfoSerivce.findGuideStudent(teacher.getTeacherId(), planYear.getYear());
-
-            r.add("owner", new ChatUserInfoVo(teacher));//教师信息
+            //教师信息
+            r.add("owner", new ChatUserInfoVo(teacher));
         } else if (SystemContext.USER_ADMIN_TYPE.equals(userHelp.getUserType())) {//管理员
             //全部学生//全部教师
             List<UserHelp> all = iUserHelpService.findAll(UserHelp.class);
@@ -347,9 +350,8 @@ public class ChatInfoServiceImpl extends BaseServiceImpl<ChatInfo> implements IC
 
 
         for (MaterialInfo tmp : guideStudentList) {
-            if (!tmp.getStudent().getStuNo().equals(student.getStuNo())) {//移除自己
+            if (SystemContext.USER_STUDENT_TYPE.equals(userHelp.getUserType())&&tmp.getStudent().getUserId().intValue()==student.getUserId())continue;//移除自己
                 studentGroup.add(new ChatUserInfoVo(tmp.getStudent()));
-            }
         }
         r.add("members", studentGroup.getList().size() + 1)//好友列表学生+1老师
                 .add("list", studentGroup.getList());//群聊列表
@@ -361,13 +363,16 @@ public class ChatInfoServiceImpl extends BaseServiceImpl<ChatInfo> implements IC
      * 上传聊天文件
      *
      * @param upload
-     * @return * {
-     * *   "code": 0 //0表示成功，其它表示失败
-     * *   ,"msg": "" //失败信息
-     * *   ,"data": {
-     * *     "src": "http://cdn.xxx.com/upload/images/a.jpg" //图片url
-     * *   }
-     * * }
+     * @return
+     * {
+     *   "code": 0 //0表示成功，其它表示失败
+     *   ,"msg": "" //失败信息
+     *   ,"data": {
+     *     "src": "http://cdn.xxx.com/upload/file/LayIM.zip" //文件url
+     *     ,"name": "LayIM.zip" //文件名
+     *   }
+     * }
+     *
      */
     @Override
     public R uploadChatFile(File upload, String uploadFileName) {
@@ -384,7 +389,9 @@ public class ChatInfoServiceImpl extends BaseServiceImpl<ChatInfo> implements IC
         File target = new File(targetDirectory, targetFileName);
 
         try {
+
             FileUtils.copyFile(upload, target);
+
             filePath = SystemContext.DEFAULT_CHAT_IMG_SAVE_PATH + "/" + targetFileName;
 
             return R.ok(0).add("src", filePath).add("name", uploadFileName);
@@ -393,7 +400,7 @@ public class ChatInfoServiceImpl extends BaseServiceImpl<ChatInfo> implements IC
 
             log.info("图片上传出错：" + e);
 
-            return R.ok();
+            return R.ok(500,"上传文件出错");
         }
     }
 
@@ -470,7 +477,11 @@ public class ChatInfoServiceImpl extends BaseServiceImpl<ChatInfo> implements IC
             if (chatInfo.getSenderId().intValue()!=tmp.getStudent().getUserId().intValue()) {//not send self
                 ChannelHandlerContext toUserCtx = Constant.onlineUserMap.get(tmp.getStudent().getUserId().toString());
                 if (toUserCtx != null) {
-                    sendMessage(toUserCtx, R.ok().add("type", ChatType.GROUP_SENDING).add("data", chatInfo).toString());
+                    sendMessage(toUserCtx, R.ok()
+                            .add("type", ChatType.GROUP_SENDING)
+                            .add("data", chatInfo)
+                            .add("avatar",StringUtils.isNotEmpty(tmp.getStudent().getUserImg())?tmp.getStudent().getUserImg():SystemContext.DEFAULT_PERSON_AVATAR)
+                            .toString());
                 }
             }
         }

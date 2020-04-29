@@ -69,6 +69,8 @@ public class ListTeacher extends ListUser implements java.io.Serializable {
 		this.staffName =  ObjectUtil.getString(o[17]);
 		this.technicalName =  ObjectUtil.getString(o[18]);
 		this.dutiesName =  ObjectUtil.getString(o[19]);
+		this.sign =  ObjectUtil.getString(o[20]);
+
 	}
 
 	public Integer getTeacherId() {

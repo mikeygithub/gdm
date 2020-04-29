@@ -322,8 +322,7 @@ public class MaterialInfoServiceImpl implements IMaterialInfoSerivce {
     public List<MaterialInfo> findGuideStudent(Integer teacherId, Integer year) {
 
         /************************* 填充结果集 ************************************************/
-        List<ListStudentAllotGuide> oldList = allotGuideService
-                .findStudentsByTeacherIdAndYear(teacherId, year);
+        List<ListStudentAllotGuide> oldList = allotGuideService.findStudentsByTeacherIdAndYear(teacherId, year);
 
         List<MaterialInfo> newList = new ArrayList<MaterialInfo>();
 
