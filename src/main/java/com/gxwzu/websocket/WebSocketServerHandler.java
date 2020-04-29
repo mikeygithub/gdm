@@ -3,6 +3,7 @@ package com.gxwzu.websocket;
 import com.alibaba.fastjson.JSONObject;
 import com.gxwzu.business.service.chatInfo.IChatInfoService;
 import com.gxwzu.util.Constant;
+import com.gxwzu.util.R;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -33,7 +34,7 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<WebSocke
 
     /**
      * 描述：读取完连接的消息后，对消息进行处理。
-     *      这里主要是处理WebSocket请求
+     * 这里主要是处理WebSocket请求
      */
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, WebSocketFrame msg) throws Exception {
@@ -42,6 +43,7 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<WebSocke
 
     /**
      * 描述：处理WebSocketFrame
+     *
      * @param ctx
      * @param frame
      * @throws Exception
@@ -49,7 +51,7 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<WebSocke
     private void handlerWebSocketFrame(ChannelHandlerContext ctx, WebSocketFrame frame) throws Exception {
         // 关闭请求
         if (frame instanceof CloseWebSocketFrame) {
-            WebSocketServerHandshaker handshaker =  Constant.webSocketHandshakerMap.get(ctx.channel().id().asLongText());
+            WebSocketServerHandshaker handshaker = Constant.webSocketHandshakerMap.get(ctx.channel().id().asLongText());
             if (handshaker == null) {
                 sendErrorMessage(ctx, "不存在的客户端连接！");
             } else {
@@ -68,7 +70,7 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<WebSocke
         }
 
         // 客服端发送过来的消息
-        String request = ((TextWebSocketFrame)frame).text();
+        String request = ((TextWebSocketFrame) frame).text();
 
         LOGGER.info("服务端收到新信息：" + request);
 
@@ -87,24 +89,28 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<WebSocke
         }
 
         String type = (String) param.get("type");
+
         switch (type) {
-            case "REGISTER":
+            case "REGISTER"://用户上线注册
                 iChatInfoService.register(param, ctx);
                 break;
-            case "SINGLE_SENDING":
+            case "SINGLE_SENDING"://发送单聊消息
                 iChatInfoService.singleSend(param, ctx);
                 break;
-            case "GROUP_SENDING":
+            case "GROUP_SENDING"://发送群聊消息
                 iChatInfoService.groupSend(param, ctx);
                 break;
-            case "FILE_MSG_SINGLE_SENDING":
+            case "FILE_MSG_SINGLE_SENDING"://单发文件
                 iChatInfoService.FileMsgSingleSend(param, ctx);
                 break;
-            case "FILE_MSG_GROUP_SENDING":
+            case "FILE_MSG_GROUP_SENDING"://群发文件
                 iChatInfoService.FileMsgGroupSend(param, ctx);
                 break;
+            case "READ_CHAT"://已读消息
+                iChatInfoService.readChat(param, ctx);
+                break;
             default:
-                iChatInfoService.typeError(ctx);
+                iChatInfoService.typeError(ctx);//错误消息
                 break;
         }
     }
@@ -115,7 +121,7 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<WebSocke
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         LOGGER.info("客户端断开连接");
-//        chatService.remove(ctx);
+        iChatInfoService.remove(ctx);
     }
 
     /**
@@ -129,12 +135,8 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<WebSocke
 
 
     private void sendErrorMessage(ChannelHandlerContext ctx, String errorMsg) {
-        String responseJson = new ResponseJson()
-                .error(errorMsg)
-                .toString();
-        ctx.channel().writeAndFlush(new TextWebSocketFrame(responseJson));
 
-        ctx.channel().writeAndFlush(new TextWebSocketFrame("发送错误消息"));
+        ctx.channel().writeAndFlush(new TextWebSocketFrame(R.error(errorMsg).toString()));
     }
 
 }

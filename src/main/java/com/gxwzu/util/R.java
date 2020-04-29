@@ -64,6 +64,13 @@ public class R implements Serializable {
         return r;
     }
 
+    public static R error(String msg) {
+        R r = new R();
+        r.setCode(500);
+        r.setMsg(msg);
+        return r;
+    }
+
     public R add(String key,Object object){
         this.data.put(key,object);
         return this;

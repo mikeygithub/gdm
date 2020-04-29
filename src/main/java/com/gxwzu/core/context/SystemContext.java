@@ -24,14 +24,17 @@ public final class SystemContext {
 	public static final String RESULT_SUCCESS = "1";
 	public static final String RESULT_FAIL = "0";
 	//聊天类型
-	public static final String CHAT_PRIVATE_TYPE = "1";
-	public static final String CHAT_GROUP = "0";
+	public static final String CHAT_PRIVATE_TYPE = "0";
+	public static final String CHAT_GROUP = "1";
+	//消息阅读状态
+	public static final String CHAT_NOT_READ_STATUS = "0";
+	public static final String CHAT_ALREADY_READ = "1";
 	//默认群头像
 	public static final String DEFAULT_GROUP_AVATAR = "images/group_head.png";
 	//默认个人头像
 	public static final String DEFAULT_PERSON_AVATAR = "images/photo.jpg";
 	//聊天图片默认保存路径
-	public static final String DEFAULT_CHAT_IMG_SAVE_PATH = "";
+	public static final String DEFAULT_CHAT_IMG_SAVE_PATH = "/";
     //日志
 	protected final Log logger = LogFactory.getLog(getClass());
 

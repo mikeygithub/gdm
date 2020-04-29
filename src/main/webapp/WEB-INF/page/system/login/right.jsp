@@ -10,8 +10,10 @@
     <link rel="stylesheet" href="<%=path%>/third/layui/css/layui.css" type="text/css"/>
     <link rel="stylesheet" href="<%=basePath %>/third/layui/css/layui.css" type="text/css">
     <link rel="stylesheet" href="<%=basePath %>/third/layer/skin/layer.css" id="layui_layer_skinlayercss">
-    <link id="layuicss-skinlayimcss" rel="stylesheet" href="<%=basePath %>/third/layui/css/modules/layim/layim.css?v=3.60Pro" media="all">
-    <link id="layuicss-skinlayercss" rel="stylesheet" href="<%=basePath %>/third/layui/css/modules/layer/default/layer.css?v=3.0.3303" media="all">
+    <link id="layuicss-skinlayimcss" rel="stylesheet"
+          href="<%=basePath %>/third/layui/css/modules/layim/layim.css?v=3.60Pro" media="all">
+    <link id="layuicss-skinlayercss" rel="stylesheet"
+          href="<%=basePath %>/third/layui/css/modules/layer/default/layer.css?v=3.0.3303" media="all">
 
     <script type="text/javascript" src="<%=path%>/third/jquery-1.8.3.min.js"></script>
     <script type="text/javascript" src="<%=path%>/third/jquery.validate.js"></script>
@@ -22,7 +24,7 @@
     <script type="text/javascript" src="<%=path%>/js/core/dialog/enable.js"></script>
     <script type="text/javascript" src="<%=path%>/datePicket/WdatePicker.js"></script>
     <script type="text/javascript" src="<%=path%>/js/business/replyScore/replyScore.js"></script>
-<%--    聊天--%>
+    <%--    聊天--%>
     <link rel="stylesheet" href="<%=path%>/third/layui/css/layui.css">
     <script type="text/javascript" src="<%=path%>/third/layui/layui.js"></script>
     <script type="text/javascript">
@@ -37,10 +39,10 @@
                 maxmin: true,
                 scrollbar: false,
                 content: '<%=path%>/biz/chatInfo_openChat.action?view=client&thisId=' + thisId + '&thisType=' + type + '&chatType=' + chatType,
-                success: function(layero){
-                layero.find('.layui-layer-min').remove(); //去掉最小化按钮
-                layero.find('.layui-layer-max').remove(); //去掉最大化按钮
-            }
+                success: function (layero) {
+                    layero.find('.layui-layer-min').remove(); //去掉最小化按钮
+                    layero.find('.layui-layer-max').remove(); //去掉最大化按钮
+                }
             });
 
         }
@@ -56,7 +58,7 @@
                 maxmin: true,
                 content: '<%=path%>/sys/notice_openNotice.action?view=detail&model.noticeId=' + noticeId,
                 //去除最大化最小化
-                success: function(layero) {
+                success: function (layero) {
                     layero.find('.layui-layer-min').remove();
                     layero.find('.layui-layer-max').remove();
                 }
@@ -76,7 +78,7 @@
                 maxmin: true,
                 content: '<%=path%>/sys/notice_list.action?view=list',
                 //去除最大化最小化
-                success: function(layero) {
+                success: function (layero) {
                     layero.find('.layui-layer-min').remove();
                     layero.find('.layui-layer-max').remove();
                 }
@@ -103,6 +105,7 @@
             cursor: pointer;
             color: red;
         }
+
         /*body .layui-layim, body .layui-layim-chat {*/
         /*    border: 1px solid #D9D9D9;*/
         /*    border-color: rgba(0,0,0,.05);*/
@@ -164,7 +167,7 @@
     //传入从数据库中取出的日期类型数据
     function getformatdate(startTime) {
         var formate_datetime;
-        if(startTime == undefined) {
+        if (startTime == undefined) {
             // return formate_datetime;
             return "";
         }
@@ -264,33 +267,33 @@
                 var scorelist = $('#gradscore');
                 var result = eval('(' + res + ')');
                 if (result.replyType == 1) {
-                        scorelist.find("li").each(function (index, con) {
-                            var timeline_title_div = $(this).children("div").children("div");
-                            switch (index) {
-                                case 0:
-                                    timeline_title_div.html(result.openReport);
-                                    break;
-                                case 1:
-                                    timeline_title_div.html(result.checkScore);
-                                    break;
-                                case 2:
-                                    timeline_title_div.html(result.guideScore);
-                                    break;
-                                case 3:
-                                    timeline_title_div.html(result.readScore);
-                                    break;
-                                case 4:
-                                    timeline_title_div.html(result.replyScore);
-                                    break;
-                                case 5:
-                                    timeline_title_div.html(result.replyScoreFinish);
-                                    break;
-                                case 6:
-                                    timeline_title_div.html(result.grade);
-                                    break;
-                            }
-                        });
-                    }
+                    scorelist.find("li").each(function (index, con) {
+                        var timeline_title_div = $(this).children("div").children("div");
+                        switch (index) {
+                            case 0:
+                                timeline_title_div.html(result.openReport);
+                                break;
+                            case 1:
+                                timeline_title_div.html(result.checkScore);
+                                break;
+                            case 2:
+                                timeline_title_div.html(result.guideScore);
+                                break;
+                            case 3:
+                                timeline_title_div.html(result.readScore);
+                                break;
+                            case 4:
+                                timeline_title_div.html(result.replyScore);
+                                break;
+                            case 5:
+                                timeline_title_div.html(result.replyScoreFinish);
+                                break;
+                            case 6:
+                                timeline_title_div.html(result.grade);
+                                break;
+                        }
+                    });
+                }
             });
         }
 
@@ -305,11 +308,11 @@
                     var noticelist_li = $('<li class="noli"></li>');
 
                     var noticeName = con.noticeName
-                    if (noticeName.length>25){//通知名称超出用...代替
-                        noticeName = noticeName.substring(0,25)+"..."
+                    if (noticeName.length > 25) {//通知名称超出用...代替
+                        noticeName = noticeName.substring(0, 25) + "..."
                     }
 
-                    var noticelist_a = $('<a id="noa" href="javascript:dialog(\'100%\',\'100%\',\'通知详情\',\'<%=path%>/sys/notice_openNotice.action?view=detail&model.noticeId='+con.noticeId+'\', \'true\',\'0\');">&nbsp;&nbsp;' + noticeName + '</a>');
+                    var noticelist_a = $('<a id="noa" href="javascript:dialog(\'100%\',\'100%\',\'通知详情\',\'<%=path%>/sys/notice_openNotice.action?view=detail&model.noticeId=' + con.noticeId + '\', \'true\',\'0\');">&nbsp;&nbsp;' + noticeName + '</a>');
                     var dataArray = Todate(con.noticeTime).split(' ');
                     var noticelist_time = $('<span id="notime" >' + dataArray[0] + '</span>');//date.getFullYear()
 
@@ -422,37 +425,38 @@
 
     function loginOutTip() {
         layer.open({
-            title:'系统提示'
-            ,content: '您确认退出吗？'
-            ,offset: ['40%', '40%']
-            ,btn: ['确定退出', '取消']
-            ,shadeClose: true
-            ,yes: function(index, layero){
+            title: '系统提示'
+            , content: '您确认退出吗？'
+            , offset: ['40%', '40%']
+            , btn: ['确定退出', '取消']
+            , shadeClose: true
+            , yes: function (index, layero) {
                 //按钮【按钮一】的回调
-                layer.msg('退出成功',{icon:1})
+                layer.msg('退出成功', {icon: 1})
                 top.location = "<%=path%>/Userlogin_logout.action";
             }
-            ,btn2: function(index, layero){
+            , btn2: function (index, layero) {
                 //按钮【按钮二】的回调
 
                 //return false 开启该代码可禁止点击该按钮关闭
             }
-            ,cancel: function(){
+            , cancel: function () {
                 //右上角关闭回调
 
                 //return false 开启该代码可禁止点击该按钮关闭
             }
         });
     }
+
     //TODO:聊天
 
 
-    if(!/^http(s*):\/\//.test(location.href)){
+    if (!/^http(s*):\/\//.test(location.href)) {
         alert('请部署到localhost上查看该演示');
     }
 
 
-    layui.use('layim', function(layim){
+    layui.use('layim', function (layim) {
 
         //演示自动回复
         var autoReplay = [
@@ -472,31 +476,31 @@
             //初始化接口
             init: {
                 url: '<%=path%>/biz/chatInfo_loadChatFriend.action'
-                ,data: {}
+                , data: {}
             }
             //查看群员接口
-            ,members: {
+            , members: {
                 url: '<%=path%>/biz/chatInfo_loadGroupMembers.action'
-                ,data: {
+                , data: {
                     // id: 1//群号id
                 }
             }
             //上传图片接口
-            ,uploadImage: {
+            , uploadImage: {
                 url: '<%=path%>/biz/chatInfo_uploadChatFile.action?savePath=attached/chatFile' //（返回的数据格式见下文）
-                ,type: '' //默认post
+                , type: '' //默认post
             }
 
             //上传文件接口
-            ,uploadFile: {
+            , uploadFile: {
                 url: '<%=path%>/biz/chatInfo_uploadChatFile.action?savePath=attached/chatFile' //（返回的数据格式见下文）
-                ,type: '' //默认post
+                , type: '' //默认post
             }
             //扩展工具栏
-            ,tool: [{
+            , tool: [{
                 alias: 'code'
-                ,title: '代码'
-                ,icon: '&#xe64e;'
+                , title: '代码'
+                , icon: '&#xe64e;'
             }]
 
             //,brief: true //是否简约模式（若开启则不显示主面板）
@@ -504,17 +508,17 @@
             //,title: 'WebIM' //自定义主面板最小化时的标题
             //,right: '100px' //主面板相对浏览器右侧距离
             //,minRight: '90px' //聊天面板最小化时相对浏览器右侧距离
-            ,initSkin: '5.jpg' //1-5 设置初始背景
+            , initSkin: '5.jpg' //1-5 设置初始背景
             //,skin: ['aaa.jpg'] //新增皮肤
             //,isfriend: false //是否开启好友
             //,isgroup: false //是否开启群组
             //,min: true //是否始终最小化主面板，默认false
-            ,notice: true //是否开启桌面消息提醒，默认false
+            , notice: true //是否开启桌面消息提醒，默认false
             //,voice: false //声音提醒，默认开启，声音文件为：default.wav
 
-            ,msgbox: layui.cache.dir + 'css/modules/layim/html/msgbox.html' //消息盒子页面地址，若不开启，剔除该项即可
-            ,find: layui.cache.dir + 'css/modules/layim/html/find.html' //发现页面地址，若不开启，剔除该项即可
-            ,chatLog: layui.cache.dir + 'css/modules/layim/html/chatlog.html' //聊天记录页面地址，若不开启，剔除该项即可
+            , msgbox: layui.cache.dir + 'css/modules/layim/html/msgbox.html' //消息盒子页面地址，若不开启，剔除该项即可
+            , find: layui.cache.dir + 'css/modules/layim/html/find.html' //发现页面地址，若不开启，剔除该项即可
+            , chatLog: layui.cache.dir + 'css/modules/layim/html/chatlog.html' //聊天记录页面地址，若不开启，剔除该项即可
 
         });
 
@@ -534,46 +538,46 @@
         layim.setChatMin();*/
 
         //监听在线状态的切换事件
-        layim.on('online', function(data){
+        layim.on('online', function (data) {
             //console.log(data);
         });
 
         //监听签名修改
-        layim.on('sign', function(value){
+        layim.on('sign', function (value) {
             console.log(value);
-            $.post('<%=path%>/sys/userHelp_updateSign.action?model.sign='+value, function (res) {
+            $.post('<%=path%>/sys/userHelp_updateSign.action?model.sign=' + value, function (res) {
                 console.log(res)
             });
         });
 
         //监听自定义工具栏点击，以添加代码为例
-        layim.on('tool(code)', function(insert){
+        layim.on('tool(code)', function (insert) {
             layer.prompt({
                 title: '插入代码'
-                ,formType: 2
-                ,shade: 0
-            }, function(text, index){
+                , formType: 2
+                , shade: 0
+            }, function (text, index) {
                 layer.close(index);
                 insert('[pre class=layui-code]' + text + '[/pre]'); //将内容插入到编辑器
             });
         });
-
+        var socket
         //监听layim建立就绪
-        layim.on('ready', function(res){
+        layim.on('ready', function (res) {
 
-            if(!window.WebSocket){
+            if (!window.WebSocket) {
                 window.WebSocket = window.MozWebSocket;
             }
-            if(window.WebSocket){
-                var socket = new WebSocket("ws://localhost:3333");
+            if (window.WebSocket) {
+                socket = new WebSocket("ws://localhost:3333");
                 // 接收到服务器发回消息
-                socket.onmessage = function(event){
+                socket.onmessage = function (event) {
                     var json = JSON.parse(event.data);
-                    console.log('接收服务器数据：'+json)
+                    console.log('接收服务器数据：' + json)
                     if (json.code == 200) {
                         var type = json.data.type;
                         console.log("收到一条新信息，类型为：" + type);
-                        switch(type) {
+                        switch (type) {
                             case "REGISTER":
                                 //初始化消息列表
                                 ws.initMessagePage(json);
@@ -599,11 +603,11 @@
                     }
                 };
                 // 连接成功1秒后，将用户信息注册到服务器在线用户表
-                socket.onopen = setTimeout(function(event){
+                socket.onopen = setTimeout(function (event) {
                     if (socket.readyState == WebSocket.OPEN) {
                         var data = {
-                            "userId" : "REGISTER",
-                            "type" : "REGISTER",
+                            "userId": "REGISTER",
+                            "type": "REGISTER",
                             "username": "<%=session.getAttribute(SystemContext.LOGINNAME) %>"
                         };
                         socket.send(JSON.stringify(data));
@@ -612,7 +616,7 @@
                     }
                 }, 1000)
                 // 关闭连接
-                socket.onclose = function(event){
+                socket.onclose = function (event) {
                     console.log("WebSocket已关闭");
                 };
             } else {
@@ -636,17 +640,32 @@
                     }
                 },
                 initMessagePage: function (json) {
-                    json.data.data.forEach(function(value,index,array){
+                    //私聊消息
+                    json.data.data.forEach(function (value, index, array) {
                         layim.getMessage({
                             username: value.senderName //消息来源用户名
-                            ,avatar: value.avatar //消息来源用户头像
-                            ,id: value.senderId //消息的来源ID（如果是私聊，则是用户id，如果是群聊，则是群组id）
-                            ,type: "friend" //聊天窗口来源类型，从发送消息传递的to里面获取
-                            ,content: value.senderContent //消息内容
-                            ,cid: 0 //消息id，可不传。除非你要对消息进行一些操作（如撤回）
-                            ,mine: false //是否我发送的消息，如果为true，则会显示在右方
-                            ,fromid: value.senderId //消息的发送者id（比如群组中的某个消息发送者），可用于自动解决浏览器多窗口时的一些问题
-                            ,timestamp: value.sendTime //服务端时间戳毫秒数。注意：如果你返回的是标准的 unix 时间戳，记得要 *1000
+                            , avatar: value.avatar //消息来源用户头像
+                            , id: value.senderId //消息的来源ID（如果是私聊，则是用户id，如果是群聊，则是群组id）
+                            , type: "friend" //聊天窗口来源类型，从发送消息传递的to里面获取
+                            , content: value.senderContent //消息内容
+                            , cid: 0 //消息id，可不传。除非你要对消息进行一些操作（如撤回）
+                            , mine: false //是否我发送的消息，如果为true，则会显示在右方
+                            , fromid: value.senderId //消息的发送者id（比如群组中的某个消息发送者），可用于自动解决浏览器多窗口时的一些问题
+                            , timestamp: value.sendTime //服务端时间戳毫秒数。注意：如果你返回的是标准的 unix 时间戳，记得要 *1000
+                        });
+                    })
+                    //群聊消息
+                    json.data.group.forEach(function (value, index, array) {
+                        layim.getMessage({
+                            username: value.senderName //消息来源用户名
+                            , avatar: value.avatar //消息来源用户头像
+                            , id: value.senderId //消息的来源ID（如果是私聊，则是用户id，如果是群聊，则是群组id）
+                            , type: "group" //聊天窗口来源类型，从发送消息传递的to里面获取
+                            , content: value.senderContent //消息内容
+                            , cid: 0 //消息id，可不传。除非你要对消息进行一些操作（如撤回）
+                            , mine: false //是否我发送的消息，如果为true，则会显示在右方
+                            , fromid: value.senderId //消息的发送者id（比如群组中的某个消息发送者），可用于自动解决浏览器多窗口时的一些问题
+                            , timestamp: value.sendTime //服务端时间戳毫秒数。注意：如果你返回的是标准的 unix 时间戳，记得要 *1000
                         });
                     })
                 }
@@ -682,13 +701,13 @@
             //         ,content: "临时："+ new Date().getTime()
             //     });
 
-                /*layim.getMessage({
-                  username: "贤心"
-                  ,avatar: "http://tp1.sinaimg.cn/1571889140/180/40030060651/1"
-                  ,id: "100001"
-                  ,type: "friend"
-                  ,content: "嗨，你好！欢迎体验LayIM。演示标记："+ new Date().getTime()
-                });*/
+            /*layim.getMessage({
+              username: "贤心"
+              ,avatar: "http://tp1.sinaimg.cn/1571889140/180/40030060651/1"
+              ,id: "100001"
+              ,type: "friend"
+              ,content: "嗨，你好！欢迎体验LayIM。演示标记："+ new Date().getTime()
+            });*/
 
             // }, 3000);
 
@@ -696,60 +715,105 @@
         });
 
         //监听发送消息
-        layim.on('sendMessage', function(data){
+        layim.on('sendMessage', function (data) {
             var To = data.to;
-            //console.log(data);
+            console.log('监听发送消息：' + JSON.stringify(data));
 
-            if(To.type === 'friend'){
-                layim.setChatStatus('<span style="color:#FF5722;">对方正在输入。。。</span>');
+            var sendData
+            if (To.type === 'friend') {//私聊
+                sendData = {
+                    "type": "SINGLE_SENDING",//发送消息类型
+                    "send_id": data.mine.id.toString(),//发送者id
+                    "send_name": data.mine.username,//发送者名称
+                    "chat_content":data.mine.content,//消息内容
+                    "answer_id":data.to.id.toString(),//接收者id
+                    "answer_name":data.to.username,//接收者姓名
+                    "chat_type":"0",//消息类型:０私聊，１群聊
+                    "content_type":"0"//消息内容，文件，图片，文本
+                }
+            }
+            if (To.type === 'group') {//群聊
+                sendData = {
+                    "type": "GROUP_SENDING",//发送消息类型
+                    "send_id": data.mine.id.toString(),//发送者id
+                    "send_name": data.mine.username,//发送者名称
+                    "chat_content":data.mine.content,//消息内容
+                    "answer_id":data.to.id.toString(),//接收者id
+                    "answer_name":data.to.username,//接收者姓名
+                    "chat_type":"1",//消息类型:０私聊，１群聊
+                    "content_type":"0"//消息内容，文件，图片，文本
+                }
             }
 
+            socket.send(JSON.stringify(sendData));
+
+            // if(To.type === 'friend'){
+            //     layim.setChatStatus('<span style="color:#FF5722;">对方正在输入。。。</span>');
+            // }
+
             //演示自动回复
-            setTimeout(function(){
-                var obj = {};
-                if(To.type === 'group'){
-                    obj = {
-                        username: '模拟群员'+(Math.random()*100|0)
-                        ,avatar: layui.cache.dir + 'images/face/'+ (Math.random()*72|0) + '.gif'
-                        ,id: To.id
-                        ,type: To.type
-                        ,content: autoReplay[Math.random()*9|0]
-                    }
-                } else {
-                    obj = {
-                        username: To.name
-                        ,avatar: To.avatar
-                        ,id: To.id
-                        ,type: To.type
-                        ,content: autoReplay[Math.random()*9|0]
-                    }
-                    layim.setChatStatus('<span style="color:#FF5722;">在线</span>');
-                }
-                layim.getMessage(obj);
-            }, 1000);
+            // setTimeout(function () {
+            //     var obj = {};
+            //     if (To.type === 'group') {
+            //         obj = {
+            //             username: '模拟群员' + (Math.random() * 100 | 0)
+            //             , avatar: layui.cache.dir + 'images/face/' + (Math.random() * 72 | 0) + '.gif'
+            //             , id: To.id
+            //             , type: To.type
+            //             , content: autoReplay[Math.random() * 9 | 0]
+            //         }
+            //     } else {
+            //         obj = {
+            //             username: To.name
+            //             , avatar: To.avatar
+            //             , id: To.id
+            //             , type: To.type
+            //             , content: autoReplay[Math.random() * 9 | 0]
+            //         }
+            //         layim.setChatStatus('<span style="color:#FF5722;">在线</span>');
+            //     }
+            //     layim.getMessage(obj);
+            // }, 1000);
         });
 
         //监听查看群员
-        layim.on('members', function(data){
+        layim.on('members', function (data) {
             //console.log(data);
         });
 
         //监听聊天窗口的切换
-        layim.on('chatChange', function(res){
+        layim.on('chatChange', function (res) {
             var type = res.data.type;
-            // console.log(res.data.id)
-            if(type === 'friend'){
+            console.log(res)
+            //一旦打开聊天面板就标记为已读
+            var data
+
+            if (type === 'friend') {
                 //模拟标注好友状态
                 //layim.setChatStatus('<span style="color:#FF5722;">在线</span>');
-            } else if(type === 'group'){
+                data = {
+                    "type": "READ_CHAT",
+                    "answer-id": "<%=session.getAttribute(SystemContext.USERID) %>",
+                    "chat-type": "SINGLE_CHAT",
+                    "send-id": res.data.id
+                };
+
+            } else if (type === 'group') {
                 //模拟系统消息
                 layim.getMessage({
                     system: true
-                    ,id: res.data.id
-                    ,type: "group"
-                    ,content: '模拟群员'+(Math.random()*100|0) + '加入群聊'
+                    , id: res.data.id
+                    , type: "group"
+                    , content: "<%=session.getAttribute(SystemContext.USERID) %>" + '加入群聊'
                 });
+                data = {
+                    "type": "READ_CHAT",
+                    "answer-id": "<%=session.getAttribute(SystemContext.USERID) %>",
+                    "chat-type": "GROUP_CHAT",
+                    "group-id": res.data.id
+                };
             }
+            socket.send(JSON.stringify(data));
         });
         // layim.setFriendStatus(11111, 'online'); //设置指定好友在线，即头像取消置灰
         // layim.setFriendStatus(11111, 'offline'); //设置指定好友在线，即头像置灰

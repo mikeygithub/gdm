@@ -25,42 +25,48 @@ import com.gxwzu.sysVO.ListStudentAllotGuide;
 import org.springframework.transaction.annotation.Transactional;
 
 @Repository("chatInfoDao")
-public class ChatInfoDaoImpl extends BaseDaoImpl<ChatInfo>implements IChatInfoDao {
+public class ChatInfoDaoImpl extends BaseDaoImpl<ChatInfo> implements IChatInfoDao {
 
-	@Autowired
-	private IUserHelpDao iUserHelpDao;
-	@Override
-	public Result<ChatInfo> find(ChatInfo model, int page, int size) {
-		String queryString = "from ChatInfo model where 1=1";
-		int start = (page - 1) * size;
-		int limit = size;
-		List<Object> params = new ArrayList<Object>();
-		
-		if(model.getYear()!=null){
-			queryString=queryString+"and model.year= ? ";
-			params.add(model.getYear());
-		}
-		if(null!=model.getAnswerId() && !"".equals(model.getAnswerId())){
-			queryString=queryString+" and answerId = ? ";
-			params.add(model.getAnswerId());
-		}
-		if(null!=model.getSenderId() && !"".equals(model.getSenderId())){
-			queryString=queryString+" and senderId = ? ";
-			params.add(model.getSenderId());
-		}
-		if(null!=model.getChatType() && StringUtils.isNotBlank(model.getChatType())){
-			queryString=queryString+" and chatType = ? ";
-			params.add(model.getChatType());
-		}
-		if(null!=model.getReadType() && StringUtils.isNotBlank(model.getReadType())){
-			queryString=queryString+" and readType = ? ";
-			params.add(model.getReadType());
-		}
-		
-		queryString = queryString + " ORDER BY model.sendTime DESC";
+    @Autowired
+    private IUserHelpDao iUserHelpDao;
 
-		return (Result<ChatInfo>) super.find(queryString, params.toArray(),null, start, limit);
-	}
+    @Override
+    public Result<ChatInfo> find(ChatInfo model, int page, int size) {
+        String queryString = "from ChatInfo model where 1=1";
+        int start = (page - 1) * size;
+        int limit = size;
+        List<Object> params = new ArrayList<Object>();
+
+        if (model.getYear() != null) {
+            queryString = queryString + "and model.year= ? ";
+            params.add(model.getYear());
+        }
+        if (null != model.getAnswerId() && !"".equals(model.getAnswerId())) {
+            queryString = queryString + " and answerId = ? ";
+            params.add(model.getAnswerId());
+        }
+        if (null != model.getSenderId() && !"".equals(model.getSenderId())) {
+            queryString = queryString + " and senderId = ? ";
+            params.add(model.getSenderId());
+        }
+        if (null != model.getChatType() && StringUtils.isNotBlank(model.getChatType())) {
+            queryString = queryString + " and chatType = ? ";
+            params.add(model.getChatType());
+        }
+        if (null != model.getReadType() && StringUtils.isNotBlank(model.getReadType())) {
+            queryString = queryString + " and readType = ? ";
+            params.add(model.getReadType());
+        }
+        //查询群聊
+        if (null != model.getAnswerName() && StringUtils.isNotBlank(model.getAnswerName())) {
+            queryString = queryString + " and answer_name like ? ";
+            params.add("%" + model.getAnswerName() + "%");
+        }
+
+        queryString = queryString + " ORDER BY model.sendTime DESC";
+
+        return (Result<ChatInfo>) super.find(queryString, params.toArray(), null, start, limit);
+    }
 
 
 //	@Override
@@ -217,28 +223,89 @@ public class ChatInfoDaoImpl extends BaseDaoImpl<ChatInfo>implements IChatInfoDa
 //		return size;
 //	}
 
-	/**
-	 * 查询未读消息
-	 * @param userHelp
-	 * @return
-	 */
-	@Override
-	public List<ChatInfo> findNewChatMessage(UserHelp userHelp) {
+    /**
+     * 查询私聊未读消息
+     *
+     * @param userHelp
+     * @return
+     */
+    @Override
+    public List<ChatInfo> findNewChatMessage(UserHelp userHelp) {
 
-		ChatInfo chatInfo = new ChatInfo();
+        ChatInfo chatInfo = new ChatInfo();
 
-		chatInfo.setAnswerId(userHelp.getId());//接收人
-		chatInfo.setReadType("1");//未阅读
-		ArrayList<ChatInfo> arrayList = new ArrayList<>();
-		List<ChatInfo> tmp = find(chatInfo, 1, Integer.MAX_VALUE).getData();
-		//处理消息头像
-		for(ChatInfo v:tmp){
+        chatInfo.setAnswerId(userHelp.getId());//接收人
+        chatInfo.setReadType(SystemContext.CHAT_NOT_READ_STATUS);//未阅读
+        ArrayList<ChatInfo> arrayList = new ArrayList<>();
+        List<ChatInfo> tmp = find(chatInfo, 1, Integer.MAX_VALUE).getData();
+        //处理消息头像
+        for (ChatInfo v : tmp) {
             String userImg = iUserHelpDao.findById(v.getSenderId()).getUserImg();
-            v.setAvatar(StringUtils.isNotBlank(userImg)?userImg: SystemContext.DEFAULT_PERSON_AVATAR);
-			arrayList.add(v);
-		}
+            v.setAvatar(StringUtils.isNotBlank(userImg) ? userImg : SystemContext.DEFAULT_PERSON_AVATAR);
+            arrayList.add(v);
+        }
 
-		return arrayList;
-	}
+        return arrayList;
+    }
+
+    /**
+     * 更新群聊状态为已读
+     *
+     * @param groupId
+     * @param answerId
+     */
+    @Override
+    public void updateReadGroupChatStatus(String groupId, String answerId) {
+        ChatInfo chatInfo = new ChatInfo();
+        chatInfo.setAnswerId(Integer.parseInt(answerId));
+        chatInfo.setChatType(SystemContext.CHAT_GROUP);//群聊
+        chatInfo.setAnswerId(Integer.parseInt(groupId));
+        chatInfo.setAnswerName(answerId);
+        List<ChatInfo> res = find(chatInfo, 1, Integer.MAX_VALUE).getData();
+        for (ChatInfo v : res) {
+
+            String receives = v.getAnswerName();//获取群聊的所有接收者，将本人的id剔除即为已读
+
+            if (receives.contains(answerId)){
+
+                v.setAnswerName(receives.replace(answerId,""));
+            }
+
+            this.update(v);
+        }
+    }
+
+    /**
+     * 更新私聊消息状态为已读
+     *
+     * @param sendId
+     * @param answerId
+     */
+    @Override
+    public void updateReadSingleChatStatus(String sendId, String answerId) {
+        ChatInfo chatInfo = new ChatInfo();
+        chatInfo.setAnswerId(Integer.parseInt(answerId));
+        chatInfo.setChatType(SystemContext.CHAT_PRIVATE_TYPE);
+        chatInfo.setSenderId(Integer.parseInt(sendId));
+        List<ChatInfo> res = find(chatInfo, 1, Integer.MAX_VALUE).getData();
+        for (ChatInfo v : res) {
+            v.setReadType(SystemContext.CHAT_ALREADY_READ);
+            this.update(v);
+        }
+    }
+
+    /**
+     * 查询群聊未读消息
+     *
+     * @param userHelp
+     */
+    @Override
+    public List<ChatInfo> findNewGroupChatMessage(UserHelp userHelp) {
+        ChatInfo chatInfo = new ChatInfo();
+        chatInfo.setChatType(SystemContext.CHAT_GROUP);//群聊
+        chatInfo.setAnswerName(userHelp.getId().toString());
+        return find(chatInfo, 1, Integer.MAX_VALUE).getData();
+
+    }
 
 }

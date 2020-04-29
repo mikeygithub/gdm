@@ -1,5 +1,6 @@
 package com.gxwzu.websocket;
 
+import com.gxwzu.util.R;
 import org.apache.tools.ant.util.FileUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -32,7 +33,7 @@ public class FileUploadServiceImpl{
     private final static String SERVER_URL_PREFIX = "http://localhost:8080/WebSocket/";
     private final static String FILE_STORE_PATH = "UploadFile";
 
-    public ResponseJson upload(MultipartFile file, HttpServletRequest request) {
+    public R upload(MultipartFile file, HttpServletRequest request) {
         // 重命名文件，防止重名
         String filename = getRandomUUID();
         String suffix = "";
@@ -50,12 +51,12 @@ public class FileUploadServiceImpl{
             Files.copy(file.getInputStream(), filePath);
         } catch (IOException e) {
             e.printStackTrace();
-            return new ResponseJson().error("文件上传发生错误！");
+            return R.error("文件上传发生错误！");
         }
-        return new ResponseJson().success()
-                .setData("originalFilename", originalFilename)
-                .setData("fileSize", fileSize)
-                .setData("fileUrl", SERVER_URL_PREFIX + FILE_STORE_PATH + "\\" + filename);
+        return R.ok()
+                .add("originalFilename", originalFilename)
+                .add("fileSize", fileSize)
+                .add("fileUrl", SERVER_URL_PREFIX + FILE_STORE_PATH + "\\" + filename);
     }
 
     private String getRandomUUID() {

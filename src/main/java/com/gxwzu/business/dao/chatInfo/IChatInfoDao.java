@@ -15,6 +15,12 @@ public interface IChatInfoDao extends BaseDao<ChatInfo> {
 
 	List<ChatInfo> findNewChatMessage(UserHelp userHelp);
 
+    void updateReadGroupChatStatus(String groupId, String answerId);
+
+	void updateReadSingleChatStatus(String sendId, String answerId);
+
+	List<ChatInfo> findNewGroupChatMessage(UserHelp userHelp);
+
 //	public List<ChatInfo> findByExample(ChatInfo model);
 //
 //	/**

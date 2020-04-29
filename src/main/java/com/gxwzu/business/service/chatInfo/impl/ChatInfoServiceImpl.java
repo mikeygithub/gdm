@@ -2,22 +2,22 @@ package com.gxwzu.business.service.chatInfo.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.alibaba.fastjson.JSONObject;
 import com.gxwzu.business.model.allotGuide.AllotGuide;
 import com.gxwzu.business.model.paln.PlanYear;
 import com.gxwzu.business.service.allotGuide.IAllotGuideService;
 import com.gxwzu.business.service.materialInfo.IMaterialInfoSerivce;
+import com.gxwzu.business.service.plan.IPlanYearSerivce;
 import com.gxwzu.core.context.SystemContext;
 import com.gxwzu.core.util.UidUtils;
 import com.gxwzu.sysVO.*;
 import com.gxwzu.sysVO.chat.ChatGroupInfoVo;
 import com.gxwzu.sysVO.chat.ChatUserInfoVo;
+import com.gxwzu.system.model.sysTeacher.SysTeacher;
 import com.gxwzu.system.model.userHelp.UserHelp;
 import com.gxwzu.system.service.sysStudent.ISysStudentService;
 import com.gxwzu.system.service.sysTeacher.ISysTeacherService;
@@ -64,6 +64,8 @@ public class ChatInfoServiceImpl extends BaseServiceImpl<ChatInfo> implements IC
     private ISysStudentService iSysStudentService;
     @Autowired
     private IAllotGuideService iAllotGuideService;
+    @Autowired
+    private IPlanYearSerivce iPlanYearSerivce;
 
     public BaseDao<ChatInfo> getDao() {
         return this.chatInfoDao;
@@ -285,7 +287,7 @@ public class ChatInfoServiceImpl extends BaseServiceImpl<ChatInfo> implements IC
 
         if (teacher != null) {
             chatGroupInfoVo.setOwner(new ChatUserInfoVo(teacher));
-            chatGroupInfoVo.setId(teacher.getUserId());//根据指导老师的id来命名群id
+            chatGroupInfoVo.setId(teacher.getUserId()+1);//根据指导老师的id+1来命名群id
             groupList.add(chatGroupInfoVo);
             r.add("group", groupList);//群聊列表
         }
@@ -396,21 +398,24 @@ public class ChatInfoServiceImpl extends BaseServiceImpl<ChatInfo> implements IC
 
     /**
      * 用户上线测试
+     *
      * @param param
      * @param ctx
      */
     @Override
     public void register(JSONObject param, ChannelHandlerContext ctx) {
 
-        String username = (String)param.get("username");
+        String username = (String) param.get("username");
         //查询用户
         UserHelp userHelp = iUserHelpService.findByLoginName(username).get(0);
         //将当前用户加入在线Map
         Constant.onlineUserMap.put(userHelp.getId().toString(), ctx);
-        //查询未读消息
+        //查询私聊未读消息
         List<ChatInfo> newChatMessageList = chatInfoDao.findNewChatMessage(userHelp);
+        //查询群聊未读消息
+        List<ChatInfo> groupChatMessage = chatInfoDao.findNewGroupChatMessage(userHelp);
         //回复上线成功通知
-        sendMessage(ctx, R.ok().add("type", ChatType.REGISTER).add("data",newChatMessageList).toString());
+        sendMessage(ctx, R.ok().add("type", ChatType.REGISTER).add("data", newChatMessageList).add("group",groupChatMessage).toString());
         //
         log.info(MessageFormat.format("用户名为 {0} 的用户登记到在线用户表，当前在线人数为：{1}", username, Constant.onlineUserMap.size()));
         //
@@ -419,68 +424,71 @@ public class ChatInfoServiceImpl extends BaseServiceImpl<ChatInfo> implements IC
 
     /**
      * 私聊
+     *
      * @param param
      * @param ctx
      */
     @Override
     public void singleSend(JSONObject param, ChannelHandlerContext ctx) {
-        String fromUserId = (String)param.get("fromUserId");
-        String toUserId = (String)param.get("toUserId");
-        String content = (String)param.get("content");
-        ChannelHandlerContext toUserCtx = Constant.onlineUserMap.get(toUserId);
-//        if (toUserCtx == null) {
-//            String responseJson = new ResponseJson()
-//                    .error(MessageFormat.format("userId为 {0} 的用户没有登录！", toUserId))
-//                    .toString();
-//            sendMessage(ctx, responseJson);
-//        } else {
-//            String responseJson = new ResponseJson().success()
-//                    .setData("fromUserId", fromUserId)
-//                    .setData("content", content)
-//                    .setData("type", ChatType.SINGLE_SENDING)
-//                    .toString();
-//            sendMessage(toUserCtx, responseJson);
-//        }
+        //获取数据
+        ChatInfo chatInfo = analysisChatInfo(param);
+        //发送给接收方
+        ChannelHandlerContext toUserCtx = Constant.onlineUserMap.get(chatInfo.getAnswerId());
+        if (toUserCtx != null) {
+            sendMessage(toUserCtx, R.ok().add("type",ChatType.SINGLE_SENDING).add("chatInfo",chatInfo).toString());
+        }
+        //保存到数据库
+        chatInfoDao.save(chatInfo);
     }
 
     /**
      * 群聊
+     *
      * @param param
      * @param ctx
      */
     @Override
     public void groupSend(JSONObject param, ChannelHandlerContext ctx) {
+        //获取数据
+        ChatInfo chatInfo = analysisChatInfo(param);
+        //查询该群下所有的群员
+        SysTeacher teacher = iSysTeacherService.findTeacherByUserId(chatInfo.getAnswerId() - 1);//教师的id+1命名的群号id
+        // 指导老师查询自己所带学生相关信息
+        PlanYear planYear = iPlanYearSerivce.findPlanYear();
 
-        String fromUserId = (String)param.get("fromUserId");
-        String toGroupId = (String)param.get("toGroupId");
-        String content = (String)param.get("content");
+        List<MaterialInfo> guideStudent = iMaterialInfoSerivce.findGuideStudent(teacher.getTeacherId(), planYear.getYear());
 
-//        GroupInfo groupInfo = groupDao.getByGroupId(toGroupId);
-//        if (groupInfo == null) {
-//            String responseJson = new ResponseJson().error("该群id不存在").toString();
-//            sendMessage(ctx, responseJson);
-//        } else {
-//            String responseJson = new ResponseJson().success()
-//                    .setData("fromUserId", fromUserId)
-//                    .setData("content", content)
-//                    .setData("toGroupId", toGroupId)
-//                    .setData("type", ChatType.GROUP_SENDING)
-//                    .toString();
-//            groupInfo.getMembers().stream()
-//                    .forEach(member -> {
-//                        ChannelHandlerContext toCtx = Constant.onlineUserMap.get(member.getUserId());
-//                        if (toCtx != null && !member.getUserId().equals(fromUserId)) {
-//                            sendMessage(toCtx, responseJson);
-//                        }
-//                    });
-//        }
+        //拼接接收者id
+        String allAnswerId = "";
+
+        for (MaterialInfo tmp:guideStudent){
+            allAnswerId+=tmp.getStudent().getUserId()+",";
+            ChannelHandlerContext toUserCtx = Constant.onlineUserMap.get(chatInfo.getAnswerId());
+            if (toUserCtx != null) {
+                sendMessage(toUserCtx, R.ok().add("type",ChatType.SINGLE_SENDING).add("chatInfo",chatInfo).toString());
+            }
+
+        }
+        //保存到数据库
+        chatInfo.setAnswerName(allAnswerId);
+        chatInfoDao.save(chatInfo);
+    }
+
+    private ChatInfo analysisChatInfo(JSONObject param){
+        String send_id = (String) param.get("send_id");
+        String send_name = (String) param.get("send_name");
+        String chat_content = (String) param.get("chat_content");
+        String answer_id = (String) param.get("answer_id");
+        String answer_name = (String) param.get("answer_name");
+        String chat_type = (String) param.get("chat_type");
+        String content_type = (String) param.get("content_type");
+        return new ChatInfo(Integer.parseInt(send_id), send_name, chat_content, Integer.parseInt(answer_id), answer_name, SystemContext.CHAT_NOT_READ_STATUS, null, new Timestamp(new Date().getTime()), chat_type, content_type);
     }
 
     @Override
     public void remove(ChannelHandlerContext ctx) {
-        Iterator<Map.Entry<String, ChannelHandlerContext>> iterator =
-                Constant.onlineUserMap.entrySet().iterator();
-        while(iterator.hasNext()) {
+        Iterator<Map.Entry<String, ChannelHandlerContext>> iterator = Constant.onlineUserMap.entrySet().iterator();
+        while (iterator.hasNext()) {
             Map.Entry<String, ChannelHandlerContext> entry = iterator.next();
             if (entry.getValue() == ctx) {
                 log.info("正在移除握手实例...");
@@ -495,11 +503,11 @@ public class ChatInfoServiceImpl extends BaseServiceImpl<ChatInfo> implements IC
 
     @Override
     public void FileMsgSingleSend(JSONObject param, ChannelHandlerContext ctx) {
-        String fromUserId = (String)param.get("fromUserId");
-        String toUserId = (String)param.get("toUserId");
-        String originalFilename = (String)param.get("originalFilename");
-        String fileSize = (String)param.get("fileSize");
-        String fileUrl = (String)param.get("fileUrl");
+        String fromUserId = (String) param.get("fromUserId");
+        String toUserId = (String) param.get("toUserId");
+        String originalFilename = (String) param.get("originalFilename");
+        String fileSize = (String) param.get("fileSize");
+        String fileUrl = (String) param.get("fileUrl");
         ChannelHandlerContext toUserCtx = Constant.onlineUserMap.get(toUserId);
 //        if (toUserCtx == null) {
 //            String responseJson = new ResponseJson()
@@ -520,16 +528,17 @@ public class ChatInfoServiceImpl extends BaseServiceImpl<ChatInfo> implements IC
 
     /**
      * 传输文件
+     *
      * @param param
      * @param ctx
      */
     @Override
     public void FileMsgGroupSend(JSONObject param, ChannelHandlerContext ctx) {
-        String fromUserId = (String)param.get("fromUserId");
-        String toGroupId = (String)param.get("toGroupId");
-        String originalFilename = (String)param.get("originalFilename");
-        String fileSize = (String)param.get("fileSize");
-        String fileUrl = (String)param.get("fileUrl");
+        String fromUserId = (String) param.get("fromUserId");
+        String toGroupId = (String) param.get("toGroupId");
+        String originalFilename = (String) param.get("originalFilename");
+        String fileSize = (String) param.get("fileSize");
+        String fileUrl = (String) param.get("fileUrl");
 //        GroupInfo groupInfo = groupDao.getByGroupId(toGroupId);
 //        if (groupInfo == null) {
 //            String responseJson = new ResponseJson().error("该群id不存在").toString();
@@ -555,14 +564,40 @@ public class ChatInfoServiceImpl extends BaseServiceImpl<ChatInfo> implements IC
 
     @Override
     public void typeError(ChannelHandlerContext ctx) {
-//        String responseJson = new ResponseJson().error("该类型不存在！").toString();
-//        sendMessage(ctx, responseJson);
+        sendMessage(ctx, R.error("该类型不存在").toString());
+    }
+
+    /**
+     * 已读消息
+     *
+     * @param param
+     * @param ctx
+     */
+    @Override
+    public void readChat(JSONObject param, ChannelHandlerContext ctx) {
+        //判断是群聊还是私聊
+        String chatType = param.getString("chat-type");
+        //群聊id
+        String groupId = param.getString("group-id");
+        //发送者id
+        String sendId = param.getString("send-id");
+        //本人id
+        String answerId = param.getString("answer-id");
+        switch (chatType) {
+            case "GROUP_CHAT"://处理群聊消息设置为已读
+                chatInfoDao.updateReadGroupChatStatus(groupId,answerId);
+                break;
+            case "SINGLE_CHAT"://处理私聊消息为已读
+                chatInfoDao.updateReadSingleChatStatus(sendId,answerId);
+                break;
+            default:
+                log.info("聊天类型错误");
+        }
     }
 
 
-
     private void sendMessage(ChannelHandlerContext ctx, String message) {
-        System.out.println("服务器发送消息："+message);
+        System.out.println("服务器发送消息：" + message);
         ctx.channel().writeAndFlush(new TextWebSocketFrame(message));
     }
 

@@ -37,6 +37,9 @@ public class HttpRequestHandler extends SimpleChannelInboundHandler<Object> {
     /**
      * 描述：读取完连接的消息后，对消息进行处理。
      * 这里仅处理HTTP请求，WebSocket请求交给下一个处理器。
+     * @param ctx
+     * @param msg
+     * @throws Exception
      */
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
@@ -87,9 +90,11 @@ public class HttpRequestHandler extends SimpleChannelInboundHandler<Object> {
             f.addListener(ChannelFutureListener.CLOSE);
         }
     }
-
     /**
      * 描述：异常处理，关闭channel
+     * @param ctx
+     * @param cause
+     * @throws Exception
      */
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {

@@ -103,4 +103,11 @@ public interface IChatInfoService extends BaseService<ChatInfo> {
 	void FileMsgGroupSend(JSONObject param, ChannelHandlerContext ctx);
 
 	void typeError(ChannelHandlerContext ctx);
+
+	/**
+	 * 已读消息
+	 * @param param
+	 * @param ctx
+	 */
+	void readChat(JSONObject param, ChannelHandlerContext ctx);
 }
