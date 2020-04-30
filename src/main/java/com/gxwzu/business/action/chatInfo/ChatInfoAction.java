@@ -65,6 +65,8 @@ public class ChatInfoAction extends BaseAction implements ModelDriven<ChatInfo> 
 
 	/*********************** 实例化ModelDriven ******************************/
 	private ChatInfo model = new ChatInfo();
+	private int limit;//每页数目
+	private int curr;//当前页码
 
 	@Override
 	public ChatInfo getModel() {
@@ -105,28 +107,11 @@ public class ChatInfoAction extends BaseAction implements ModelDriven<ChatInfo> 
 	private ListGroupAllot groupAllot = new ListGroupAllot();
 
 	/************************** 基础变量声明 **************/
-	private Integer thisId;
-	private String thisType;
-	private String fileIds; // 已上传文件ID
-	private String mark;
-	private String savePath; // 保存路径
 
-	private File upload;// 上传的文件
     private File file;//上传文件
-	private String fileFileName;
-	private String uploadFileName; // 上传文件名
-	private String uploadContentType; // 上传文件类型
-	private int code = 0; //判断是否上传成功 0-不成功，1-上传成功
-	private Integer teaPrivateChat;//老师发给学生的未读条数
-
-	public String getFileFileName() {
-		return fileFileName;
-	}
-
-	public void setFileFileName(String fileFileName) {
-		this.fileFileName = fileFileName;
-	}
-
+	private String fileFileName;//文件名
+    private Integer id;//发送者id或群聊id
+	private String type;//私聊｜群聊
 
 	/************************** 方法类 **************************************************************************************/
 
@@ -177,6 +162,23 @@ public class ChatInfoAction extends BaseAction implements ModelDriven<ChatInfo> 
         out.close();
 	}
 
+	/**
+	 *
+	 * @throws Exception
+	 */
+	public void loadChatLog() throws Exception{
+
+		logger.info("聊天接口调用"+fileFileName);
+
+		String loginName = (String) getSession().getAttribute(SystemContext.LOGINNAME);
+
+		//获取输出流
+		PrintWriter out = getResponse().getWriter();
+		//发送者id｜群聊id
+        out.print(chatInfoSerivce.loadChatLog(id,type,curr,limit,loginName));
+		out.flush();
+		out.close();
+	}
 
 
 
@@ -204,22 +206,6 @@ public class ChatInfoAction extends BaseAction implements ModelDriven<ChatInfo> 
 
 	public void setPlanYearList(List<ListAllotGuide> planYearList) {
 		this.planYearList = planYearList;
-	}
-
-	public Integer getThisId() {
-		return thisId;
-	}
-
-	public void setThisId(Integer thisId) {
-		this.thisId = thisId;
-	}
-
-	public String getMark() {
-		return mark;
-	}
-
-	public void setMark(String mark) {
-		this.mark = mark;
 	}
 
 	public ListTeacher getTeacherList() {
@@ -270,62 +256,6 @@ public class ChatInfoAction extends BaseAction implements ModelDriven<ChatInfo> 
 		this.groupAllot = groupAllot;
 	}
 
-	public String getThisType() {
-		return thisType;
-	}
-
-	public void setThisType(String thisType) {
-		this.thisType = thisType;
-	}
-
-	public String getFileIds() {
-		return fileIds;
-	}
-
-	public void setFileIds(String fileIds) {
-		this.fileIds = fileIds;
-	}
-
-	public String getSavePath() {
-		return savePath;
-	}
-
-	public void setSavePath(String savePath) {
-		this.savePath = savePath;
-	}
-
-	public File getUpload() {
-		return upload;
-	}
-
-	public void setUpload(File upload) {
-		this.upload = upload;
-	}
-
-	public String getUploadFileName() {
-		return uploadFileName;
-	}
-
-	public void setUploadFileName(String uploadFileName) {
-		this.uploadFileName = uploadFileName;
-	}
-
-	public String getUploadContentType() {
-		return uploadContentType;
-	}
-
-	public void setUploadContentType(String uploadContentType) {
-		this.uploadContentType = uploadContentType;
-	}
-
-	public Integer getTeaPrivateChat() {
-		return teaPrivateChat;
-	}
-
-	public void setTeaPrivateChat(Integer teaPrivateChat) {
-		this.teaPrivateChat = teaPrivateChat;
-	}
-
     public File getFile() {
         return file;
     }
@@ -333,4 +263,45 @@ public class ChatInfoAction extends BaseAction implements ModelDriven<ChatInfo> 
     public void setFile(File file) {
         this.file = file;
     }
+
+
+    public String getFileFileName() {
+        return fileFileName;
+    }
+
+    public void setFileFileName(String fileFileName) {
+        this.fileFileName = fileFileName;
+    }
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public int getLimit() {
+		return limit;
+	}
+
+	public void setLimit(int limit) {
+		this.limit = limit;
+	}
+
+	public int getCurr() {
+		return curr;
+	}
+
+	public void setCurr(int curr) {
+		this.curr = curr;
+	}
 }

@@ -6,23 +6,19 @@ import java.util.List;
 import com.gxwzu.core.context.SystemContext;
 import com.gxwzu.system.dao.userHelp.IUserHelpDao;
 import com.gxwzu.system.model.userHelp.UserHelp;
+import com.gxwzu.util.R;
 import org.apache.commons.lang.xwork.StringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.classic.Session;
-import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.gxwzu.business.dao.chatInfo.IChatInfoDao;
-import com.gxwzu.business.dao.plan.IPlanYearDao;
 import com.gxwzu.business.model.chatInfo.ChatInfo;
-import com.gxwzu.business.model.paln.PlanYear;
 import com.gxwzu.core.dao.impl.BaseDaoImpl;
 import com.gxwzu.core.pagination.Result;
-import com.gxwzu.sysVO.ListChatInfo;
-import com.gxwzu.sysVO.ListStudentAllotGuide;
-import org.springframework.transaction.annotation.Transactional;
 
 @Repository("chatInfoDao")
 public class ChatInfoDaoImpl extends BaseDaoImpl<ChatInfo> implements IChatInfoDao {
@@ -67,162 +63,6 @@ public class ChatInfoDaoImpl extends BaseDaoImpl<ChatInfo> implements IChatInfoD
 
         return (Result<ChatInfo>) super.find(queryString, params.toArray(), null, start, limit);
     }
-
-
-//	@Override
-//	public List<ChatInfo> findByExample(ChatInfo model) {
-//		String queryString = "from ChatInfo model where 1=1";
-//		List<Object> params = new ArrayList<Object>();
-//
-//		if(model.getYear()!=null){
-//			queryString=queryString+"and model.year=?";
-//			params.add(model.getYear());
-//		}
-//
-//		queryString = queryString + " ORDER BY model.sendTime DESC";
-//		return super.findByExample(queryString, params.toArray());
-//	}
-//
-//
-//	@Override
-//	public List<ChatInfo> findByUserIdAndAnswerId(Integer senderId,
-//			Integer answerId,String chatType) {
-//
-//		String queryString = "from ChatInfo model where 1=1 ";
-//		List<Object> params = new ArrayList<Object>();
-//		if(null!=chatType && !"".equals(chatType)){
-//			queryString=queryString+" and chatType = ?";
-//			params.add(chatType);
-//		}
-//		if(senderId!=null && answerId!=null){
-//			queryString=queryString+" and (model.senderId=? or model.senderId=?)";
-//			params.add(senderId);
-//			params.add(answerId);
-//			queryString=queryString+" and (model.answerId=? or model.answerId=?)";
-//			params.add(senderId);
-//			params.add(answerId);
-//		queryString = queryString + " ORDER BY model.sendTime ASC";
-//		return super.findByExample(queryString, params.toArray());
-//		}else{
-//			return null;
-//		}
-//	}
-//
-//
-//	@Override
-//	public List<ChatInfo> findByGuideTreacherId(Integer teacherId,
-//			Integer year, String chatType, List<ListStudentAllotGuide> allotGuideStudentList) {
-//
-//		String queryString = "from ChatInfo model where 1=1 ";
-//		List<Object> params = new ArrayList<Object>();
-//		if(null!=chatType && !"".equals(chatType)){
-//			queryString=queryString+" and chatType = ? ";
-//			params.add(chatType);
-//		}
-//
-//		if(teacherId!=null && year!=null){
-//			if(allotGuideStudentList.size() > 0 && teacherId!=null){
-//				queryString += " and ( senderId = ? or";
-//				params.add(teacherId);
-//				for (int i = 0; i < allotGuideStudentList.size(); i++) {
-//					if(i != allotGuideStudentList.size() - 1){
-//						queryString +=  " senderId = ? or ";
-//						params.add(allotGuideStudentList.get(i).getStuId());
-//					}else{
-//						queryString += " senderId = ?) ";
-//						params.add(allotGuideStudentList.get(i).getStuId());
-//					}
-//				}
-//			}
-//			queryString=queryString+" and year = ?";
-//			params.add(year);
-//		    queryString = queryString + " ORDER BY model.sendTime ASC";
-//		    return super.findByExample(queryString, params.toArray());
-//		}else{
-//			return null;
-//		}
-//	}
-//
-//
-//	@Override
-//	public List<ChatInfo> findByAnswerId(ChatInfo chatInfo) {
-//		String queryString = "from ChatInfo model where 1=1 ";
-//		List<Object> params = new ArrayList<Object>();
-//		if(null!=chatInfo.getAnswerId() && !"".equals(chatInfo.getAnswerId())){
-//			queryString=queryString+" and answerId = ? ";
-//			params.add(chatInfo.getAnswerId());
-//		}
-//		if(null!=senderId && !"".equals(senderId)){
-//			queryString=queryString+" and senderId = ? ";
-//			params.add(senderId);
-//		}
-//		if(null!=chatType && !"".equals(chatType)){
-//			queryString=queryString+" and chatType = ? ";
-//			params.add(chatType);
-//		}
-//		if(null!=readType && !"".equals(readType)){
-//			queryString=queryString+" and readType = ? ";
-//			params.add(readType);
-//		}
-//		return super.findByExample(queryString, params.toArray());
-//	}
-//
-//
-//	/**
-//	 * 更新阅读条数状态
-//	 */
-//	@Override
-//	public void updateReadType(Integer answerId, Integer senderId, String readType) {
-//		String updateString = "";
-//		List<Object> params = new ArrayList<Object>();
-//		if(null!=answerId && !"".equals(answerId)&&(null!=senderId && !"".equals(senderId))){
-//			updateString = "update ChatInfo set  ";
-//			updateString = updateString+" readType = ?";
-//			params.add(readType);
-//			updateString = updateString+" where answerId = ? and senderId = ? ";
-//			params.add(answerId);
-//			params.add(senderId);
-//		}
-//		super.bulkUpdate(updateString, params.toArray(), null);
-//	}
-//
-//
-//	@Override
-//	public void updateByChatId(Integer chatId, String readType) {
-//		String updateString = "";
-//		List<Object> params = new ArrayList<Object>();
-//		if(null!=chatId && !"".equals(chatId)){
-//			updateString = "update ChatInfo set  ";
-//			updateString = updateString+" readType = ?";
-//			params.add(readType);
-//			updateString = updateString+" where chatId = ? ";
-//			params.add(chatId);
-//		}
-//		super.bulkUpdate(updateString, params.toArray(), null);
-//	}
-//
-//	@Override
-//	@Transactional
-//	public Integer findChatCountByTeacherIdOrStudentId(Integer userId) {
-//		Integer size = 0;
-//		try {
-//		Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(ChatInfo.class);
-//		//查询个人消息数量
-//			size = criteria.add(
-//					Restrictions.or(
-//							Restrictions.and(
-//									Restrictions.eq("readType", String.valueOf(1)),
-//									Restrictions.eq("answerId", userId)),
-//							Restrictions.and(
-//									Restrictions.eq("answerId", 1),
-//									Restrictions.like("readType", String.valueOf(userId), MatchMode.ANYWHERE))))
-//					.list().size();
-//		}catch (Exception e){
-//			e.printStackTrace();
-//		}
-//		return size;
-//	}
-
     /**
      * 查询私聊未读消息
      *
@@ -305,8 +145,111 @@ public class ChatInfoDaoImpl extends BaseDaoImpl<ChatInfo> implements IChatInfoD
         ChatInfo chatInfo = new ChatInfo();
         chatInfo.setChatType(SystemContext.CHAT_GROUP);//群聊
         chatInfo.setAnswerName(userHelp.getId().toString());
-        return find(chatInfo, 1, Integer.MAX_VALUE).getData();
+        List<ChatInfo> data = find(chatInfo, 1, Integer.MAX_VALUE).getData();
+        ArrayList<ChatInfo> res = new ArrayList<>();
+        //resolve message head image
+        for (ChatInfo tmp:data){
+            UserHelp send = iUserHelpDao.findById(tmp.getSenderId());
+            tmp.setAvatar(StringUtils.isNotBlank(send.getUserImg())?send.getUserImg():SystemContext.DEFAULT_PERSON_AVATAR);
+            res.add(tmp);
+        }
+        return res;
+    }
 
+    /**
+     * 查询群聊消息记录
+     * @param id
+     * @param curr
+     * @param limit
+     * @return
+     */
+    @Override
+    public R findGroupChatLog(Integer id, int curr, int limit) {
+
+        int start = (curr - 1) * limit;
+        List<ChatInfo> chatInfoList = new ArrayList<>();
+        List<ChatInfo> res = new ArrayList<>();
+
+        Session session = this.getSessionFactory().openSession();
+        Criteria criteria = session.createCriteria(ChatInfo.class);
+        Criteria criteriaTotal = session.createCriteria(ChatInfo.class);
+
+        //查询总记录数目
+        int size = criteriaTotal.add(Restrictions.eq("answerId", id)).add(Restrictions.eq("chatType", SystemContext.CHAT_GROUP)).list().size();
+
+        if (size!=0) {
+            //查询数据
+            chatInfoList = criteria.add(
+                    Restrictions.eq("answerId", id))
+                    .add(Restrictions.eq("chatType", SystemContext.CHAT_GROUP))//群聊
+                    .addOrder(Order.asc("sendTime"))
+                    .setFirstResult(start)
+                    .setMaxResults(limit)
+                    .list();
+
+        }
+        //处理头像
+        for (ChatInfo tmp:chatInfoList){
+            UserHelp sender = iUserHelpDao.findById(tmp.getSenderId());
+            tmp.setAvatar(StringUtils.isNotBlank(sender.getUserImg())?sender.getUserImg():SystemContext.DEFAULT_PERSON_AVATAR);
+            res.add(tmp);
+        }
+
+        session.close();
+
+        return R.ok().add("total",size).add("list",res);
+    }
+
+    /**
+     * 查询私聊信息记录
+     * @param senderId 发送者id
+     * @param answerId　接收者id
+     * @param curr 当前页码
+     * @param limit 每页大小
+     * @return
+     *
+     * select * from chat_info
+     * where
+     *  (answer_id = 608 and sender_id = 892 and chat_type = 0)
+     *    or
+     *  (answer_id = 892 and sender_id = 608 and chat_type = 0)
+     *
+     * order by send_time asc
+     */
+    @Override
+    public R findFriendChatLog(Integer senderId,Integer answerId, int curr, int limit) {
+
+        int start = (curr - 1) * limit;
+        List<ChatInfo> tmpArr = new ArrayList();
+        List res = new ArrayList();
+        Session session = this.getSessionFactory().openSession();
+        Criteria criteria = session.createCriteria(ChatInfo.class);
+        Criteria criteriaTotal = session.createCriteria(ChatInfo.class);
+
+        int size = criteria.add(Restrictions.or(
+                Restrictions.and(Restrictions.eq("answerId", answerId), Restrictions.eq("senderId", senderId))
+                , Restrictions.and(Restrictions.eq("senderId", answerId), Restrictions.eq("answerId", senderId)
+                ))).add(Restrictions.eq("chatType", SystemContext.CHAT_PRIVATE_TYPE)).list().size();
+
+        if (size!=0) {
+            tmpArr = criteriaTotal.add(Restrictions.or(
+                    Restrictions.and(Restrictions.eq("answerId", answerId), Restrictions.eq("senderId", senderId))
+                    , Restrictions.and(Restrictions.eq("senderId", answerId), Restrictions.eq("answerId", senderId)
+                    ))).add(Restrictions.eq("chatType", SystemContext.CHAT_PRIVATE_TYPE)).addOrder(Order.asc("sendTime"))
+                    .setFirstResult(start)
+                    .setMaxResults(limit)
+                    .list();
+        }
+        session.close();
+
+        //处理头像
+        for (ChatInfo tmp:tmpArr){
+            UserHelp sender = iUserHelpDao.findById(tmp.getSenderId());
+            tmp.setAvatar(StringUtils.isNotBlank(sender.getUserImg())?sender.getUserImg():SystemContext.DEFAULT_PERSON_AVATAR);
+            res.add(tmp);
+        }
+
+        return R.ok().add("total",size).add("list",res);
     }
 
 }

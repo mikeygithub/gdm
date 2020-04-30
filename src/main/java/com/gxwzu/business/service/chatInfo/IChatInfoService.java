@@ -76,4 +76,6 @@ public interface IChatInfoService extends BaseService<ChatInfo> {
 	 * @param ctx
 	 */
 	void readChat(JSONObject param, ChannelHandlerContext ctx);
+
+	R loadChatLog(Integer id, String type, int curr, int limit,String username);
 }

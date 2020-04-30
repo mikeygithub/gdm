@@ -227,15 +227,6 @@ public class ChatInfoServiceImpl extends BaseServiceImpl<ChatInfo> implements IC
      *
      * @param upload
      * @return
-     * {
-     *   "code": 0 //0表示成功，其它表示失败
-     *   ,"msg": "" //失败信息
-     *   ,"data": {
-     *     "src": "http://cdn.xxx.com/upload/file/LayIM.zip" //文件url
-     *     ,"name": "LayIM.zip" //文件名
-     *   }
-     * }
-     *
      */
     @Override
     public R uploadChatFile(File upload, String uploadFileName) {
@@ -268,7 +259,7 @@ public class ChatInfoServiceImpl extends BaseServiceImpl<ChatInfo> implements IC
     }
 
     /**
-     * 用户上线测试
+     * 用户上线注册
      *
      * @param param
      * @param ctx
@@ -422,7 +413,32 @@ public class ChatInfoServiceImpl extends BaseServiceImpl<ChatInfo> implements IC
         }
     }
 
+    /**
+     * 查询聊天信息
+     * @param id
+     * @param type
+     * @param curr
+     * @param limit
+     * @return
+     */
+    @Override
+    public R loadChatLog(Integer id, String type, int curr, int limit,String username) {
 
+        if (SystemContext.CHAT_LOG_TYPE_GROUP.equals(type)){//查询群聊消息记录
+            return chatInfoDao.findGroupChatLog(id,curr,limit);
+        }
+        if (SystemContext.CHAT_LOG_TYPE_FRIEND.equals(type)) {//查询私聊消息记录
+            return chatInfoDao.findFriendChatLog(id,iUserHelpService.findByLoginName(username).get(0).getId(), curr, limit);
+        }
+
+        return R.error();
+    }
+
+    /**
+     * 发送消息
+     * @param ctx
+     * @param message
+     */
     private void sendMessage(ChannelHandlerContext ctx, String message) {
         System.out.println("服务器发送消息：" + message);
         ctx.channel().writeAndFlush(new TextWebSocketFrame(message));
