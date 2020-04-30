@@ -668,18 +668,34 @@
         }, faceHide: function () {
             t.close(ti.face.index)
         }, image: function (i) {
-            var a = i.data("type") || "images", e = {images: "uploadImage", file: "uploadFile"}, n = _(),
-                l = j.base[e[a]] || {};
-            layui.upload({
-                url: l.url || "",
-                method: l.type,
-                elem: i.find("input")[0],
-                unwrap: !0,
-                type: a,
-                success: function (i) {
-                    0 == i.code ? (i.data = i.data || {}, "images" === a ? ai(n.textarea[0], "img[" + (i.data.src || "") + "]") : "file" === a && ai(n.textarea[0], "file(" + (i.data.src || "") + ")[" + (i.data.name || "下载文件") + "]"), $()) : t.msg(i.msg || "上传失败")
-                }
-            })
+            // var a = i.data("type") || "images", e = {images: "uploadImage", file: "uploadFile"}, n = _(),
+            //     l = j.base[e[a]] || {};
+            // layui.upload({
+            //     url: l.url || "",
+            //     method: l.type,
+            //     elem: i.find("input")[0],
+            //     unwrap: !0,
+            //     type: a,
+            //     success: function (i) {
+            //         0 == i.code ? (i.data = i.data || {}, "images" === a ? ai(n.textarea[0], "img[" + (i.data.src || "") + "]") : "file" === a && ai(n.textarea[0], "file(" + (i.data.src || "") + ")[" + (i.data.name || "下载文件") + "]"), $()) : t.msg(i.msg || "上传失败")
+            //     }
+            // })
+            layui.use('upload', function(){
+                var a = i.data("type") || "images", e = {images: "uploadImage", file: "uploadFile"}, n = _(),
+                    l = j.base[e[a]] || {};
+                var upload = layui.upload;
+                upload.render({
+                        url: l.url || "",
+                        method: l.type,
+                        elem: i.find("input")[0],
+                        unwrap: !0,
+                        accept:'file',
+                        type: a,
+                        done: function (i) {
+                            200 == i.code ? (i.data = i.data || {}, "images" === a ? ai(n.textarea[0], "img[" + (i.data.src || "") + "]") : "file" === a && ai(n.textarea[0], "file(" + (i.data.src || "") + ")[" + (i.data.name || "下载文件") + "]"), $()) : t.msg(i.msg || "上传失败")
+                        }
+                });
+            });
         }, media: function (i) {
             var a = i.data("type"), n = {audio: "音频", video: "视频"}, l = _();
             t.prompt({

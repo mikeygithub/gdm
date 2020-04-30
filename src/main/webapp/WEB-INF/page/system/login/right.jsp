@@ -7,23 +7,27 @@
     <title>欢迎页</title>
     <meta http-equiv=Content-Type content="text/html; charset=utf-8">
     <link href="<%=path%>/css/style.css" rel="stylesheet" type="text/css"/>
-    <link rel="stylesheet" href="<%=path%>/third/layui/css/layui.css" type="text/css"/>
     <link rel="stylesheet" href="<%=basePath %>/third/layui/css/layui.css" type="text/css">
-    <link rel="stylesheet" href="<%=basePath %>/third/layer/skin/layer.css" id="layui_layer_skinlayercss">
-<%--    <link id="layuicss-skinlayimcss" rel="stylesheet" href="<%=basePath %>/third/layui/css/modules/layim/layim.css?v=3.60Pro" media="all">--%>
-    <link id="layuicss-skinlayercss" rel="stylesheet" href="<%=basePath %>/third/layui/css/modules/layer/default/layer.css?v=3.0.3303" media="all">
 
     <script type="text/javascript" src="<%=path%>/third/jquery-1.8.3.min.js"></script>
     <script type="text/javascript" src="<%=path%>/third/jquery.validate.js"></script>
-    <script type="text/javascript" src="<%=path%>/third/layer/layer.js"></script>
+
+<%--    maybe unuse--%>
+<%--    <link rel="stylesheet" href="<%=path%>/third/layui/css/layui.css" type="text/css"/>--%>
+<%--    <link rel="stylesheet" href="<%=basePath %>/third/layer/skin/layer.css" id="layui_layer_skinlayercss"><link id="layuicss-skinlayercss" rel="stylesheet" href="<%=basePath %>/third/layui/css/modules/layer/default/layer.css?v=3.0.3303" media="all">--%>
+<%--    <script type="text/javascript" src="<%=path%>/third/layer/layer.js"></script>--%>
+<%--    <link id="layuicss-skinlayimcss" rel="stylesheet" href="<%=basePath %>/third/layui/css/modules/layim/layim.css?v=3.60Pro" media="all">--%>
+<%--    <link rel="stylesheet" href="<%=path%>/third/layui/css/layui.css">--%>
 <%--    <script type="text/javascript" src="<%=path%>/third/layui/layui.js"></script>--%>
 <%--    <script type="text/javascript" src="<%=path%>/third/layui/lay/modules/layim.js"></script>--%>
+
+
     <script type="text/javascript" src="<%=path%>/js/core/dialog/dialog.js"></script>
     <script type="text/javascript" src="<%=path%>/js/core/dialog/enable.js"></script>
     <script type="text/javascript" src="<%=path%>/datePicket/WdatePicker.js"></script>
     <%--    聊天--%>
-<%--    <link rel="stylesheet" href="<%=path%>/third/layui/css/layui.css">--%>
     <script type="text/javascript" src="<%=path%>/third/layui/layui.js"></script>
+
     <script type="text/javascript">
 
         /*打开公告通知页面  */
@@ -424,13 +428,13 @@
             //上传图片接口
             , uploadImage: {
                 url: '<%=path%>/biz/chatInfo_uploadChatFile.action' //（返回的数据格式见下文）
-                , type: '' //默认post
+                , type: 'post' //默认post
             }
 
             //上传文件接口
             , uploadFile: {
                 url: '<%=path%>/biz/chatInfo_uploadChatFile.action' //（返回的数据格式见下文）
-                , type: '' //默认post
+                , type: 'post' //默认post
             }
             //扩展工具栏
             , tool: [{
@@ -476,13 +480,21 @@
         //监听在线状态的切换事件
         layim.on('online', function (data) {
             //console.log(data);
+            if (data == 'online') {//TODO:上线
+
+            }else if (data == 'hide') {//TODO:下线
+
+            }
         });
 
         //监听签名修改
         layim.on('sign', function (value) {
-            console.log(value);
+            //console.log(value);
             $.post('<%=path%>/sys/userHelp_updateSign.action?model.sign=' + value, function (res) {
-                console.log(res)
+                var r = JSON.parse(res)
+                if (r.code == 200){
+                    layer.msg('修改成功')
+                }
             });
         });
 
@@ -524,12 +536,6 @@
                                 break;
                             case "GROUP_SENDING":
                                 ws.groupReceive(json);
-                                break;
-                            case "FILE_MSG_SINGLE_SENDING":
-                                ws.fileMsgSingleRecieve(json.data);
-                                break;
-                            case "FILE_MSG_GROUP_SENDING":
-                                ws.fileMsgGroupRecieve(json.data);
                                 break;
                             default:
                                 console.log("不正确的类型！");
@@ -578,7 +584,7 @@
                 },
                 //初始化聊天面板
                 initMessagePage: function (json) {
-                    console.log('init:'+JSON.stringify(json))
+                    //console.log('init:'+JSON.stringify(json))
                     //私聊消息
                     json.data.data.forEach(function (value, index, array) {
                         layim.getMessage({
@@ -634,7 +640,7 @@
                 },
                 //接收群聊消息
                 groupReceive: function (res) {
-                    console.log('group chat message:'+JSON.stringify(res))
+                    //console.log('group chat message:'+JSON.stringify(res))
                     layim.getMessage({
                         username: res.data.data.senderName //消息来源用户名
                         , avatar: res.data.avatar //消息来源用户头像
@@ -703,12 +709,12 @@
         //监听发送消息
         layim.on('sendMessage', function (data) {
 
-            //TODO:判断是否已经离线
+            //判断是否已经离线
             // if (socket.readyState == WebSocket.OPEN) {
 
                 var To = data.to;
 
-                console.log('监听发送消息：' + JSON.stringify(data.to));
+                //console.log('监听发送消息：' + JSON.stringify(data.to));
 
                 var sendData
                 if (To.type === 'friend') {//私聊

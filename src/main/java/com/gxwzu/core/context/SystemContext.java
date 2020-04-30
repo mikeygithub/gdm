@@ -34,7 +34,7 @@ public final class SystemContext {
 	//默认个人头像
 	public static final String DEFAULT_PERSON_AVATAR = "images/photo.jpg";
 	//聊天图片默认保存路径
-	public static final String DEFAULT_CHAT_IMG_SAVE_PATH = "/";
+	public static final String DEFAULT_CHAT_IMG_SAVE_PATH = "/attached/chatfile";
     //日志
 	protected final Log logger = LogFactory.getLog(getClass());
 

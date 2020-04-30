@@ -40,7 +40,7 @@ public class R implements Serializable {
 
     public static R ok(int code,String msg){
         R r = new R();
-        r.code = 200;
+        r.code = code;
         r.msg = msg;
         return r;
     }

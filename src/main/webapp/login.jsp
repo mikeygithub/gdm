@@ -78,7 +78,7 @@
 			,btn: ['好了好了,我知道了']
 			,btnAlign: 'c'
 			,moveType: 1 //拖拽模式，0或者1
-			,content: '<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;"><a style="color: #fff;" href="<%=path%>/db/operation instruction.wps">操作手册：点击下载</a><br></div>'
+			,content: '<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;"><a style="color: #fff;" href="<%=path%>/attached/doc/operation instruction.wps">操作手册：点击下载</a><br></div>'
 			,success: function(layero){
 			}
 		});

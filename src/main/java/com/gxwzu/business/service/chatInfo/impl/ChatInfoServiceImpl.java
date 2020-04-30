@@ -56,8 +56,6 @@ public class ChatInfoServiceImpl extends BaseServiceImpl<ChatInfo> implements IC
     @Autowired
     private IUserHelpService iUserHelpService;//用户接口
     @Autowired
-    private IChatFileService chatFileService;
-    @Autowired
     private ISysTeacherService iSysTeacherService;
     @Autowired
     private IMaterialInfoSerivce iMaterialInfoSerivce;
@@ -71,141 +69,6 @@ public class ChatInfoServiceImpl extends BaseServiceImpl<ChatInfo> implements IC
     public BaseDao<ChatInfo> getDao() {
         return this.chatInfoDao;
     }
-//
-//
-//    @Override
-//    public ChatInfo add(ChatInfo model) {
-//        return chatInfoDao.saveOrUpdate(model);
-//    }
-//
-//
-//    @Override
-//    public List<ListChatInfo> findByUserIdAndAnswerId(Integer userId,
-//                                                      Integer answerId, String chatType) {
-//        List<ListChatInfo> list = new ArrayList<ListChatInfo>();
-//        List<ChatInfo> oldList = chatInfoDao.findByUserIdAndAnswerId(userId, answerId, chatType);
-//        if (oldList != null) {
-//            for (ChatInfo model : oldList) {
-//                ListChatInfo lInfo = new ListChatInfo();
-//                lInfo.setChatId(model.getChatId());
-//                lInfo.setAnswerId(model.getAnswerId());
-//                lInfo.setAnswerName(model.getAnswerName());
-//                lInfo.setReadType(model.getReadType());
-//                lInfo.setSenderContent(model.getSenderContent());
-//                lInfo.setSenderId(model.getSenderId());
-//                lInfo.setSenderName(model.getSenderName());
-//                lInfo.setChatType(model.getChatType());
-//                lInfo.setContType(model.getContType());
-//                if (model.getSendTime() != null)
-//                    lInfo.setSendTime(DateUtils.timestampFormatTime(model.getSendTime()));
-//
-//                lInfo.setYear(model.getYear());
-//
-//                List<ChatFile> chatFileList = chatFileService.findByChatInfoId(model.getChatId());
-//                lInfo.setChatFileList(chatFileList);
-//
-//                list.add(lInfo);
-//            }
-//        }
-//        return list;
-//    }
-//
-//
-//    @Override
-//    public ListChatInfo findViewModelById(Integer chatId) {
-//        if (chatId != null) {
-//            ChatInfo model = chatInfoDao.get(ChatInfo.class, chatId);
-//            ListChatInfo lInfo = null;
-//            if (model != null) {
-//                lInfo = new ListChatInfo();
-//                lInfo.setChatId(model.getChatId());
-//                lInfo.setAnswerId(model.getAnswerId());
-//                lInfo.setAnswerName(model.getAnswerName());
-//                lInfo.setReadType(model.getReadType());
-//                lInfo.setSenderContent(model.getSenderContent());
-//                lInfo.setSenderId(model.getSenderId());
-//                lInfo.setSenderName(model.getSenderName());
-//                lInfo.setChatType(model.getChatType());
-//                lInfo.setContType(model.getContType());
-//                if (model.getSendTime() != null)
-//                    lInfo.setSendTime(DateUtils.timestampFormatTime(model.getSendTime()));
-//                lInfo.setYear(model.getYear());
-//
-//                List<ChatFile> chatFileList = chatFileService.findByChatInfoId(model.getChatId());
-//                lInfo.setChatFileList(chatFileList);
-//            }
-//            return lInfo;
-//
-//        } else {
-//            return null;
-//        }
-//    }
-//
-//
-//    @Override
-//    public List<ListChatInfo> findByGuideTreacherId(Integer treacherId,
-//                                                    Integer year, String chatType, List<ListStudentAllotGuide> allotGuideStudentList) {
-//        List<ListChatInfo> list = new ArrayList<ListChatInfo>();
-//        List<ChatInfo> oldList = chatInfoDao.findByGuideTreacherId(treacherId, year, chatType, allotGuideStudentList);
-//        if (oldList != null) {
-//            for (ChatInfo model : oldList) {
-//                ListChatInfo lInfo = new ListChatInfo();
-//                lInfo.setChatId(model.getChatId());
-//                lInfo.setAnswerId(model.getAnswerId());
-//                lInfo.setAnswerName(model.getAnswerName());
-//                lInfo.setReadType(model.getReadType());
-//                lInfo.setSenderContent(model.getSenderContent());
-//                lInfo.setSenderId(model.getSenderId());
-//                lInfo.setSenderName(model.getSenderName());
-//                lInfo.setChatType(model.getChatType());
-//                lInfo.setContType(model.getContType());
-//                if (model.getSendTime() != null)
-//                    lInfo.setSendTime(DateUtils.timestampFormatTime(model.getSendTime()));
-//
-//                lInfo.setYear(model.getYear());
-//                List<ChatFile> chatFileList = chatFileService.findByChatInfoId(model.getChatId());
-//                lInfo.setChatFileList(chatFileList);
-//
-//                list.add(lInfo);
-//            }
-//        }
-//        return list;
-//    }
-//
-//
-//    @Override
-//    public List<ChatInfo> findByAnswerId(Integer answerId, Integer senderId, String chatType, String readType) {
-//        return chatInfoDao.findByAnswerId(answerId, senderId, chatType, readType);
-//    }
-//
-//    /**
-//     * 更新消息阅读状态
-//     *
-//     * @param readType
-//     */
-//    @Override
-//    public void updateReadType(Integer answerId, Integer senderId, String readType) {
-//        chatInfoDao.updateReadType(answerId, senderId, readType);
-//    }
-//
-//
-//    @Override
-//    public void updateByChatId(Integer chatId, String readType) {
-//        chatInfoDao.updateByChatId(chatId, readType);
-//
-//    }
-//
-//    /**
-//     * 通过教师或学生的ID查询未读的聊天信息数量
-//     *
-//     * @param userId
-//     * @return
-//     */
-//    @Override
-//    public Integer findChatCountByTeacherIdOrStudentId(Integer userId) {
-//        return chatInfoDao.findChatCountByTeacherIdOrStudentId(userId);
-//    }
-
 
     @Override
     public R loadChatFriend(PlanYear planYear, String loginName) {
@@ -394,7 +257,7 @@ public class ChatInfoServiceImpl extends BaseServiceImpl<ChatInfo> implements IC
 
             filePath = SystemContext.DEFAULT_CHAT_IMG_SAVE_PATH + "/" + targetFileName;
 
-            return R.ok(0).add("src", filePath).add("name", uploadFileName);
+            return R.ok().add("src", filePath.substring(1)).add("name", uploadFileName);
 
         } catch (IOException e) {
 
@@ -524,67 +387,6 @@ public class ChatInfoServiceImpl extends BaseServiceImpl<ChatInfo> implements IC
                 break;
             }
         }
-    }
-
-    @Override
-    public void FileMsgSingleSend(JSONObject param, ChannelHandlerContext ctx) {
-        String fromUserId = (String) param.get("fromUserId");
-        String toUserId = (String) param.get("toUserId");
-        String originalFilename = (String) param.get("originalFilename");
-        String fileSize = (String) param.get("fileSize");
-        String fileUrl = (String) param.get("fileUrl");
-        ChannelHandlerContext toUserCtx = Constant.onlineUserMap.get(toUserId);
-//        if (toUserCtx == null) {
-//            String responseJson = new ResponseJson()
-//                    .error(MessageFormat.format("userId为 {0} 的用户没有登录！", toUserId))
-//                    .toString();
-//            sendMessage(ctx, responseJson);
-//        } else {
-//            String responseJson = new ResponseJson().success()
-//                    .setData("fromUserId", fromUserId)
-//                    .setData("originalFilename", originalFilename)
-//                    .setData("fileSize", fileSize)
-//                    .setData("fileUrl", fileUrl)
-//                    .setData("type", ChatType.FILE_MSG_SINGLE_SENDING)
-//                    .toString();
-//            sendMessage(toUserCtx, responseJson);
-//        }
-    }
-
-    /**
-     * 传输文件
-     *
-     * @param param
-     * @param ctx
-     */
-    @Override
-    public void FileMsgGroupSend(JSONObject param, ChannelHandlerContext ctx) {
-        String fromUserId = (String) param.get("fromUserId");
-        String toGroupId = (String) param.get("toGroupId");
-        String originalFilename = (String) param.get("originalFilename");
-        String fileSize = (String) param.get("fileSize");
-        String fileUrl = (String) param.get("fileUrl");
-//        GroupInfo groupInfo = groupDao.getByGroupId(toGroupId);
-//        if (groupInfo == null) {
-//            String responseJson = new ResponseJson().error("该群id不存在").toString();
-//            sendMessage(ctx, responseJson);
-//        } else {
-//            String responseJson = new ResponseJson().success()
-//                    .setData("fromUserId", fromUserId)
-//                    .setData("toGroupId", toGroupId)
-//                    .setData("originalFilename", originalFilename)
-//                    .setData("fileSize", fileSize)
-//                    .setData("fileUrl", fileUrl)
-//                    .setData("type", ChatType.FILE_MSG_GROUP_SENDING)
-//                    .toString();
-//            groupInfo.getMembers().stream()
-//                    .forEach(member -> {
-//                        ChannelHandlerContext toCtx = Constant.onlineUserMap.get(member.getUserId());
-//                        if (toCtx != null && !member.getUserId().equals(fromUserId)) {
-//                            sendMessage(toCtx, responseJson);
-//                        }
-//                    });
-//        }
     }
 
     @Override

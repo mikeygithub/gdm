@@ -100,12 +100,6 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<WebSocke
             case "GROUP_SENDING"://发送群聊消息
                 iChatInfoService.groupSend(param, ctx);
                 break;
-            case "FILE_MSG_SINGLE_SENDING"://单发文件
-                iChatInfoService.FileMsgSingleSend(param, ctx);
-                break;
-            case "FILE_MSG_GROUP_SENDING"://群发文件
-                iChatInfoService.FileMsgGroupSend(param, ctx);
-                break;
             case "READ_CHAT"://已读消息
                 iChatInfoService.readChat(param, ctx);
                 break;

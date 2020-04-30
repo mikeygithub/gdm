@@ -7,19 +7,18 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link href="<%=path%>/css/style.css" rel="stylesheet" type="text/css" />
 <link href="<%=path%>/css/newStyle.css" rel="stylesheet" type="text/css" />
-<link rel="stylesheet" href="<%=path%>/third/layui/css/layui.css"
-	type="text/css" />
+<link rel="stylesheet" href="<%=path%>/third/layui/css/layui.css" type="text/css" />
 
 <script type="text/javascript" src="<%=path%>/third/jquery-1.8.3.min.js"></script>
 <script type="text/javascript" src="<%=path%>/third/layer/layer.js"></script>
 <script type="text/javascript" src="<%=path%>/third/layui/layui.js"></script>
-<script type="text/javascript"
-	src="<%=path%>/third/layer/extend/layer.ext.js"></script>
+<script type="text/javascript" src="<%=path%>/third/layer/extend/layer.ext.js"></script>
 <script type="text/javascript" src="<%=path%>/third/jquery.validate.js"></script>
 <script type="text/javascript" src="<%=path%>/js/core/dialog/dialog.js"></script>
 <script type="text/javascript" src="<%=path%>/js/core/dialog/enable.js"></script>
 <script type="text/javascript" src="<%=path%>/datePicket/WdatePicker.js"></script>
 <script type="text/javascript" src="<%=path%>/js/core/dialog/closeDialog.js"></script>
+
 
 <script type="text/javascript">
 	$(function() {
