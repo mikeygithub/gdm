@@ -56,7 +56,7 @@ public class ChatInfoDaoImpl extends BaseDaoImpl<ChatInfo> implements IChatInfoD
         //查询群聊
         if (null != model.getAnswerName() && StringUtils.isNotBlank(model.getAnswerName())) {
             queryString = queryString + " and answer_name like ? ";
-            params.add("%" + model.getAnswerName() + ",%");
+            params.add("%" + model.getAnswerName() + "%");
         }
 
         queryString = queryString + " ORDER BY model.sendTime ASC";
@@ -182,7 +182,7 @@ public class ChatInfoDaoImpl extends BaseDaoImpl<ChatInfo> implements IChatInfoD
             chatInfoList = criteria.add(
                     Restrictions.eq("answerId", id))
                     .add(Restrictions.eq("chatType", SystemContext.CHAT_GROUP))//群聊
-                    .addOrder(Order.asc("sendTime"))
+                    .addOrder(Order.desc("sendTime"))
                     .setFirstResult(start)
                     .setMaxResults(limit)
                     .list();
@@ -235,7 +235,7 @@ public class ChatInfoDaoImpl extends BaseDaoImpl<ChatInfo> implements IChatInfoD
             tmpArr = criteriaTotal.add(Restrictions.or(
                     Restrictions.and(Restrictions.eq("answerId", answerId), Restrictions.eq("senderId", senderId))
                     , Restrictions.and(Restrictions.eq("senderId", answerId), Restrictions.eq("answerId", senderId)
-                    ))).add(Restrictions.eq("chatType", SystemContext.CHAT_PRIVATE_TYPE)).addOrder(Order.asc("sendTime"))
+                    ))).add(Restrictions.eq("chatType", SystemContext.CHAT_PRIVATE_TYPE)).addOrder(Order.desc("sendTime"))
                     .setFirstResult(start)
                     .setMaxResults(limit)
                     .list();

@@ -30,7 +30,7 @@ public final class SystemContext {
 	public static final String CHAT_NOT_READ_STATUS = "0";
 	public static final String CHAT_ALREADY_READ = "1";
 	//默认群头像
-	public static final String DEFAULT_GROUP_AVATAR = "images/group_head.png";
+	public static final String DEFAULT_GROUP_AVATAR = "images/default_group_avatar.jpg";
 	//默认个人头像
 	public static final String DEFAULT_PERSON_AVATAR = "images/photo.jpg";
 	//聊天图片默认保存路径
@@ -38,7 +38,8 @@ public final class SystemContext {
 	//查询的聊天类型
 	public static final Object CHAT_LOG_TYPE_GROUP = "group";
 	public static final Object CHAT_LOG_TYPE_FRIEND = "friend";
-    //日志
+	public static final String CHAT_SERVER_URL = "CHAT_SERVER_URL";
+	//日志
 	protected final Log logger = LogFactory.getLog(getClass());
 
 	/*配置软件版本信息*/

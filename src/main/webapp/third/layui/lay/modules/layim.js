@@ -684,7 +684,19 @@
                 var a = i.data("type") || "images", e = {images: "uploadImage", file: "uploadFile"}, n = _(),
                     l = j.base[e[a]] || {};
                 var upload = layui.upload;
+                if ("images"===a){
                 upload.render({
+                        url: l.url || "",
+                        method: l.type,
+                        elem: i.find("input")[0],
+                        unwrap: !0,
+                        type: a,
+                        done: function (i) {
+                            200 == i.code ? (i.data = i.data || {}, "images" === a ? ai(n.textarea[0], "img[" + (i.data.src || "") + "]") : "file" === a && ai(n.textarea[0], "file(" + (i.data.src || "") + ")[" + (i.data.name || "下载文件") + "]"), $()) : t.msg(i.msg || "上传失败")
+                        }
+                });}else
+                if ("file"){
+                    upload.render({
                         url: l.url || "",
                         method: l.type,
                         elem: i.find("input")[0],
@@ -694,7 +706,8 @@
                         done: function (i) {
                             200 == i.code ? (i.data = i.data || {}, "images" === a ? ai(n.textarea[0], "img[" + (i.data.src || "") + "]") : "file" === a && ai(n.textarea[0], "file(" + (i.data.src || "") + ")[" + (i.data.name || "下载文件") + "]"), $()) : t.msg(i.msg || "上传失败")
                         }
-                });
+                    });
+                }
             });
         }, media: function (i) {
             var a = i.data("type"), n = {audio: "音频", video: "视频"}, l = _();

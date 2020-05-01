@@ -28,12 +28,12 @@
 
     </ul>
 </div>
-<div style="margin-left:auto;margin-right:auto;width:95%; padding:0px;">
-<%--    <div style="width:50%;background-color: bisque">--%>
-<%--        <div style="width:50%;background-color: blueviolet">--%>
-            <div id="LAY_page"></div>
-<%--        </div>--%>
-    </div>
+<div style="margin-left:auto;margin-right:auto;width:95%; padding:0px;text-align: center">
+    <%--    <div style="width:50%;background-color: bisque">--%>
+    <%--        <div style="width:50%;background-color: blueviolet">--%>
+    <div id="LAY_page"></div>
+    <%--        </div>--%>
+</div>
 <%--</div>--%>
 
 
@@ -93,7 +93,7 @@
                                     if (data.code == 200) {// 渲染
                                         console.log(data)
                                         view(data.data.list)
-                                    }else {
+                                    } else {
                                         layer.close(index);
                                         layer.msg(data.code)
                                     }
@@ -116,20 +116,73 @@
 
             // console.log('渲染的数据：'+JSON.stringify(data),data.length)
 
-            var prefix = ''
+            // var prefix = ''
+
+            var context = ''
 
             for (var i = 0; i < data.length; i++) {
 
                 var value = data[i]
 
-                if (value.senderId == parent.layui.layim.cache().mine.id) {
-                    prefix += '<li class="layim-chat-mine"><div class="layim-chat-user"><img src="<%=path%>/'+ value.avatar + '"><cite><i>' + layui.data.date(value.timestamp) + '</i>' + value.senderName + '</cite></div><div class="layim-chat-text">' + layui.layim.content(value.senderContent) + '</div></li>'
+                <%--if (value.senderId == parent.layui.layim.cache().mine.id) {--%>
+
+                <%--    var tmp = ''--%>
+
+                <%--    prefix += '<li class="layim-chat-mine"><div class="layim-chat-user"><img src="<%=basePath%>/' + value.avatar + '"><cite><i>' + layui.data.date(value.sendTime) + '</i>' + value.senderName + '</cite></div><div class="layim-chat-text">'--%>
+
+                <%--    if (value.senderContent.indexOf("img[") != -1 ){--%>
+                <%--        tmp = layui.layim.content(value.senderContent.slice(0,4)+'<%=basePath%>/'+value.senderContent.slice(4))//图片--%>
+                <%--    }else if (value.senderContent.indexOf("file(") != -1) {--%>
+                <%--        tmp = layui.layim.content(value.senderContent.slice(0,5)+'<%=basePath%>/'+value.senderContent.slice(5))//图片--%>
+                <%--    } else {--%>
+                <%--        tmp = layui.layim.content(value.senderContent)//普通消息--%>
+                <%--    }--%>
+
+                <%--    prefix = prefix +tmp+'</div></li>'--%>
+
+                <%--} else {--%>
+
+                <%--    var tmp = ''--%>
+
+                <%--    prefix += '<li><div class="layim-chat-user"><img src="<%=basePath%>/' + value.avatar + '"><cite>' + value.senderName + '<i>' + layui.data.date(value.sendTime) + '</i></cite></div><div class="layim-chat-text">'--%>
+
+                <%--    if (value.senderContent.indexOf("img[") != -1 ){--%>
+                <%--        tmp = layui.layim.content(value.senderContent.slice(0,4)+'<%=basePath%>/'+value.senderContent.slice(4))//图片--%>
+                <%--    }else if (value.senderContent.indexOf("file(") != -1) {--%>
+                <%--        tmp = layui.layim.content(value.senderContent.slice(0,5)+'<%=basePath%>/'+value.senderContent.slice(5))//图片--%>
+                <%--    } else {--%>
+                <%--        tmp = layui.layim.content(value.senderContent)//普通消息--%>
+                <%--    }--%>
+
+                <%--    prefix = prefix +tmp+'</div></li>'--%>
+                <%--}--%>
+
+
+                var tmp = ''
+
+                var prefix = '<li '
+
+                if (value.senderId == parent.layui.layim.cache().mine.id) prefix += 'class="layim-chat-mine"'
+
+                context += prefix+'><div class="layim-chat-user"><img src="<%=basePath%>/' + value.avatar + '"><cite><i>' + layui.data.date(value.sendTime) + '</i>' + value.senderName + '</cite></div><div class="layim-chat-text">'
+
+                if (value.senderContent.indexOf("img[") != -1) {
+                    tmp = layui.layim.content(value.senderContent.slice(0, 4) + '<%=basePath%>' + value.senderContent.slice(4))//图片
+                } else if (value.senderContent.indexOf("file(") != -1) {
+                    tmp = layui.layim.content(value.senderContent.slice(0, 5) + '<%=basePath%>' + value.senderContent.slice(5))//图片
                 } else {
-                    prefix += '<li><div class="layim-chat-user"><img src="<%=path%>/' + value.avatar + '"><cite>' + value.senderName + '<i>' + layui.data.date(value.timestamp) + '</i></cite></div><div class="layim-chat-text">' + layui.layim.content(value.senderContent) + '</div></li>'
+                    tmp = layui.layim.content(value.senderContent)//普通消息
                 }
+
+                context += tmp + '</div></li>'
+
+                // console.log(context)
             }
 
-            $('#LAY_view').html(prefix);
+            // console.log(context)
+
+            $('#LAY_view').html(context);
+
             layer.close(index);
         }
     });

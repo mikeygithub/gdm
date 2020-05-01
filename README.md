@@ -18,6 +18,9 @@
 
 ## 安装教程
 
+web端口：`8899`  
+netty服务器:`ws`
+
 ````text
 1.配置数据库
 set global sql_mode='STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';
@@ -46,4 +49,3 @@ docker-compose -f docker-compose.yml -d
 
 ## BUG汇总  
 1.未在阶段时间内操作给出提示  
-2.重构聊天

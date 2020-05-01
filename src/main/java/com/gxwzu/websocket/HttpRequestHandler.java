@@ -66,7 +66,8 @@ public class HttpRequestHandler extends SimpleChannelInboundHandler<Object> {
         WebSocketServerHandshakerFactory wsFactory = new WebSocketServerHandshakerFactory("ws:/" + ctx.channel() + "/websocket", null, false);
 
         WebSocketServerHandshaker handshaker = wsFactory.newHandshaker(req);
-        Constant.webSocketHandshakerMap.put(ctx.channel().id().asLongText(), handshaker);// 保存握手类到全局变量，方便以后关闭连接
+
+        Constant.webSocketHandShakerMap.put(ctx.channel().id().asLongText(), handshaker);// 保存握手类到全局变量，方便以后关闭连接
 
         if (handshaker == null) {
             WebSocketServerHandshakerFactory.sendUnsupportedVersionResponse(ctx.channel());

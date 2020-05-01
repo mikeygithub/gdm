@@ -51,7 +51,7 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<WebSocke
     private void handlerWebSocketFrame(ChannelHandlerContext ctx, WebSocketFrame frame) throws Exception {
         // 关闭请求
         if (frame instanceof CloseWebSocketFrame) {
-            WebSocketServerHandshaker handshaker = Constant.webSocketHandshakerMap.get(ctx.channel().id().asLongText());
+            WebSocketServerHandshaker handshaker = Constant.webSocketHandShakerMap.get(ctx.channel().id().asLongText());
             if (handshaker == null) {
                 sendErrorMessage(ctx, "不存在的客户端连接！");
             } else {

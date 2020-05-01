@@ -13,6 +13,7 @@ import com.gxwzu.business.service.openReport.IOpenReportSerivce;
 import com.gxwzu.business.service.plan.IPlanYearSerivce;
 import com.gxwzu.business.service.replyScore.IReplyScoreSerivce;
 import com.gxwzu.business.service.review.IReviewSerivce;
+import com.gxwzu.config.WebConfig;
 import com.gxwzu.sysVO.ListReplyScore;
 import com.gxwzu.sysVO.ListReview;
 import com.gxwzu.system.model.sysStudent.SysStudent;
@@ -23,6 +24,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextImpl;
 
 import com.gxwzu.core.context.SystemContext;
@@ -33,18 +35,9 @@ import com.gxwzu.system.model.userHelp.UserHelp;
 import com.gxwzu.system.service.login.ILoginService;
 import com.gxwzu.system.service.sysMenu.ISysMenuService;
 import com.gxwzu.system.service.userHelp.IUserHelpService;
+import org.springframework.stereotype.Component;
 
-/**
- * 登陆
- *
- * @author liqing
- * @version 1.0 <br>
- * Copyright (C), 2015, 梧州学院 软件研发中心 <br>
- * This program is protected by copyright laws. <br>
- * Program Name: LoginAction <br>
- * Date: 2015-8-28下午06:39:24 <br>
- * log:1.创建登陆方法类（liqing）
- */
+@Component
 public class LoginAction extends BaseAction {
 
     private static final long serialVersionUID = -2874663229964813880L;
@@ -54,8 +47,6 @@ public class LoginAction extends BaseAction {
     private static final String VIEW = "view";
 
     /*********************** 注入Service ******************************/
-    @Autowired
-    private ILoginService loginService;
     @Autowired
     private IUserHelpService userHelpService;
     @Autowired
@@ -70,10 +61,11 @@ public class LoginAction extends BaseAction {
     private IReviewSerivce iReviewSerivce;//评阅：评阅审查表类型：00 指导老师评阅 01评阅人评阅 02指导老师审查
     @Autowired
     private IReplyScoreSerivce iReplyScoreSerivce;//成绩
-//    @Autowired
-//    private IChatInfoService iChatInfoService;//聊天
     @Autowired
     private IPlanYearSerivce iPlanYearSerivce;
+    @Autowired
+    private WebConfig webConfig;
+
 
     /*********************** 参数列表 ******************************/
     private List<SysMenu> menuList = new ArrayList<SysMenu>(); //左侧菜单
@@ -83,7 +75,6 @@ public class LoginAction extends BaseAction {
     private ListReview reviewerReview = new ListReview();//评阅人评阅
     private ListReplyScore studentScore = new ListReplyScore();//学生成绩
     private Integer chatCount;
-
 
     /************************** 方法类Start **************************/
     /**
@@ -110,8 +101,10 @@ public class LoginAction extends BaseAction {
                 getSession().setAttribute(SystemContext.LOGINNAME, userHelp.getLoginName());
                 // 用户类型
                 getSession().setAttribute(SystemContext.USERTYPE, userHelp.getUserType());
-
+                //
                 getSession().setAttribute(SysConstant.GRANT, SysConstant.GRANT);
+                // chat server url
+                getSession().setAttribute(SystemContext.CHAT_SERVER_URL, webConfig.getChatServerUrlAndPort());
             }
         }
         return SUCCESS;
@@ -152,6 +145,7 @@ public class LoginAction extends BaseAction {
                 SysStudent student = iSysStudentService.findByUserId((Integer) currentUserId);
                 //开题报告:
                 openReport = iOpenReportSerivce.findByStuIdAndYear(student.getStuId(), planYear.getYear());
+                logger.info("openReport:"+openReport);
                 //规范审查
                 normativeReview = iReviewSerivce.findByStuIdAndReviewTypeAndYear(student.getStuId(), SystemContext.REVIEW_TYPE_CHECK, planYear.getYear());
                 logger.info("normativeReview:"+normativeReview);
@@ -164,16 +158,7 @@ public class LoginAction extends BaseAction {
                 //答辩成绩//最终成绩//等级
                 studentScore = iReplyScoreSerivce.findByStuIdAndReplyTypeAndYear(student.getStuId(),SystemContext.REPLY_TYPE_SMALL_GROUP,planYear.getYear());
                 logger.info("studentScore:"+studentScore);
-                //未读聊天记录
-//                chatCount = iChatInfoService.findChatCountByTeacherIdOrStudentId(student.getStuId());
-//                logger.info("chatCount:"+chatCount);
             }
-//            else if (currentUserType.equals(SystemContext.USER_TEACHER_TYPE)){//教师
-//                SysTeacher teacher = iSysTeacherService.findTeacherByUserId((Integer) currentUserId);
-                //未读聊天记录
-//                chatCount = iChatInfoService.findChatCountByTeacherIdOrStudentId(teacher.getTeacherId());
-//                logger.info("chatCount:"+chatCount);
-//            }
             return VIEW;
         } else {
             return ERROR;
@@ -184,6 +169,9 @@ public class LoginAction extends BaseAction {
         return "toIndex";
     }
 
+    /**
+     * 检查用户是否存在
+     */
     public void checkLoginName(){
         logger.info("检查用户是否存在");
         try {

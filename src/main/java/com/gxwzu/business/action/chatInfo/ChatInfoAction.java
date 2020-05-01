@@ -82,16 +82,6 @@ public class ChatInfoAction extends BaseAction implements ModelDriven<ChatInfo> 
 	private IChatInfoService chatInfoSerivce; // 年度计划接口
 	@Autowired
 	private IPlanYearSerivce planYearSerivce; // 年度计划接口
-	@Autowired
-	private ISysTeacherService sysTeacherService; // 老师分配接口
-	@Autowired
-	private ISysStudentService sysStudentService; // 学生接口
-	@Autowired
-	private IAllotGuideService allotGuideService; // 指导分配接口
-	@Autowired
-	private IMaterialInfoSerivce materialInfoSerivce; // 学生相关材料接口
-	@Autowired
-	private IChatFileService chatFileSerivce; // 聊天文件接口
 
 	/*********************** 实体 ***************************/
 	private PlanYear planYear; // 年度计划实体
@@ -168,7 +158,7 @@ public class ChatInfoAction extends BaseAction implements ModelDriven<ChatInfo> 
 	 */
 	public void loadChatLog() throws Exception{
 
-		logger.info("聊天接口调用"+fileFileName);
+		logger.info("聊天记录接口调用"+fileFileName);
 
 		String loginName = (String) getSession().getAttribute(SystemContext.LOGINNAME);
 

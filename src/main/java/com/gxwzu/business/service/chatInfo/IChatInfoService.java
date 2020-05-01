@@ -77,5 +77,14 @@ public interface IChatInfoService extends BaseService<ChatInfo> {
 	 */
 	void readChat(JSONObject param, ChannelHandlerContext ctx);
 
+	/**
+	 * 聊天记录
+	 * @param id
+	 * @param type
+	 * @param curr
+	 * @param limit
+	 * @param username
+	 * @return
+	 */
 	R loadChatLog(Integer id, String type, int curr, int limit,String username);
 }

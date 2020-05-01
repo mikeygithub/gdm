@@ -134,7 +134,12 @@ request.setAttribute("", "hagl");
 			focusInvalid: false, //当为false时，验证无效时，没有焦点响应
 			onkeyup: false,
 			submitHandler: function(form){   //表单提交句柄,为一回调函数，带一个参数：form
+				var loading = layer.load(2, {
+					shade: true,
+					time: 12*1000
+				});
 					form.submit();   //提交表单
+				// layer.close(loading);
 			},
 			rules:{
 				"LoginName":{

@@ -320,9 +320,12 @@ public class ChatInfoServiceImpl extends BaseServiceImpl<ChatInfo> implements IC
         SysTeacher teacher = iSysTeacherService.findTeacherByUserId(chatInfo.getAnswerId() - 1);//教师的id+1命名的群号id
         // 指导老师查询自己所带学生相关信息
         PlanYear planYear = iPlanYearSerivce.findPlanYear();
-
+        //该分组下所有学生
         List<MaterialInfo> guideStudent = iMaterialInfoSerivce.findGuideStudent(teacher.getTeacherId(), planYear.getYear());
-
+        //发送者
+        UserHelp sender = iUserHelpService.findById(chatInfo.getSenderId());
+        //设置最新头像
+        chatInfo.setAvatar(StringUtils.isNotBlank(sender.getUserImg())?sender.getUserImg():SystemContext.DEFAULT_PERSON_AVATAR);
         //拼接接收者id
         String allAnswerId = "";
 
@@ -334,15 +337,18 @@ public class ChatInfoServiceImpl extends BaseServiceImpl<ChatInfo> implements IC
                     sendMessage(toUserCtx, R.ok()
                             .add("type", ChatType.GROUP_SENDING)
                             .add("data", chatInfo)
-                            .add("avatar",StringUtils.isNotEmpty(tmp.getStudent().getUserImg())?tmp.getStudent().getUserImg():SystemContext.DEFAULT_PERSON_AVATAR)
+//                            .add("avatar",StringUtils.isNotEmpty(tmp.getStudent().getUserImg())?tmp.getStudent().getUserImg():SystemContext.DEFAULT_PERSON_AVATAR)
                             .toString());
                 }
             }
         }
         //send to teacher (if sender not is teacher)
         ChannelHandlerContext toUserCtx = Constant.onlineUserMap.get(String.valueOf(chatInfo.getAnswerId() - 1));
-        if (toUserCtx != null && chatInfo.getSenderId().intValue()!= teacher.getUserId().intValue()) {
-            sendMessage(toUserCtx, R.ok().add("type", ChatType.GROUP_SENDING).add("data", chatInfo).toString());
+        if (chatInfo.getSenderId().intValue()!= teacher.getUserId().intValue()) {
+            if (toUserCtx != null ){
+                sendMessage(toUserCtx, R.ok().add("type", ChatType.GROUP_SENDING).add("data", chatInfo).toString());
+            }
+            //
            allAnswerId +=  teacher.getUserId();
         }
 
@@ -371,8 +377,8 @@ public class ChatInfoServiceImpl extends BaseServiceImpl<ChatInfo> implements IC
             Map.Entry<String, ChannelHandlerContext> entry = iterator.next();
             if (entry.getValue() == ctx) {
                 log.info("正在移除握手实例...");
-                Constant.webSocketHandshakerMap.remove(ctx.channel().id().asLongText());
-                log.info(MessageFormat.format("已移除握手实例，当前握手实例总数为：{0}", Constant.webSocketHandshakerMap.size()));
+                Constant.webSocketHandShakerMap.remove(ctx.channel().id().asLongText());
+                log.info(MessageFormat.format("已移除握手实例，当前握手实例总数为：{0}", Constant.webSocketHandShakerMap.size()));
                 iterator.remove();
                 log.info(MessageFormat.format("userId为 {0} 的用户已退出聊天，当前在线人数为：{1}", entry.getKey(), Constant.onlineUserMap.size()));
                 break;

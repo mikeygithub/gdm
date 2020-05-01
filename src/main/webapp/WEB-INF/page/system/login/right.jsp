@@ -1,5 +1,19 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8" %>
+<%@ page import="org.springframework.web.context.support.WebApplicationContextUtils" %>
+<%@ page import="org.springframework.context.ApplicationContext" %>
+<%@ page import="com.gxwzu.config.WebConfig" %>
 <%@ include file="/WEB-INF/common/common.jsp" %>
+<%--<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>--%>
+<%--<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>--%>
+<!-- basename为不带properties扩展名的文件名；var为存储该配置文件的变量名 -->
+<%--<fmt:setBundle basename="application" var="serverConfig" />--%>
+<!-- key为配置文件中的属性名；var为存储该配置值的变量名；bundle为上一步中存储配置文件的变量名 -->
+<%--<fmt:message key="chat.server.url" var="chat-server-url" bundle="${serverConfig}" />--%>
+<%
+//    ServletContext context = request.getSession().getServletContext();
+//    ApplicationContext ctx= WebApplicationContextUtils.getWebApplicationContext(context);
+//    WebConfig webConfig=(WebConfig)ctx.getBean("WebConfig");
+%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -448,7 +462,7 @@
             //,title: 'WebIM' //自定义主面板最小化时的标题
             //,right: '100px' //主面板相对浏览器右侧距离
             //,minRight: '90px' //聊天面板最小化时相对浏览器右侧距离
-            , initSkin: '5.jpg' //1-5 设置初始背景
+            , initSkin: '4.jpg' //1-5 设置初始背景
             //,skin: ['aaa.jpg'] //新增皮肤
             //,isfriend: false //是否开启好友
             //,isgroup: false //是否开启群组
@@ -519,8 +533,8 @@
                 window.WebSocket = window.MozWebSocket;
             }
             if (window.WebSocket) {
-                <%--socket = new WebSocket("<%=application.getAttribute("websocket_address")%>");--%>
-                socket = new WebSocket("ws://localhost:3333");
+                socket = new WebSocket('<%=session.getAttribute(SystemContext.CHAT_SERVER_URL)%>');
+                // socket = new WebSocket("ws://localhost:8888");
                 // 接收到服务器发回消息
                 socket.onmessage = function (event) {
                     var json = JSON.parse(event.data);
@@ -644,7 +658,7 @@
                     //console.log('group chat message:'+JSON.stringify(res))
                     layim.getMessage({
                         username: res.data.data.senderName //消息来源用户名
-                        , avatar: res.data.avatar //消息来源用户头像
+                        , avatar: res.data.data.avatar //消息来源用户头像
                         , id: res.data.data.answerId //消息的来源ID（如果是私聊，则是用户id，如果是群聊，则是群组id）
                         , type: "group" //聊天窗口来源类型，从发送消息传递的to里面获取
                         , content: res.data.data.senderContent //消息内容

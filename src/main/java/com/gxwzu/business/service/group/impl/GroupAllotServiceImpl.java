@@ -133,8 +133,10 @@ public class GroupAllotServiceImpl extends BaseServiceImpl<GroupAllot> implement
 	
 	@Override
 	public List<ListGroupAllot> findByExample(GroupAllot model) {
-		
+		// TODO:need fix the bug , shit
+		// see : https://blog.csdn.net/wxyf2018/article/details/99756962
 		List<Object> oldResult = groupAllotDao.findByExample(model);
+
 		List<ListGroupAllot> newList = new ArrayList<ListGroupAllot>();
 		if (oldResult != null && oldResult.size() != 0)
 
