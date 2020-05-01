@@ -21,7 +21,10 @@ public class WebConfig {
     @Value("${chat.server.url}")
     public String chatServerUrl;
 
-
+    /**
+     * 获取聊天服务器URL
+     * @return
+     */
     public String getChatServerUrlAndPort() {
         return chatServerUrl+":"+chatServerPort;
     }

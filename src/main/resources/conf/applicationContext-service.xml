@@ -14,8 +14,7 @@ http://www.springframework.org/schema/context/spring-context-3.0.xsd
     <!-- 自动扫描(system DAO) -->
 	<context:component-scan base-package="com.gxwzu.system.dao"/>
     <!-- 自动扫描(system Service) -->
-    <context:component-scan base-package=" com.gxwzu.system.service"/>     
-      
+    <context:component-scan base-package=" com.gxwzu.system.service"/>
     <!-- 自动扫描(business DAO) -->
 	<context:component-scan base-package="com.gxwzu.business.dao"/>
     <!-- 自动扫描(business Service) -->
